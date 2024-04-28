@@ -17,6 +17,12 @@ namespace ZayirAlkhayr.Entities.Models
             Configuration = _configuration;
         }
 
+        public DbSet<Activity> Activities { get; set; }
+        public DbSet<ActivitySliderImage> ActivitiesSliderImage { get; set; }
+        public DbSet<Event> Events { get; set; }
+        public DbSet<SliderImage> SliderImages { get; set; }
+        public DbSet<Footer> Footers { get; set; }
+
         public ZADbContext(DbContextOptions<DbContext> options)
             : base(options)
         {
