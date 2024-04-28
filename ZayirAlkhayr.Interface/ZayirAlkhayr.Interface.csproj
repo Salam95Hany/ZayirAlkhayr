@@ -8,4 +8,9 @@
     <ProjectReference Include="..\ZayirAlkhayr.Entities\ZayirAlkhayr.Entities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Admin\" />
+    <Folder Include="WebSite\" />
+  </ItemGroup>
+
 </Project>

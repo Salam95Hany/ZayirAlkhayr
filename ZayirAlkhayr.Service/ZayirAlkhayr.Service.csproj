@@ -8,4 +8,9 @@
     <ProjectReference Include="..\ZayirAlkhayr.Interface\ZayirAlkhayr.Interface.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Admin\" />
+    <Folder Include="WebSite\" />
+  </ItemGroup>
+
 </Project>
