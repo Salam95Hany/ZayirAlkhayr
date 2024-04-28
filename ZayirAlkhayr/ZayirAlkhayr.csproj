@@ -8,4 +8,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ZayirAlkhayr.Interface\ZayirAlkhayr.Interface.csproj" />
+    <ProjectReference Include="..\ZayirAlkhayr.Service\ZayirAlkhayr.Service.csproj" />
+  </ItemGroup>
+
 </Project>

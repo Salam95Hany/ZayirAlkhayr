@@ -15,17 +15,26 @@ namespace ZayirAlkhayr
 {
     public class Startup
     {
+        private readonly string ConnectionString;
+        public IConfiguration Configuration { get; }
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "AllowOrigin",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                    });
+            });
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -44,9 +53,9 @@ namespace ZayirAlkhayr
             }
 
             app.UseRouting();
-
             app.UseAuthorization();
-
+            app.UseStaticFiles();
+            app.UseCors("AllowOrigin");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
