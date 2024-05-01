@@ -11,6 +11,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ZayirAlkhayr.Entities.Models;
+using ZayirAlkhayr.Interface.Admin;
+using ZayirAlkhayr.Interface.WebSite;
+using ZayirAlkhayr.Service.Admin;
+using ZayirAlkhayr.Service.WebSite;
 
 namespace ZayirAlkhayr
 {
@@ -43,6 +47,9 @@ namespace ZayirAlkhayr
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ZayirAlkhayr", Version = "v1" });
             });
+
+            services.AddScoped<IWebSiteService, WebSiteService>();
+            services.AddScoped<IManageFileService, ManageFileService>();
 
             services.AddMvc(options =>
                 {

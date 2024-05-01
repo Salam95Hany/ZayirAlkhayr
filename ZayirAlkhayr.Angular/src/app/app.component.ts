@@ -6,16 +6,8 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'ZayirAlkhayr.Angular';
 
-  constructor(private http:HttpClient) {
-    
-  }
-
-  ngOnInit(): void {
-    this.http.get<any>('http://localhost:52792/api/Values').subscribe(data => {
-      
-    })
-  }
+  
 }

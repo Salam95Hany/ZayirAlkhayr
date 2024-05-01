@@ -23,8 +23,10 @@
 
   <ItemGroup>
     <Folder Include="Controllers\Admin\" />
-    <Folder Include="Controllers\WebSite\" />
-    <Folder Include="wwwroot\" />
+    <Folder Include="wwwroot\ActivityImages\" />
+    <Folder Include="wwwroot\ActivitySliderImages\" />
+    <Folder Include="wwwroot\EventImages\" />
+    <Folder Include="wwwroot\SliderImages\" />
   </ItemGroup>
 
 </Project>
