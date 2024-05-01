@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EPPlus" Version="6.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ZayirAlkhayr.Interface\ZayirAlkhayr.Interface.csproj" />
   </ItemGroup>
 

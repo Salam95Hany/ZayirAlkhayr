@@ -50,6 +50,7 @@ namespace ZayirAlkhayr
 
             services.AddScoped<IWebSiteService, WebSiteService>();
             services.AddScoped<IManageFileService, ManageFileService>();
+            services.AddScoped<IExportManagerService, ExportManagerService>();
 
             services.AddMvc(options =>
                 {
