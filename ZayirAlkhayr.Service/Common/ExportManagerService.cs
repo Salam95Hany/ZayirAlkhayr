@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using PosSystem.Entities.Common;
@@ -10,9 +8,9 @@ using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using ZayirAlkhayr.Interface.Admin;
+using ZayirAlkhayr.Interface.Common;
 
-namespace ZayirAlkhayr.Service.Admin
+namespace ZayirAlkhayr.Service.Common
 {
     public class ExportManagerService : IExportManagerService
     {
@@ -78,9 +76,9 @@ namespace ZayirAlkhayr.Service.Admin
         private void SetTemplateValues(ref ExcelWorksheet worksheet, Dictionary<string, string> substitutionValue)
         {
             var TimeCell = worksheet.Cells[2, 10];
-            TimeCell.Value = "تاريخ التحميل : " + String.Format("{0:dddd d , MMMM, yyyy}", DateTime.Now.ToString("dddd d , MMMM, yyyy", new CultureInfo("ar-AE")));
+            TimeCell.Value = "تاريخ التحميل : " + DateTime.Now.ToString("dddd d MMMM , yyyy", new CultureInfo("ar-AE"));
             var ByCell = worksheet.Cells[3, 10];
-            ByCell.Value = "المستخدم : " + (substitutionValue["UserName"]);
+            ByCell.Value = "اسم المستخدم : " + substitutionValue["UserName"];
             var IsValidSheetName = substitutionValue.TryGetValue("SheetName", out string sheetName);
             worksheet.Name = IsValidSheetName && !string.IsNullOrEmpty(sheetName) ? sheetName : "Sheet1";
         }

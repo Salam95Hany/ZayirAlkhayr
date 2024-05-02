@@ -11,10 +11,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ZayirAlkhayr.Entities.Models;
-using ZayirAlkhayr.Interface.Admin;
-using ZayirAlkhayr.Interface.WebSite;
-using ZayirAlkhayr.Service.Admin;
-using ZayirAlkhayr.Service.WebSite;
+using ZayirAlkhayr.Interface;
+using ZayirAlkhayr.Interface.Common;
+using ZayirAlkhayr.Service;
+using ZayirAlkhayr.Service.Common;
 
 namespace ZayirAlkhayr
 {
@@ -48,7 +48,7 @@ namespace ZayirAlkhayr
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ZayirAlkhayr", Version = "v1" });
             });
 
-            services.AddScoped<IWebSiteService, WebSiteService>();
+            services.AddScoped<IActivityService, ActivityService>();
             services.AddScoped<IManageFileService, ManageFileService>();
             services.AddScoped<IExportManagerService, ExportManagerService>();
 

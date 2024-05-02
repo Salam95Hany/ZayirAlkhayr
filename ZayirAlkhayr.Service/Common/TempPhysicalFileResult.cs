@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 
-namespace ZayirAlkhayr.Service.Admin
+namespace ZayirAlkhayr.Service.Common
 {
     public class TempPhysicalFileResult : PhysicalFileResult
     {

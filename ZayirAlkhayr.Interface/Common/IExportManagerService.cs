@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ZayirAlkhayr.Interface.Admin
+namespace ZayirAlkhayr.Interface.Common
 {
     public interface IExportManagerService
     {

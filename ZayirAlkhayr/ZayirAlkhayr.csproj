@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\Admin\" />
     <Folder Include="wwwroot\ActivityImages\" />
     <Folder Include="wwwroot\ActivitySliderImages\" />
     <Folder Include="wwwroot\EventImages\" />
