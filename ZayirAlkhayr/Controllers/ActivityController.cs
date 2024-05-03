@@ -60,7 +60,7 @@ namespace ZayirAlkhayr.Controllers
             return results;
         }
 
-        [HttpGet("AddActivitySliderImage")]
+        [HttpPost("AddActivitySliderImage")]
         public async Task<HandleErrorResponseModel> AddActivitySliderImage([FromForm] UploadFileModel Model)
         {
             var results = await _activityService.AddActivitySliderImage(Model.File, Model.Id);

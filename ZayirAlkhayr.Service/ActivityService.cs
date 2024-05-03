@@ -236,7 +236,7 @@ namespace ZayirAlkhayr.Service
 
             if (ActivitySliderImagePaths.Count() > 0)
             {
-                var Files = ActivitySliderImagePaths.Where(i => ActivitySliderImageNames.Contains(i)).ToList();
+                var Files = ActivitySliderImagePaths.Where(i => ActivitySliderImageNames.Any(x => i.Contains(x))).ToList();
                 if (Files.Count() > 0)
                 {
                     Files.ForEach(i => System.IO.File.Delete(i));
