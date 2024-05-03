@@ -48,6 +48,8 @@ namespace ZayirAlkhayr
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ZayirAlkhayr", Version = "v1" });
             });
 
+            services.AddScoped<IWebsiteHomeService, WebsiteHomeService>();
+            services.AddScoped<IEventService, EventService>();
             services.AddScoped<IActivityService, ActivityService>();
             services.AddScoped<IManageFileService, ManageFileService>();
             services.AddScoped<IExportManagerService, ExportManagerService>();

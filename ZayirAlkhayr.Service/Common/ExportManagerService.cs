@@ -14,16 +14,16 @@ namespace ZayirAlkhayr.Service.Common
 {
     public class ExportManagerService : IExportManagerService
     {
-        private readonly IWebHostEnvironment _hostingEnvironment;
-        public ExportManagerService(IWebHostEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _environment;
+        public ExportManagerService(IWebHostEnvironment environment)
         {
-            _hostingEnvironment = hostingEnvironment;
+            _environment = environment;
         }
 
         public string Export(ExportTemplateBase exportTemplateBase, DataTable data)
         {
             var localPath = GetLocalPath(exportTemplateBase.TemplateName, ".xlsx");
-            Export(localPath, data, _hostingEnvironment, exportTemplateBase.SubstitutionDictionary());
+            Export(localPath, data, _environment, exportTemplateBase.SubstitutionDictionary());
             return GetDownloadUrl(Path.GetFileName(localPath));
         }
 
@@ -104,12 +104,12 @@ namespace ZayirAlkhayr.Service.Common
 
         public string GetDownloadUrl(string FileName)
         {
-            string URL = Path.Combine(_hostingEnvironment.WebRootPath, "ExportFiles", FileName);
+            string URL = Path.Combine(_environment.WebRootPath, "ExportFiles", FileName);
             return URL;
         }
         private string GetLocalPath(string fileTitle, string extension)
         {
-            string WEBurl = Path.Combine(_hostingEnvironment.WebRootPath, @"ExportFiles\", $"{fileTitle}_{DateTime.Now:yyyyMMddHHmmssfff}{extension}");
+            string WEBurl = Path.Combine(_environment.WebRootPath, @"ExportFiles\", $"{fileTitle}_{DateTime.Now:yyyyMMddHHmmssfff}{extension}");
             return WEBurl;
         }
     }

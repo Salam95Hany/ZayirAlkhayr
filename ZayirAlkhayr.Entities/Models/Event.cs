@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -21,5 +22,9 @@ namespace ZayirAlkhayr.Entities.Models
         public DateTime? UpdateDate { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
+        [NotMapped]
+        public string OldFileName { get; set; }
+        [NotMapped]
+        public IFormFile File { get; set; }
     }
 }

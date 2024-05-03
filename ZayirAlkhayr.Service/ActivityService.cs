@@ -26,8 +26,8 @@ namespace ZayirAlkhayr.Service
             _Context = Context;
             _manageFileService = manageFileService;
             _configuration = configuration;
-            ApiLocalUrl = _configuration["ApiUrlLocal"];
             _environment = environment;
+            ApiLocalUrl = _configuration["ApiUrlLocal"];
         }
 
         public List<Activity> GetAllActivities()

@@ -1,0 +1,78 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using ZayirAlkhayr.Entities.Common;
+using ZayirAlkhayr.Entities.Models;
+using ZayirAlkhayr.Interface;
+using ZayirAlkhayr.Service;
+
+namespace ZayirAlkhayr.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class WebsiteHomeController : ControllerBase
+    {
+        private readonly IWebsiteHomeService _websiteHomeService;
+        public WebsiteHomeController(IWebsiteHomeService websiteHomeService)
+        {
+            _websiteHomeService = websiteHomeService;
+        }
+
+        [HttpGet("GetHomeSliderImages")]
+        public List<SliderImage> GetHomeSliderImages()
+        {
+            var result = _websiteHomeService.GetHomeSliderImages();
+            return result;
+        }
+
+        [HttpGet("GetFooterData")]
+        public List<Footer> GetFooterData()
+        {
+            var result = _websiteHomeService.GetFooterData();
+            return result;
+        }
+
+        [HttpPost("AddNewSliderImage")]
+        public async Task<HandleErrorResponseModel> AddNewSliderImage(SliderImage Model)
+        {
+            var result = await _websiteHomeService.AddNewSliderImage(Model);
+            return result;
+        }
+
+        [HttpPost("AddNewFooterData")]
+        public HandleErrorResponseModel AddNewFooterData(Footer Model)
+        {
+            var result = _websiteHomeService.AddNewFooterData(Model);
+            return result;
+        }
+
+        [HttpPost("UpdateSliderImage")]
+        public async Task<HandleErrorResponseModel> UpdateSliderImage(SliderImage Model)
+        {
+            var result = await _websiteHomeService.UpdateSliderImage(Model);
+            return result;
+        }
+
+        [HttpPost("UpdateFooterData")]
+        public HandleErrorResponseModel UpdateFooterData(Footer Model)
+        {
+            var result = _websiteHomeService.UpdateFooterData(Model);
+            return result;
+        }
+
+        [HttpGet("DeleteSliderImage")]
+        public HandleErrorResponseModel DeleteSliderImage(int SliderImageId)
+        {
+            var result = _websiteHomeService.DeleteSliderImage(SliderImageId);
+            return result;
+        }
+
+        [HttpGet("DeleteFooterData")]
+        public HandleErrorResponseModel DeleteFooterData(int FooterId)
+        {
+            var result = _websiteHomeService.DeleteFooterData(FooterId);
+            return result;
+        }
+    }
+}
