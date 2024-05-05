@@ -37,7 +37,7 @@ namespace ZayirAlkhayr.Service.Common
                 using (var package = new ExcelPackage(new FileInfo(fullPath), temp))
                 {
                     var sheet = package.Workbook.Worksheets["Sheet1"];
-
+                    var worksheet = package.Workbook.Worksheets.Add("RightToLeft");
                     WriteHeader(sheet, data.Columns.Cast<DataColumn>().Select(e => e.ColumnName).ToList());
                     for (var i = 0; i < data.Rows.Count; ++i)
                     {
@@ -46,6 +46,7 @@ namespace ZayirAlkhayr.Service.Common
                     }
 
                     SetTemplateValues(ref sheet, substitutionValue);
+                    worksheet.View.RightToLeft = true;
                     package.Save();
                 }
             }
