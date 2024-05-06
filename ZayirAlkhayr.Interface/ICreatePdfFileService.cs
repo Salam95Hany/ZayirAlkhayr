@@ -4,11 +4,12 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZayirAlkhayr.Entities.Common;
 
 namespace ZayirAlkhayr.Interface
 {
     public interface ICreatePdfFileService
     {
-        string CreatePdfFile(DataTable Data, List<string> HeaderNames, string FileName, string PageName);
+        string CreatePdfFile(DataTable Data, List<PDFHeaderSelected> HeaderNames, string FileName, string PageName);
     }
 }

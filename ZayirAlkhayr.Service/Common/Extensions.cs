@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -30,6 +31,14 @@ namespace ZayirAlkhayr.Service.Common
             }
 
             return dataTable;
+        }
+
+        public static DataTable RemoveColumns(this DataTable dt, List<string> Headers)
+        {
+            var toRemove = dt.Columns.Cast<DataColumn>().Select(x => x.ColumnName).Except(Headers).ToList();
+            toRemove.ForEach(col => dt.Columns.Remove(col));
+
+            return dt;
         }
     }
 }

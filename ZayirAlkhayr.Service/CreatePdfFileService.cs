@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using ZayirAlkhayr.Entities.Common;
 using ZayirAlkhayr.Interface;
 
 namespace ZayirAlkhayr.Service
@@ -23,7 +24,7 @@ namespace ZayirAlkhayr.Service
         {
             _environment = environment;
         }
-        public string CreatePdfFile(DataTable Data, List<string> HeaderNames, string FileName, string PageName)
+        public string CreatePdfFile(DataTable Data, List<PDFHeaderSelected> HeaderNames, string FileName, string PageName)
         {
             var FullPath = Path.Combine(_environment.WebRootPath, "ExportFiles", FileName + ".pdf");
             var firstCol = Math.Round((decimal)(Data.Columns.Count / 2));
@@ -85,15 +86,15 @@ namespace ZayirAlkhayr.Service
                             {
                                 foreach (var name in HeaderNames)
                                 {
-                                    header.Cell().Element(CellStyle).Text(name);
+                                    header.Cell().Element(CellStyle).Text(name.NameAr);
                                 }
                                 IContainer CellStyle(IContainer container) => DefaultCellStyle(container, Colors.Grey.Lighten3);
                             });
                             for (int i = 0; i < Data.Rows.Count; i++)
                             {
-                                foreach (var column in Data.Columns)
+                                foreach (var column in HeaderNames)
                                 {
-                                    tbl.Cell().Element(CellStyle).Text(Data.Rows[i][column.ToString()].ToString());
+                                    tbl.Cell().Element(CellStyle).Text(Data.Rows[i][column.NameEn].ToString());
                                 }
 
                             }
