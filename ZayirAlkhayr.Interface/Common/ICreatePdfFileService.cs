@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ZayirAlkhayr.Entities.Common;
 
-namespace ZayirAlkhayr.Interface
+namespace ZayirAlkhayr.Interface.Common
 {
     public interface ICreatePdfFileService
     {

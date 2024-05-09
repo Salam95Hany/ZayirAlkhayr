@@ -13,9 +13,9 @@ using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using ZayirAlkhayr.Entities.Common;
-using ZayirAlkhayr.Interface;
+using ZayirAlkhayr.Interface.Common;
 
-namespace ZayirAlkhayr.Service
+namespace ZayirAlkhayr.Service.Common
 {
     public class CreatePdfFileService : ICreatePdfFileService
     {
@@ -96,14 +96,13 @@ namespace ZayirAlkhayr.Service
                                 {
                                     tbl.Cell().Element(CellStyle).Text(Data.Rows[i][column.NameEn].ToString());
                                 }
-
                             }
 
                             IContainer CellStyle(IContainer container) => DefaultCellStyle(container, Colors.White).ShowOnce();
                             tbl.Footer(tblf =>
                             {
-                                tblf.Cell().ColumnSpan(UInt32.Parse(firstCol.ToString())).Border(1).BorderColor(Colors.Black).PaddingVertical(5).PaddingHorizontal(5).AlignCenter().Text("إجمالي القيمة");
-                                tblf.Cell().ColumnSpan(UInt32.Parse(secondCol.ToString())).Border(1).BorderColor(Colors.Black).PaddingVertical(5).PaddingHorizontal(5).Text(txt2 =>
+                                tblf.Cell().ColumnSpan(uint.Parse(firstCol.ToString())).Border(1).BorderColor(Colors.Black).PaddingVertical(5).PaddingHorizontal(5).AlignCenter().Text("إجمالي القيمة");
+                                tblf.Cell().ColumnSpan(uint.Parse(secondCol.ToString())).Border(1).BorderColor(Colors.Black).PaddingVertical(5).PaddingHorizontal(5).Text(txt2 =>
                                 {
                                     txt2.TotalPages();
                                 });
