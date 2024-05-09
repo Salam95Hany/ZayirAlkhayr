@@ -19,6 +19,8 @@ namespace ZayirAlkhayr.Entities.Common
         ActivityImages = 1,
         ActivitySliderImages = 2,
         EventImages = 3,
-        ExportFiles = 4
+        ExportFiles = 4,
+        PhotoImages = 5,
+        PhotoDetailImages = 6
     }
 }

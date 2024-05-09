@@ -103,7 +103,10 @@ namespace ZayirAlkhayr.Service
                             tbl.Footer(tblf =>
                             {
                                 tblf.Cell().ColumnSpan(UInt32.Parse(firstCol.ToString())).Border(1).BorderColor(Colors.Black).PaddingVertical(5).PaddingHorizontal(5).AlignCenter().Text("إجمالي القيمة");
-                                tblf.Cell().ColumnSpan(UInt32.Parse(secondCol.ToString())).Border(1).BorderColor(Colors.Black).PaddingVertical(5).PaddingHorizontal(5).Text("");
+                                tblf.Cell().ColumnSpan(UInt32.Parse(secondCol.ToString())).Border(1).BorderColor(Colors.Black).PaddingVertical(5).PaddingHorizontal(5).Text(txt2 =>
+                                {
+                                    txt2.TotalPages();
+                                });
                             });
                         });
                     });

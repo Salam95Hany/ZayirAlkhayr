@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace ZayirAlkhayr.Entities.Models
 {
-    [Table(name: "FamilyNeeds", Schema = "admin")]
-    public class FamilyNeeds
+    [Table(name: "FamilyNeedTypes", Schema = "admin")]
+    public class FamilyNeedTypes
     {
         public int Id { get; set; }
-        public int FamilyStatusId { get; set; }
-        public int FamilyNeedTypeId { get; set; }
+        public string NeedTypeName { get; set; }
+        public string Category { get; set; }
     }
 }
