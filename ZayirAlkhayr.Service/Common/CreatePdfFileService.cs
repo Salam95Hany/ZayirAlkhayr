@@ -24,111 +24,118 @@ namespace ZayirAlkhayr.Service.Common
         {
             _environment = environment;
         }
-        public string CreatePdfFile(DataTable Data, List<PDFHeaderSelected> HeaderNames, string FileName, string PageName)
+        public string CreatePdfFile(List<DataTable> Data, List<PDFHeaderSelected> HeaderNames, string FileName, string PageName)
         {
             var FullPath = Path.Combine(_environment.WebRootPath, "ExportFiles", FileName + ".pdf");
-            var firstCol = Math.Round((decimal)(Data.Columns.Count / 2));
-            var secondCol = Data.Columns.Count - firstCol;
+            var firstCol = Math.Round((decimal)(Data[0].Columns.Count / 2));
+            var secondCol = Data[0].Columns.Count - firstCol;
 
             Document.Create(container =>
             {
-                container.Page(page =>
+                foreach (var dt in Data)
                 {
-                    page.Size(PageSizes.A4);
-                    page.Margin(1, Unit.Millimetre);
-                    page.PageColor(Colors.White);
-                    page.DefaultTextStyle(x => x.FontSize(10));
-                    page.ContentFromRightToLeft();
-
-                    // Page Header
-                    page.Header().Column(col =>
+                    container.Page(page =>
                     {
-                        col.Item().Row(row =>
-                         {
-                             row.AutoItem().AlignRight().Text(txt =>
-                             {
-                                 txt.Line("مؤسسة زائر الخير").FontSize(15);
-                                 txt.Line("المشهرة برقم 4242 لسنة 2021");
-                                 txt.Line("تحت رعاية وزارة التضامن الاجتماعي");
-                             });
-                             row.AutoItem().PaddingHorizontal(180);
-                             row.AutoItem().Height(85).Width(85).Image(Path.Combine(_environment.WebRootPath, "Template", "ZayirAlkhayrLogo2.jpeg"));
-                         });
+                        page.Size(PageSizes.A4);
+                        page.Margin(1, Unit.Millimetre);
+                        page.PageColor(Colors.White);
+                        page.DefaultTextStyle(x => x.FontSize(10));
+                        page.ContentFromRightToLeft();
 
-                        col.Item().AlignCenter().PaddingBottom(5).Text("كشف تسليم مساعدات مالية-محافظة الاسكندرية-      /      /      ").FontSize(15);
-                        col.Item().LineHorizontal(2);
-                        col.Item().AlignCenter().PaddingTop(5).PaddingBottom(5).Text(PageName).FontSize(15);
-
-                    });
-
-                    // Page Content
-                    page.Content().Column(col =>
-                    {
-                        col.Item().MaxHeight(600).Table(tbl =>
+                        // Page Header
+                        page.Header().Column(col =>
                         {
-                            IContainer DefaultCellStyle(IContainer container, string backgroundColor)
+                            col.Item().Row(row =>
                             {
-                                return container
-                                    .Border(1)
-                                    .BorderColor(Colors.Grey.Lighten1)
-                                    .Background(backgroundColor)
-                                    .PaddingVertical(5)
-                                    .PaddingHorizontal(5);
-                            }
-
-                            tbl.ColumnsDefinition(columns =>
-                            {
-                                for (int i = 0; i < HeaderNames.Count; i++)
-                                    columns.RelativeColumn();
-                            });
-
-                            tbl.Header(header =>
-                            {
-                                foreach (var name in HeaderNames)
+                                row.AutoItem().AlignRight().Text(txt =>
                                 {
-                                    header.Cell().Element(CellStyle).Text(name.NameAr);
-                                }
-                                IContainer CellStyle(IContainer container) => DefaultCellStyle(container, Colors.Grey.Lighten3);
-                            });
-                            for (int i = 0; i < Data.Rows.Count; i++)
-                            {
-                                foreach (var column in HeaderNames)
-                                {
-                                    tbl.Cell().Element(CellStyle).Text(Data.Rows[i][column.NameEn].ToString());
-                                }
-                            }
-
-                            IContainer CellStyle(IContainer container) => DefaultCellStyle(container, Colors.White).ShowOnce();
-                            tbl.Footer(tblf =>
-                            {
-                                tblf.Cell().ColumnSpan(uint.Parse(firstCol.ToString())).Border(1).BorderColor(Colors.Black).PaddingVertical(5).PaddingHorizontal(5).AlignCenter().Text("إجمالي القيمة");
-                                tblf.Cell().ColumnSpan(uint.Parse(secondCol.ToString())).Border(1).BorderColor(Colors.Black).PaddingVertical(5).PaddingHorizontal(5).Text(txt2 =>
-                                {
-                                    txt2.TotalPages();
+                                    txt.Line("مؤسسة زائر الخير").FontSize(15);
+                                    txt.Line("المشهرة برقم 4242 لسنة 2021");
+                                    txt.Line("تحت رعاية وزارة التضامن الاجتماعي");
                                 });
+                                row.AutoItem().PaddingHorizontal(180);
+                                row.AutoItem().Height(85).Width(85).Image(Path.Combine(_environment.WebRootPath, "Template", "ZayirAlkhayrLogo2.jpeg"));
+                            });
+
+                            col.Item().AlignCenter().PaddingBottom(5).Text("كشف تسليم مساعدات مالية-محافظة الاسكندرية-      /      /      ").FontSize(15);
+                            col.Item().LineHorizontal(2);
+                            col.Item().AlignCenter().PaddingTop(5).PaddingBottom(5).Text(PageName).FontSize(15);
+
+                        });
+
+                        // Page Content
+                        page.Content().Column(col =>
+                        {
+                            col.Item().MaxHeight(600).Table(tbl =>
+                            {
+                                IContainer DefaultCellStyle(IContainer container, string backgroundColor)
+                                {
+                                    return container
+                                        .Border(1)
+                                        .BorderColor(Colors.Grey.Lighten1)
+                                        .Background(backgroundColor)
+                                        .PaddingVertical(5)
+                                        .PaddingHorizontal(5);
+                                }
+
+                                tbl.ColumnsDefinition(columns =>
+                                {
+                                    for (int i = 0; i < HeaderNames.Count; i++)
+                                        columns.RelativeColumn();
+                                });
+
+                                tbl.Header(header =>
+                                {
+                                    foreach (var name in HeaderNames)
+                                    {
+                                        header.Cell().Element(CellStyle).Text(name.NameAr);
+                                    }
+                                    IContainer CellStyle(IContainer container) => DefaultCellStyle(container, Colors.Grey.Lighten3);
+                                });
+                                for (int i = 0; i < dt.Rows.Count; i++)
+                                {
+                                    foreach (var column in HeaderNames)
+                                    {
+                                        tbl.Cell().Element(CellStyle).Text(dt.Rows[i][column.NameEn].ToString());
+                                    }
+                                }
+
+                                IContainer CellStyle(IContainer container) => DefaultCellStyle(container, Colors.White).ShowOnce();
+                                var obj = HeaderNames.FirstOrDefault(i => i.IsAllowSummation);
+                                if (obj != null)
+                                {
+                                    tbl.Footer(tblf =>
+                                    {
+                                        int Counter = 0;
+                                        Counter = dt.AsEnumerable().Sum(i => i.Field<int>(obj.NameEn));
+                                        tblf.Cell().ColumnSpan(uint.Parse(firstCol.ToString())).Border(1).BorderColor(Colors.Black).PaddingVertical(5).PaddingHorizontal(5).AlignCenter().Text("إجمالي القيمة");
+                                        tblf.Cell().ColumnSpan(uint.Parse(secondCol.ToString())).Border(1).BorderColor(Colors.Black).PaddingVertical(5).PaddingHorizontal(5).AlignCenter().Text(Counter.ToString());
+                                    });
+                                }
                             });
                         });
-                    });
 
-                    // Page Footer
-                    page.Footer().Column(col =>
-                    {
-                        col.Item().PaddingBottom(60).Row(row =>
+                        // Page Footer
+                        page.Footer().Column(col =>
                         {
-                            row.AutoItem().AlignRight().Text("مسؤول التوزيع").FontSize(15);
-                            row.AutoItem().PaddingHorizontal(190);
-                            row.AutoItem().Text("رئيس مجلس الأمناء").FontSize(15);
+                            col.Item().PaddingBottom(60).Row(row =>
+                            {
+                                row.AutoItem().AlignRight().Text("مسؤول التوزيع").FontSize(15);
+                                row.AutoItem().PaddingHorizontal(190);
+                                row.AutoItem().Text("رئيس مجلس الأمناء").FontSize(15);
+                            });
+
+                            col.Item().AlignCenter()
+                            .Text(x =>
+                            {
+                                x.Span("الصفحة ");
+                                x.CurrentPageNumber();
+                            });
                         });
 
-                        col.Item().AlignCenter()
-                        .Text(x =>
-                        {
-                            x.Span("الصفحة ");
-                            x.CurrentPageNumber();
-                        });
                     });
+                }
 
-                });
             }).GeneratePdf(FullPath);
 
             return FullPath;

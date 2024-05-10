@@ -10,5 +10,8 @@ namespace ZayirAlkhayr.Entities.Common
     {
         public string NameEn { get; set; }
         public string NameAr { get; set; }
+        public bool IsAllowSummation { get; set; }
+        public string ValueType { get; set; }
+        public int DisplayOrder { get; set; }
     }
 }

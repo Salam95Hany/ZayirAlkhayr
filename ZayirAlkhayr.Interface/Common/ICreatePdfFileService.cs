@@ -10,6 +10,6 @@ namespace ZayirAlkhayr.Interface.Common
 {
     public interface ICreatePdfFileService
     {
-        string CreatePdfFile(DataTable Data, List<PDFHeaderSelected> HeaderNames, string FileName, string PageName);
+        string CreatePdfFile(List<DataTable> Data, List<PDFHeaderSelected> HeaderNames, string FileName, string PageName);
     }
 }

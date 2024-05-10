@@ -11,26 +11,14 @@ namespace ZayirAlkhayr.Service.Common
 {
     public static class Extensions
     {
-        public static DataTable ToDataTable<T>(this List<T> items)
+        public static List<DataTable> ToDataTableBatches(this DataTable dt,int BatchNumber)
         {
-            DataTable dataTable = new DataTable(typeof(T).Name);
-            PropertyInfo[] Props = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            foreach (PropertyInfo prop in Props)
-            {
-                var type = (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>) ? Nullable.GetUnderlyingType(prop.PropertyType) : prop.PropertyType);
-                dataTable.Columns.Add(prop.Name, type);
-            }
-            foreach (T item in items)
-            {
-                var values = new object[Props.Length];
-                for (int i = 0; i < Props.Length; i++)
-                {
-                    values[i] = Props[i].GetValue(item, null);
-                }
-                dataTable.Rows.Add(values);
-            }
+            var batches = dt.AsEnumerable().Select((x, i) => new { Index = i, Value = x })
+                 .GroupBy(x => x.Index / BatchNumber)
+                 .Select(x => x.Select(v => v.Value).ToList().CopyToDataTable())
+                 .ToList();
 
-            return dataTable;
+            return batches;
         }
 
         public static DataTable RemoveColumns(this DataTable dt, List<string> Headers)
