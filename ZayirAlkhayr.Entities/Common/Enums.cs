@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace ZayirAlkhayr.Entities.Common
 {
-    public enum ActionMode
+    public enum FamilyNeedTypes
     {
-        AddMode = 0,
-        EditMode = 1,
-        DeleteMode = 2
+        Electric = 0, // الاجهزة الكهربائية
+        Furniture = 1, // اثاث
+        HomeMaintenance = 2, // صيانة المنزل
+        Joinary = 3 // نجارة
     }
 
     public enum ImageFiles
