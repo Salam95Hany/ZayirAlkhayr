@@ -25,6 +25,8 @@ namespace ZayirAlkhayr.Entities.Models
         public DbSet<PhotoDetails> PhotoDetails { get; set; }
         public DbSet<Footer> Footers { get; set; }
         public DbSet<FamilyStatus> FamilyStatus { get; set; }
+        public DbSet<FamilyStatusTypes> FamilyStatusTypes { get; set; }
+        public DbSet<FamilyCategories> FamilyCategories { get; set; }
         public DbSet<FamilyDetails> FamilyDetails { get; set; }
         public DbSet<FamilyExpenses> FamilyExpenses { get; set; }
         public DbSet<FamilyExtraDetails> FamilyExtraDetails { get; set; }

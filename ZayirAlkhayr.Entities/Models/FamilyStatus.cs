@@ -11,6 +11,8 @@ namespace ZayirAlkhayr.Entities.Models
     public class FamilyStatus
     {
         public int Id { get; set; }
+        public int FamilyStatusTypeId { get; set; }
+        public int FamilyCategoryId { get; set; }
         public int Code { get; set; }
         public string Name { get; set; }
         public string Fname { get; set; }
@@ -21,7 +23,5 @@ namespace ZayirAlkhayr.Entities.Models
         public string Phone { get; set; }
         public string Phone1 { get; set; }
         public string SupportingParty { get; set; }
-        public int StatusTypeId { get; set; }
-        public int CategoryId { get; set; }
     }
 }
