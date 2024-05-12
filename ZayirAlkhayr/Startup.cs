@@ -56,6 +56,7 @@ namespace ZayirAlkhayr
             services.AddScoped<IManageFileService, ManageFileService>();
             services.AddScoped<IExportManagerService, ExportManagerService>();
             services.AddScoped<ICreatePdfFileService, CreatePdfFileService>();
+            services.AddScoped<ISQLHelper, SQLHelper>();
 
             services.AddMvc(options =>
                 {

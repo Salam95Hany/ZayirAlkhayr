@@ -16,5 +16,7 @@ namespace ZayirAlkhayr.Entities.Models
         public string HousingNeedsAndStatus { get; set; } // احتياجات السكن والحالة
         public string ResearcherNotes { get; set; } // ملاحظات الباحث
         public string ReferencesNotes { get; set; } // ملاحظات المراجع
+        public DateTime? LastVisitDate { get; set; } // تاريخ اخر زيارة
+        public string PersonalPapers { get; set; } // الاوراق الشخصية
     }
 }

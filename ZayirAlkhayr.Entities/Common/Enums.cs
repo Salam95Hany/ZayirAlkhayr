@@ -24,4 +24,13 @@ namespace ZayirAlkhayr.Entities.Common
         PhotoImages = 5,
         PhotoDetailImages = 6
     }
+
+    public enum FamilyStatusTabs
+    {
+        All = 0,
+        Poor = 1,
+        Widows = 2,
+        Patient = 3,
+        Needed = 4
+    }
 }

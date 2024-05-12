@@ -23,5 +23,11 @@ namespace ZayirAlkhayr.Entities.Models
         public string Phone { get; set; }
         public string Phone1 { get; set; }
         public string SupportingParty { get; set; }
+        public string Nationality { get; set; }
+        public string ReasonOfRefuse { get; set; } // سبب الرفض
+        public int? InsertUser { get; set; }
+        public DateTime? InsertDate { get; set; }
+        public int? UpdateUser { get; set; }
+        public DateTime? UpdateDate { get; set; }
     }
 }
