@@ -1,0 +1,39 @@
+<ng-container *ngIf="isCarousel">
+  <div class="wrapper-carousel">
+    <div class="carousel">
+      <ng-container *ngFor="let slide of slides; index as i">
+        <img *ngIf="i === currentSlide" [src]="slide.src" class="slide hover_effect" [@slideAnimation]="animationTypeImg" />
+        <div *ngIf="i === currentSlide" class="heading justify-content-center justify-content-lg-start">
+          <span class="heading-name" [@slideAnimation]="animationTypeText">{{ slide.headline }}</span>
+        </div>
+        <div class="indicators">
+          <div class="indicat" (click)="currentSlide = i" [class.active]="currentSlide === i" *ngFor="let slide of slides; index as i"></div>
+        </div>
+      </ng-container>
+      <button class="control prev" (click)="onPreviousClick()">
+        <span class="arrow left"></span>
+      </button>
+      <button class="control next" (click)="onNextClick()">
+        <span class="arrow right"></span>
+      </button>
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="isGallery">
+  <div class="wrapper-gallery" [class.show]="isGallery" (click)="closeGAllery($event)">
+    <div class="gallery">
+      <ng-container *ngFor="let slide of slides; index as i">
+        <img *ngIf="i === currentGallery" [src]="slide.src" class="slide hover_effect" [@slideAnimation]="animationTypeImg" />
+      </ng-container>
+      <button class="control prev" (click)="onPreviousClickGallery()">
+        <span class="arrow left"></span>
+      </button>
+      <button class="control next" (click)="onNextClickGallery()">
+        <span class="arrow right"></span>
+      </button>
+    </div>
+    <i class="far fa-window-close gallery-close-btn" (click)="closeGAllery($event)"></i>
+    <div class="gallery-count">{{ currentGallery + 1 }} / {{ slides.length }}</div>
+  </div>
+</ng-container>
+
