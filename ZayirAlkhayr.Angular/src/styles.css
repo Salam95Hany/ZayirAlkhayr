@@ -7,6 +7,7 @@
   /* COLORS */
   --main-color: #74c173;
   --main-color-rgba: rgb(7 60 6 / 50%);
+  --main-color-rgba-lighter: rgb(150 215 149 / 50%);
   --background-body: #EEF5FF;
   --background-body: #f3f3f3;
   --white-color: #FFF;
@@ -21,7 +22,7 @@
   --nav-icon-fs: 20px;
 
   /* PADDING */
-  --nav-link-padding: 30px;
+  --nav-link-padding: 25px;
 }
 
 /* START GENERAL STYLES */

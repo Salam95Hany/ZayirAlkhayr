@@ -2,9 +2,14 @@ section:not(:last-child) {
     margin-bottom: 50px;
   }
   .activity-card {
+    background-color: #FFF;
     border-bottom: 3px solid var(--main-color);
     cursor: pointer;
-  }
+}
+.activity-card:hover {
+  background-color: var(--main-color-rgba-lighter);
+  color: #FFF;
+}
   .activity-card-img {
     background-color: #EEE;
     padding: 10px;
@@ -21,4 +26,3 @@ section:not(:last-child) {
     width: 100%;
     height: var(--dim);
   }
-  
