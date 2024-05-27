@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ZayirAlkhayr.Entities.Models
 {
-    public partial class ZADbContext:DbContext
+    public partial class ZADbContext: IdentityDbContext<IdentityUser>
     {
         private IConfiguration Configuration;
 
