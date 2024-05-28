@@ -8,7 +8,7 @@ namespace ZayirAlkhayr.Entities.Common
 {
     public class ApplicationUserModel
     {
-        public string UserID { get; set; }
+        public string UserId { get; set; }
         public string Token { get; set; }
         public string UserName { get; set; }
         public DateTime LoginDate { get; set; }

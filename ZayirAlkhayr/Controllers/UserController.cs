@@ -13,6 +13,7 @@ using System.Data;
 using ZayirAlkhayr.Entities.Models;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Rewrite;
 
 namespace ZayirAlkhayr.Controllers
 {
@@ -63,7 +64,7 @@ namespace ZayirAlkhayr.Controllers
                 {
                     UserName = user.UserName,
                     Role = role.FirstOrDefault(),
-                    UserID = user.Id,
+                    UserId = user.Id,
                     Token = token,
                     LoginDate = DateTime.Now,
                     ResponseCode = 200,
@@ -76,7 +77,8 @@ namespace ZayirAlkhayr.Controllers
                 ApplicationUserModel userModel = new ApplicationUserModel
                 {
                     ResponseCode = 100,
-                    ResponseMessage = "اسم المستخدم او كلمة المرور خاطئة"
+                    ResponseMessage = "اسم المستخدم او كلمة المرور خاطئة",
+                    LoginDate = DateTime.Now
                 };
                 return userModel;
             }
@@ -95,13 +97,17 @@ namespace ZayirAlkhayr.Controllers
                     Email = model.Email,
                     PhoneNumber = model.PhoneNumber,
                 };
+
                 try
                 {
-
-                    var result = await _userManager.CreateAsync(appUser, "0000");
+                    var result = await _userManager.CreateAsync(appUser, model.Password);
 
                     if (result.Succeeded)
                     {
+                        bool adminRoleExists = await _roleManager.RoleExistsAsync(model.Role);
+                        if (!adminRoleExists)
+                            await _roleManager.CreateAsync(new IdentityRole(model.Role));
+
                         await _userManager.AddToRoleAsync(appUser, model.Role);
                         Response.Done = true;
                         Response.Message = "تم اضافة مستخدم جديد بنجاح";
@@ -140,8 +146,10 @@ namespace ZayirAlkhayr.Controllers
                 if (user != null)
                 {
                     user.UserName = model.UserName;
+                    user.NormalizedUserName = model.UserName;
                     user.PhoneNumber = model.PhoneNumber;
                     user.Email = model.Email;
+                    user.NormalizedEmail = model.Email;
 
                     _context.SaveChanges();
                     Response.Done = true;

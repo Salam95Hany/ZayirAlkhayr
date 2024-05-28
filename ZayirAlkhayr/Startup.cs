@@ -56,7 +56,7 @@ namespace ZayirAlkhayr
                 options.Password.RequiredLength = 4;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
-                options.User.RequireUniqueEmail = false;
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+/ ";
             })
                 .AddEntityFrameworkStores<ZADbContext>()
                 .AddDefaultTokenProviders();
@@ -122,7 +122,7 @@ namespace ZayirAlkhayr
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ZayirAlkhayr v1"));
             }
-           
+
             app.UseAuthentication();
             app.UseRouting();
             app.UseAuthorization();
