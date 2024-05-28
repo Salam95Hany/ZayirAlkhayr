@@ -7,8 +7,10 @@ import { ActivityComponent } from './WebSite/activity/activity.component';
 import { PhotosComponent } from './WebSite/photos/photos.component';
 import { ActivityDetailsComponent } from './WebSite/activity-details/activity-details.component';
 import { PhotoDetailsComponent } from './WebSite/photo-details/photo-details.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
+  { path: 'login', component: LoginComponent },
   {
     path: '', component: HomeComponent, children: [
       { path: 'event', component: EventComponent },

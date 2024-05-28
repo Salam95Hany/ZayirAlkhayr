@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from "@angular/core";
 import { Slide } from "./media.interface";
 import { trigger, transition, useAnimation } from "@angular/animations";
 
@@ -66,6 +66,9 @@ export class CarouselComponent implements OnInit {
   @Input() isGallery = false;
   @Input() currentGallery = 0;
   galleryIndexText = 0;
+  rotating = 0;
+  initZooming = 1;
+  zooming = 0;
 
   // FOR Animation Options
   animationTypeImg = AnimationType.Scale;
@@ -116,10 +119,47 @@ export class CarouselComponent implements OnInit {
   @Output() closeGallery = new EventEmitter<boolean>();
   closeGAllery(event) {
     var target = event.target || event.srcElement || event.currentTarget;
-    if (target.classList.contains("gallery") || target.classList.contains("slide") || target.classList.contains("control") || target.classList.contains("arrow")) {
+    if (target.classList.contains("noClose")) {
       return;
     } else {
       this.closeGallery.emit();
+    }
+  }
+
+  onRotate(rotate: string) {
+    if (rotate === 'right') {
+      this.rotating += 90;
+    }
+    if (rotate === 'left') {
+      this.rotating -= 90;
+    }
+  }
+
+  onZoom(zoom: string) {
+    if (zoom === 'in') {
+      this.zooming += 1;
+      this.initZooming = 1;
+      if (this.initZooming >= 1 && this.zooming >= 5 && zoom === 'in') {
+        this.zooming = 5;
+      }
+      if (this.initZooming === 0 && this.zooming >= 9) {
+        this.initZooming = 1;
+        this.zooming = 0;
+      }
+    }
+    if (zoom === 'out') {
+      if (this.initZooming >= 1 && this.zooming >= 1 && zoom === 'out') {
+        this.zooming -= 1;
+        if (this.initZooming <= 1 && this.zooming <= 0 && zoom === 'out')  {
+          this.initZooming = 1;
+          this.zooming = 0;
+        }
+      }
+      if (this.initZooming < 0 && this.zooming < 0 && zoom === 'out') {
+        this.initZooming = 0;
+        this.zooming = 9;
+        this.zooming -= 1;
+      }
     }
   }
 
