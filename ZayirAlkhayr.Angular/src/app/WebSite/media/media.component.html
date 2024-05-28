@@ -1,6 +1,11 @@
 <ng-container *ngIf="isCarousel">
   <div class="wrapper-carousel">
     <div class="carousel">
+      <header class="carousel-logo">
+        <div class="img-logo-box">
+          <img src="../../../assets/logo-2.png" class="logo-img" loading="lazy" alt="" />
+        </div>
+      </header>
       <ng-container *ngFor="let slide of slides; index as i">
         <img *ngIf="i === currentSlide" [src]="slide.src" class="slide hover_effect" [@slideAnimation]="animationTypeImg" />
         <div *ngIf="i === currentSlide" class="heading justify-content-center justify-content-lg-start">
@@ -21,19 +26,33 @@
 </ng-container>
 <ng-container *ngIf="isGallery">
   <div class="wrapper-gallery" [class.show]="isGallery" (click)="closeGAllery($event)">
-    <div class="gallery">
+    <div class="gallery noClose">
       <ng-container *ngFor="let slide of slides; index as i">
-        <img *ngIf="i === currentGallery" [src]="slide.src" class="slide hover_effect" [@slideAnimation]="animationTypeImg" />
+        <img class="slide hover_effect noClose"
+        *ngIf="i === currentGallery"
+        [src]="slide.src"
+        [style.rotate]="rotating + 'deg'"
+        [style.scale]="initZooming + '.' + zooming"
+        [@slideAnimation]="animationTypeImg"
+        />
       </ng-container>
-      <button class="control prev" (click)="onPreviousClickGallery()">
-        <span class="arrow left"></span>
+      <button class="control prev noClose" (click)="onPreviousClickGallery()">
+        <span class="arrow left noClose"></span>
       </button>
-      <button class="control next" (click)="onNextClickGallery()">
-        <span class="arrow right"></span>
+      <button class="control next noClose" (click)="onNextClickGallery()">
+        <span class="arrow right noClose"></span>
       </button>
     </div>
-    <i class="far fa-window-close gallery-close-btn" (click)="closeGAllery($event)"></i>
-    <div class="gallery-count">{{ currentGallery + 1 }} / {{ slides.length }}</div>
+    <div class="gallery-options noClose d-flex align-items-center justify-content-between px-3 py-2">
+      <i class="fas fa-times gallery-close-btn gallery-options-item" (click)="closeGAllery($event)"></i>
+      <div class="d-flex align-items-center noClose">
+        <i class="fas fa-undo rotate-left gallery-options-item noClose" (click)="onRotate('left')"></i>
+        <i class="fas fa-undo rotate-right gallery-options-item noClose" (click)="onRotate('right')"></i>
+        <i class="fas fa-search-plus gallery-options-item noClose" (click)="onZoom('in')"></i>
+        <i class="fas fa-search-minus gallery-options-item noClose" (click)="onZoom('out')"></i>
+        <div class="gallery-count gallery-options-item noClose">{{ currentGallery + 1 }} / {{ slides.length }}</div>
+      </div>
+    </div>
   </div>
 </ng-container>
 

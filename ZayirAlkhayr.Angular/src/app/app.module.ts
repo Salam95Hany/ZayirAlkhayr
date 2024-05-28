@@ -16,7 +16,7 @@ import { HeaderComponent } from './WebSite/header/header.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SwiperModule } from 'swiper/angular';
 import { CarouselComponent } from './WebSite/media/media.component';
-import { LoginComponent } from './WebSite/login/login.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [

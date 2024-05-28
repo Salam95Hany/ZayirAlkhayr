@@ -7,7 +7,7 @@ section:not(:last-child) {
     cursor: pointer;
 }
 .activity-card:hover {
-  background-color: var(--main-color-rgba-lighter);
+  background-color: var(--main-color);
   color: #FFF;
 }
   .activity-card-img {
