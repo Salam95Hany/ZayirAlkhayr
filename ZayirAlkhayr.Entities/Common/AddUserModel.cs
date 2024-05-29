@@ -14,7 +14,5 @@ namespace ZayirAlkhayr.Entities.Common
         public string Password { get; set; }
         public string PhoneNumber { get; set; }
         public string Role { get; set; }
-
-
     }
 }

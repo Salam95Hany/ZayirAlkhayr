@@ -22,13 +22,11 @@ namespace ZayirAlkhayr.Controllers
     public class UserController : ControllerBase
     {
         private UserManager<IdentityUser> _userManager;
-        private SignInManager<IdentityUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ZADbContext _context;
-        public UserController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager, ZADbContext context)
+        public UserController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, ZADbContext context)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
             _roleManager = roleManager;
             _context = context;
         }
@@ -77,7 +75,7 @@ namespace ZayirAlkhayr.Controllers
                 ApplicationUserModel userModel = new ApplicationUserModel
                 {
                     ResponseCode = 100,
-                    ResponseMessage = "اسم المستخدم او كلمة المرور خاطئة",
+                    ResponseMessage = "اسم المستخدم او كلمة المرور غير صالح",
                     LoginDate = DateTime.Now
                 };
                 return userModel;
