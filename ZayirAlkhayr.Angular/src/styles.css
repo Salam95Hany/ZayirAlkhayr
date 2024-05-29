@@ -6,12 +6,15 @@
 :root {
   /* COLORS */
   --main-color: #74c173;
-  --main-color-rgba: rgb(7 60 6 / 50%);
+  --secondary-color: #4CAF50;
+  --main-color-gradient: linear-gradient(90deg, rgba(0,176,155,1) 0%, rgba(76,164,70,1) 35%);
+  --main-color-radial: radial-gradient(circle, rgba(0,176,155,1) 30%, rgba(76,164,70,1) 64%);
+  --main-color-rgba: rgb(150 215 149 / 50%);
   --main-color-rgba-lighter: rgb(150 215 149 / 50%);
   --background-body: #EEF5FF;
   --background-body: #f3f3f3;
   --white-color: #FFF;
-  --light-gray: #EEE;
+  --light-gray: #f2f4f5;
 
   /* HEIGHTS */
   --header_height: 70px;
@@ -78,6 +81,52 @@ body {
 .fs-14px {
   font-size: 14px;
 }
+.display-7 {
+  font-size: 2.1rem;
+  font-weight: 300;
+  line-height: 1.2;
+}
+.rotated-icon {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  -ms-transform: rotateY(180deg);
+  -o-transform: rotateY(180deg);
+}
+.main-button {
+  --padding-x: 20px;
+  padding-left: var(--padding-x);
+  padding-right: var(--padding-x);
+  background-color: var(--main-color);
+  color: #FFF;
+  border-radius: 25px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  -ms-border-radius: 25px;
+  -o-border-radius: 25px;
+}
+.main-button:hover {
+  background-color: #FFF;
+  color: var(--main-color);
+  border-color: var(--main-color);
+}
+.form-control:focus {
+  color: var(--bs-body-color);
+  background-color: var(--bs-body-bg);
+  border-color: var(--main-color);
+  outline: 0;
+  box-shadow: none;
+}
+.form-check-input:checked {
+  background-color: var(--main-color);
+  border-color: var(--main-color);
+}
+.form-check-input:focus {
+  border-color: #86b7fe;
+  outline: 0;
+  box-shadow: 0 0 0 .25rem var(--main-color-rgba);
+}
+/* SWIPER STYLE */
 .swiper-button-next, .swiper-button-prev {
   color: #FFF;
 }
@@ -104,4 +153,3 @@ body {
   }
 }
 /* END GLOBAL STYLES */
-
