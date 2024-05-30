@@ -121,12 +121,12 @@
       <h4 class="mb-3 main-color">اختر غرضًا أو أكثر للتبرع</h4>
       <div class="row gy-4">
         <div class="col-md-6 col-lg-3">
-          <div class="activity-card rounded text-center shadow-sm p-3 h-100" [ngClass]="{'active': ShowInput}">
+          <div class="activity-card rounded text-center shadow-sm p-3 h-100" (click)="ShowInput = !ShowInput" [ngClass]="{'active': ShowInput}">
             <div class="activity-card-img">
               <img src="../../../assets/active-1.png" loading="lazy" alt="" />
             </div>
             <div class="activity-card-text fw-bold mb-2">الصدقات الجارية</div>
-            <input type="number" class="form-control" *ngIf="ShowInput" (click)="$event.stopPropagation()">
+            <input type="number" class="form-control form-control-sm" *ngIf="ShowInput" (click)="$event.stopPropagation()">
           </div>
         </div>
         <div class="col-md-6 col-lg-3">

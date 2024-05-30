@@ -9,7 +9,7 @@ SwiperCore.use([Autoplay, Navigation, Pagination, Scrollbar, A11y]);
   styleUrls: ['./activity-details.component.css']
 })
 export class ActivityDetailsComponent {
-  ShowInput = true;
+  ShowInput = false;
   constructor(private modalService: NgbModal) { }
 
   openDonateModal(modal: TemplateRef<any>) {

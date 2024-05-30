@@ -8,9 +8,12 @@ import { PhotosComponent } from './WebSite/photos/photos.component';
 import { ActivityDetailsComponent } from './WebSite/activity-details/activity-details.component';
 import { PhotoDetailsComponent } from './WebSite/photo-details/photo-details.component';
 import { LoginComponent } from './login/login.component';
+import { AdminComponent } from './Admin/admin.component';
+import { AdminModule } from '../app/Admin/admin.module';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'admin', loadChildren: () => import('../app/Admin/admin.module').then(m => m.AdminModule)},
   {
     path: '', component: HomeComponent, children: [
       { path: 'event', component: EventComponent },
