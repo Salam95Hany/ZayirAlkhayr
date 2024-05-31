@@ -178,9 +178,9 @@
   padding: 0 15px;
 }
 .img-logo-box {
-  border: 2px solid var(--main-color);
+  /* border: 2px solid var(--main-color); */
   border-radius: 50%;
-  background-color: #FFF;
+  /* background-color: #FFF; */
   --dim: 120px;
   width: var(--dim);
   height: var(--dim);
