@@ -2,12 +2,11 @@ import { Component, TemplateRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-admin',
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css']
+  selector: 'app-home-slideimage',
+  templateUrl: './home-slideimage.component.html',
+  styleUrls: ['./home-slideimage.component.css']
 })
-export class AdminComponent {
-  isCollapseExpand = false;
+export class HomeSlideimageComponent {
   isFilter = false;
 
   constructor(private modalService: NgbModal) { }

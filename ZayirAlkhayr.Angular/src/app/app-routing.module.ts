@@ -11,6 +11,7 @@ import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'admin', loadChildren: () => import('../app/Admin/admin.module').then(m => m.AdminModule) },
   {
     path: '', component: HomeComponent, children: [
       { path: 'event', component: EventComponent },
@@ -22,7 +23,8 @@ const routes: Routes = [
       { path: '', redirectTo: 'activity', pathMatch: 'full' }
     ]
   },
-  { path: '', redirectTo: '', pathMatch: 'full' }
+  { path: '', redirectTo: '', pathMatch: 'full' },
+  { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 
 @NgModule({

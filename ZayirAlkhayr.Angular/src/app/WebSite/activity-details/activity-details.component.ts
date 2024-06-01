@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import SwiperCore, { Autoplay, Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 SwiperCore.use([Autoplay, Navigation, Pagination, Scrollbar, A11y]);
 
@@ -8,5 +9,13 @@ SwiperCore.use([Autoplay, Navigation, Pagination, Scrollbar, A11y]);
   styleUrls: ['./activity-details.component.css']
 })
 export class ActivityDetailsComponent {
+  ShowInput = false;
+  constructor(private modalService: NgbModal) { }
 
+  openDonateModal(modal: TemplateRef<any>) {
+    this.modalService.open(modal, {
+      size: 'xl',
+      scrollable: true
+    })
+  }
 }
