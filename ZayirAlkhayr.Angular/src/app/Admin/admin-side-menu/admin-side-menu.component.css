@@ -7,7 +7,7 @@
     top: var(--admin-header-height);
     right: 0;
     z-index: 5;
-    /* background: url("../../../assets/admin-sidemenu.jpg") no-repeat; */
+    background: url("../../../assets/admin-sidemenu.jpg") no-repeat;
     background-size: cover;
     transition: var(--main-transition);
     -webkit-transition: var(--main-transition);
@@ -85,10 +85,12 @@
   .side-menu-list-link.sub-link {
     padding: 4px 15px 6px 0;
   }
-  .side-menu-list-link:hover {
+  .side-menu-list-link:hover,
+  .side-menu-list-link.active {
     color: #fff;
     background: rgba(255, 255, 255, .1);
   }
+  
   .side-menu-list-link.with-sub-menu::after {
     content: '\f077';
     font-family: "Font Awesome 5 Free";
