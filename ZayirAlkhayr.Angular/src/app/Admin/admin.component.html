@@ -1,3 +1,227 @@
-<main id="admin-wrapper">
-  <app-admin-header></app-admin-header>
+<main id="admin-wrapper" class="position-relative">
+  <app-admin-header (collapseExpandContent)="isCollapseExpand = !isCollapseExpand" [isCollapseOrExpand]="isCollapseExpand"></app-admin-header>
+  <div class="admin-page-content d-flex">
+    <app-admin-side-menu [isCollapsing]="isCollapseExpand" (closeSideMenuFromOverlayEvent)="isCollapseExpand = false"></app-admin-side-menu>
+    <div class="admin-main-content" [class.expand-content]="isCollapseExpand">
+      <div class="card">
+        <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
+          <div class="d-flex align-items-center flex-wrap gap-2">
+            <button class="btn main-button d-flex align-items-center gap-2" (click)="openAddItemModal(addItemModal)">
+              <i class="uil uil-plus-circle"></i>
+              <span class="navbar-brand m-0">اضافه</span>
+            </button>
+            <div class="nav-item" ngbDropdown display="dynamic" placement="bottom-end">
+              <button class="btn main-button d-flex align-items-center gap-2" ngbDropdownToggle>
+                <i class="uil uil-export"></i>
+                <span class="navbar-brand m-0">تنزيل</span>
+              </button>
+              <div ngbDropdownMenu class="dropdown-menu border shadow-sm animate__animated animate__fadeInUp">
+                <a class="cursor-pointer" ngbDropdownItem (click)="$event.preventDefault()">
+                  <i class="far fa-file-pdf"></i>
+                  <span class="ms-2">PDF</span>
+                </a>
+                <a class="cursor-pointer" ngbDropdownItem (click)="$event.preventDefault()">
+                  <i class="far fa-file-excel"></i>
+                  <span class="ms-2">Excel</span>
+                </a>
+                <a class="cursor-pointer" ngbDropdownItem (click)="$event.preventDefault()">
+                  <i class="far fa-file-word"></i>
+                  <span class="ms-2">Word</span>
+                </a>
+              </div>
+            </div>
+            <button class="btn main-button d-flex align-items-center gap-2" (click)="isFilter = !isFilter" [attr.aria-expanded]="!isFilter">
+              <i class="uil uil-filter"></i>
+              <span class="navbar-brand m-0">{{ isFilter ? 'عرض' : 'اخفاء' }} الفلاتر</span>
+            </button>
+          </div>
+          <nav>
+            <ul class="pagination pagination-sm m-0">
+              <li class="page-item">
+                <a class="page-link">التالى</a>
+              </li>
+              <li class="page-item"><a class="page-link">1</a></li>
+              <li class="page-item active" aria-current="page">
+                <a class="page-link">2</a>
+              </li>
+              <li class="page-item"><a class="page-link">3</a></li>
+              <li class="page-item disabled">
+                <a class="page-link">السابق</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <div class="px-3 py-2 bg-light border-bottom" #collapse="ngbCollapse" [(ngbCollapse)]="isFilter">
+          <div class="d-flex align-items-center flex-wrap gap-2">
+            <input type="text" class="form-control border width-250" placeholder="بحث..." />
+            <div class="filter-button" ngbDropdown display="dynamic" placement="bottom-end">
+              <button class="btn main-filter-button d-flex align-items-center gap-2" ngbDropdownToggle>
+                <i class="uil uil-filter"></i>
+                <span class="navbar-brand m-0">الاسم</span>
+              </button>
+              <div ngbDropdownMenu class="dropdown-menu shadow-sm border animate__animated animate__fadeInUp p-0 overflow-hidden">
+                <div class="filter-search p-2 gray-bgcolor border-bottom">
+                  <input type="text" class="form-control form-control-sm" placeholder="بحث..." />
+                </div>
+                <div class="min-width-230 max-height-180 px-2 py-2 overflow-auto bg-white">
+                  <div class="form-check with-hover">
+                    <input class="form-check-input" type="checkbox" id="filter_1">
+                    <label class="form-check-label" for="filter_1">
+                      فلتر 1
+                    </label>
+                  </div>
+                  <div class="form-check with-hover">
+                    <input class="form-check-input" type="checkbox" id="filter_2">
+                    <label class="form-check-label" for="filter_2">
+                      فلتر 2
+                    </label>
+                  </div>
+                  <div class="form-check with-hover">
+                    <input class="form-check-input" type="checkbox" id="filter_3">
+                    <label class="form-check-label" for="filter_3">
+                      فلتر 3
+                    </label>
+                  </div>
+                  <div class="form-check with-hover">
+                    <input class="form-check-input" type="checkbox" id="filter_4">
+                    <label class="form-check-label" for="filter_4">
+                      فلتر 4
+                    </label>
+                  </div>
+                  <div class="form-check with-hover">
+                    <input class="form-check-input" type="checkbox" id="filter_5">
+                    <label class="form-check-label" for="filter_5">
+                      فلتر 5
+                    </label>
+                  </div>
+                  <div class="form-check with-hover">
+                    <input class="form-check-input" type="checkbox" id="filter_6">
+                    <label class="form-check-label" for="filter_6">
+                      فلتر 6
+                    </label>
+                  </div>
+                  <div class="form-check with-hover">
+                    <input class="form-check-input" type="checkbox" id="filter_7">
+                    <label class="form-check-label" for="filter_7">
+                      فلتر 7
+                    </label>
+                  </div>
+                  <div class="form-check with-hover">
+                    <input class="form-check-input" type="checkbox" id="filter_8">
+                    <label class="form-check-label" for="filter_8">
+                      فلتر 8
+                    </label>
+                  </div>
+                  <div class="form-check with-hover">
+                    <input class="form-check-input" type="checkbox" id="filter_9">
+                    <label class="form-check-label" for="filter_9">
+                      فلتر 9
+                    </label>
+                  </div>
+                  <div class="form-check with-hover">
+                    <input class="form-check-input" type="checkbox" id="filter_10">
+                    <label class="form-check-label" for="filter_10">
+                      فلتر 10
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
+              <thead>
+                <tr>
+                  <th>عنوان 1</th>
+                  <th>عنوان 2</th>
+                  <th>عنوان 3</th>
+                  <th>عنوان 4</th>
+                  <th>عنوان 5</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>تفاصيل 1</td>
+                  <td>تفاصيل 2</td>
+                  <td>تفاصيل 3</td>
+                  <td>تفاصيل 4</td>
+                  <td>تفاصيل 5</td>
+                </tr>
+                <tr>
+                  <td>تفاصيل 1</td>
+                  <td>تفاصيل 2</td>
+                  <td>تفاصيل 3</td>
+                  <td>تفاصيل 4</td>
+                  <td>تفاصيل 5</td>
+                </tr>
+                <tr>
+                  <td>تفاصيل 1</td>
+                  <td>تفاصيل 2</td>
+                  <td>تفاصيل 3</td>
+                  <td>تفاصيل 4</td>
+                  <td>تفاصيل 5</td>
+                </tr>
+                <tr>
+                  <td>تفاصيل 1</td>
+                  <td>تفاصيل 2</td>
+                  <td>تفاصيل 3</td>
+                  <td>تفاصيل 4</td>
+                  <td>تفاصيل 5</td>
+                </tr>
+                <tr>
+                  <td>تفاصيل 1</td>
+                  <td>تفاصيل 2</td>
+                  <td>تفاصيل 3</td>
+                  <td>تفاصيل 4</td>
+                  <td>تفاصيل 5</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </main>
+
+
+<ng-template #addItemModal let-modal>
+	<div class="modal-header d-flex align-items-center justify-content-between main-bgcolor text-white">
+		<div class="display-7 d-flex align-items-center gap-3">
+      <i class="uil uil-focus-add"></i>
+      <span>اضافه مستخدم جديد</span>
+    </div>
+    <i class="fas fa-times cursor-pointer fa-2x modal-close-btn" (click)="modal.dismiss()"></i>
+	</div>
+	<div class="modal-body gray-bgcolor">
+		<div class="bg-white p-3 rounded shadow-sm">
+      <div class="mb-3">
+        <div class="form-floating">
+          <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user">
+          <label for="floatingInput_1">اسم المستخدم</label>
+        </div>
+      </div>
+      <div class="mb-3">
+        <select class="form-control h-58">
+          <option value="0" selected disabled>--اختار--</option>
+          <option value="1">اختر 1</option>
+          <option value="2">اختر 2</option>
+          <option value="3">اختر 3</option>
+          <option value="4">اختر 4</option>
+        </select>
+      </div>
+    </div>
+	</div>
+  <div class="modal-footer justify-content-between gap-2">
+    <button class="btn main-button d-flex align-items-center gap-2" (click)="modal.close()">
+      <i class="uil uil-plus-circle"></i>
+      <span>اضافه</span>
+    </button>
+    <button class="btn btn-danger rounded-25 d-flex align-items-center gap-2" (click)="modal.close()">
+      <i class="uil uil-times-circle"></i>
+      <span>الغاء</span>
+    </button>
+	</div>
+</ng-template>

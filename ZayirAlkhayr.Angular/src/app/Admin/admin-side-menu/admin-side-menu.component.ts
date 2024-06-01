@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-admin-side-menu',
@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./admin-side-menu.component.css']
 })
 export class AdminSideMenuComponent {
+  @Input() isCollapsing = false;
+  @Output() closeSideMenuFromOverlayEvent = new EventEmitter<boolean>();
+  isCollapsed_1 = false;
 
+  onCloseSidemenuFromOverlay() {
+    this.closeSideMenuFromOverlayEvent.emit();
+  }
 }

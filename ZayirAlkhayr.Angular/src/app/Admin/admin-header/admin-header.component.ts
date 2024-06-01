@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-admin-header',
@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./admin-header.component.css']
 })
 export class AdminHeaderComponent {
-
+  @Output() collapseExpandContent = new EventEmitter<boolean>();
+  isCollapseExpandContent = false;
+  @Input() isCollapseOrExpand = false;
+  collapsed = true;
+  onCollapseExpandMenu() {
+    this.collapseExpandContent.emit();
+  }
 }

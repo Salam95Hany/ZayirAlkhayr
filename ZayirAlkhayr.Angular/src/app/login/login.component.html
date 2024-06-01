@@ -9,7 +9,7 @@
       <h2 class="form-title text-center mb-5 d-flex align-items-center justify-content-center">
         <span class="form-title-text d-inline-block position-relative">تسجيل الدخول</span>
       </h2>
-      <form class="d-flex flex-column gap-4 align-items-center w-100">
+      <div class="d-flex flex-column gap-4 align-items-center w-100">
         <div class="input-box w-100">
           <div class="input-group pb-2 border-bottom">
             <input type="text" class="form-control bg-transparent border-0 text-black" placeholder="اسم المستخدم" />
@@ -20,24 +20,19 @@
         </div>
         <div class="input-box w-100">
           <div class="input-group pb-2 border-bottom">
-            <input type="password" [type]="isShowPassword ? 'text' : 'password'" class="form-control bg-transparent border-0 text-black" placeholder="كلمة المرور" />
+            <input type="password" [type]="isShowPassword ? 'text' : 'password'"
+              class="form-control bg-transparent border-0 text-black" placeholder="كلمة المرور" />
             <span class="input-group-text bg-transparent border-0 p-0">
-              <i class="far {{ isShowPassword ? 'fa-eye-slash' : 'fa-eye'  }} main-color cursor-pointer" (click)="isShowPassword = !isShowPassword"></i>
+              <i class="far {{ isShowPassword ? 'fa-eye-slash' : 'fa-eye'  }} main-color cursor-pointer"
+                (click)="isShowPassword = !isShowPassword"></i>
             </span>
           </div>
         </div>
-        <!-- <div class="form-check w-100">
-          <input class="form-check-input" type="checkbox" id="remember-me">
-          <label class="form-check-label" for="remember-me">
-            تذكرنى
-          </label>
-        </div> -->
-
-        <button class="btn main-button d-flex align-items-center gap-2 mt-4">
+        <button class="btn main-button d-flex align-items-center gap-2 mt-4" routerLink="/admin">
           <i class="fas fa-sign-in-alt rotated-icon"></i>
           <span>تسجيل دخول</span>
         </button>
-      </form>
+      </div>
     </section>
   </div>
 </div>
