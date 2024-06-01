@@ -192,7 +192,15 @@
   --dim: 100px;
   width: var(--dim);
   height: var(--dim);
-  margin-top: -15px;
+  margin-top: -5px;
+}
+
+@media (min-width: 992px) {
+  .carousel-logo .logo-img {
+    --dim: 120px;
+    width: var(--dim);
+    height: var(--dim);
+  }
 }
 
 @media (max-width: 991px) {

@@ -49,7 +49,10 @@
     </div>
     <div class="px-3 py-2 bg-light border-bottom" #collapse="ngbCollapse" [(ngbCollapse)]="isFilter">
         <div class="d-flex align-items-center flex-wrap gap-2">
-            <input type="text" class="form-control border width-250" placeholder="بحث..." />
+            <div class="position-relative">
+              <input type="text" class="form-control border width-250" placeholder="بحث..." />
+              <i class="uil uil-search search-icon-input"></i>
+            </div>
             <div class="filter-button" ngbDropdown display="dynamic" placement="bottom-end">
                 <button class="btn main-filter-button d-flex align-items-center gap-2" ngbDropdownToggle>
                     <i class="uil uil-filter"></i>
@@ -58,66 +61,69 @@
                 <div ngbDropdownMenu
                     class="dropdown-menu shadow-sm border animate__animated animate__fadeInUp p-0 overflow-hidden">
                     <div class="filter-search p-2 gray-bgcolor border-bottom">
+                      <div class="position-relative">
                         <input type="text" class="form-control form-control-sm" placeholder="بحث..." />
+                        <i class="uil uil-search search-icon-input"></i>
+                      </div>
                     </div>
                     <div class="min-width-230 max-height-180 px-2 py-2 overflow-auto bg-white">
-                        <div class="form-check with-hover">
+                        <div class="form-check dropdown-item cursor-pointer rounded">
                             <input class="form-check-input" type="checkbox" id="filter_1">
-                            <label class="form-check-label" for="filter_1">
+                            <label class="form-check-label cursor-pointer" for="filter_1">
                                 فلتر 1
                             </label>
                         </div>
-                        <div class="form-check with-hover">
+                        <div class="form-check dropdown-item cursor-pointer rounded">
                             <input class="form-check-input" type="checkbox" id="filter_2">
-                            <label class="form-check-label" for="filter_2">
+                            <label class="form-check-label cursor-pointer" for="filter_2">
                                 فلتر 2
                             </label>
                         </div>
-                        <div class="form-check with-hover">
+                        <div class="form-check dropdown-item cursor-pointer rounded">
                             <input class="form-check-input" type="checkbox" id="filter_3">
-                            <label class="form-check-label" for="filter_3">
+                            <label class="form-check-label cursor-pointer" for="filter_3">
                                 فلتر 3
                             </label>
                         </div>
-                        <div class="form-check with-hover">
+                        <div class="form-check dropdown-item cursor-pointer rounded">
                             <input class="form-check-input" type="checkbox" id="filter_4">
-                            <label class="form-check-label" for="filter_4">
+                            <label class="form-check-label cursor-pointer" for="filter_4">
                                 فلتر 4
                             </label>
                         </div>
-                        <div class="form-check with-hover">
+                        <div class="form-check dropdown-item cursor-pointer rounded">
                             <input class="form-check-input" type="checkbox" id="filter_5">
-                            <label class="form-check-label" for="filter_5">
+                            <label class="form-check-label cursor-pointer" for="filter_5">
                                 فلتر 5
                             </label>
                         </div>
-                        <div class="form-check with-hover">
+                        <div class="form-check dropdown-item cursor-pointer rounded">
                             <input class="form-check-input" type="checkbox" id="filter_6">
-                            <label class="form-check-label" for="filter_6">
+                            <label class="form-check-label cursor-pointer" for="filter_6">
                                 فلتر 6
                             </label>
                         </div>
-                        <div class="form-check with-hover">
+                        <div class="form-check dropdown-item cursor-pointer rounded">
                             <input class="form-check-input" type="checkbox" id="filter_7">
-                            <label class="form-check-label" for="filter_7">
+                            <label class="form-check-label cursor-pointer" for="filter_7">
                                 فلتر 7
                             </label>
                         </div>
-                        <div class="form-check with-hover">
+                        <div class="form-check dropdown-item cursor-pointer rounded">
                             <input class="form-check-input" type="checkbox" id="filter_8">
-                            <label class="form-check-label" for="filter_8">
+                            <label class="form-check-label cursor-pointer" for="filter_8">
                                 فلتر 8
                             </label>
                         </div>
-                        <div class="form-check with-hover">
+                        <div class="form-check dropdown-item cursor-pointer rounded">
                             <input class="form-check-input" type="checkbox" id="filter_9">
-                            <label class="form-check-label" for="filter_9">
+                            <label class="form-check-label cursor-pointer" for="filter_9">
                                 فلتر 9
                             </label>
                         </div>
-                        <div class="form-check with-hover">
+                        <div class="form-check dropdown-item cursor-pointer rounded">
                             <input class="form-check-input" type="checkbox" id="filter_10">
-                            <label class="form-check-label" for="filter_10">
+                            <label class="form-check-label cursor-pointer" for="filter_10">
                                 فلتر 10
                             </label>
                         </div>
@@ -126,7 +132,7 @@
             </div>
         </div>
     </div>
-    <div class="card-body">
+    <div class="card-body card-body-h">
         <div class="table-responsive">
             <table class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
                 <thead>
@@ -136,6 +142,7 @@
                         <th>عنوان 3</th>
                         <th>عنوان 4</th>
                         <th>عنوان 5</th>
+                        <th class="text-center">أجراءات</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -145,6 +152,12 @@
                         <td>تفاصيل 3</td>
                         <td>تفاصيل 4</td>
                         <td>تفاصيل 5</td>
+                        <td>
+                          <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
+                            <i class="uil uil-edit text-primary cursor-pointer"></i>
+                            <i class="uil uil-times-circle text-danger cursor-pointer"></i>
+                          </div>
+                        </td>
                     </tr>
                     <tr>
                         <td>تفاصيل 1</td>
@@ -152,6 +165,12 @@
                         <td>تفاصيل 3</td>
                         <td>تفاصيل 4</td>
                         <td>تفاصيل 5</td>
+                        <td>
+                          <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
+                            <i class="uil uil-edit text-primary cursor-pointer"></i>
+                            <i class="uil uil-times-circle text-danger cursor-pointer"></i>
+                          </div>
+                        </td>
                     </tr>
                     <tr>
                         <td>تفاصيل 1</td>
@@ -159,6 +178,12 @@
                         <td>تفاصيل 3</td>
                         <td>تفاصيل 4</td>
                         <td>تفاصيل 5</td>
+                        <td>
+                          <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
+                            <i class="uil uil-edit text-primary cursor-pointer"></i>
+                            <i class="uil uil-times-circle text-danger cursor-pointer"></i>
+                          </div>
+                        </td>
                     </tr>
                     <tr>
                         <td>تفاصيل 1</td>
@@ -166,6 +191,12 @@
                         <td>تفاصيل 3</td>
                         <td>تفاصيل 4</td>
                         <td>تفاصيل 5</td>
+                        <td>
+                          <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
+                            <i class="uil uil-edit text-primary cursor-pointer"></i>
+                            <i class="uil uil-times-circle text-danger cursor-pointer"></i>
+                          </div>
+                        </td>
                     </tr>
                     <tr>
                         <td>تفاصيل 1</td>
@@ -173,6 +204,12 @@
                         <td>تفاصيل 3</td>
                         <td>تفاصيل 4</td>
                         <td>تفاصيل 5</td>
+                        <td>
+                          <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
+                            <i class="uil uil-edit text-primary cursor-pointer"></i>
+                            <i class="uil uil-times-circle text-danger cursor-pointer"></i>
+                          </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -199,13 +236,87 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <select class="form-control h-100">
-                        <option value="0" selected disabled>--اختار--</option>
-                        <option value="1">اختر 1</option>
-                        <option value="2">اختر 2</option>
-                        <option value="3">اختر 3</option>
-                        <option value="4">اختر 4</option>
-                    </select>
+                  <div ngbDropdown class="dropdown-with-search h-100 overflow-hidden" container="body">
+                    <button class="dropdown-with-search-btn btn border h-100 w-100 d-flex align-items-center justify-content-between" id="dropdownBasic1" ngbDropdownToggle>
+                      --اختار--
+                    </button>
+                    <div class="width-530 py-0 overflow-hidden" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                      <div class="p-2 gray-bgcolor border-bottom">
+                        <div class="position-relative">
+                          <input type="text" class="form-control form-control-sm" placeholder="بحث..." />
+                          <i class="uil uil-search search-icon-input"></i>
+                        </div>
+                      </div>
+                      <ul class="dropdown-list-box list-unstyled max-height-200 overflow-auto px-1 py-1 m-0">
+                        <li class="dropdown-item cursor-pointer rounded">اختيار 1</li>
+                        <li class="dropdown-item cursor-pointer rounded">اختيار 2</li>
+                        <li class="dropdown-item cursor-pointer rounded">اختيار 3</li>
+                        <li class="dropdown-item cursor-pointer rounded">اختيار 4</li>
+                        <li class="dropdown-item cursor-pointer rounded">اختيار 5</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="choose-file-box position-relative border rounded h-58">
+                    <form class="h-100">
+                      <div class="choose-file-btn">اختار صورة</div>
+                      <input type="file" class="choose-file-input" />
+                    </form>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <hr class="border-success">
+                  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6 g-2">
+                    <div class="col">
+                      <div class="choosed-img img-thumbnail shadow-sm">
+                        <img src="../../../../assets/choosed-img.jpg" loading="lazy" alt="" />
+                        <div class="choosed-img-delete">
+                          <i class="far fa-times-circle"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="choosed-img img-thumbnail shadow-sm">
+                        <img src="../../../../assets/choosed-img.jpg" loading="lazy" alt="" />
+                        <div class="choosed-img-delete">
+                          <i class="far fa-times-circle"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="choosed-img img-thumbnail shadow-sm">
+                        <img src="../../../../assets/choosed-img.jpg" loading="lazy" alt="" />
+                        <div class="choosed-img-delete">
+                          <i class="far fa-times-circle"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="choosed-img img-thumbnail shadow-sm">
+                        <img src="../../../../assets/choosed-img.jpg" loading="lazy" alt="" />
+                        <div class="choosed-img-delete">
+                          <i class="far fa-times-circle"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="choosed-img img-thumbnail shadow-sm">
+                        <img src="../../../../assets/choosed-img.jpg" loading="lazy" alt="" />
+                        <div class="choosed-img-delete">
+                          <i class="far fa-times-circle"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="choosed-img img-thumbnail shadow-sm">
+                        <img src="../../../../assets/choosed-img.jpg" loading="lazy" alt="" />
+                        <div class="choosed-img-delete">
+                          <i class="far fa-times-circle"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
             </div>
         </div>

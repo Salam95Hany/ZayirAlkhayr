@@ -2,7 +2,6 @@
     width: var(--admin-side-menu-width);
     min-width: var(--admin-side-menu-width);
     height: calc(100vh - var(--admin-header-height));
-    overflow: auto;
     position: fixed;
     top: var(--admin-header-height);
     right: 0;
@@ -27,10 +26,11 @@
     position: relative;
     z-index: 2;
     color: #FFF;
-    height: 100%;
     padding: 15px;
     background-image: linear-gradient(to right, #141e30, #243b55);
     opacity: .9;
+    height: calc(100vh - var(--admin-header-height));
+    overflow: auto;
   }
   .admin-side-menu-user {
     padding: 15px;
@@ -90,7 +90,7 @@
     color: #fff;
     background: rgba(255, 255, 255, .1);
   }
-  
+
   .side-menu-list-link.with-sub-menu::after {
     content: '\f077';
     font-family: "Font Awesome 5 Free";
@@ -132,7 +132,7 @@
     text-indent: 1em;
     display: flex;
   }
-  
+
   .admin-side-menu-overlay {
     position: fixed;
     inset: 0;
@@ -143,7 +143,7 @@
     cursor: pointer;
     display: none;
   }
-  
+
   @media(max-width: 1000px) {
     #admin-side-menu {
       right: -270px;
@@ -169,4 +169,3 @@
       display: block;
     }
   }
-  

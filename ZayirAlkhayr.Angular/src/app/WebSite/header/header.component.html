@@ -2,12 +2,25 @@
   <media [isCarousel]="true" [slides]="slides" [autoPlay]="true" [autoplayTime]="5000"></media>
   <nav class="navbar navbar-expand-md navbar-light bg-body-tertiary" #navbar>
     <div class="container">
-      <div class="d-flex align-items-center header-height">
+      <!-- <div class="d-flex align-items-center header-height">
         <div class="border cursor-pointer fs-4 navbar-toggler px-3 py-2" (click)="collapsed = !collapsed"
           [class.rotated]="!collapsed">
           <i class="fas {{ collapsed ? 'fa-bars' : 'fa-times' }}"></i>
         </div>
-      </div>
+      </div> -->
+      <button
+          class="navbar-toggler hamburger hamburger--elastic rounded-1 main-bgcolor my-2"
+          [class.is-active]="!collapsed"
+          type="button"
+          aria-controls="navbar-content"
+          [attr.aria-expanded]="!collapsed"
+          aria-label="Toggle navigation"
+          (click)="collapsed = !collapsed"
+        >
+        <span class="hamburger-box">
+          <span class="hamburger-inner"></span>
+        </span>
+        </button>
 
       <div class="navbar-collapse" [class.collapse]="collapsed">
         <ul class="navbar-nav navbar-links me-auto">

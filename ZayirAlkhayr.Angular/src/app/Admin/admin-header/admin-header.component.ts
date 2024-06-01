@@ -7,9 +7,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class AdminHeaderComponent {
   @Output() collapseExpandContent = new EventEmitter<boolean>();
-  isCollapseExpandContent = false;
   @Input() isCollapseOrExpand = false;
+  isCollapseExpandContent = false;
+  isSearchOpen = false;
   collapsed = true;
+
   onCollapseExpandMenu() {
     this.collapseExpandContent.emit();
   }
