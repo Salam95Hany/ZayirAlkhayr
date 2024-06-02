@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Slide } from "../media/media.interface";
 import { AnimationType } from "../media/media.animations";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -9,9 +10,12 @@ import { AnimationType } from "../media/media.animations";
 })
 export class HeaderComponent {
   @ViewChild("navbar") navbarEl: HTMLElement;
-
   collapsed = true;
   animationType = AnimationType.Scale;
+
+  constructor(private router: Router) {
+
+  }
 
   slides: Slide[] = [
     {
@@ -40,4 +44,8 @@ export class HeaderComponent {
         "../../../assets/khairy-5.jpg"
     }
   ];
+
+  GoToAdmin() {
+    this.router.navigateByUrl('/login');
+  }
 }

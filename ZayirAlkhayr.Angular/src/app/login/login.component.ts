@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { AuthServiceService } from '../Auth/auth-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -6,5 +8,34 @@ import { Component } from '@angular/core';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  @ViewChild('LoginForm') LoginForm: any;
   isShowPassword = false;
+  LoginModel: LoginModel = {} as LoginModel;
+  ErrorMessage = '';
+  ButtonDisabled = false;
+  constructor(private authService: AuthServiceService, private router: Router) {
+
+  }
+
+  Login() {
+    this.LoginForm.onSubmit();
+    const isValid = this.LoginForm.form.valid;
+    if (!isValid)
+      return;
+
+    this.ButtonDisabled = true;
+    this.authService.AdminLogin(this.LoginModel).subscribe(data => {
+      this.ButtonDisabled = false;
+      if (data.responseCode == 200) {
+        localStorage.setItem('UserModel', JSON.stringify(data));
+        this.router.navigateByUrl('/admin');
+      } else
+        this.ErrorMessage = data.responseMessage;
+    });
+  }
+}
+
+export interface LoginModel {
+  userName: string,
+  password: string,
 }

@@ -1,14 +1,21 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-admin-side-menu',
   templateUrl: './admin-side-menu.component.html',
   styleUrls: ['./admin-side-menu.component.css']
 })
-export class AdminSideMenuComponent {
+export class AdminSideMenuComponent implements OnInit {
   @Input() isCollapsing = false;
   @Output() closeSideMenuFromOverlayEvent = new EventEmitter<boolean>();
   isCollapsed_1 = false;
+  UserModel: any;
+
+  constructor() { }
+
+  ngOnInit(): void {
+    this.UserModel = JSON.parse(localStorage.getItem('UserModel'));
+  }
 
   onCloseSidemenuFromOverlay() {
     this.closeSideMenuFromOverlayEvent.emit();

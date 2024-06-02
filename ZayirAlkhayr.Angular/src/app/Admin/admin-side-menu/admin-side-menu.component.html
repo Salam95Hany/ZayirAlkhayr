@@ -4,16 +4,16 @@
         <div class="side-menu-user-info d-flex flex-column gap-2">
           <div class="d-flex align-items-center gap-2">
             <i class="uil uil-user"></i>
-            <div class="fw-bold side-menu-text">سلام هانى</div>
+            <div class="fw-bold side-menu-text">{{UserModel?.userName}}</div>
           </div>
           <div class="d-flex align-items-center gap-2">
             <i class="uil uil-calendar-alt"></i>
-            <div class="side-menu-text">11/2/2024 11:05 PM</div>
+            <div class="side-menu-text">{{UserModel?.loginDateAr}}</div>
           </div>
-          <div class="d-flex align-items-center gap-2">
+          <!-- <div class="d-flex align-items-center gap-2">
             <i class="uil uil-envelope"></i>
-            <div class="side-menu-text">salam@hany.com</div>
-          </div>
+            <div class="side-menu-text">{{UserModel?.userName}}</div>
+          </div> -->
         </div>
       </div>
       <hr>

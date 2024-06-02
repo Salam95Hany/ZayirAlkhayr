@@ -29,6 +29,8 @@ namespace ZayirAlkhayr.Service
 
         public List<Event> GetAllEvents()
         {
+            var result = _Context.Events.ToList();
+            var Grouping = result.GroupBy(g => g.FromDate.Month).Select(group => new { Month = group.Key, Event = group.OrderBy(o => o.FromDate) }).OrderBy(o => o.Month).ToList();
             var results = _Context.Events.Where(i => i.IsVisible).Select(i => new Event
             {
                 Id = i.Id,

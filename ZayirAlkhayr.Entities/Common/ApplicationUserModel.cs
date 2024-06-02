@@ -12,6 +12,7 @@ namespace ZayirAlkhayr.Entities.Common
         public string Token { get; set; }
         public string UserName { get; set; }
         public DateTime LoginDate { get; set; }
+        public string LoginDateAr { get; set; }
         public string Role { get; set; }
         public string ResponseMessage { get; set; }
         public int ResponseCode { get; set; }

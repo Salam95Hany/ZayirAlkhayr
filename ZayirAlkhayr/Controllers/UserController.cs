@@ -14,6 +14,7 @@ using ZayirAlkhayr.Entities.Models;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Rewrite;
+using System.Globalization;
 
 namespace ZayirAlkhayr.Controllers
 {
@@ -65,8 +66,10 @@ namespace ZayirAlkhayr.Controllers
                     UserId = user.Id,
                     Token = token,
                     LoginDate = DateTime.Now,
+                    LoginDateAr = DateTime.Now.ToString("dddd d MMMM , yyyy hh:m", new CultureInfo("ar-AE")),
                     ResponseCode = 200,
-                    ResponseMessage = "تم تسجيل الدخول بنجاح"
+                    ResponseMessage = "تم تسجيل الدخول بنجاح",
+
                 };
                 return userModel;
             }

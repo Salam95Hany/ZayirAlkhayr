@@ -1,49 +1,44 @@
 <header id="admin-header" class="fixed-top">
-    <nav class="navbar navbar-expand-md navbar-light py-0">
-      <div class="container-fluid">
-        <button class="hamburger hamburger--elastic shadow-lg"
-          (click)="onCollapseExpandMenu()" [class.is-active]="isCollapseOrExpand">
-          <span class="hamburger-box">
-            <span class="hamburger-inner"></span>
-          </span>
-        </button>
-        <button
-          class="navbar-toggler my-2"
-          type="button"
-          aria-controls="navbar-content"
-          [attr.aria-expanded]="!collapsed"
-          aria-label="Toggle navigation"
-          (click)="collapsed = !collapsed"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-  
-  
-        <div class="navbar-collapse" [class.collapse]="collapsed" id="navbar-content">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item" ngbDropdown display="dynamic" placement="bottom-end">
-              <a class="nav-link user-dropdown-link d-flex align-items-center gap-2" tabindex="0" ngbDropdownToggle id="user-dropdown" role="button">
-                <i class="uil uil-user"></i>
-                <span class="navbar-brand m-0">سلام هانى</span>
+  <nav class="navbar navbar-expand-md navbar-light py-0">
+    <div class="container-fluid">
+      <button class="hamburger hamburger--elastic shadow-lg" (click)="onCollapseExpandMenu()"
+        [class.is-active]="isCollapseOrExpand">
+        <span class="hamburger-box">
+          <span class="hamburger-inner"></span>
+        </span>
+      </button>
+      <button class="navbar-toggler my-2" type="button" aria-controls="navbar-content" [attr.aria-expanded]="!collapsed"
+        aria-label="Toggle navigation" (click)="collapsed = !collapsed">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+
+      <div class="navbar-collapse" [class.collapse]="collapsed" id="navbar-content">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item" ngbDropdown display="dynamic" placement="bottom-end">
+            <a class="nav-link user-dropdown-link d-flex align-items-center gap-2" tabindex="0" ngbDropdownToggle
+              id="user-dropdown" role="button">
+              <i class="uil uil-user"></i>
+              <span class="navbar-brand m-0">{{UserModel?.userName}}</span>
+            </a>
+            <div ngbDropdownMenu aria-labelledby="user-dropdown"
+              class="dropdown-menu border animate__animated animate__fadeInUp">
+              <a class="cursor-pointer" ngbDropdownItem (click)="$event.preventDefault()">
+                <i class="uil uil-edit"></i>
+                <span class="ms-2">تعديل</span>
               </a>
-              <div ngbDropdownMenu aria-labelledby="user-dropdown" class="dropdown-menu border animate__animated animate__fadeInUp">
-                <a class="cursor-pointer" ngbDropdownItem (click)="$event.preventDefault()">
-                  <i class="uil uil-edit"></i>
-                  <span class="ms-2">تعديل</span>
-                </a>
-                <a class="cursor-pointer" ngbDropdownItem (click)="$event.preventDefault()">
-                  <i class="uil uil-key-skeleton"></i>
-                  <span class="ms-2">تغير كلمة المرور</span>
-                </a>
-                <a class="cursor-pointer" ngbDropdownItem (click)="$event.preventDefault()">
-                  <i class="uil uil-sign-out-alt"></i>
-                  <span class="ms-2">تسجيل خروج</span>
-                </a>
-              </div>
-            </li>
-          </ul>
-        </div>
+              <a class="cursor-pointer" ngbDropdownItem (click)="$event.preventDefault()">
+                <i class="uil uil-key-skeleton"></i>
+                <span class="ms-2">تغير كلمة المرور</span>
+              </a>
+              <a class="cursor-pointer" ngbDropdownItem (click)="$event.preventDefault()">
+                <i class="uil uil-sign-out-alt"></i>
+                <span class="ms-2">تسجيل خروج</span>
+              </a>
+            </div>
+          </li>
+        </ul>
       </div>
-    </nav>
-  </header>
-  
+    </div>
+  </nav>
+</header>
