@@ -15,6 +15,7 @@ import { AdminPhotoComponent } from './Components/admin-photo/admin-photo.compon
 import { AdminPhotodetailsComponent } from './Components/admin-photodetails/admin-photodetails.component';
 import { AdminFiltersComponent } from './admin-filters/admin-filters.component';
 import { AdminPaginationComponent } from './admin-pagination/admin-pagination.component';
+import { AdminUserComponent } from './Components/Settings/admin-user/admin-user.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { AdminPaginationComponent } from './admin-pagination/admin-pagination.co
     AdminPhotoComponent,
     AdminPhotodetailsComponent,
     AdminFiltersComponent,
-    AdminPaginationComponent
+    AdminPaginationComponent,
+    AdminUserComponent
   ],
   imports: [
     CommonModule,

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-admin-photodetails',
@@ -6,5 +7,23 @@ import { Component } from '@angular/core';
   styleUrls: ['./admin-photodetails.component.css']
 })
 export class AdminPhotodetailsComponent {
+  isFilter = false;
 
+  constructor(private modalService: NgbModal) { }
+
+  openAddItemModal(content: TemplateRef<any>) {
+    this.modalService.open(content, {
+      size: 'xl',
+      scrollable: true,
+      centered: true
+    })
+  }
+
+  openDeleteItemModal(content: TemplateRef<any>) {
+    this.modalService.open(content, {
+      size: 'md',
+      scrollable: true,
+      centered: true
+    })
+  }
 }
