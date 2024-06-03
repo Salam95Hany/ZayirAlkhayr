@@ -1,1 +1,117 @@
-<p>admin-photo works!</p>
+<div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
+      <div class="d-flex align-items-center flex-wrap gap-2">
+        <button class="btn main-button d-flex align-items-center gap-2" (click)="openAddItemModal(OpenItemModal)">
+          <i class="uil uil-plus-circle"></i>
+          <span class="navbar-brand m-0">اضافه</span>
+        </button>
+      </div>
+      <div>
+        <app-admin-pagination></app-admin-pagination>
+      </div>
+    </div>
+    <div class="card-body card-body-h">
+      <div class="table-responsive">
+        <table class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
+          <thead>
+            <tr>
+              <th>الصورة</th>
+              <th>الاسم</th>
+              <th>الوصف</th>
+              <th>مرئي</th>
+              <th class="text-center">أجراءات</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>تفاصيل 1</td>
+              <td>تفاصيل 2</td>
+              <td>تفاصيل 2</td>
+              <td>
+                <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
+                  <i class="uil uil-edit text-primary cursor-pointer" (click)="openAddItemModal(OpenItemModal)"></i>
+                  <i class="uil uil-times-circle text-danger cursor-pointer" (click)="openDeleteItemModal(deleteItemModal)"></i>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  
+  <ng-template #OpenItemModal let-modal>
+    <div class="modal-header d-flex align-items-center justify-content-between main-bgcolor text-white">
+      <div class="display-7 d-flex align-items-center gap-3">
+        <i class="uil uil-focus-add"></i>
+        <span>اضافه نشاط جديد</span>
+      </div>
+      <i class="fas fa-times cursor-pointer fa-2x modal-close-btn" (click)="modal.dismiss()"></i>
+    </div>
+    <div class="modal-body gray-bgcolor">
+      <div class="bg-white p-3 rounded shadow-sm">
+        <div class="row g-3">
+          <div class="col-lg-6">
+            <div class="form-floating">
+              <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user">
+              <label for="floatingInput_1">عنوان السلايدر</label>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="choose-file-box position-relative border rounded h-58">
+              <form class="h-100">
+                <div class="choose-file-btn">تحميل صورة</div>
+                <input type="file" class="choose-file-input" />
+              </form>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <hr class="border-success">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6 g-2">
+              <div class="col">
+                <div class="choosed-img img-thumbnail shadow-sm">
+                  <img src="../../../../assets/choosed-img.jpg" loading="lazy" alt="" />
+                  <div class="choosed-img-delete">
+                    <i class="far fa-times-circle"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer justify-content-start gap-2">
+      <button class="btn main-button d-flex align-items-center gap-2" (click)="modal.close()">
+        <i class="uil uil-plus-circle"></i>
+        <span>اضافه</span>
+      </button>
+      <button class="btn btn-danger rounded-25 d-flex align-items-center gap-2" (click)="modal.close()">
+        <i class="uil uil-times-circle"></i>
+        <span>الغاء</span>
+      </button>
+    </div>
+  </ng-template>
+  
+  <ng-template #deleteItemModal let-modal>
+    <div class="modal-header main-bgcolor text-white">
+      <div class="display-7 d-flex align-items-center gap-3">
+        <i class="uil uil-trash-alt"></i>
+        <span>حذف سلايدر</span>
+      </div>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">هل انت متأكد أنك تريد حذف هذا العنصر</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click')">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">نعم</span>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">لا</span>
+        </button>
+    </div>
+  </ng-template>

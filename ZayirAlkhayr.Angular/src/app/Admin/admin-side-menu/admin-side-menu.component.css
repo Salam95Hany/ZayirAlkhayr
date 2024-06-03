@@ -2,7 +2,6 @@
     width: var(--admin-side-menu-width);
     min-width: var(--admin-side-menu-width);
     height: calc(100vh - var(--admin-header-height));
-    overflow: auto;
     position: fixed;
     top: var(--admin-header-height);
     right: 0;
@@ -27,10 +26,11 @@
     position: relative;
     z-index: 2;
     color: #FFF;
-    height: 100%;
     padding: 15px;
     background-image: linear-gradient(to right, #141e30, #243b55);
     opacity: .9;
+    height: calc(100vh - var(--admin-header-height));
+    overflow: auto;
   }
   .admin-side-menu-user {
     padding: 15px;
@@ -74,7 +74,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 6px 10px 8px 0;
+    padding: 6px 10px 8px 10px;
     position: relative;
     border-radius: .25rem;
     color: rgba(255, 255, 255, .7);
@@ -90,7 +90,6 @@
     color: #fff;
     background: rgba(255, 255, 255, .1);
   }
-  
   .side-menu-list-link.with-sub-menu::after {
     content: '\f077';
     font-family: "Font Awesome 5 Free";
@@ -118,11 +117,22 @@
     -ms-transform: rotate(-180deg) translateY(10px);
     -o-transform: rotate(-180deg) translateY(10px);
   }
+  .side-menu-list-item:not(:last-of-type) .side-menu-list-link {
+    margin-bottom: 5px;
+  }
+  #admin-side-menu.collapse-side-menu .side-menu-list-link:not(.with-sub-menu) {
+    justify-content: center;
+  }
+  #admin-side-menu.collapse-side-menu:hover .side-menu-list-link {
+    justify-content: start;
+  }
   #admin-side-menu.collapse-side-menu .menu-list-collapsed {
     padding-right: 11px;
+    opacity: 0;
   }
   #admin-side-menu.collapse-side-menu:hover .menu-list-collapsed {
     padding-right: 25px;
+    opacity: 1;
   }
   #admin-side-menu.collapse-side-menu .side-menu-text {
     text-indent: -999em;
@@ -132,7 +142,7 @@
     text-indent: 1em;
     display: flex;
   }
-  
+
   .admin-side-menu-overlay {
     position: fixed;
     inset: 0;
@@ -143,7 +153,7 @@
     cursor: pointer;
     display: none;
   }
-  
+
   @media(max-width: 1000px) {
     #admin-side-menu {
       right: -270px;
@@ -164,9 +174,13 @@
     }
     #admin-side-menu.collapse-side-menu .menu-list-collapsed {
       padding-right: 25px;
+      opacity: 1;
     }
     .admin-side-menu-overlay.show {
       display: block;
     }
+    #admin-side-menu.collapse-side-menu .side-menu-list-link:not(.with-sub-menu) {
+      justify-content: start;
+    }
+
   }
-  

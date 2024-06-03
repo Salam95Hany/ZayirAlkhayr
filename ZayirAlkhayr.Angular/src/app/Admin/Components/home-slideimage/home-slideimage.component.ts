@@ -18,4 +18,12 @@ export class HomeSlideimageComponent {
       centered: true
     })
   }
+
+  openDeleteItemModal(content: TemplateRef<any>) {
+    this.modalService.open(content, {
+      size: 'md',
+      scrollable: true,
+      centered: true
+    })
+  }
 }

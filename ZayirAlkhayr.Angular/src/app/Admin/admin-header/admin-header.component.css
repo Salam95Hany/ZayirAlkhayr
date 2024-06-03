@@ -30,10 +30,30 @@
     background-color: #FFF;
     color: var(--main-color) !important;
   }
-  .user-dropdown-link.dropdown-toggle::after {
+  /* .user-dropdown-link.dropdown-toggle::after {
     content: unset;
-  }
+  } */
   .dropdown-menu a {
     font-size: 14px;
   }
-  
+
+  .logo-menu-area {
+    min-width: 240px;
+  }
+  .img-logo-box {
+    border: 2px solid var(--secondary-color);
+    border-radius: 50%;
+    background-color: #FFF;
+    --dim: 50px;
+    width: var(--dim);
+    height: var(--dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .login-logo .logo-img {
+    --dim: 40px;
+    width: var(--dim);
+    height: var(--dim);
+    margin-top: -15px;
+  }
