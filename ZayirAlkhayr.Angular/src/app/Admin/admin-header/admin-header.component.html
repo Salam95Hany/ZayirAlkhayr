@@ -31,14 +31,22 @@
 
         <div class="navbar-collapse pt-3 pt-md-0 " [class.collapse]="collapsed" id="navbar-content">
           <ul class="navbar-nav align-items-start align-items-md-center justify-content-md-center justify-content-start mx-auto">
-            <div class="search-wrapper position-relative" [class.active]="isSearchOpen">
+            <div class="search-wrapper position-relative" #autoCompleteWrapper [class.active]="isSearchOpen">
               <div class="input-holder">
-                <input type="text" class="search-input" />
-                <button class="search-icon" (click)="isSearchOpen = !isSearchOpen">
+                <input type="text" class="search-input" #inputEle (input)="onShowAutoCompleteMenu(inputEle)" />
+                <ul class="search-dropdown-autocomplete shadow-lg animate__animated animate__fadeInUp" [class.show]="showAutoCompleteMenu">
+                  <li class="dropdown-autocomplete-item cursor-pointer" #autoCompleteText_1 (click)="showAutoCompleteMenu = false; inputEle.value = autoCompleteText_1.textContent">اختيار 1</li>
+                  <li class="dropdown-autocomplete-item cursor-pointer" #autoCompleteText_2 (click)="showAutoCompleteMenu = false; inputEle.value = autoCompleteText_2.textContent">اختيار 2</li>
+                  <li class="dropdown-autocomplete-item cursor-pointer" #autoCompleteText_3 (click)="showAutoCompleteMenu = false; inputEle.value = autoCompleteText_3.textContent">اختيار 3</li>
+                  <li class="dropdown-autocomplete-item cursor-pointer" #autoCompleteText_4 (click)="showAutoCompleteMenu = false; inputEle.value = autoCompleteText_4.textContent">اختيار 4</li>
+                  <li class="dropdown-autocomplete-item cursor-pointer" #autoCompleteText_5 (click)="showAutoCompleteMenu = false; inputEle.value = autoCompleteText_5.textContent">اختيار 5</li>
+                  <li class="dropdown-autocomplete-item cursor-pointer" #autoCompleteText_6 (click)="showAutoCompleteMenu = false; inputEle.value = autoCompleteText_6.textContent">اختيار 6</li>
+                </ul>
+                <button class="search-icon" (click)="isSearchOpen = !isSearchOpen; showAutoCompleteMenu = false;inputEle.value = ''">
                   <span></span>
                 </button>
               </div>
-              <button class="close" (click)="isSearchOpen = false"></button>
+              <button class="close" (click)="isSearchOpen = false; showAutoCompleteMenu = false;inputEle.value = ''"></button>
             </div>
           </ul>
           <ul class="navbar-nav">
