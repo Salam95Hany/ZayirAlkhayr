@@ -197,15 +197,20 @@ body {
   background-color: #4d6672;
 }
 
-.table.bg-white th {
-  --th-dim: 40px;
+.table th {
+  --th-dim: 35px;
   height: var(--th-dim);
   line-height: var(--th-dim);
 }
 
-.table.bg-white td {
+.table td {
   background-color: #FFF !important;
   color: #000 !important;
+}
+
+.table.align-middle th,
+.table.align-middle td {
+  vertical-align: middle;
 }
 
 .table-hover>tbody>tr:hover>* {
@@ -215,6 +220,10 @@ body {
 
 .table td {
   min-width: 100px;
+}
+
+.card-header {
+  background-color: #e9e9e9;
 }
 
 .form-control:focus {
@@ -356,6 +365,52 @@ button:focus,
   border: none;
 }
 
+.status-tag {
+  display: inline-block;
+  padding: 3px 10px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 14px;
+  color: #FFF;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+.status-tag.active {
+  background-color: #56CA00;
+}
+.status-tag.inactive {
+  background-color: #FF4C51;
+}
+.status-tag.pending {
+  background-color: #FFB400;
+}
+.icon-table-action {
+  --dim: 35px;
+  width: var(--dim);
+  height: var(--dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f3f1f1;
+  cursor: pointer;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  transition: all .2s ease-in-out;
+  -webkit-transition: all .2s ease-in-out;
+  -moz-transition: all .2s ease-in-out;
+  -ms-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+}
+.icon-table-action:hover {
+  background-color: var(--main-color);
+  color: #FFF !important;
+}
 .form-check.with-hover:hover {
   background-color: var(--main-color);
   color: #FFF;

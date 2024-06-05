@@ -44,14 +44,14 @@
       </button>
     </div>
     <div class="gallery-options noClose d-flex align-items-center justify-content-between px-3 py-2">
-      <i class="fas fa-times gallery-close-btn gallery-options-item" (click)="closeGAllery($event)"></i>
       <div class="d-flex align-items-center noClose">
+        <i class="fas fa-times gallery-close-btn gallery-options-item" (click)="closeGAllery($event)"></i>
         <i class="fas fa-undo rotate-left gallery-options-item noClose" (click)="onRotate('left')"></i>
         <i class="fas fa-undo rotate-right gallery-options-item noClose" (click)="onRotate('right')"></i>
-        <i class="fas fa-search-plus gallery-options-item noClose" (click)="onZoom('in')"></i>
-        <i class="fas fa-search-minus gallery-options-item noClose" (click)="onZoom('out')"></i>
-        <div class="gallery-count gallery-options-item noClose">{{ currentGallery + 1 }} / {{ slides.length }}</div>
+        <i class="uil uil-search-plus gallery-options-item fs-5 noClose" (click)="onZoom('in')"></i>
+        <i class="uil uil-search-minus gallery-options-item fs-5 noClose" (click)="onZoom('out')"></i>
       </div>
+      <div class="gallery-count fs-5 noClose">{{ currentGallery + 1 }} / {{ slides.length }}</div>
     </div>
   </div>
 </ng-container>
