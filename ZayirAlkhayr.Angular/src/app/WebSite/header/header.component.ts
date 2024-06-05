@@ -1,49 +1,34 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Slide } from "../media/media.interface";
 import { AnimationType } from "../media/media.animations";
 import { Router } from '@angular/router';
+import { AdminWebsiteService } from 'src/app/Admin/Services/admin-website.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   @ViewChild("navbar") navbarEl: HTMLElement;
   collapsed = true;
+  slides: Slide[] = [];
   animationType = AnimationType.Scale;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private adminService: AdminWebsiteService) {
 
   }
 
-  slides: Slide[] = [
-    {
-      headline: "صدقتك الجارية",
-      src:
-        "../../../assets/khairy-1.jpg"
-    },
-    {
-      headline: "مساعدة المحتاجين",
-      src:
-        "../../../assets/khairy-2.jpg"
-    },
-    {
-      headline: "بنك الطعام",
-      src:
-        "../../../assets/khairy-3.jpg"
-    },
-    {
-      headline: "اغاثه الاخرين",
-      src:
-        "../../../assets/khairy-4.jpg"
-    },
-    {
-      headline: "زكاتك المستحقه",
-      src:
-        "../../../assets/khairy-5.jpg"
-    }
-  ];
+  ngOnInit(): void {
+    this.GetHomeSliderImages();
+
+  }
+
+  GetHomeSliderImages() {
+    this.adminService.GetHomeSliderImages().subscribe(data => {
+      this.slides = data.map<Slide>(i => { return { headline: i.title, src: i.image } });
+    });
+  }
 
   GoToAdmin() {
     this.router.navigateByUrl('/login');

@@ -36,7 +36,8 @@ namespace ZayirAlkhayr.Service
             {
                 Id = i.Id,
                 Name = i.Name,
-                Image = Path.Combine(ApiLocalUrl, ImageFiles.ActivityImages.ToString(), i.Image)
+                Image = Path.Combine(ApiLocalUrl, ImageFiles.ActivityImages.ToString(), i.Image),
+                Description = i.Description
             }).ToList();
             return results;
         }

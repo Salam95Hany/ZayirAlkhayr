@@ -25,9 +25,9 @@ namespace ZayirAlkhayr.Entities.Models
         public string SupportingParty { get; set; }
         public string Nationality { get; set; }
         public string ReasonOfRefuse { get; set; } // سبب الرفض
-        public int? InsertUser { get; set; }
+        public string InsertUser { get; set; }
         public DateTime? InsertDate { get; set; }
-        public int? UpdateUser { get; set; }
+        public string UpdateUser { get; set; }
         public DateTime? UpdateDate { get; set; }
     }
 }

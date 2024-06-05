@@ -16,6 +16,7 @@ import { AdminPhotodetailsComponent } from './Components/admin-photodetails/admi
 import { AdminFiltersComponent } from './admin-filters/admin-filters.component';
 import { AdminPaginationComponent } from './admin-pagination/admin-pagination.component';
 import { AdminUserComponent } from './Components/Settings/admin-user/admin-user.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -36,6 +37,8 @@ import { AdminUserComponent } from './Components/Settings/admin-user/admin-user.
   imports: [
     CommonModule,
     NgbModule,
+    ReactiveFormsModule,
+    FormsModule,
     PaginationModule.forRoot(),
     AdminRoutingModule
   ]

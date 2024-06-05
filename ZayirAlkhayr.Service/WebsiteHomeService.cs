@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ using ZayirAlkhayr.Entities.Common;
 using ZayirAlkhayr.Entities.Models;
 using ZayirAlkhayr.Interface;
 using ZayirAlkhayr.Interface.Common;
+using ZayirAlkhayr.Service.Common;
 
 namespace ZayirAlkhayr.Service
 {
@@ -26,16 +28,24 @@ namespace ZayirAlkhayr.Service
             ApiLocalUrl = _configuration["ApiUrlLocal"];
         }
 
-        public List<SliderImage> GetHomeSliderImages()
+        public DataTable GetHomeSliderImages()
         {
-            var results = _Context.SliderImages.Select(i => new SliderImage
-            {
-                Id = i.Id,
-                Title = i.Title,
-                Image = Path.Combine(ApiLocalUrl, ImageFiles.SliderImages.ToString(), i.Image)
-            }).ToList();
+            var Users = _Context.Users.ToList();
+            var results = _Context.SliderImages.ToList();
+            var Data = (from res in results
+                        join user in Users on res.InsertUser equals user.Id
+                        select new
+                        {
+                            Id = res.Id,
+                            Title = res.Title,
+                            Image =  Path.Combine(ApiLocalUrl, ImageFiles.SliderImages.ToString(), res.Image),
+                            InsertDate = res.InsertDate,
+                            IsVisible = res.IsVisible,
+                            CreatedBy = user.UserName
+                        }).ToList().ToDataTable();
+                       
 
-            return results;
+            return Data;
         }
 
         public List<Footer> GetFooterData()
@@ -51,6 +61,9 @@ namespace ZayirAlkhayr.Service
                 var Response = new HandleErrorResponseModel();
                 var Slider = new SliderImage();
                 Slider.Title = Model.Title;
+                Slider.IsVisible = Model.IsVisible;
+                Slider.InsertUser = Model.InsertUser;
+                Slider.InsertDate = DateTime.Now;
 
                 var FileName = await _manageFileService.UploadFile(Model.File, "", ImageFiles.SliderImages);
                 if (FileName.Done)
@@ -81,6 +94,9 @@ namespace ZayirAlkhayr.Service
                 var Response = new HandleErrorResponseModel();
                 var Slider = _Context.SliderImages.FirstOrDefault(x => x.Id == Model.Id);
                 Slider.Title = Model.Title;
+                Slider.IsVisible = Model.IsVisible;
+                Slider.UpdateUser = Model.InsertUser;
+                Slider.UpdateDate = DateTime.Now;
 
                 if (Model.File != null)
                 {

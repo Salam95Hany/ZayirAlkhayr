@@ -1,7 +1,7 @@
 <div class="card">
   <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
     <div class="d-flex align-items-center flex-wrap gap-2">
-      <button class="btn main-button d-flex align-items-center gap-2" (click)="openAddItemModal(OpenItemModal)">
+      <button class="btn main-button d-flex align-items-center gap-2" (click)="openAddItemModal(OpenItemModal,null)">
         <i class="uil uil-plus-circle"></i>
         <span class="navbar-brand m-0">اضافه</span>
       </button>
@@ -25,52 +25,53 @@
           </a>
         </div>
       </div> -->
-      <button class="btn main-button d-flex align-items-center gap-2" (click)="isFilter = !isFilter"
+      <!-- <button class="btn main-button d-flex align-items-center gap-2" (click)="isFilter = !isFilter"
         [attr.aria-expanded]="!isFilter">
         <i class="uil uil-filter"></i>
         <span class="navbar-brand m-0">{{ isFilter ? 'عرض' : 'اخفاء' }} الفلاتر</span>
-      </button>
+      </button> -->
     </div>
     <div>
-      <app-admin-pagination></app-admin-pagination>
-      <!-- <nav>
-        <ul class="pagination pagination-sm m-0">
-          <li class="page-item">
-            <a class="page-link">التالى</a>
-          </li>
-          <li class="page-item"><a class="page-link">1</a></li>
-          <li class="page-item active" aria-current="page">
-            <a class="page-link">2</a>
-          </li>
-          <li class="page-item"><a class="page-link">3</a></li>
-          <li class="page-item disabled">
-            <a class="page-link">السابق</a>
-          </li>
-        </ul>
-      </nav> -->
+      <app-admin-pagination [currentPage]="1" [pageSize]="10" [totalPages]="0" [totalCount]="TotalCount"></app-admin-pagination>
     </div>
   </div>
-  <div class="px-3 py-2 bg-light border-bottom" #collapse="ngbCollapse" [(ngbCollapse)]="isFilter">
+  <!-- <div class="px-3 py-2 bg-light border-bottom" #collapse="ngbCollapse" [(ngbCollapse)]="isFilter">
     <app-admin-filters></app-admin-filters>
-  </div>
+  </div> -->
   <div class="card-body card-body-h">
     <div class="table-responsive">
       <table class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
         <thead>
           <tr>
-            <th>الصورة</th>
-            <th>العنوان</th>
+            <th class="th-width"></th>
+            <th>الوصف</th>
+            <th>تمت الاضافة من قبل</th>
+            <th>تاريخ الاضافة</th>
+            <th>مرئي في الموقع</th>
             <th class="text-center">أجراءات</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>تفاصيل 1</td>
-            <td>تفاصيل 2</td>
+          <tr *ngFor="let item of SliderData">
+            <td>
+              <img src="{{item.image}}" class="table-image">
+            </td>
+            <td>{{item.title}}</td>
+            <td>{{item.createdBy}}</td>
+            <td>{{item.insertDate | date}}</td>
+            <td>
+              <label class="jtoggler-wrapper m-0 mx-0">
+                <input type="checkbox" [(ngModel)]="item.isVisible" class="jtoggler" disabled>
+                <div class="jtoggler-control">
+                  <div class="jtoggler-handle"></div>
+                </div>
+              </label>
+            </td>
             <td>
               <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
-                <i class="uil uil-edit text-primary cursor-pointer" (click)="openAddItemModal(OpenItemModal)"></i>
-                <i class="uil uil-times-circle text-danger cursor-pointer" (click)="openDeleteItemModal(deleteItemModal)"></i>
+                <i class="uil uil-edit text-primary cursor-pointer" (click)="openAddItemModal(OpenItemModal,item)"></i>
+                <i class="uil uil-times-circle text-danger cursor-pointer"
+                  (click)="openDeleteItemModal(deleteItemModal,item)"></i>
               </div>
             </td>
           </tr>
@@ -91,14 +92,23 @@
   </div>
   <div class="modal-body gray-bgcolor">
     <div class="bg-white p-3 rounded shadow-sm">
-      <div class="row g-3">
-        <div class="col-lg-6">
-          <div class="form-floating">
-            <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user">
-            <label for="floatingInput_1">عنوان السلايدر</label>
+      <form [formGroup]="ItemForm" autocomplete="off">
+        <div class="row g-3">
+          <div class="col-lg-6">
+            <div class="form-floating">
+              <input type="text" class="form-control" id="floatingInput_1" formControlName="title"
+                placeholder="new-user" required>
+              <label for="floatingInput_1">عنوان السلايدر</label>
+            </div>
+            <div
+              *ngIf="ItemForm.controls['title']?.invalid && (ItemForm.controls['title']?.dirty || ItemForm.controls['title']?.touched)"
+              class="alert text-danger">
+              <div *ngIf="ItemForm.controls['title'].errors?.['required']">
+                هذا الحقل مطلوب
+              </div>
+            </div>
           </div>
-        </div>
-        <!-- <div class="col-lg-6">
+          <!-- <div class="col-lg-6">
           <div ngbDropdown class="dropdown-with-search h-100 overflow-hidden" container="body">
             <button
               class="dropdown-with-search-btn btn border h-100 w-100 d-flex align-items-center justify-content-between"
@@ -122,78 +132,43 @@
             </div>
           </div>
         </div> -->
-        <div class="col-lg-6">
-          <div class="choose-file-box position-relative border rounded h-58">
-            <form class="h-100">
+          <div class="col-lg-6">
+            <div class="choose-file-box position-relative border rounded h-58" (click)="InputFile.click()">
               <div class="choose-file-btn">تحميل صورة</div>
-              <input type="file" class="choose-file-input" />
-            </form>
+            </div>
+            <div class="alert text-danger" *ngIf="isFileExist">
+              هذا الحقل مطلوب
+            </div>
           </div>
-          <label class="jtoggler-wrapper m-0 mx-0">
-            <input type="checkbox" class="jtoggler">
-            <div class="jtoggler-control">
+          <div class="col-lg-6 d-flex">
+            <div class="me-2">مرئي</div>
+            <label class="jtoggler-wrapper m-0 mx-0">
+              <input type="checkbox" formControlName="isVisible" class="jtoggler">
+              <div class="jtoggler-control">
                 <div class="jtoggler-handle"></div>
-            </div>
-        </label>
-        </div>
-        <div class="col-lg-12">
-          <hr class="border-success">
-          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6 g-2">
-            <div class="col">
-              <div class="choosed-img img-thumbnail shadow-sm">
-                <img src="../../../../assets/choosed-img.jpg" loading="lazy" alt="" />
-                <div class="choosed-img-delete">
-                  <i class="far fa-times-circle"></i>
-                </div>
               </div>
-            </div>
-            <div class="col">
-              <div class="choosed-img img-thumbnail shadow-sm">
-                <img src="../../../../assets/choosed-img.jpg" loading="lazy" alt="" />
-                <div class="choosed-img-delete">
-                  <i class="far fa-times-circle"></i>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="choosed-img img-thumbnail shadow-sm">
-                <img src="../../../../assets/choosed-img.jpg" loading="lazy" alt="" />
-                <div class="choosed-img-delete">
-                  <i class="far fa-times-circle"></i>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="choosed-img img-thumbnail shadow-sm">
-                <img src="../../../../assets/choosed-img.jpg" loading="lazy" alt="" />
-                <div class="choosed-img-delete">
-                  <i class="far fa-times-circle"></i>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="choosed-img img-thumbnail shadow-sm">
-                <img src="../../../../assets/choosed-img.jpg" loading="lazy" alt="" />
-                <div class="choosed-img-delete">
-                  <i class="far fa-times-circle"></i>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="choosed-img img-thumbnail shadow-sm">
-                <img src="../../../../assets/choosed-img.jpg" loading="lazy" alt="" />
-                <div class="choosed-img-delete">
-                  <i class="far fa-times-circle"></i>
+            </label>
+            <div class="ms-2">غير مرئي</div>
+          </div>
+          <div class="col-lg-12" *ngIf="fileURL.length > 0">
+            <hr class="border-success">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6 g-2">
+              <div class="col" *ngFor="let url of fileURL">
+                <div class="choosed-img img-thumbnail shadow-sm">
+                  <img src="{{url}}" loading="lazy" alt="" />
+                  <div class="choosed-img-delete" (click)="DeleteSelectedFile()">
+                    <i class="far fa-times-circle"></i>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   </div>
   <div class="modal-footer justify-content-start gap-2">
-    <button class="btn main-button d-flex align-items-center gap-2" (click)="modal.close()">
+    <button type="submit" class="btn main-button d-flex align-items-center gap-2" (click)="AddNewSlider()">
       <i class="uil uil-plus-circle"></i>
       <span>اضافه</span>
     </button>
@@ -204,6 +179,8 @@
   </div>
 </ng-template>
 
+<input type="file" #InputFile class="choose-file-input" (change)="onFileChange($event)" hidden />
+
 <ng-template #deleteItemModal let-modal>
   <div class="modal-header main-bgcolor text-white">
     <div class="display-7 d-flex align-items-center gap-3">
@@ -212,16 +189,16 @@
     </div>
   </div>
   <div class="modal-body">
-      <p class="fs-5 m-0">هل انت متأكد أنك تريد حذف هذا العنصر</p>
+    <p class="fs-5 m-0">هل انت متأكد أنك تريد حذف هذا العنصر</p>
   </div>
   <div class="modal-footer justify-content-start">
-      <button type="button" class="btn btn-success" (click)="modal.close('Save click')">
-          <i class="fas fa-check"></i>
-          <span class="ms-2">نعم</span>
-      </button>
-      <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
-          <i class="fas fa-times"></i>
-          <span class="ms-2">لا</span>
-      </button>
+    <button type="button" class="btn btn-success" (click)="modal.close('Save click')">
+      <i class="fas fa-check"></i>
+      <span class="ms-2">نعم</span>
+    </button>
+    <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+      <i class="fas fa-times"></i>
+      <span class="ms-2">لا</span>
+    </button>
   </div>
 </ng-template>

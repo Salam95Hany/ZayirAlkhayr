@@ -23,7 +23,7 @@ namespace ZayirAlkhayr.Controllers
         }
 
         [HttpGet("GetHomeSliderImages")]
-        public List<SliderImage> GetHomeSliderImages()
+        public DataTable GetHomeSliderImages()
         {
             var result = _websiteHomeService.GetHomeSliderImages();
             return result;
@@ -37,7 +37,7 @@ namespace ZayirAlkhayr.Controllers
         }
 
         [HttpPost("AddNewSliderImage")]
-        public async Task<HandleErrorResponseModel> AddNewSliderImage(SliderImage Model)
+        public async Task<HandleErrorResponseModel> AddNewSliderImage([FromForm] SliderImage Model)
         {
             var result = await _websiteHomeService.AddNewSliderImage(Model);
             return result;
@@ -51,7 +51,7 @@ namespace ZayirAlkhayr.Controllers
         }
 
         [HttpPost("UpdateSliderImage")]
-        public async Task<HandleErrorResponseModel> UpdateSliderImage(SliderImage Model)
+        public async Task<HandleErrorResponseModel> UpdateSliderImage([FromForm] SliderImage Model)
         {
             var result = await _websiteHomeService.UpdateSliderImage(Model);
             return result;

@@ -15,9 +15,9 @@ namespace ZayirAlkhayr.Entities.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public string Image { get; set; }
-        public int? InsertUser { get; set; }
+        public string InsertUser { get; set; }
         public DateTime? InsertDate { get; set; }
-        public int? UpdateUser { get; set; }
+        public string UpdateUser { get; set; }
         public DateTime? UpdateDate { get; set; }
         public bool IsVisible { get; set; }
         [NotMapped]
