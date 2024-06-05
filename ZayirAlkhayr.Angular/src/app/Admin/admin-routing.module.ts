@@ -7,6 +7,7 @@ import { AdminActivitydetailsComponent } from './Components/admin-activitydetail
 import { AdminEventComponent } from './Components/admin-event/admin-event.component';
 import { AdminPhotoComponent } from './Components/admin-photo/admin-photo.component';
 import { AdminPhotodetailsComponent } from './Components/admin-photodetails/admin-photodetails.component';
+import { AdminUserComponent } from './Components/Settings/admin-user/admin-user.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,7 @@ const routes: Routes = [
       { path: 'event', component: AdminEventComponent },
       { path: 'photo', component: AdminPhotoComponent },
       { path: 'photo-details', component: AdminPhotodetailsComponent },
+      { path: 'user', component: AdminUserComponent },
       { path: '', redirectTo: 'home-slideimage', pathMatch: 'full' },
     ]
   },

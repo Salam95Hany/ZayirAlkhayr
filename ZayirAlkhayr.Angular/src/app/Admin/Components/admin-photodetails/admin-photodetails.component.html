@@ -29,8 +29,8 @@
               <td>تفاصيل 2</td>
               <td>
                 <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
-                  <i class="uil uil-edit text-primary cursor-pointer" (click)="openAddItemModal(OpenItemModal)"></i>
-                  <i class="uil uil-times-circle text-danger cursor-pointer" (click)="openDeleteItemModal(deleteItemModal)"></i>
+                  <i class="uil uil-edit text-primary icon-table-action shadow-sm" (click)="openAddItemModal(OpenItemModal)"></i>
+                  <i class="uil uil-times-circle text-danger icon-table-action shadow-sm" (click)="openDeleteItemModal(deleteItemModal)"></i>
                 </div>
               </td>
             </tr>
@@ -39,8 +39,8 @@
       </div>
     </div>
   </div>
-  
-  
+
+
   <ng-template #OpenItemModal let-modal>
     <div class="modal-header d-flex align-items-center justify-content-between main-bgcolor text-white">
       <div class="display-7 d-flex align-items-center gap-3">
@@ -93,7 +93,7 @@
       </button>
     </div>
   </ng-template>
-  
+
   <ng-template #deleteItemModal let-modal>
     <div class="modal-header main-bgcolor text-white">
       <div class="display-7 d-flex align-items-center gap-3">

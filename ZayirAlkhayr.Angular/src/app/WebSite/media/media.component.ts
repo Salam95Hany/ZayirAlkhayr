@@ -123,6 +123,9 @@ export class CarouselComponent implements OnInit {
       return;
     } else {
       this.closeGallery.emit();
+      this.initZooming = 1;
+      this.zooming = 0;
+      this.rotating = 0;
     }
   }
 
@@ -138,27 +141,22 @@ export class CarouselComponent implements OnInit {
   onZoom(zoom: string) {
     if (zoom === 'in') {
       this.zooming += 1;
-      this.initZooming = 1;
-      if (this.initZooming >= 1 && this.zooming >= 5 && zoom === 'in') {
+      if (this.initZooming === 1 && this.zooming >= 5) {
         this.zooming = 5;
       }
-      if (this.initZooming === 0 && this.zooming >= 9) {
+      if (this.initZooming === 0 && this.zooming > 9) {
         this.initZooming = 1;
         this.zooming = 0;
       }
     }
     if (zoom === 'out') {
-      if (this.initZooming >= 1 && this.zooming >= 1 && zoom === 'out') {
-        this.zooming -= 1;
-        if (this.initZooming <= 1 && this.zooming <= 0 && zoom === 'out')  {
-          this.initZooming = 1;
-          this.zooming = 0;
-        }
-      }
-      if (this.initZooming < 0 && this.zooming < 0 && zoom === 'out') {
-        this.initZooming = 0;
+      this.zooming -= 1;
+      if (this.zooming < 0) {
         this.zooming = 9;
-        this.zooming -= 1;
+        this.initZooming = 0;
+      }
+      if (this.initZooming === 0 && this.zooming <= 5) {
+        this.zooming = 5;
       }
     }
   }
