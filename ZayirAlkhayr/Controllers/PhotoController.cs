@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Data;
 using System.Threading.Tasks;
 using ZayirAlkhayr.Entities.Common;
 using ZayirAlkhayr.Entities.Models;
@@ -20,7 +21,7 @@ namespace ZayirAlkhayr.Controllers
         }
 
         [HttpGet("GetAllPhotos")]
-        public List<Photos> GetAllPhotos()
+        public DataTable GetAllPhotos()
         {
             var results = _photoService.GetAllPhotos();
             return results;
@@ -64,7 +65,7 @@ namespace ZayirAlkhayr.Controllers
         [HttpPost("AddPhotoDetailsImage")]
         public async Task<HandleErrorResponseModel> AddPhotoDetailsImage([FromForm] UploadFileModel Model)
         {
-            var results = await _photoService.AddPhotoDetailsImage(Model.File, Model.Id);
+            var results = await _photoService.AddPhotoDetailsImage(Model);
             return results;
         }
 

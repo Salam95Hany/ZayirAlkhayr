@@ -10,6 +10,13 @@ namespace ZayirAlkhayr.Entities.Common
     public class UploadFileModel
     {
         public int Id { get; set; }
-        public IFormFile File { get; set; }
+        public List<IFormFile> Files { get; set; }
+        public List<DeletedFileModel> DeletedFiles { get; set; }
+    }
+
+    public class DeletedFileModel
+    {
+        public int Id { get; set; }
+        public string FileName { get; set; }
     }
 }

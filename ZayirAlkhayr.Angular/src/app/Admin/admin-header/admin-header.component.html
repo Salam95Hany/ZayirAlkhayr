@@ -2,7 +2,7 @@
     <nav class="navbar navbar-expand-md navbar-light py-0">
       <div class="container-fluid">
         <div class="logo-menu-area d-flex align-items-center justify-content-start justify-content-lg-between gap-2 py-1">
-          <header class="login-logo cursor-pointer" routerLink="/">
+          <header class="login-logo cursor-pointer" (click)="goToWebsite()">
             <div class="img-logo-box">
               <img src="../../../assets/logo-2.png" class="logo-img" loading="lazy" alt="" />
             </div>
@@ -53,7 +53,7 @@
             <li class="nav-item" ngbDropdown display="dynamic" placement="bottom-end">
               <a class="nav-link user-dropdown-link d-flex align-items-center gap-2 cursor-pointer" ngbDropdownToggle id="user-dropdown">
                 <i class="uil uil-user"></i>
-                <span class="navbar-brand m-0">سلام هانى</span>
+                <span class="navbar-brand m-0">{{UserModel?.userName}}</span>
               </a>
               <div ngbDropdownMenu aria-labelledby="user-dropdown" class="dropdown-menu border animate__animated animate__fadeInUp">
                 <a class="cursor-pointer" ngbDropdownItem (click)="$event.preventDefault()">

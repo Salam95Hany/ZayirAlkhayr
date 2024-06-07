@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ using ZayirAlkhayr.Entities.Common;
 using ZayirAlkhayr.Entities.Models;
 using ZayirAlkhayr.Interface;
 using ZayirAlkhayr.Interface.Common;
+using ZayirAlkhayr.Service.Common;
 
 namespace ZayirAlkhayr.Service
 {
@@ -30,21 +32,30 @@ namespace ZayirAlkhayr.Service
             ApiLocalUrl = _configuration["ApiUrlLocal"];
         }
 
-        public List<Activity> GetAllActivities()
+        public DataTable GetAllActivities()
         {
-            var results = _Context.Activities.Where(i => i.IsVisible).Select(i => new Activity
-            {
-                Id = i.Id,
-                Name = i.Name,
-                Image = Path.Combine(ApiLocalUrl, ImageFiles.ActivityImages.ToString(), i.Image),
-                Description = i.Description
-            }).ToList();
-            return results;
+            var Users = _Context.Users.ToList();
+            var results = _Context.Activities.ToList();
+            var Data = (from res in results
+                        join user in Users on res.InsertUser equals user.Id
+                        select new
+                        {
+                            Id = res.Id,
+                            Name = res.Name,
+                            Description = res.Description,
+                            Image = Path.Combine(ApiLocalUrl, ImageFiles.ActivityImages.ToString(), res.Image),
+                            InsertDate = res.InsertDate,
+                            IsVisible = res.IsVisible,
+                            CreatedBy = user.UserName
+                        }).ToList().ToDataTable();
+
+
+            return Data;
         }
 
         public List<ActivitySliderImage> GetActivitySliderImagesById(int ActivityId)
         {
-            var results = _Context.ActivitiesSliderImage.Where(i => i.ActivityId == ActivityId).Select(i => new ActivitySliderImage 
+            var results = _Context.ActivitiesSliderImage.Where(i => i.ActivityId == ActivityId).Select(i => new ActivitySliderImage
             {
                 Id = i.Id,
                 ActivityId = i.ActivityId,
@@ -53,32 +64,18 @@ namespace ZayirAlkhayr.Service
             return results;
         }
 
-        public ActivityModel GetActivityWithSliderImagesById(int ActivityId, int RowSize)
+        public ActivityModel GetActivityWithSliderImagesById(int ActivityId)
         {
             var Activity = _Context.Activities.FirstOrDefault(i => i.Id == ActivityId);
             if (Activity == null) { return new ActivityModel(); }
             var ActivitySliderImage = _Context.ActivitiesSliderImage.Where(i => i.ActivityId == ActivityId).ToList();
-            var SliderImages = new List<List<string>>();
-            bool KeepCalling = true;
-            var PageSize = 0;
-            while (KeepCalling)
-            {
-                var results = ActivitySliderImage.Select(i => Path.Combine(ApiLocalUrl, ImageFiles.ActivitySliderImages.ToString(), i.Image)).Skip(PageSize).Take(RowSize).ToList();
-                if (results.Count() > 0)
-                {
-                    SliderImages.Add(results);
-                    PageSize += RowSize;
-                }
-                else
-                    KeepCalling = false;
-            }
+            
             var ActivityModel = new ActivityModel
             {
                 Id = Activity.Id,
                 Name = Activity.Name,
                 Description = Activity.Description,
-                Image = Path.Combine(ApiLocalUrl, ImageFiles.ActivityImages.ToString(), Activity.Image),
-                SliderImages = SliderImages
+                SliderImages = ActivitySliderImage.Select(i => Path.Combine(ApiLocalUrl, ImageFiles.ActivitySliderImages.ToString(), i.Image)).ToList()
             };
             return ActivityModel;
         }
@@ -95,7 +92,7 @@ namespace ZayirAlkhayr.Service
                 ActivityObj.InsertUser = Model.InsertUser;
                 ActivityObj.InsertDate = DateTime.Now;
 
-                var FileName = await _manageFileService.UploadFile(Model.File, "", ImageFiles.ActivityImages);
+                var FileName = await _manageFileService.UploadFile(Model.Files, "", ImageFiles.ActivityImages);
                 if (FileName.Done)
                     ActivityObj.Image = FileName.StringValue;
                 else
@@ -126,12 +123,12 @@ namespace ZayirAlkhayr.Service
                 ActivityObj.Name = Model.Name;
                 ActivityObj.Description = Model.Description;
                 ActivityObj.IsVisible = Model.IsVisible;
-                ActivityObj.UpdateUser = Model.UpdateUser;
+                ActivityObj.UpdateUser = Model.InsertUser;
                 ActivityObj.UpdateDate = DateTime.Now;
 
-                if (Model.File != null)
+                if (Model.Files != null)
                 {
-                    var FileName = await _manageFileService.UploadFile(Model.File, Model.OldFileName, ImageFiles.ActivityImages);
+                    var FileName = await _manageFileService.UploadFile(Model.Files, Model.OldFileName, ImageFiles.ActivityImages);
                     if (FileName.Done)
                         ActivityObj.Image = FileName.StringValue;
                     else
@@ -190,37 +187,49 @@ namespace ZayirAlkhayr.Service
             }
         }
 
-        public async Task<HandleErrorResponseModel> AddActivitySliderImage(IFormFile File, int ActivityId)
+        public async Task<HandleErrorResponseModel> AddActivitySliderImage(UploadFileModel Model)
         {
-            var FileName = await _manageFileService.UploadFile(File, "", ImageFiles.ActivitySliderImages);
-            if (FileName.Done)
+            var Response = new HandleErrorResponseModel();
+            try
             {
-                var Activity = new ActivitySliderImage();
-                Activity.ActivityId = ActivityId;
-                Activity.Image = FileName.StringValue;
-                _Context.ActivitiesSliderImage.Add(Activity);
-                _Context.SaveChanges();
-                return FileName;
-            }
-            else
-                return FileName;
-        }
+                if (Model.Files != null)
+                    foreach (var newFile in Model.Files)
+                    {
+                        var FileName = await _manageFileService.UploadFile(newFile, "", ImageFiles.ActivitySliderImages);
+                        if (FileName.Done)
+                        {
+                            var Activity = new ActivitySliderImage();
+                            Activity.ActivityId = Model.Id;
+                            Activity.Image = FileName.StringValue;
+                            _Context.ActivitiesSliderImage.Add(Activity);
+                            _Context.SaveChanges();
+                        }
+                    }
 
-        public HandleErrorResponseModel DeleteActivitySliderImage(string FileName, int Id)
-        {
-            var Activity = _Context.ActivitiesSliderImage.FirstOrDefault(a => a.Id == Id);
-            if (Activity != null)
+                if (Model.DeletedFiles != null)
+                    foreach (var file in Model?.DeletedFiles)
+                    {
+                        var FileName = _manageFileService.DeleteFile(file.FileName, ImageFiles.ActivitySliderImages);
+                        if (FileName.Done)
+                        {
+                            var Slider = _Context.ActivitiesSliderImage.FirstOrDefault(i => i.Id == file.Id);
+                            if (Slider != null)
+                            {
+                                _Context.ActivitiesSliderImage.Remove(Slider);
+                                _Context.SaveChanges();
+                            }
+                        }
+                    }
+                Response.Done = true;
+                Response.Message = "تم اضافة الصور بنجاح";
+                return Response;
+            }
+            catch (Exception)
             {
-                var File = _manageFileService.DeleteFile(FileName, ImageFiles.ActivitySliderImages);
-                if (File.Done)
-                {
-                    _Context.ActivitiesSliderImage.Remove(Activity);
-                    _Context.SaveChanges();
-                    return File;
-                }
+                Response.Done = false;
+                Response.Message = "لقد حدث خطا";
+                return Response;
             }
-
-            return new HandleErrorResponseModel() { Done = false, Message = "لقد حدث خطا" };
         }
 
         private void DeleteActivityFiles(string ActivityImageName, List<string> ActivitySliderImageNames)

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ValidationFormService } from '../Services/validation-form.service';
 
 @Component({
   selector: 'app-admin-side-menu',
@@ -11,10 +12,10 @@ export class AdminSideMenuComponent implements OnInit {
   isCollapsed_1 = false;
   UserModel: any;
 
-  constructor() { }
+  constructor(private formService: ValidationFormService) { }
 
   ngOnInit(): void {
-    this.UserModel = JSON.parse(localStorage.getItem('UserModel'));
+    this.UserModel = this.formService.UserModel;
   }
 
   onCloseSidemenuFromOverlay() {

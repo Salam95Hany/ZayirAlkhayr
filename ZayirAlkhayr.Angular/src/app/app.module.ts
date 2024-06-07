@@ -18,6 +18,7 @@ import { SwiperModule } from 'swiper/angular';
 import { CarouselComponent } from './WebSite/media/media.component';
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -36,11 +37,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
     NgbModule,
     SwiperModule,
+    ToastrModule.forRoot({
+      preventDuplicates: true
+    }),
     ReactiveFormsModule,
     FormsModule
   ],

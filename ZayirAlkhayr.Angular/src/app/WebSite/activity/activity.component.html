@@ -1,100 +1,12 @@
 <section class="activity-section">
     <h3 class="text-center main-color mb-5 display-5">الأنشطة</h3>
     <div class="row gy-4">
-      <div class="col-md-6 col-lg-3" routerLink="/activity-details">
+      <div class="col-md-6 col-lg-3" routerLink="/activity-details/{{item.id}}" *ngFor="let item of ActivitiesData">
         <div class="activity-card rounded text-center shadow-sm p-3">
           <div class="activity-card-img">
-            <img src="../../../assets/active-1.png" loading="lazy" alt="" />
+            <img src="{{item.image}}" loading="lazy" alt="" style="width: 100px;height: 100px;"/>
           </div>
-          <div class="activity-card-text fw-bold">الصدقات الجارية</div>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-3" routerLink="/activity-details">
-        <div class="activity-card rounded text-center shadow-sm p-3">
-          <div class="activity-card-img">
-            <img src="../../../assets/active-2.png" loading="lazy" alt="" />
-          </div>
-          <div class="activity-card-text fw-bold">صك الأضحية</div>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-3" routerLink="/activity-details">
-        <div class="activity-card rounded text-center shadow-sm p-3">
-          <div class="activity-card-img">
-            <img src="../../../assets/active-3.png" loading="lazy" alt="" />
-          </div>
-          <div class="activity-card-text fw-bold">سيارة زائر الخير</div>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-3" routerLink="/activity-details">
-        <div class="activity-card rounded text-center shadow-sm p-3">
-          <div class="activity-card-img">
-            <img src="../../../assets/active-4.png" loading="lazy" alt="" />
-          </div>
-          <div class="activity-card-text fw-bold">شنط غذائية</div>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-3" routerLink="/activity-details">
-        <div class="activity-card rounded text-center shadow-sm p-3">
-          <div class="activity-card-img">
-            <img src="../../../assets/active-1.png" loading="lazy" alt="" />
-          </div>
-          <div class="activity-card-text fw-bold">الصدقات الجارية</div>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-3" routerLink="/activity-details">
-        <div class="activity-card rounded text-center shadow-sm p-3">
-          <div class="activity-card-img">
-            <img src="../../../assets/active-2.png" loading="lazy" alt="" />
-          </div>
-          <div class="activity-card-text fw-bold">صك الأضحية</div>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-3" routerLink="/activity-details">
-        <div class="activity-card rounded text-center shadow-sm p-3">
-          <div class="activity-card-img">
-            <img src="../../../assets/active-3.png" loading="lazy" alt="" />
-          </div>
-          <div class="activity-card-text fw-bold">سيارة زائر الخير</div>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-3" routerLink="/activity-details">
-        <div class="activity-card rounded text-center shadow-sm p-3">
-          <div class="activity-card-img">
-            <img src="../../../assets/active-4.png" loading="lazy" alt="" />
-          </div>
-          <div class="activity-card-text fw-bold">شنط غذائية</div>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-3" routerLink="/activity-details">
-        <div class="activity-card rounded text-center shadow-sm p-3">
-          <div class="activity-card-img">
-            <img src="../../../assets/active-1.png" loading="lazy" alt="" />
-          </div>
-          <div class="activity-card-text fw-bold">الصدقات الجارية</div>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-3" routerLink="/activity-details">
-        <div class="activity-card rounded text-center shadow-sm p-3">
-          <div class="activity-card-img">
-            <img src="../../../assets/active-2.png" loading="lazy" alt="" />
-          </div>
-          <div class="activity-card-text fw-bold">صك الأضحية</div>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-3" routerLink="/activity-details">
-        <div class="activity-card rounded text-center shadow-sm p-3">
-          <div class="activity-card-img">
-            <img src="../../../assets/active-3.png" loading="lazy" alt="" />
-          </div>
-          <div class="activity-card-text fw-bold">سيارة زائر الخير</div>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-3" routerLink="/activity-details">
-        <div class="activity-card rounded text-center shadow-sm p-3">
-          <div class="activity-card-img">
-            <img src="../../../assets/active-4.png" loading="lazy" alt="" />
-          </div>
-          <div class="activity-card-text fw-bold">شنط غذائية</div>
+          <div class="activity-card-text fw-bold">{{item.name}}</div>
         </div>
       </div>
     </div>

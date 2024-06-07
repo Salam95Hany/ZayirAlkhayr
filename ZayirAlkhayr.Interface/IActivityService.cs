@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,13 +12,12 @@ namespace ZayirAlkhayr.Interface
 {
     public interface IActivityService
     {
-        List<Activity> GetAllActivities();
+        DataTable GetAllActivities();
         List<ActivitySliderImage> GetActivitySliderImagesById(int ActivityId);
-        ActivityModel GetActivityWithSliderImagesById(int ActivityId, int RowSize);
+        ActivityModel GetActivityWithSliderImagesById(int ActivityId);
         Task<HandleErrorResponseModel> AddNewActivity(Activity Model);
         Task<HandleErrorResponseModel> UpdateActivity(Activity Model);
         HandleErrorResponseModel DeleteActivity(int ActivityId);
-        Task<HandleErrorResponseModel> AddActivitySliderImage(IFormFile File, int ActivityId);
-        HandleErrorResponseModel DeleteActivitySliderImage(string FileName, int Id);
+        Task<HandleErrorResponseModel> AddActivitySliderImage(UploadFileModel Model);
     }
 }

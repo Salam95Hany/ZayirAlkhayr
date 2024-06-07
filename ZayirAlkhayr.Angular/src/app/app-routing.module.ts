@@ -17,9 +17,9 @@ const routes: Routes = [
       { path: 'event', component: EventComponent },
       { path: 'aboutus', component: AboutusComponent },
       { path: 'activity', component: ActivityComponent },
-      { path: 'activity-details', component: ActivityDetailsComponent },
+      { path: 'activity-details/:id', component: ActivityDetailsComponent },
       { path: 'photos', component: PhotosComponent },
-      { path: 'photo-details', component: PhotoDetailsComponent },
+      { path: 'photo-details/:id', component: PhotoDetailsComponent },
       { path: '', redirectTo: 'activity', pathMatch: 'full' }
     ]
   },

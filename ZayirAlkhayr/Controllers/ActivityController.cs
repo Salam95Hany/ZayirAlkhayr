@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Data;
 using System.Threading.Tasks;
 using ZayirAlkhayr.Entities.Common;
 using ZayirAlkhayr.Entities.Models;
@@ -19,7 +20,7 @@ namespace ZayirAlkhayr.Controllers
         }
 
         [HttpGet("GetAllActivities")]
-        public List<Activity> GetAllActivities()
+        public DataTable GetAllActivities()
         {
             var results = _activityService.GetAllActivities();
             return results;
@@ -33,9 +34,9 @@ namespace ZayirAlkhayr.Controllers
         }
 
         [HttpGet("GetActivityWithSliderImagesById")]
-        public ActivityModel GetActivityWithSliderImagesById(int ActivityId, int RowSize)
+        public ActivityModel GetActivityWithSliderImagesById(int ActivityId)
         {
-            var results = _activityService.GetActivityWithSliderImagesById(ActivityId, RowSize);
+            var results = _activityService.GetActivityWithSliderImagesById(ActivityId);
             return results;
         }
 
@@ -63,14 +64,7 @@ namespace ZayirAlkhayr.Controllers
         [HttpPost("AddActivitySliderImage")]
         public async Task<HandleErrorResponseModel> AddActivitySliderImage([FromForm] UploadFileModel Model)
         {
-            var results = await _activityService.AddActivitySliderImage(Model.File, Model.Id);
-            return results;
-        }
-
-        [HttpGet("DeleteActivitySliderImage")]
-        public HandleErrorResponseModel DeleteActivitySliderImage(string FileName, int Id)
-        {
-            var results = _activityService.DeleteActivitySliderImage(FileName, Id);
+            var results = await _activityService.AddActivitySliderImage(Model);
             return results;
         }
     }

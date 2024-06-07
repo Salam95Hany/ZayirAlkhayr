@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,13 +12,13 @@ namespace ZayirAlkhayr.Interface
 {
     public interface IPhotoService
     {
-        List<Photos> GetAllPhotos();
+        DataTable GetAllPhotos();
         List<PhotoDetails> GetPhotoDetails(int PhotoId);
         PhotoModel GetPhotoWithDetailsById(int PhotoId);
         Task<HandleErrorResponseModel> AddNewPhoto(Photos Model);
         Task<HandleErrorResponseModel> UpdatePhoto(Photos Model);
         HandleErrorResponseModel DeletePhoto(int PhotoId);
-        Task<HandleErrorResponseModel> AddPhotoDetailsImage(IFormFile File, int PhotoId);
+        Task<HandleErrorResponseModel> AddPhotoDetailsImage(UploadFileModel Model);
         HandleErrorResponseModel DeletePhotoDetailsImage(string FileName, int Id);
     }
 }

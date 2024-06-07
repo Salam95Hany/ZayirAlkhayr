@@ -65,7 +65,7 @@ namespace ZayirAlkhayr.Service
                 Slider.InsertUser = Model.InsertUser;
                 Slider.InsertDate = DateTime.Now;
 
-                var FileName = await _manageFileService.UploadFile(Model.File, "", ImageFiles.SliderImages);
+                var FileName = await _manageFileService.UploadFile(Model.Files, "", ImageFiles.SliderImages);
                 if (FileName.Done)
                     Slider.Image = FileName.StringValue;
                 else
@@ -98,9 +98,9 @@ namespace ZayirAlkhayr.Service
                 Slider.UpdateUser = Model.InsertUser;
                 Slider.UpdateDate = DateTime.Now;
 
-                if (Model.File != null)
+                if (Model.Files != null)
                 {
-                    var FileName = await _manageFileService.UploadFile(Model.File, Model.OldFileName, ImageFiles.SliderImages);
+                    var FileName = await _manageFileService.UploadFile(Model.Files, Model.OldFileName, ImageFiles.SliderImages);
                     if (FileName.Done)
                         Slider.Image = FileName.StringValue;
                     else

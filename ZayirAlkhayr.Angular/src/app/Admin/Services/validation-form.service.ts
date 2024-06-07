@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({
   providedIn: 'root'
@@ -24,14 +25,13 @@ export class ValidationFormService {
 
   buildFormData(formData, data, parentKey = null, key = null) {
     if (data instanceof File)
-      formData.append(key, data);
-    if (data && typeof data === 'object') {
+      formData.append('Files', data);
+    else if (data && typeof data === 'object' && !(data instanceof File)) {
       Object.keys(data).forEach(key => {
         this.buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key, key);
       });
     } else {
       const value = data == null ? '' : data;
-
       formData.append(parentKey, value);
     }
   }
@@ -41,9 +41,9 @@ export class ValidationFormService {
       const promises = [];
       for (let x = 0; x < file.length; x++) {
         const reader = new FileReader();
-        const URL = new Promise<string>((resolve, reject) => {
+        const URL = new Promise<any>((resolve, reject) => {
           reader.onload = (events: any) => {
-            resolve(events.target.result as string);
+            resolve({ image: events.target.result });
           };
           reader.readAsDataURL(file[x]);
         });
@@ -56,6 +56,28 @@ export class ValidationFormService {
       return Promise.all(promises);
     }
     return Promise.resolve([]);
+  }
+
+  onSelectedMultiFile(files: any): Promise<{ urls: any[]; fileContents: any[] }> {
+    const urls: any[] = [];
+    const fileContents: any[] = [];
+    const promises = files.map((f: any, i) => {
+      let uniqueId = uuidv4();
+      const reader = new FileReader();
+      return new Promise<void>((resolve, reject) => {
+        reader.onload = (events: any) => {
+          urls.push({ image: events.target.result, uniqueId: uniqueId });
+          fileContents.push({ file: f, uniqueId: uniqueId });
+          resolve();
+        };
+        reader.readAsDataURL(f);
+      });
+    });
+
+    return Promise.all(promises).then(() => ({
+      urls,
+      fileContents,
+    }));
   }
 
   NumbersOnly(key: any): boolean {

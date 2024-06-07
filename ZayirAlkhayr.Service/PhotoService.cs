@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,6 +13,7 @@ using ZayirAlkhayr.Entities.Common;
 using ZayirAlkhayr.Entities.Models;
 using ZayirAlkhayr.Interface;
 using ZayirAlkhayr.Interface.Common;
+using ZayirAlkhayr.Service.Common;
 
 namespace ZayirAlkhayr.Service
 {
@@ -30,16 +33,25 @@ namespace ZayirAlkhayr.Service
             ApiLocalUrl = _configuration["ApiUrlLocal"];
         }
 
-        public List<Photos> GetAllPhotos()
+        public DataTable GetAllPhotos()
         {
-            var results = _Context.Photos.Select(i => new Photos
-            {
-                Id = i.Id,
-                Title = i.Title,
-                Description = i.Description,
-                Image = Path.Combine(ApiLocalUrl, ImageFiles.PhotoImages.ToString(), i.Image)
-            }).ToList();
-            return results;
+            var Users = _Context.Users.ToList();
+            var results = _Context.Photos.ToList();
+            var Data = (from res in results
+                        join user in Users on res.InsertUser equals user.Id
+                        select new
+                        {
+                            Id = res.Id,
+                            Title = res.Title,
+                            Description = res.Description,
+                            Image = Path.Combine(ApiLocalUrl, ImageFiles.PhotoImages.ToString(), res.Image),
+                            InsertDate = res.InsertDate,
+                            IsVisible = res.IsVisible,
+                            InsertDateAr = res.InsertDate.Value.ToString("d MMMM ,yyyy", new CultureInfo("ar-AE")),
+                            CreatedBy = user.UserName
+                        }).ToList().ToDataTable();
+
+            return Data;
         }
 
         public List<PhotoDetails> GetPhotoDetails(int PhotoId)
@@ -81,7 +93,7 @@ namespace ZayirAlkhayr.Service
                 PhotoObj.InsertUser = Model.InsertUser;
                 PhotoObj.InsertDate = DateTime.Now;
 
-                var FileName = await _manageFileService.UploadFile(Model.File, "", ImageFiles.PhotoImages);
+                var FileName = await _manageFileService.UploadFile(Model.Files, "", ImageFiles.PhotoImages);
                 if (FileName.Done)
                     PhotoObj.Image = FileName.StringValue;
                 else
@@ -115,9 +127,9 @@ namespace ZayirAlkhayr.Service
                 PhotoObj.UpdateUser = Model.UpdateUser;
                 PhotoObj.UpdateDate = DateTime.Now;
 
-                if (Model.File != null)
+                if (Model.Files != null)
                 {
-                    var FileName = await _manageFileService.UploadFile(Model.File, Model.OldFileName, ImageFiles.PhotoDetailImages);
+                    var FileName = await _manageFileService.UploadFile(Model.Files, Model.OldFileName, ImageFiles.PhotoDetailImages);
                     if (FileName.Done)
                         PhotoObj.Image = FileName.StringValue;
                     else
@@ -176,20 +188,49 @@ namespace ZayirAlkhayr.Service
             }
         }
 
-        public async Task<HandleErrorResponseModel> AddPhotoDetailsImage(IFormFile File, int PhotoId)
+        public async Task<HandleErrorResponseModel> AddPhotoDetailsImage(UploadFileModel Model)
         {
-            var FileName = await _manageFileService.UploadFile(File, "", ImageFiles.PhotoDetailImages);
-            if (FileName.Done)
+            var Response = new HandleErrorResponseModel();
+            try
             {
-                var Photo = new PhotoDetails();
-                Photo.PhotoId = PhotoId;
-                Photo.Image = FileName.StringValue;
-                _Context.PhotoDetails.Add(Photo);
-                _Context.SaveChanges();
-                return FileName;
+                if (Model.Files != null)
+                    foreach (var newFile in Model.Files)
+                    {
+                        var FileName = await _manageFileService.UploadFile(newFile, "", ImageFiles.PhotoDetailImages);
+                        if (FileName.Done)
+                        {
+                            var Details = new PhotoDetails();
+                            Details.PhotoId = Model.Id;
+                            Details.Image = FileName.StringValue;
+                            _Context.PhotoDetails.Add(Details);
+                            _Context.SaveChanges();
+                        }
+                    }
+
+                if (Model.DeletedFiles != null)
+                    foreach (var file in Model?.DeletedFiles)
+                    {
+                        var FileName = _manageFileService.DeleteFile(file.FileName, ImageFiles.PhotoDetailImages);
+                        if (FileName.Done)
+                        {
+                            var Details = _Context.PhotoDetails.FirstOrDefault(i => i.Id == file.Id);
+                            if (Details != null)
+                            {
+                                _Context.PhotoDetails.Remove(Details);
+                                _Context.SaveChanges();
+                            }
+                        }
+                    }
+                Response.Done = true;
+                Response.Message = "تم اضافة الصور بنجاح";
+                return Response;
             }
-            else
-                return FileName;
+            catch (Exception)
+            {
+                Response.Done = false;
+                Response.Message = "لقد حدث خطا";
+                return Response;
+            }
         }
 
         public HandleErrorResponseModel DeletePhotoDetailsImage(string FileName, int Id)

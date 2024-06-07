@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AdminWebsiteService } from '../../Services/admin-website.service';
 import { ValidationFormService } from '../../Services/validation-form.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home-slideimage',
@@ -20,7 +21,7 @@ export class HomeSlideimageComponent implements OnInit {
   TotalCount = 0;
   fileURL: any[] = [];
   constructor(private modalService: NgbModal, private adminService: AdminWebsiteService, private formService: ValidationFormService
-    , private fb: FormBuilder) { }
+    , private fb: FormBuilder,private toaster:ToastrService) { }
 
   ngOnInit(): void {
     this.UserModel = this.formService.UserModel;
@@ -41,7 +42,7 @@ export class HomeSlideimageComponent implements OnInit {
 
   FillEditForm(item: any) {
     this.fileURL = [];
-    this.fileURL.push(item.image);
+    this.fileURL.push(item);
     let fileName = item.image.split('\\');
     this.ItemForm.setValue({
       id: item.id,
@@ -67,7 +68,7 @@ export class HomeSlideimageComponent implements OnInit {
     this.ImageFile = null;
     if (item)
       this.FillEditForm(item);
-    
+
     this.modalService.open(content, {
       size: 'xl',
       scrollable: true,
@@ -86,12 +87,14 @@ export class HomeSlideimageComponent implements OnInit {
   GetHomeSliderImages() {
     this.adminService.GetHomeSliderImages().subscribe(data => {
       this.SliderData = data;
+      this.SliderData.forEach(i => { i.isVisible = i.isVisible == 'True' ? true : false });
       this.TotalCount = data.length;
     });
   }
 
   onFileChange(event: any) {
     this.fileURL = [];
+    this.ImageFile = null;
     this.formService.onSelectedFile(event.target.files).then(data => {
       this.fileURL.push(data[0]);
       this.ImageFile = data[1][0];
@@ -121,16 +124,22 @@ export class HomeSlideimageComponent implements OnInit {
     if (this.ItemForm.controls['id'].value == 0) {
       this.adminService.AddNewSliderImage(formData).subscribe(data => {
         if (data.done) {
+          this.toaster.success(data.message);
           this.GetHomeSliderImages();
           this.modalService.dismissAll();
         }
+        else
+          this.toaster.error(data.message);
       });
     } else {
       this.adminService.UpdateSliderImage(formData).subscribe(data => {
         if (data.done) {
+          this.toaster.success(data.message);
           this.GetHomeSliderImages();
           this.modalService.dismissAll();
         }
+        else
+          this.toaster.error(data.message);
       });
     }
   }

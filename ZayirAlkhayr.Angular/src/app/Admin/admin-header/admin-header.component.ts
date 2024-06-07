@@ -1,4 +1,6 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ValidationFormService } from '../Services/validation-form.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-header',
@@ -6,19 +8,23 @@ import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Outpu
   styleUrls: ['./admin-header.component.css']
 })
 export class AdminHeaderComponent implements OnInit {
+  @ViewChild("autoCompleteWrapper") autoCompleteWrapper: ElementRef;
   @Output() collapseExpandContent = new EventEmitter<boolean>();
   @Input() isCollapseOrExpand = false;
   isCollapseExpandContent = false;
   isSearchOpen = false;
   collapsed = true;
   showAutoCompleteMenu = false;
+  UserModel: any;
 
 
-  constructor() {
+  constructor(private formService: ValidationFormService, private router: Router) {
     this.onClickOutside;
   }
 
-  @ViewChild("autoCompleteWrapper") autoCompleteWrapper: ElementRef;
+  ngOnInit(): void {
+    this.UserModel = this.formService.UserModel;
+  }
 
   onCollapseExpandMenu() {
     this.collapseExpandContent.emit();
@@ -31,7 +37,9 @@ export class AdminHeaderComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
+  goToWebsite() {
+    localStorage.clear();
+    this.router.navigateByUrl('/');
   }
 
   @HostListener('document:mousedown', ['$event']) onClickOutside(event: Event) {

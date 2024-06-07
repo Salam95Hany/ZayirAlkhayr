@@ -23,6 +23,6 @@ namespace ZayirAlkhayr.Entities.Models
         [NotMapped]
         public string OldFileName { get; set; }
         [NotMapped]
-        public IFormFile File { get; set; }
+        public IFormFile Files { get; set; }
     }
 }

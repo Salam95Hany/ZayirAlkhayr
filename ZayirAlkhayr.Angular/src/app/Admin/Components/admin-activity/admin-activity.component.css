@@ -1,0 +1,4 @@
+.card-body-h {
+    --card-h: 255px;
+    min-height: calc(100vh - var(--card-h));
+  }

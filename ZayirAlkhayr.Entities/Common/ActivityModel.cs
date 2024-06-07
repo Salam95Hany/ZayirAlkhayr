@@ -11,7 +11,6 @@ namespace ZayirAlkhayr.Entities.Common
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public string Image { get; set; }
-        public List<List<string>> SliderImages { get; set; }
+        public List<string> SliderImages { get; set; }
     }
 }

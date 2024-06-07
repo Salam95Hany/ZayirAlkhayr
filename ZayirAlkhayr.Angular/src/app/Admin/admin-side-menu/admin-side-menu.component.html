@@ -4,15 +4,15 @@
       <div class="side-menu-user-info d-flex flex-column gap-2">
         <div class="d-flex align-items-center gap-2">
           <i class="uil uil-user"></i>
-          <div class="fw-bold side-menu-text">سلام هانى</div>
+          <div class="fw-bold side-menu-text">{{UserModel?.userName}}</div>
         </div>
         <div class="d-flex align-items-center gap-2">
           <i class="uil uil-calendar-alt"></i>
-          <div class="side-menu-text">11/2/2024 11:05 PM</div>
+          <div class="side-menu-text">{{UserModel?.loginDateAr}}</div>
         </div>
         <div class="d-flex align-items-center gap-2">
           <i class="uil uil-envelope"></i>
-          <div class="side-menu-text">salam@hany.com</div>
+          <div class="side-menu-text">{{UserModel?.role}}</div>
         </div>
       </div>
     </div>
@@ -33,12 +33,6 @@
           </a>
         </li>
         <li class="side-menu-list-item">
-          <a class="side-menu-list-link" routerLink="./activity-details" routerLinkActive="active">
-            <i class="uil uil-setting"></i>
-            <span class="side-menu-text">تفاصيل النشاط</span>
-          </a>
-        </li>
-        <li class="side-menu-list-item">
           <a class="side-menu-list-link" routerLink="./event" routerLinkActive="active">
             <i class="uil uil-setting"></i>
             <span class="side-menu-text">الفعاليات</span>
@@ -48,12 +42,6 @@
           <a class="side-menu-list-link" routerLink="./photo" routerLinkActive="active">
             <i class="uil uil-setting"></i>
             <span class="side-menu-text">الصور</span>
-          </a>
-        </li>
-        <li class="side-menu-list-item">
-          <a class="side-menu-list-link" routerLink="./photo-details" routerLinkActive="active">
-            <i class="uil uil-setting"></i>
-            <span class="side-menu-text">تفاصيل الصور</span>
           </a>
         </li>
         <li class="side-menu-list-item">
@@ -97,6 +85,16 @@
           <a class="side-menu-list-link sub-link">
             <i class="uil uil-sliders-v-alt"></i>
             <span class="side-menu-text">دار المغتربين</span>
+          </a>
+        </li>
+      </ul>
+      <hr>
+      <div class="side-menu-list-title side-menu-text">الاعدادات</div>
+      <ul class="side-menu-list list-unstyled p-0 m-0">
+        <li>
+          <a class="side-menu-list-link sub-link" routerLink="./user" routerLinkActive="active">
+            <i class="uil uil-sliders-v-alt"></i>
+            <span class="side-menu-text">المستخدمين</span>
           </a>
         </li>
       </ul>
