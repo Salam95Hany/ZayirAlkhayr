@@ -279,11 +279,8 @@ namespace ZayirAlkhayr.Entities.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("FromDate")
+                    b.Property<DateTime?>("FromDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("InsertDate")
                         .HasColumnType("datetime2");
@@ -294,10 +291,13 @@ namespace ZayirAlkhayr.Entities.Migrations
                     b.Property<bool>("IsVisible")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime>("Month")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ToDate")
+                    b.Property<DateTime?>("ToDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("UpdateDate")
@@ -309,6 +309,24 @@ namespace ZayirAlkhayr.Entities.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Events", "web");
+                });
+
+            modelBuilder.Entity("ZayirAlkhayr.Entities.Models.EventSliderImages", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EventSliderImages", "web");
                 });
 
             modelBuilder.Entity("ZayirAlkhayr.Entities.Models.FamilyCategories", b =>

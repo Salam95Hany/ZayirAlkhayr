@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
@@ -15,7 +15,6 @@ import { AdminFiltersComponent } from './admin-filters/admin-filters.component';
 import { AdminPaginationComponent } from './admin-pagination/admin-pagination.component';
 import { AdminUserComponent } from './Components/Settings/admin-user/admin-user.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 
 @NgModule({
   declarations: [
@@ -37,6 +36,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     PaginationModule.forRoot(),
     AdminRoutingModule
-  ]
+  ],
+  providers:[DatePipe]
 })
 export class AdminModule { }

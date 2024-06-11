@@ -22,6 +22,7 @@ namespace ZayirAlkhayr.Entities.Models
         public DbSet<Activity> Activities { get; set; }
         public DbSet<ActivitySliderImage> ActivitiesSliderImage { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<EventSliderImages> EventSliderImages { get; set; }
         public DbSet<SliderImage> SliderImages { get; set; }
         public DbSet<Photos> Photos { get; set; }
         public DbSet<PhotoDetails> PhotoDetails { get; set; }

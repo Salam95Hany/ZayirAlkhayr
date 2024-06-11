@@ -11,8 +11,11 @@ namespace ZayirAlkhayr.Interface
     public interface IEventService
     {
         List<Event> GetAllEvents();
-        Task<HandleErrorResponseModel> AddNewEvent(Event Model);
-        Task<HandleErrorResponseModel> UpdateEvent(Event Model);
+        List<EventGroupingModel> GetAllWebSiteEvents();
+        List<EventSliderImages> GetEventSliderImagesById(int EventId);
+        HandleErrorResponseModel AddNewEvent(Event Model);
+        HandleErrorResponseModel UpdateEvent(Event Model);
         HandleErrorResponseModel DeleteEvent(int EventId);
+        Task<HandleErrorResponseModel> AddEventSliderImage(UploadFileModel Model);
     }
 }

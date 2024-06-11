@@ -50,7 +50,7 @@ export class AdminWebsiteService {
     return this.http.post<any>(this.apiURL + 'Activity/UpdateActivity', Model);
   }
 
-  // ============================= Activity ==============================
+  // ============================= Photos ==============================
 
   GetAllPhotos() {
     return this.http.get<any[]>(this.apiURL + 'Photo/GetAllPhotos');
@@ -74,5 +74,31 @@ export class AdminWebsiteService {
 
   UpdatePhoto(Model: any) {
     return this.http.post<any>(this.apiURL + 'Photo/UpdatePhoto', Model);
+  }
+
+  // ============================= Events ==============================
+
+  GetAllEvents() {
+    return this.http.get<any[]>(this.apiURL + 'Event/GetAllEvents');
+  }
+
+  GetAllWebSiteEvents() {
+    return this.http.get<any[]>(this.apiURL + 'Event/GetAllWebSiteEvents');
+  }
+
+  GetEventSliderImagesById(EventId: number) {
+    return this.http.get<any>(this.apiURL + 'Event/GetEventSliderImagesById?EventId=' + EventId);
+  }
+
+  AddNewEvent(Model: any) {
+    return this.http.post<any>(this.apiURL + 'Event/AddNewEvent', Model);
+  }
+
+  AddEventSliderImage(Model: any) {
+    return this.http.post<any>(this.apiURL + 'Event/AddEventSliderImage', Model);
+  }
+
+  UpdateEvent(Model: any) {
+    return this.http.post<any>(this.apiURL + 'Event/UpdateEvent', Model);
   }
 }

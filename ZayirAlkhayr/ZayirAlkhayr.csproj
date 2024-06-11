@@ -26,8 +26,8 @@
   <ItemGroup>
     <Folder Include="wwwroot\ActivityImages\" />
     <Folder Include="wwwroot\ActivitySliderImages\" />
-    <Folder Include="wwwroot\EventImages\" />
     <Folder Include="wwwroot\ExportFiles\" />
+    <Folder Include="wwwroot\EventSliderImages\" />
     <Folder Include="wwwroot\PhotoDetailImages\" />
     <Folder Include="wwwroot\PhotoImages\" />
     <Folder Include="wwwroot\SliderImages\" />

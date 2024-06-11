@@ -18,6 +18,13 @@ namespace ZayirAlkhayr.Controllers
             _eventService = eventService;
         }
 
+        [HttpGet("GetAllWebSiteEvents")]
+        public List<EventGroupingModel> GetAllWebSiteEvents()
+        {
+            var result = _eventService.GetAllWebSiteEvents();
+            return result;
+        }
+
         [HttpGet("GetAllEvents")]
         public List<Event> GetAllEvents()
         {
@@ -25,17 +32,24 @@ namespace ZayirAlkhayr.Controllers
             return result;
         }
 
-        [HttpPost("AddNewEvent")]
-        public async Task<HandleErrorResponseModel> AddNewEvent(Event Model)
+        [HttpGet("GetEventSliderImagesById")]
+        public List<EventSliderImages> GetEventSliderImagesById(int EventId)
         {
-            var result = await _eventService.AddNewEvent(Model);
+            var result = _eventService.GetEventSliderImagesById(EventId);
+            return result;
+        }
+
+        [HttpPost("AddNewEvent")]
+        public HandleErrorResponseModel AddNewEvent(Event Model)
+        {
+            var result = _eventService.AddNewEvent(Model);
             return result;
         }
 
         [HttpPost("UpdateEvent")]
-        public async Task<HandleErrorResponseModel> UpdateEvent(Event Model)
+        public HandleErrorResponseModel UpdateEvent(Event Model)
         {
-            var result = await _eventService.UpdateEvent(Model);
+            var result = _eventService.UpdateEvent(Model);
             return result;
         }
 
@@ -43,6 +57,13 @@ namespace ZayirAlkhayr.Controllers
         public HandleErrorResponseModel DeleteEvent(int EventId)
         {
             var result = _eventService.DeleteEvent(EventId);
+            return result;
+        }
+
+        [HttpPost("AddEventSliderImage")]
+        public async Task<HandleErrorResponseModel> AddEventSliderImage([FromForm] UploadFileModel Model)
+        {
+            var result = await _eventService.AddEventSliderImage(Model);
             return result;
         }
     }

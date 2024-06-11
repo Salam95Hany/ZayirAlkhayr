@@ -14,17 +14,15 @@ namespace ZayirAlkhayr.Entities.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public string Image { get; set; }
         public bool IsVisible { get; set; }
         public string InsertUser { get; set; }
         public DateTime? InsertDate { get; set; }
         public string UpdateUser { get; set; }
         public DateTime? UpdateDate { get; set; }
-        public DateTime FromDate { get; set; }
-        public DateTime ToDate { get; set; }
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
+        public DateTime Month { get; set; }
         [NotMapped]
-        public string OldFileName { get; set; }
-        [NotMapped]
-        public IFormFile File { get; set; }
+        public List<string> Images { get; set; }
     }
 }

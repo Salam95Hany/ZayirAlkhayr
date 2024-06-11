@@ -19,10 +19,10 @@ namespace ZayirAlkhayr.Entities.Common
         SliderImages = 0,
         ActivityImages = 1,
         ActivitySliderImages = 2,
-        EventImages = 3,
-        ExportFiles = 4,
-        PhotoImages = 5,
-        PhotoDetailImages = 6
+        ExportFiles = 3,
+        PhotoImages = 4,
+        PhotoDetailImages = 5,
+        EventSliderImages = 6
     }
 
     public enum FamilyStatusTabs

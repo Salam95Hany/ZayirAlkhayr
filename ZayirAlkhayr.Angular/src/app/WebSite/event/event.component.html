@@ -1,21 +1,21 @@
 <h3 class="text-center main-color mb-5 display-5">الفعاليات</h3>
-<div class="event-card">
+<div class="event-card" *ngFor="let item of EventsData">
   <div class="event-date">
-    <span class="event-name">أكتوبر 2023</span>
+    <span class="event-name">{{item.month}}</span>
   </div>
   <div class="event-details">
-    <div class="row gy-3">
+    <div class="row gy-3 mb-2" *ngFor="let event of item.events">
       <div class="col-lg-8 d-flex align-items-center">
         <div class="event-info">
-          <h4 class="fw-bold mb-2 main-color">دورات نشاط أنوار زائر الخير لشهر اكتوبر</h4>
-          <span class="fs-14px">7 أكتوبر، 2023 @ 8:00 ص - 31 أكتوبر، 2023 @ 5:00 م</span>
-          <p class="m-0 mt-3">نشاط أنوار رسالة هينور حياتك بالعلم والمعرفة دلوقتي تقدر تلتحق بأي دورة من دورتنا المجانية وتاخد خطوة في طريق مستقبلك </p>
+          <h4 class="fw-bold mb-2 main-color">{{event.title}}</h4>
+          <span class="fs-14px" *ngIf="event.fromDate && event.toDate">{{event.fromDate}} - {{event.toDate}}</span>
+          <p class="m-0 mt-3">{{event.description}}</p>
         </div>
       </div>
       <div class="col-lg-4">
         <div class="event-image img-thumbnail shadow-sm event-carousel">
-          <swiper [initialSlide]="1" [slidesPerView]="3" [spaceBetween]="30" [navigation]="true" [loop]="true" [lang]="'rtl'"
-            [breakpoints]="{
+          <swiper [initialSlide]="1" [slidesPerView]="3" [spaceBetween]="30" [navigation]="true" [loop]="true"
+            [lang]="'rtl'" [breakpoints]="{
                 '0': {
                   slidesPerView: 1
                 },
@@ -32,188 +32,10 @@
                   slidesPerView: 1
                 }
               }">
-            <ng-template swiperSlide>
+            <ng-template swiperSlide *ngFor="let image of event.images">
               <div class="khairy-box h-100">
                 <div class="kahiry-img">
-                  <img src="../../../assets/khairy-1.jpg" loading="lazy" alt="khairy-images" />
-                </div>
-              </div>
-            </ng-template>
-            <ng-template swiperSlide>
-              <div class="khairy-box h-100">
-                <div class="kahiry-img">
-                  <img src="../../../assets/khairy-2.jpg" loading="lazy" alt="khairy-images" />
-                </div>
-              </div>
-            </ng-template>
-            <ng-template swiperSlide>
-              <div class="khairy-box h-100">
-                <div class="kahiry-img">
-                  <img src="../../../assets/khairy-3.jpg" loading="lazy" alt="khairy-images" />
-                </div>
-              </div>
-            </ng-template>
-            <ng-template swiperSlide>
-              <div class="khairy-box h-100">
-                <div class="kahiry-img">
-                  <img src="../../../assets/khairy-4.jpg" loading="lazy" alt="khairy-images" />
-                </div>
-              </div>
-            </ng-template>
-            <ng-template swiperSlide>
-              <div class="khairy-box h-100">
-                <div class="kahiry-img">
-                  <img src="../../../assets/khairy-5.jpg" loading="lazy" alt="khairy-images" />
-                </div>
-              </div>
-            </ng-template>
-          </swiper>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="event-card">
-  <div class="event-date">
-    <span class="event-name">نوفمبر 2023</span>
-  </div>
-  <div class="event-details">
-    <div class="row gy-3">
-      <div class="col-lg-8 d-flex align-items-center">
-        <div class="event-info">
-          <h4 class="fw-bold mb-2 main-color">دورات مركز زائر الخير التدريبي لشهر اكتوبر</h4>
-          <span class="fs-14px">7 أكتوبر، 2023 @ 8:00 ص - 31 أكتوبر، 2023 @ 5:00 م</span>
-          <p class="m-0 mt-3">حلمك هيبقى حقيقة لما تاخد خطوة وتطور من نفسك واحنا في نشاط RTC هنساعدك تاخد الخطوة من خلال تقديم </p>
-        </div>
-      </div>
-      <div class="col-lg-4">
-        <div class="event-image img-thumbnail shadow-sm event-carousel">
-          <swiper [initialSlide]="1" [slidesPerView]="3" [spaceBetween]="30" [navigation]="true" [loop]="true" [lang]="'rtl'"
-            [breakpoints]="{
-                '0': {
-                  slidesPerView: 1
-                },
-                '575': {
-                  slidesPerView: 1
-                },
-                '767': {
-                  slidesPerView: 1
-                },
-                '1024': {
-                  slidesPerView: 1
-                },
-                '1200': {
-                  slidesPerView: 1
-                }
-              }">
-            <ng-template swiperSlide>
-              <div class="khairy-box h-100">
-                <div class="kahiry-img">
-                  <img src="../../../assets/khairy-1.jpg" loading="lazy" alt="khairy-images" />
-                </div>
-              </div>
-            </ng-template>
-            <ng-template swiperSlide>
-              <div class="khairy-box h-100">
-                <div class="kahiry-img">
-                  <img src="../../../assets/khairy-2.jpg" loading="lazy" alt="khairy-images" />
-                </div>
-              </div>
-            </ng-template>
-            <ng-template swiperSlide>
-              <div class="khairy-box h-100">
-                <div class="kahiry-img">
-                  <img src="../../../assets/khairy-3.jpg" loading="lazy" alt="khairy-images" />
-                </div>
-              </div>
-            </ng-template>
-            <ng-template swiperSlide>
-              <div class="khairy-box h-100">
-                <div class="kahiry-img">
-                  <img src="../../../assets/khairy-4.jpg" loading="lazy" alt="khairy-images" />
-                </div>
-              </div>
-            </ng-template>
-            <ng-template swiperSlide>
-              <div class="khairy-box h-100">
-                <div class="kahiry-img">
-                  <img src="../../../assets/khairy-5.jpg" loading="lazy" alt="khairy-images" />
-                </div>
-              </div>
-            </ng-template>
-          </swiper>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="event-card">
-  <div class="event-date">
-    <span class="event-name">ديسمبر 2023</span>
-  </div>
-  <div class="event-details">
-    <div class="row gy-3">
-      <div class="col-lg-8 d-flex align-items-center">
-        <div class="event-info">
-          <h4 class="fw-bold mb-2 main-color">دورات انوار رسالة المجانية لشهر ديسمبر</h4>
-          <span class="fs-14px">4 ديسمبر، 2023 @ 8:00 ص - 31 ديسمبر، 2023 @ 5:00 م</span>
-          <p class="m-0 mt-3">جدول دوراتنا بجميع فروعنا فى شهر ديسمبر جميع دوراتنا مجانية 100% </p>
-        </div>
-      </div>
-      <div class="col-lg-4">
-        <div class="event-image img-thumbnail shadow-sm event-carousel">
-          <swiper [initialSlide]="1" [slidesPerView]="3" [spaceBetween]="30" [navigation]="true" [loop]="true" [lang]="'rtl'"
-            [breakpoints]="{
-                '0': {
-                  slidesPerView: 1
-                },
-                '575': {
-                  slidesPerView: 1
-                },
-                '767': {
-                  slidesPerView: 1
-                },
-                '1024': {
-                  slidesPerView: 1
-                },
-                '1200': {
-                  slidesPerView: 1
-                }
-              }">
-            <ng-template swiperSlide>
-              <div class="khairy-box h-100">
-                <div class="kahiry-img">
-                  <img src="../../../assets/khairy-1.jpg" loading="lazy" alt="khairy-images" />
-                </div>
-              </div>
-            </ng-template>
-            <ng-template swiperSlide>
-              <div class="khairy-box h-100">
-                <div class="kahiry-img">
-                  <img src="../../../assets/khairy-2.jpg" loading="lazy" alt="khairy-images" />
-                </div>
-              </div>
-            </ng-template>
-            <ng-template swiperSlide>
-              <div class="khairy-box h-100">
-                <div class="kahiry-img">
-                  <img src="../../../assets/khairy-3.jpg" loading="lazy" alt="khairy-images" />
-                </div>
-              </div>
-            </ng-template>
-            <ng-template swiperSlide>
-              <div class="khairy-box h-100">
-                <div class="kahiry-img">
-                  <img src="../../../assets/khairy-4.jpg" loading="lazy" alt="khairy-images" />
-                </div>
-              </div>
-            </ng-template>
-            <ng-template swiperSlide>
-              <div class="khairy-box h-100">
-                <div class="kahiry-img">
-                  <img src="../../../assets/khairy-5.jpg" loading="lazy" alt="khairy-images" />
+                  <img src="{{image}}" loading="lazy" alt="khairy-images" />
                 </div>
               </div>
             </ng-template>

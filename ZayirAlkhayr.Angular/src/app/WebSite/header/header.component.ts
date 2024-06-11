@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit {
 
   GetHomeSliderImages() {
     this.adminService.GetHomeSliderImages().subscribe(data => {
-      this.slides = data.map<Slide>(i => { return { headline: i.title, src: i.image } });
+      this.slides = data.filter(i => i.isVisible == 'True').map<Slide>(i => { return { headline: i.title, src: i.image } });
     });
   }
 
