@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -38,12 +39,12 @@ namespace ZayirAlkhayr.Service
                         {
                             Id = res.Id,
                             Title = res.Title,
-                            Image =  Path.Combine(ApiLocalUrl, ImageFiles.SliderImages.ToString(), res.Image),
+                            Image = Path.Combine(ApiLocalUrl, ImageFiles.SliderImages.ToString(), res.Image),
                             InsertDate = res.InsertDate,
                             IsVisible = res.IsVisible,
                             CreatedBy = user.UserName
                         }).ToList().ToDataTable();
-                       
+
 
             return Data;
         }
@@ -239,6 +240,22 @@ namespace ZayirAlkhayr.Service
                 Response.Done = false;
                 Response.Message = "لقد حدث خطا";
                 return Response;
+            }
+        }
+
+        public string CreateSessionId()
+        {
+            try
+            {
+                var sessionId = Guid.NewGuid().ToString();
+                var Visitor = new WebSiteVisitors { SessionId = sessionId, InsertDate = DateTime.Now };
+                _Context.WebSiteVisitors.Add(Visitor);
+                _Context.SaveChanges();
+                return sessionId;
+            }
+            catch (Exception)
+            {
+                return "";
             }
         }
     }

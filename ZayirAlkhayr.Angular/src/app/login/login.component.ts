@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { AuthServiceService } from '../Auth/auth-service.service';
+import { AuthService } from '../Auth/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,7 +13,7 @@ export class LoginComponent {
   LoginModel: LoginModel = {} as LoginModel;
   ErrorMessage = '';
   ButtonDisabled = false;
-  constructor(private authService: AuthServiceService, private router: Router) {
+  constructor(private authService: AuthService, private router: Router) {
 
   }
 

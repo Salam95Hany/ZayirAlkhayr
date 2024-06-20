@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -17,6 +16,7 @@ namespace ZayirAlkhayr.Controllers
     public class WebsiteHomeController : ControllerBase
     {
         private readonly IWebsiteHomeService _websiteHomeService;
+        
         public WebsiteHomeController(IWebsiteHomeService websiteHomeService)
         {
             _websiteHomeService = websiteHomeService;
@@ -76,6 +76,13 @@ namespace ZayirAlkhayr.Controllers
         {
             var result = _websiteHomeService.DeleteFooterData(FooterId);
             return result;
+        }
+
+        [HttpGet("CreateSessionId")]
+        public object CreateSessionId()
+        {
+            var result = _websiteHomeService.CreateSessionId();
+            return new { SessionId = result };
         }
     }
 }

@@ -19,5 +19,6 @@ namespace ZayirAlkhayr.Interface
         HandleErrorResponseModel UpdateFooterData(Footer Model);
         HandleErrorResponseModel DeleteSliderImage(int SliderImageId);
         HandleErrorResponseModel DeleteFooterData(int FooterId);
+        string CreateSessionId();
     }
 }

@@ -19,6 +19,12 @@ namespace ZayirAlkhayr.Entities.Models
             Configuration = _configuration;
         }
 
+        public ZADbContext(DbContextOptions<DbContext> options)
+           : base(options)
+        {
+
+        }
+
         public DbSet<Activity> Activities { get; set; }
         public DbSet<ActivitySliderImage> ActivitiesSliderImage { get; set; }
         public DbSet<Event> Events { get; set; }
@@ -37,12 +43,7 @@ namespace ZayirAlkhayr.Entities.Models
         public DbSet<FamilyNeeds> FamilyNeeds { get; set; }
         public DbSet<FamilyNeedTypes> FamilyNeedTypes { get; set; }
         public DbSet<FamilyPatient> FamilyPatient { get; set; }
-
-        public ZADbContext(DbContextOptions<DbContext> options)
-            : base(options)
-        {
-
-        }
+        public DbSet<WebSiteVisitors> WebSiteVisitors { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
