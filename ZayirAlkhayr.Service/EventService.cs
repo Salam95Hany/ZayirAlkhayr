@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -19,12 +20,14 @@ namespace ZayirAlkhayr.Service
         private readonly ZADbContext _Context;
         private readonly IManageFileService _manageFileService;
         private readonly IConfiguration _configuration;
+        private readonly IWebHostEnvironment _environment;
         private string ApiLocalUrl;
-        public EventService(ZADbContext Context, IManageFileService manageFileService, IConfiguration configuration)
+        public EventService(ZADbContext Context, IManageFileService manageFileService, IConfiguration configuration, IWebHostEnvironment environment)
         {
             _Context = Context;
             _manageFileService = manageFileService;
             _configuration = configuration;
+            _environment = environment;
             ApiLocalUrl = _configuration["ApiUrlLocal"];
         }
 
@@ -145,7 +148,13 @@ namespace ZayirAlkhayr.Service
                 var Event = _Context.Events.FirstOrDefault(i => i.Id == EventId);
                 if (Event != null)
                 {
+                    var SliderImages = _Context.EventSliderImages.Where(i => i.EventId == EventId).ToList();
+                    if (SliderImages.Count > 0)
+                        _Context.EventSliderImages.RemoveRange(SliderImages);
+
                     _Context.Events.Remove(Event);
+                    var EventSliderImageNames = SliderImages.Select(i => i.Image).ToList();
+                    DeleteEventFiles(EventSliderImageNames);
                     _Context.SaveChanges();
                     Response.Done = true;
                     Response.Message = "تم حذف الفعالية بنجاح";
@@ -210,6 +219,20 @@ namespace ZayirAlkhayr.Service
                 Response.Done = false;
                 Response.Message = "لقد حدث خطا";
                 return Response;
+            }
+        }
+
+        private void DeleteEventFiles(List<string> EventSliderImageNames)
+        {
+            var EventSliderImagePaths = Directory.GetFiles(Path.Combine(_environment.WebRootPath, ImageFiles.EventSliderImages.ToString()));
+
+            if (EventSliderImagePaths.Count() > 0)
+            {
+                var Files = EventSliderImagePaths.Where(i => EventSliderImageNames.Any(x => i.Contains(x))).ToList();
+                if (Files.Count() > 0)
+                {
+                    Files.ForEach(i => System.IO.File.Delete(i));
+                }
             }
         }
     }

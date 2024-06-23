@@ -64,13 +64,13 @@ export class AdminEventComponent implements OnInit {
 
   ResetForm() {
     this.ItemForm.reset();
+    this.EventId = '';
     this.ItemForm.get('id').setValue(0);
     this.ItemForm.get('isVisible').setValue(true);
     this.ItemForm.get('insertUser').setValue(this.UserModel?.userId);
   }
 
   openAddItemModal(content: any, item: any) {
-    debugger;
     this.ResetForm();
     if (item)
       this.FillEditForm(item);
@@ -98,7 +98,8 @@ export class AdminEventComponent implements OnInit {
     });
   }
 
-  openDeleteItemModal(content: TemplateRef<any>) {
+  openDeleteItemModal(content: any, item: any) {
+    this.EventId = item.id;
     this.modalService.open(content, {
       size: 'md',
       scrollable: true,
@@ -179,5 +180,17 @@ export class AdminEventComponent implements OnInit {
           this.toaster.error(data.message);
       });
     }
+  }
+
+  DeleteItem() {
+    this.adminService.DeleteEvent(this.EventId).subscribe(data => {
+      if (data.done) {
+        this.toaster.success(data.message);
+        this.GetAllEvents();
+        this.modalService.dismissAll();
+      }
+      else
+        this.toaster.error(data.message);
+    });
   }
 }

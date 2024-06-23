@@ -57,8 +57,9 @@ namespace ZayirAlkhayr.Controllers
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var securityToken = tokenHandler.CreateToken(tokenDescriptor);
                 var token = tokenHandler.WriteToken(securityToken);
-
-
+                user.LockoutEnabled = true;
+                user.LockoutEnd = DateTime.Now;
+                _context.SaveChanges();
                 ApplicationUserModel userModel = new ApplicationUserModel
                 {
                     UserName = user.UserName,
@@ -83,6 +84,21 @@ namespace ZayirAlkhayr.Controllers
                 };
                 return userModel;
             }
+        }
+
+        [HttpGet]
+        [Route("AdminLogout")]
+        public async Task<bool> AdminLogout(string UserName)
+        {
+            var user = await _userManager.FindByNameAsync(UserName);
+            if (user != null)
+            {
+                user.LockoutEnabled = false;
+                _context.SaveChanges();
+                return true;
+            }
+            else
+                return false;
         }
 
         [HttpPost]
@@ -223,6 +239,13 @@ namespace ZayirAlkhayr.Controllers
                 Response.Message = "لقد حدث خطا";
                 return Response;
             }
+        }
+
+        [HttpGet]
+        [Route("GetAllUsers")]
+        public List<IdentityUser> GetAllUsers()
+        {
+            return _context.Users.ToList();
         }
 
         [HttpGet]

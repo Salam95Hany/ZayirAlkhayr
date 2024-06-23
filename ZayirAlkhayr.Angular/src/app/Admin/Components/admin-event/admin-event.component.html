@@ -7,7 +7,8 @@
       </button>
     </div>
     <div>
-      <app-admin-pagination [currentPage]="1" [pageSize]="10" [totalPages]="0" [totalCount]="TotalCount"></app-admin-pagination>
+      <app-admin-pagination [currentPage]="1" [pageSize]="10" [totalPages]="0"
+        [totalCount]="TotalCount"></app-admin-pagination>
     </div>
   </div>
   <div class="card-body card-body-h">
@@ -48,8 +49,8 @@
                 <i class="uil uil-edit text-primary icon-table-action shadow-sm"
                   (click)="openAddItemModal(OpenItemModal,item)"></i>
                 <i class="uil uil-times-circle text-danger icon-table-action shadow-sm"
-                  (click)="openDeleteItemModal(deleteItemModal)"></i>
-                  <i class="uil uil-plus text-primary icon-table-action shadow-sm"
+                  (click)="openDeleteItemModal(deleteItemModal,item)"></i>
+                <i class="uil uil-plus text-primary icon-table-action shadow-sm"
                   (click)="openAddImagesModal(OpenAddImagesModal,item)"></i>
               </div>
             </td>
@@ -103,13 +104,15 @@
           </div>
           <div class="col-lg-6">
             <div class="form-floating">
-              <input type="datetime-local" class="form-control" formControlName="fromDate" id="floatingInput_1" placeholder="new-user22">
+              <input type="datetime-local" class="form-control" formControlName="fromDate" id="floatingInput_1"
+                placeholder="new-user22">
               <label for="floatingInput_1">التاريخ من</label>
             </div>
           </div>
           <div class="col-lg-6">
             <div class="form-floating">
-              <input type="datetime-local" class="form-control" formControlName="toDate" id="floatingInput_1" placeholder="new-user22">
+              <input type="datetime-local" class="form-control" formControlName="toDate" id="floatingInput_1"
+                placeholder="new-user22">
               <label for="floatingInput_1">التاريخ الى</label>
             </div>
           </div>
@@ -213,7 +216,7 @@
     <p class="fs-5 m-0">هل انت متأكد أنك تريد حذف هذا العنصر</p>
   </div>
   <div class="modal-footer justify-content-start">
-    <button type="button" class="btn btn-success" (click)="modal.close('Save click')">
+    <button type="button" class="btn btn-success" (click)="DeleteItem()">
       <i class="fas fa-check"></i>
       <span class="ms-2">نعم</span>
     </button>

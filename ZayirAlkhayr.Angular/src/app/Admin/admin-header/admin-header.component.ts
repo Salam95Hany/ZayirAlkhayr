@@ -38,7 +38,7 @@ export class AdminHeaderComponent implements OnInit {
   }
 
   goToWebsite() {
-    localStorage.clear();
+    localStorage.removeItem('UserModel');
     this.router.navigateByUrl('/');
   }
 

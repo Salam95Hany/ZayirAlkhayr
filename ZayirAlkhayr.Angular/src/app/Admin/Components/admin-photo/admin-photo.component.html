@@ -47,7 +47,7 @@
                 <i class="uil uil-edit text-primary icon-table-action shadow-sm"
                   (click)="openAddItemModal(OpenItemModal,item)"></i>
                 <i class="uil uil-times-circle text-danger icon-table-action shadow-sm"
-                  (click)="openDeleteItemModal(deleteItemModal)"></i>
+                  (click)="openDeleteItemModal(deleteItemModal,item)"></i>
                   <i class="uil uil-plus text-primary icon-table-action shadow-sm"
                   (click)="openAddImagesModal(OpenAddImagesModal,item)"></i>
               </div>
@@ -200,14 +200,14 @@
   <div class="modal-header main-bgcolor text-white">
     <div class="display-7 d-flex align-items-center gap-3">
       <i class="uil uil-trash-alt"></i>
-      <span>حذف سلايدر</span>
+      <span>حذف صور</span>
     </div>
   </div>
   <div class="modal-body">
     <p class="fs-5 m-0">هل انت متأكد أنك تريد حذف هذا العنصر</p>
   </div>
   <div class="modal-footer justify-content-start">
-    <button type="button" class="btn btn-success" (click)="modal.close('Save click')">
+    <button type="button" class="btn btn-success" (click)="DeletePhoto()">
       <i class="fas fa-check"></i>
       <span class="ms-2">نعم</span>
     </button>

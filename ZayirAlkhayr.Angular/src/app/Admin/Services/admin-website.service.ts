@@ -24,6 +24,10 @@ export class AdminWebsiteService {
     return this.http.post<any>(this.apiURL + 'WebsiteHome/UpdateSliderImage', Model);
   }
 
+  DeleteSliderImage(SliderImageId: number) {
+    return this.http.get<any>(this.apiURL + 'WebsiteHome/DeleteSliderImage?SliderImageId=' + SliderImageId);
+  }
+
   // ============================= Activity ==============================
 
   GetAllActivities() {
@@ -48,6 +52,10 @@ export class AdminWebsiteService {
 
   UpdateActivity(Model: any) {
     return this.http.post<any>(this.apiURL + 'Activity/UpdateActivity', Model);
+  }
+
+  DeleteActivity(ActivityId: number) {
+    return this.http.get<any>(this.apiURL + 'Activity/DeleteActivity?ActivityId=' + ActivityId);
   }
 
   // ============================= Photos ==============================
@@ -76,6 +84,10 @@ export class AdminWebsiteService {
     return this.http.post<any>(this.apiURL + 'Photo/UpdatePhoto', Model);
   }
 
+  DeletePhoto(PhotoId: number) {
+    return this.http.get<any>(this.apiURL + 'Photo/DeletePhoto?PhotoId=' + PhotoId);
+  }
+
   // ============================= Events ==============================
 
   GetAllEvents() {
@@ -100,5 +112,9 @@ export class AdminWebsiteService {
 
   UpdateEvent(Model: any) {
     return this.http.post<any>(this.apiURL + 'Event/UpdateEvent', Model);
+  }
+
+  DeleteEvent(EventId: number) {
+    return this.http.get<any>(this.apiURL + 'Event/DeleteEvent?EventId=' + EventId);
   }
 }

@@ -67,6 +67,7 @@ export class AdminPhotoComponent implements OnInit {
 
   ResetForm() {
     this.ItemForm.reset();
+    this.PhotoId = '';
     this.InputFile.nativeElement.value = '';
     this.ItemForm.get('id').setValue(0);
     this.ItemForm.get('isVisible').setValue(true);
@@ -104,7 +105,8 @@ export class AdminPhotoComponent implements OnInit {
     });
   }
 
-  openDeleteItemModal(content: any) {
+  openDeleteItemModal(content: any, item: any) {
+    this.PhotoId = item.id;
     this.modalService.open(content, {
       size: 'md',
       scrollable: true,
@@ -205,5 +207,17 @@ export class AdminPhotoComponent implements OnInit {
           this.toaster.error(data.message);
       });
     }
+  }
+
+  DeletePhoto() {
+    this.adminService.DeletePhoto(this.PhotoId).subscribe(data => {
+      if (data.done) {
+        this.toaster.success(data.message);
+        this.GetAllPhotos();
+        this.modalService.dismissAll();
+      }
+      else
+        this.toaster.error(data.message);
+    });
   }
 }

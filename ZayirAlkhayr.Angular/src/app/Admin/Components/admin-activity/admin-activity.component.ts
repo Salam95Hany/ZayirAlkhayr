@@ -68,6 +68,7 @@ export class AdminActivityComponent implements OnInit {
 
   ResetForm() {
     this.ItemForm.reset();
+    this.ActivityId = '';
     this.InputFile.nativeElement.value = '';
     this.ItemForm.get('id').setValue(0);
     this.ItemForm.get('isVisible').setValue(true);
@@ -105,7 +106,8 @@ export class AdminActivityComponent implements OnInit {
     });
   }
 
-  openDeleteItemModal(content: any) {
+  openDeleteItemModal(content: any, item: any) {
+    this.ActivityId = item.id;
     this.modalService.open(content, {
       size: 'md',
       scrollable: true,
@@ -206,5 +208,17 @@ export class AdminActivityComponent implements OnInit {
           this.toaster.error(data.message);
       });
     }
+  }
+
+  DeleteItem() {
+    this.adminService.DeleteActivity(this.ActivityId).subscribe(data => {
+      if (data.done) {
+        this.toaster.success(data.message);
+        this.GetAllActivities();
+        this.modalService.dismissAll();
+      }
+      else
+        this.toaster.error(data.message);
+    });
   }
 }

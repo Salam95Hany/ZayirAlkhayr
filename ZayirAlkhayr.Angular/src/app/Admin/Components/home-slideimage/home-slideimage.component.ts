@@ -20,8 +20,9 @@ export class HomeSlideimageComponent implements OnInit {
   UserModel: any;
   TotalCount = 0;
   fileURL: any[] = [];
+  SliderId: number;
   constructor(private modalService: NgbModal, private adminService: AdminWebsiteService, private formService: ValidationFormService
-    , private fb: FormBuilder,private toaster:ToastrService) { }
+    , private fb: FormBuilder, private toaster: ToastrService) { }
 
   ngOnInit(): void {
     this.UserModel = this.formService.UserModel;
@@ -77,6 +78,7 @@ export class HomeSlideimageComponent implements OnInit {
   }
 
   openDeleteItemModal(content: any, item: any) {
+    this.SliderId = item.id;
     this.modalService.open(content, {
       size: 'md',
       scrollable: true,
@@ -142,5 +144,17 @@ export class HomeSlideimageComponent implements OnInit {
           this.toaster.error(data.message);
       });
     }
+  }
+
+  DeleteSlider() {
+    this.adminService.DeleteSliderImage(this.SliderId).subscribe(data => {
+      if (data.done) {
+        this.toaster.success(data.message);
+        this.GetHomeSliderImages();
+        this.modalService.dismissAll();
+      }
+      else
+        this.toaster.error(data.message);
+    });
   }
 }

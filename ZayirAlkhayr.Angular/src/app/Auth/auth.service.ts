@@ -15,15 +15,13 @@ export class AuthService {
   }
 
   CreateSessionId() {
-    let sessionId = this.cookieService.get('sessionId');
+    let sessionId = localStorage.getItem('sessionId');
     if (sessionId)
       return;
 
     this.http.get<any>(this.apiURL + 'WebsiteHome/CreateSessionId').subscribe(data => {
       const sessionId = data.sessionId;
-      const expirationDate = new Date();
-      expirationDate.setDate(expirationDate.getDate() + 9999);
-      this.cookieService.set('sessionId', sessionId, expirationDate);
+      localStorage.setItem('sessionId', sessionId);
     });
   }
 
