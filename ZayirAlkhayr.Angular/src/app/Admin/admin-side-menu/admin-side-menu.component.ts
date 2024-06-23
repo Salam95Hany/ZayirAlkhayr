@@ -15,7 +15,7 @@ export class AdminSideMenuComponent implements OnInit {
   constructor(private formService: ValidationFormService) { }
 
   ngOnInit(): void {
-    this.UserModel = this.formService.UserModel;
+    this.UserModel = JSON.parse(localStorage.getItem('UserModel'));
   }
 
   onCloseSidemenuFromOverlay() {

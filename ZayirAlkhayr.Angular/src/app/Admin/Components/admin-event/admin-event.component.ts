@@ -31,7 +31,7 @@ export class AdminEventComponent implements OnInit {
     , private fb: FormBuilder, private toaster: ToastrService, private datePipe: DatePipe) { }
 
   ngOnInit(): void {
-    this.UserModel = this.formService.UserModel;
+    this.UserModel = JSON.parse(localStorage.getItem('UserModel'));;
     this.FormInit();
     this.GetAllEvents();
   }

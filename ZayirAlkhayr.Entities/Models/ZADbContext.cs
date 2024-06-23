@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ZayirAlkhayr.Entities.Models
 {
-    public partial class ZADbContext: IdentityDbContext<IdentityUser>
+    public partial class ZADbContext: IdentityDbContext<AdminUser>
     {
         private IConfiguration Configuration;
 

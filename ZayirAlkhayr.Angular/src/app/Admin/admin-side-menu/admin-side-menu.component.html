@@ -18,8 +18,8 @@
     </div>
     <hr>
     <div class="admin-side-menu-list">
-      <div class="side-menu-list-title side-menu-text">موقع زائر الخير</div>
-      <ul class="side-menu-list list-unstyled p-0 m-0">
+      <div class="side-menu-list-title side-menu-text" appRole [roles]="['SupperAdmin','WebSite']">موقع زائر الخير</div>
+      <ul class="side-menu-list list-unstyled p-0 m-0" appRole [roles]="['SupperAdmin','WebSite']">
         <li class="side-menu-list-item">
           <a class="side-menu-list-link" routerLink="./home-slideimage" routerLinkActive="active">
             <i class="uil uil-setting"></i>
@@ -44,7 +44,7 @@
             <span class="side-menu-text">الصور</span>
           </a>
         </li>
-        <li class="side-menu-list-item">
+        <!-- <li class="side-menu-list-item">
           <a class="side-menu-list-link">
             <i class="uil uil-setting"></i>
             <span class="side-menu-text">المتبرعين</span>
@@ -55,9 +55,9 @@
             <i class="uil uil-setting"></i>
             <span class="side-menu-text">تفاصيل المتبرعين</span>
           </a>
-        </li>
+        </li> -->
       </ul>
-      <hr>
+      <!-- <hr>
       <div class="side-menu-list-title side-menu-text">خدمات اجتماعية</div>
       <ul class="side-menu-list list-unstyled p-0 m-0">
         <li class="side-menu-list-item">
@@ -87,10 +87,10 @@
             <span class="side-menu-text">دار المغتربين</span>
           </a>
         </li>
-      </ul>
-      <hr>
-      <div class="side-menu-list-title side-menu-text">الاعدادات</div>
-      <ul class="side-menu-list list-unstyled p-0 m-0">
+      </ul> -->
+      <hr appRole [roles]="['SupperAdmin']">
+      <div class="side-menu-list-title side-menu-text" appRole [roles]="['SupperAdmin']">الاعدادات</div>
+      <ul class="side-menu-list list-unstyled p-0 m-0" appRole [roles]="['SupperAdmin']">
         <li>
           <a class="side-menu-list-link sub-link" routerLink="./user" routerLinkActive="active">
             <i class="uil uil-sliders-v-alt"></i>

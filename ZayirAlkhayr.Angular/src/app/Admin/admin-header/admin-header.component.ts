@@ -1,6 +1,7 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ValidationFormService } from '../Services/validation-form.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/Auth/auth.service';
 
 @Component({
   selector: 'app-admin-header',
@@ -18,12 +19,12 @@ export class AdminHeaderComponent implements OnInit {
   UserModel: any;
 
 
-  constructor(private formService: ValidationFormService, private router: Router) {
+  constructor(private formService: ValidationFormService, private router: Router, private authService: AuthService) {
     this.onClickOutside;
   }
 
   ngOnInit(): void {
-    this.UserModel = this.formService.UserModel;
+    this.UserModel = JSON.parse(localStorage.getItem('UserModel'));;
   }
 
   onCollapseExpandMenu() {
@@ -38,8 +39,12 @@ export class AdminHeaderComponent implements OnInit {
   }
 
   goToWebsite() {
-    localStorage.removeItem('UserModel');
-    this.router.navigateByUrl('/');
+    this.authService.AdminLogout(this.UserModel?.userId).subscribe(data => {
+      if (data) {
+        localStorage.removeItem('UserModel');
+        this.router.navigateByUrl('/');
+      }
+    });
   }
 
   @HostListener('document:mousedown', ['$event']) onClickOutside(event: Event) {

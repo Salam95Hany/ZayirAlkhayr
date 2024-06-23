@@ -50,7 +50,7 @@ namespace ZayirAlkhayr
             });
             services.AddControllers();
             services.AddDbContext<ZADbContext>();
-            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            services.AddIdentity<AdminUser, IdentityRole>(options =>
             {
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredLength = 4;
@@ -95,6 +95,7 @@ namespace ZayirAlkhayr
             services.AddScoped<IEventService, EventService>();
             services.AddScoped<IActivityService, ActivityService>();
             services.AddScoped<IPhotoService, PhotoService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IManageFileService, ManageFileService>();
             services.AddScoped<IExportManagerService, ExportManagerService>();
             services.AddScoped<ICreatePdfFileService, CreatePdfFileService>();

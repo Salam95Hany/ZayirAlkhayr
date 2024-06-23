@@ -23,40 +23,31 @@
             <th>الاسم</th>
             <th>البريد الالكترونى</th>
             <th>رقم التلفون</th>
+            <th>العنوان</th>
             <th>تاريخ الدخول</th>
             <th>الحالة</th>
+            <th>الصلاحية</th>
             <th class="text-center">أجراءات</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>تفاصيل 1</td>
-            <td>تفاصيل 2</td>
-            <td>تفاصيل 3</td>
-            <td>تفاصيل 3</td>
+          <tr *ngFor="let item of UsersData">
+            <td>{{item.userName}}</td>
+            <td>{{item.email}}</td>
+            <td>{{item.phoneNumber}}</td>
+            <td>{{item?.address}}</td>
+            <td>{{item?.loginDate}}</td>
             <td>
-              <div class="status-tag active">نشط</div>
+              <div class="status-tag active" *ngIf="item.isActive">نشط</div>
+              <div class="status-tag inactive" *ngIf="!item.isActive">غير نشط</div>
             </td>
+            <td>{{item.role}}</td>
             <td>
               <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
-                <i class="uil uil-edit text-primary icon-table-action shadow-sm"></i>
-                <i class="uil uil-times-circle text-danger icon-table-action shadow-sm"></i>
-                <i class="uil uil-user-check text-info icon-table-action shadow-sm"></i>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>تفاصيل 1</td>
-            <td>تفاصيل 2</td>
-            <td>تفاصيل 3</td>
-            <td>
-              <div class="status-tag inactive">غير نشط</div>
-            </td>
-            <td>
-              <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
-                <i class="uil uil-edit text-primary icon-table-action shadow-sm"></i>
-                <i class="uil uil-times-circle text-danger icon-table-action shadow-sm"></i>
-                <i class="uil uil-user-check text-info icon-table-action shadow-sm"></i>
+                <i class="uil uil-edit text-primary icon-table-action shadow-sm"
+                  (click)="openAddUserModal(AddUserModal,item)"></i>
+                <i class="uil uil-times-circle text-danger icon-table-action shadow-sm"
+                  (click)="openDeleteUserModal(deleteUserModal,item.userId)"></i>
               </div>
             </td>
           </tr>
@@ -104,11 +95,14 @@
               <div *ngIf="ItemForm.controls['email'].errors?.['required']">
                 هذا الحقل مطلوب
               </div>
+              <div *ngIf="ItemForm.controls['email'].errors?.['pattern']">
+                البريد الالكتروني غير صالح
+              </div>
             </div>
           </div>
           <div class="col-lg-6">
             <div class="form-floating">
-              <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user"
+              <input type="text" class="form-control" (keypress)="NumbersOnly($event.key)" id="floatingInput_1" placeholder="new-user"
                 formControlName="phoneNumber" required>
               <label for="floatingInput_1">رقم التلفون</label>
             </div>
@@ -132,14 +126,31 @@
               <div *ngIf="ItemForm.controls['password'].errors?.['required']">
                 هذا الحقل مطلوب
               </div>
+              <div *ngIf="ItemForm.controls['password'].errors?.['minlength']">
+                كلمة المرور لا تقل عن اربع ارقام او احرف
+              </div>
             </div>
           </div>
           <div class="col-lg-6">
-            <div ngbDropdown class="dropdown-with-search h-100 overflow-hidden" container="body">
+            <div class="form-floating">
+              <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user"
+                formControlName="address" required>
+              <label for="floatingInput_1">عنوان المستخدم</label>
+            </div>
+            <div
+              *ngIf="ItemForm.controls['address']?.invalid && (ItemForm.controls['address']?.dirty || ItemForm.controls['address']?.touched)"
+              class="alert text-danger">
+              <div *ngIf="ItemForm.controls['address'].errors?.['required']">
+                هذا الحقل مطلوب
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div ngbDropdown class="dropdown-with-search overflow-hidden" container="body">
               <button
                 class="dropdown-with-search-btn btn border h-100 w-100 d-flex align-items-center justify-content-between selector-padding"
                 id="dropdownBasic1" ngbDropdownToggle>
-                --اختار--
+                {{RoleName}}
               </button>
               <div class="width-530 py-0 overflow-hidden" ngbDropdownMenu aria-labelledby="dropdownBasic1">
                 <!-- <div class="p-2 gray-bgcolor border-bottom">
@@ -149,9 +160,15 @@
                   </div>
                 </div> -->
                 <ul class="dropdown-list-box list-unstyled max-height-200 overflow-auto px-1 py-1 m-0">
-                  <li class="dropdown-item cursor-pointer rounded" *ngFor="let role of Roles">{{role}}</li>
+                  <ng-container *ngFor="let role of Roles">
+                    <li class="dropdown-item cursor-pointer rounded" (click)="RoleName = role;RoleValidation = false"
+                      [ngClass]="{'DropDownSelected': RoleName == role}">{{role}}</li>
+                  </ng-container>
                 </ul>
               </div>
+            </div>
+            <div class="alert text-danger" *ngIf="RoleValidation">
+              هذا الحقل مطلوب
             </div>
           </div>
         </div>
@@ -159,13 +176,35 @@
     </div>
   </div>
   <div class="modal-footer justify-content-start gap-2">
-    <button class="btn main-button d-flex align-items-center gap-2" (click)="AddNewActivity()">
+    <button class="btn main-button d-flex align-items-center gap-2" (click)="AddNewUser()">
       <i class="uil uil-plus-circle"></i>
       <span>اضافه</span>
     </button>
     <button class="btn btn-danger rounded-25 d-flex align-items-center gap-2" (click)="modal.close()">
       <i class="uil uil-times-circle"></i>
       <span>الغاء</span>
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #deleteUserModal let-modal>
+  <div class="modal-header main-bgcolor text-white">
+    <div class="display-7 d-flex align-items-center gap-3">
+      <i class="uil uil-trash-alt"></i>
+      <span>حذف مستخدم</span>
+    </div>
+  </div>
+  <div class="modal-body">
+    <p class="fs-5 m-0">هل انت متأكد أنك تريد حذف هذا العنصر</p>
+  </div>
+  <div class="modal-footer justify-content-start">
+    <button type="button" class="btn btn-success" (click)="DeleteUser()">
+      <i class="fas fa-check"></i>
+      <span class="ms-2">نعم</span>
+    </button>
+    <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+      <i class="fas fa-times"></i>
+      <span class="ms-2">لا</span>
     </button>
   </div>
 </ng-template>

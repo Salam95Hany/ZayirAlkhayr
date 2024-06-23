@@ -7,10 +7,8 @@ import { v4 as uuidv4 } from 'uuid';
 })
 export class ValidationFormService {
   fileURL: any[] = [];
-  UserModel: any;
-  constructor() {
-    this.UserModel = JSON.parse(localStorage.getItem('UserModel'));
-  }
+  
+  constructor() { }
 
   validateAllFormFields(formGroup: FormGroup) {
     Object.keys(formGroup.controls).forEach(field => {

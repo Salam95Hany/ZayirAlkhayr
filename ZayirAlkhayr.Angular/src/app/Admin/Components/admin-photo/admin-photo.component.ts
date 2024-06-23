@@ -33,7 +33,7 @@ export class AdminPhotoComponent implements OnInit {
     , private fb: FormBuilder, private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.UserModel = this.formService.UserModel;
+    this.UserModel = JSON.parse(localStorage.getItem('UserModel'));;
     this.FormInit();
     this.GetAllPhotos();
   }

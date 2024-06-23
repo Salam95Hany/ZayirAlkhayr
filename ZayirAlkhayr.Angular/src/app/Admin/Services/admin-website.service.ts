@@ -117,4 +117,22 @@ export class AdminWebsiteService {
   DeleteEvent(EventId: number) {
     return this.http.get<any>(this.apiURL + 'Event/DeleteEvent?EventId=' + EventId);
   }
+
+  // ============================= Users ==============================
+
+  GetAllUsers() {
+    return this.http.get<any[]>(this.apiURL + 'User/GetAllUsers');
+  }
+
+  CreateUser(Model: any) {
+    return this.http.post<any>(this.apiURL + 'User/CreateUser', Model);
+  }
+
+  EditUser(Model: any) {
+    return this.http.post<any>(this.apiURL + 'User/EditUser', Model);
+  }
+
+  DeleteUser(UserId: string) {
+    return this.http.get<any>(this.apiURL + 'User/DeleteUser?UserId=' + UserId);
+  }
 }
