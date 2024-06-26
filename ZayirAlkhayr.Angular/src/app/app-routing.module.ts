@@ -8,9 +8,11 @@ import { PhotosComponent } from './WebSite/photos/photos.component';
 import { ActivityDetailsComponent } from './WebSite/activity-details/activity-details.component';
 import { PhotoDetailsComponent } from './WebSite/photo-details/photo-details.component';
 import { LoginComponent } from './login/login.component';
+import { NotAuthorizedComponent } from './Auth/not-authorized/not-authorized.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'not-authorized', component: NotAuthorizedComponent },
   { path: 'admin', loadChildren: () => import('../app/Admin/admin.module').then(m => m.AdminModule) },
   {
     path: '', component: HomeComponent, children: [

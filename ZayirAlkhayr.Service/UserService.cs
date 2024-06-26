@@ -229,5 +229,16 @@ namespace ZayirAlkhayr.Service
                 return Response;
             }
         }
+
+        public StatisticsHomeModel GetStatisticsHome()
+        {
+            var StatisticsModel = new StatisticsHomeModel();
+            var VisitorCount = _context.WebSiteVisitors.Count();
+            var User = _context.Users.ToList();
+            StatisticsModel.VisitorCount = VisitorCount;
+            StatisticsModel.ActiveUserCount = User.Where(i => i.IsActive).Count();
+            StatisticsModel.InactiveUserCount = User.Where(i => !i.IsActive).Count();
+            return StatisticsModel;
+        }
     }
 }

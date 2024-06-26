@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   apiURL = environment.apiUrl;
-  constructor(private http: HttpClient, private cookieService: CookieService) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   AdminLogin(model: any) {
     return this.http.post<any>(this.apiURL + 'User/AdminLogin', model);
@@ -29,6 +29,14 @@ export class AuthService {
     });
   }
 
+  isAuthenticated(): boolean {
+    let currentUser = JSON.parse(localStorage.getItem('UserModel'));
+    if (!currentUser)
+      return false;
+
+    return true;
+  }
+
   isInRole(roles: string[]): boolean {
     let userModel = JSON.parse(localStorage.getItem('UserModel'));
     if (!userModel)
@@ -36,6 +44,10 @@ export class AuthService {
 
     let ckeckRole = roles.some(i => i == userModel?.role);
     return ckeckRole;
+  }
+
+  loginRedirect(): void {
+    this.router.navigateByUrl('/login');
   }
 
 

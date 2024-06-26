@@ -18,6 +18,7 @@ export class AdminUserComponent implements OnInit {
   Roles = ['SupperAdmin', 'WebSite', 'Services'];
   RoleValidation = false;
   ManagerUserId = '321db4e1-e32b-4aeb-8802-b076f9d7227d';
+  TotalCount = 0;
 
   constructor(private modalService: NgbModal, private adminService: AdminWebsiteService, private formService: ValidationFormService
     , private fb: FormBuilder, private toaster: ToastrService) {
@@ -62,7 +63,7 @@ export class AdminUserComponent implements OnInit {
     this.ItemForm.get('userId').setValue(0);
   }
 
-  NumbersOnly(key: any):boolean {
+  NumbersOnly(key: any): boolean {
     return this.formService.NumbersOnly(key);
   }
 
@@ -89,6 +90,7 @@ export class AdminUserComponent implements OnInit {
   GetAllUsers() {
     this.adminService.GetAllUsers().subscribe(data => {
       this.UsersData = data;
+      this.TotalCount = this.UsersData.length;
     })
   }
 

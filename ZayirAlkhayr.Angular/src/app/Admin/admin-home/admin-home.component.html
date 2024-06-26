@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col-lg-3">
+        <img src="../../../assets/logo-2.png" loading="lazy" alt="" class="logo-img">
+    </div>
+    <div class="col-lg-3">
+        <div class="pos-prod-item prod-red box-hover">
+            <div class="d-flex flex-column align-items-center justify-content-between">
+                <div class="pos-prod-text prod-text-red fw-bold fs-5">الزائرين</div>
+                <div class="pos-prod-text prod-text-red fw-bold fs-5">{{StatisticsData?.visitorCount ?? 0}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="pos-prod-item prod-purple box-hover">
+            <div class="d-flex flex-column align-items-center justify-content-between">
+                <div class="pos-prod-text prod-text-purple fw-bold fs-5">المستخدمين النشطين</div>
+                <div class="pos-prod-text prod-text-purple fw-bold fs-5">{{StatisticsData?.activeUserCount ?? 0}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="pos-prod-item prod-orange box-hover">
+            <div class="d-flex flex-column align-items-center justify-content-between">
+                <div class="pos-prod-text prod-text-orange fw-bold fs-5">المستخدمين غير النشطين</div>
+                <div class="pos-prod-text prod-text-orange fw-bold fs-5">{{StatisticsData?.inactiveUserCount ?? 0}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

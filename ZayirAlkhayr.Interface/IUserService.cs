@@ -16,5 +16,6 @@ namespace ZayirAlkhayr.Interface
         HandleErrorResponseModel EditUser(AddUserModel model);
         HandleErrorResponseModel DeleteUser(string UserId);
         DataTable GetAllUsers();
+        StatisticsHomeModel GetStatisticsHome();
     }
 }

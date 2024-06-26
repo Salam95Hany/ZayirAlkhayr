@@ -124,6 +124,10 @@ export class AdminWebsiteService {
     return this.http.get<any[]>(this.apiURL + 'User/GetAllUsers');
   }
 
+  GetStatisticsHome() {
+    return this.http.get<any>(this.apiURL + 'User/GetStatisticsHome');
+  }
+
   CreateUser(Model: any) {
     return this.http.post<any>(this.apiURL + 'User/CreateUser', Model);
   }
