@@ -25,7 +25,7 @@ export class HomeSlideimageComponent implements OnInit {
     , private fb: FormBuilder, private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.UserModel = JSON.parse(localStorage.getItem('UserModel'));;
+    this.UserModel = JSON.parse(localStorage.getItem('UserModel'));
     this.FormInit();
     this.GetHomeSliderImages();
   }
@@ -89,7 +89,6 @@ export class HomeSlideimageComponent implements OnInit {
   GetHomeSliderImages() {
     this.adminService.GetHomeSliderImages().subscribe(data => {
       this.SliderData = data;
-      this.SliderData.forEach(i => { i.isVisible = i.isVisible == 'True' ? true : false });
       this.TotalCount = data.length;
     });
   }

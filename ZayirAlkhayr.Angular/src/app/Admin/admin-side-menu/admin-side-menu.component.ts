@@ -9,7 +9,8 @@ import { ValidationFormService } from '../Services/validation-form.service';
 export class AdminSideMenuComponent implements OnInit {
   @Input() isCollapsing = false;
   @Output() closeSideMenuFromOverlayEvent = new EventEmitter<boolean>();
-  isCollapsed_1 = false;
+  isCollapsed_1 = true;
+  isCollapsed_2 = true;
   UserModel: any;
 
   constructor(private formService: ValidationFormService) { }

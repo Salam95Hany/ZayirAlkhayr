@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -20,33 +21,23 @@ namespace ZayirAlkhayr.Service
         private readonly ZADbContext _Context;
         private readonly IManageFileService _manageFileService;
         private readonly IConfiguration _configuration;
+        private readonly ISQLHelper _sQLHelper;
         private string ApiLocalUrl;
-        public WebsiteHomeService(ZADbContext Context, IManageFileService manageFileService, IConfiguration configuration)
+        public WebsiteHomeService(ZADbContext Context, IManageFileService manageFileService, IConfiguration configuration, ISQLHelper sQLHelper)
         {
             _Context = Context;
             _manageFileService = manageFileService;
             _configuration = configuration;
+            _sQLHelper = sQLHelper;
             ApiLocalUrl = _configuration["ApiUrlLocal"];
         }
 
         public DataTable GetHomeSliderImages()
         {
-            var Users = _Context.Users.ToList();
-            var results = _Context.SliderImages.ToList();
-            var Data = (from res in results
-                        join user in Users on res.InsertUser equals user.Id
-                        select new
-                        {
-                            Id = res.Id,
-                            Title = res.Title,
-                            Image = Path.Combine(ApiLocalUrl, ImageFiles.SliderImages.ToString(), res.Image),
-                            InsertDate = res.InsertDate,
-                            IsVisible = res.IsVisible,
-                            CreatedBy = user.UserName
-                        }).ToList().ToDataTable();
-
-
-            return Data;
+            var Params = new SqlParameter[1];
+            Params[0] = new SqlParameter("@ApiUrl", ApiLocalUrl);
+            var dt = _sQLHelper.ExecuteDataTable("web.SP_GetHomeSliderImages", Params);
+            return dt;
         }
 
         public List<Footer> GetFooterData()

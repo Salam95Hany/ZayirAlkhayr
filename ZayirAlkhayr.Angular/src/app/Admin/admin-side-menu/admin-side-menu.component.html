@@ -31,41 +31,38 @@
         <div class="side-menu-list-title side-menu-text">موقع زائر الخير</div>
         <ul class="side-menu-list list-unstyled p-0 m-0">
           <li class="side-menu-list-item">
-            <a class="side-menu-list-link" routerLink="./home-slideimage" routerLinkActive="active">
+            <a class="side-menu-list-link with-sub-menu" [class.expanded]="isCollapsed_1" (click)="collapse.toggle()"
+              [attr.aria-expanded]="!isCollapsed_1">
               <i class="uil uil-setting"></i>
-              <span class="side-menu-text">شريط الصور</span>
+              <span class="side-menu-text">الصفحات</span>
             </a>
           </li>
-          <li class="side-menu-list-item">
-            <a class="side-menu-list-link" routerLink="./activity" routerLinkActive="active">
-              <i class="uil uil-setting"></i>
-              <span class="side-menu-text">الأنشطة</span>
-            </a>
-          </li>
-          <li class="side-menu-list-item">
-            <a class="side-menu-list-link" routerLink="./event" routerLinkActive="active">
-              <i class="uil uil-setting"></i>
-              <span class="side-menu-text">الفعاليات</span>
-            </a>
-          </li>
-          <li class="side-menu-list-item">
-            <a class="side-menu-list-link" routerLink="./photo" routerLinkActive="active">
-              <i class="uil uil-setting"></i>
-              <span class="side-menu-text">الصور</span>
-            </a>
-          </li>
-          <!-- <li class="side-menu-list-item">
-            <a class="side-menu-list-link">
-              <i class="uil uil-setting"></i>
-              <span class="side-menu-text">المتبرعين</span>
-            </a>
-          </li>
-          <li class="side-menu-list-item">
-            <a class="side-menu-list-link">
-              <i class="uil uil-setting"></i>
-              <span class="side-menu-text">تفاصيل المتبرعين</span>
-            </a>
-          </li> -->
+          <ul class="list-unstyled m-0 menu-list-collapsed" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed_1">
+            <li>
+              <a class="side-menu-list-link sub-link" routerLink="./home-slideimage" routerLinkActive="active">
+                <i class="uil uil-sliders-v-alt"></i>
+                <span class="side-menu-text">شريط الصور</span>
+              </a>
+            </li>
+            <li>
+              <a class="side-menu-list-link sub-link" routerLink="./activity" routerLinkActive="active">
+                <i class="uil uil-sliders-v-alt"></i>
+                <span class="side-menu-text">الأنشطة</span>
+              </a>
+            </li>
+            <li>
+              <a class="side-menu-list-link sub-link" routerLink="./event" routerLinkActive="active">
+                <i class="uil uil-sliders-v-alt"></i>
+                <span class="side-menu-text">الفعاليات</span>
+              </a>
+            </li>
+            <li>
+              <a class="side-menu-list-link sub-link" routerLink="./photo" routerLinkActive="active">
+                <i class="uil uil-sliders-v-alt"></i>
+                <span class="side-menu-text">الصور</span>
+              </a>
+            </li>
+          </ul>
         </ul>
       </div>
       <div appRole [roles]="['SupperAdmin','Services']">
@@ -73,13 +70,13 @@
         <div class="side-menu-list-title side-menu-text">خدمات اجتماعية</div>
         <ul class="side-menu-list list-unstyled p-0 m-0">
           <li class="side-menu-list-item">
-            <a class="side-menu-list-link with-sub-menu" [class.expanded]="isCollapsed_1" (click)="collapse.toggle()"
-              [attr.aria-expanded]="!isCollapsed_1">
+            <a class="side-menu-list-link with-sub-menu" [class.expanded]="isCollapsed_2" (click)="collapse2.toggle()"
+              [attr.aria-expanded]="!isCollapsed_2">
               <i class="uil uil-setting"></i>
               <span class="side-menu-text">الحالات</span>
             </a>
           </li>
-          <ul class="list-unstyled m-0 menu-list-collapsed" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed_1">
+          <ul class="list-unstyled m-0 menu-list-collapsed" #collapse2="ngbCollapse" [(ngbCollapse)]="isCollapsed_2">
             <li>
               <a class="side-menu-list-link sub-link">
                 <i class="uil uil-sliders-v-alt"></i>

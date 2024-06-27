@@ -56,4 +56,13 @@ export class AdminHeaderComponent implements OnInit {
     }
   }
 
+  Logout() {
+    this.authService.AdminLogout(this.UserModel?.userId).subscribe(data => {
+      if (data) {
+        localStorage.removeItem('UserModel');
+        this.router.navigateByUrl('/login');
+      }
+    });
+  }
+
 }
