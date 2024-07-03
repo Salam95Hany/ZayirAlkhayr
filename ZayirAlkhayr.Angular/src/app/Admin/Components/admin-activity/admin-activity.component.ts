@@ -118,7 +118,6 @@ export class AdminActivityComponent implements OnInit {
   GetAllActivities() {
     this.adminService.GetAllActivities().subscribe(data => {
       this.ActivitiesData = data;
-      this.ActivitiesData.forEach(i => { i.isVisible = i.isVisible == 'True' ? true : false });
       this.TotalCount = data.length;
     });
   }

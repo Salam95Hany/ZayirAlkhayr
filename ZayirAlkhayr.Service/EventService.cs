@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -21,13 +23,15 @@ namespace ZayirAlkhayr.Service
         private readonly IManageFileService _manageFileService;
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _environment;
+        private readonly ISQLHelper _sQLHelper;
         private string ApiLocalUrl;
-        public EventService(ZADbContext Context, IManageFileService manageFileService, IConfiguration configuration, IWebHostEnvironment environment)
+        public EventService(ZADbContext Context, IManageFileService manageFileService, IConfiguration configuration, IWebHostEnvironment environment, ISQLHelper sQLHelper)
         {
             _Context = Context;
             _manageFileService = manageFileService;
             _configuration = configuration;
             _environment = environment;
+            _sQLHelper = sQLHelper;
             ApiLocalUrl = _configuration["ApiUrlLocal"];
         }
 
@@ -52,20 +56,11 @@ namespace ZayirAlkhayr.Service
             return Grouping;
         }
 
-        public List<Event> GetAllEvents()
+        public DataTable GetAllEvents()
         {
-            var results = _Context.Events.Select(i => new Event
-            {
-                Id = i.Id,
-                Title = i.Title,
-                Description = i.Description,
-                FromDate = i.FromDate,
-                ToDate = i.ToDate,
-                InsertDate = i.InsertDate,
-                Month = i.Month,
-                IsVisible = i.IsVisible
-            }).ToList();
-            return results;
+            var Params = new SqlParameter[0];
+            var dt = _sQLHelper.ExecuteDataTable("web.SP_GetAllEvents", Params);
+            return dt;
         }
 
         public List<EventSliderImages> GetEventSliderImagesById(int EventId)

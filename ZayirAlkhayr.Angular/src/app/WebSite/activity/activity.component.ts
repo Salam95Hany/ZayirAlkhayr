@@ -20,7 +20,6 @@ export class ActivityComponent implements OnInit {
     this.adminService.GetAllActivities().subscribe(data => {
       this.ActivitiesData = data;
       this.ActivitiesData = this.ActivitiesData.filter(i => i.isVisible);
-      console.log(this.ActivitiesData);
     });
   }
 

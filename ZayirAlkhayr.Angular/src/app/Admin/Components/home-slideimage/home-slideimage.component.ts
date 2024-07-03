@@ -4,6 +4,7 @@ import { AdminWebsiteService } from '../../Services/admin-website.service';
 import { ValidationFormService } from '../../Services/validation-form.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { FilterModel } from '../../Models/FilterModel';
 
 @Component({
   selector: 'app-home-slideimage',
@@ -12,15 +13,17 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class HomeSlideimageComponent implements OnInit {
   @ViewChild('InputFile') InputFile: ElementRef;
-  isFilter = false;
+  FilterList: FilterModel[] = [];
   SliderData: any[] = [];
+  fileURL: any[] = [];
   ItemForm: FormGroup;
   isFileExist = false;
+  isFilter = false;
   ImageFile: any;
   UserModel: any;
   TotalCount = 0;
-  fileURL: any[] = [];
   SliderId: number;
+
   constructor(private modalService: NgbModal, private adminService: AdminWebsiteService, private formService: ValidationFormService
     , private fb: FormBuilder, private toaster: ToastrService) { }
 
@@ -28,6 +31,7 @@ export class HomeSlideimageComponent implements OnInit {
     this.UserModel = JSON.parse(localStorage.getItem('UserModel'));
     this.FormInit();
     this.GetHomeSliderImages();
+    this.GetHomeSliderImagesFilter();
   }
 
   FormInit() {
@@ -93,6 +97,12 @@ export class HomeSlideimageComponent implements OnInit {
     });
   }
 
+  GetHomeSliderImagesFilter() {
+    this.adminService.GetHomeSliderImagesFilter().subscribe(data => {
+      this.FilterList = data;
+    });
+  }
+
   onFileChange(event: any) {
     this.fileURL = [];
     this.ImageFile = null;
@@ -101,6 +111,10 @@ export class HomeSlideimageComponent implements OnInit {
       this.ImageFile = data[1][0];
       this.isFileExist = false;
     });
+  }
+
+  FilterChecked(filterList: FilterModel[]) {
+    console.log(filterList);
   }
 
   DeleteSelectedFile() {

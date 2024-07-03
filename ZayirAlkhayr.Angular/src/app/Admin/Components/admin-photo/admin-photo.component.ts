@@ -117,7 +117,6 @@ export class AdminPhotoComponent implements OnInit {
   GetAllPhotos() {
     this.adminService.GetAllPhotos().subscribe(data => {
       this.PhotosData = data;
-      this.PhotosData.forEach(i => { i.isVisible = i.isVisible == 'True' ? true : false });
       this.TotalCount = data.length;
     });
   }

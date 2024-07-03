@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZayirAlkhayr.Entities.Common;
 
 namespace ZayirAlkhayr.Interface.Common
 {
@@ -12,5 +13,6 @@ namespace ZayirAlkhayr.Interface.Common
     {
         DataTable ExecuteDataTable(string commandText, params SqlParameter[] Parameters);
         DataSet ExecuteDataset(string commandText, SqlParameter[] commandParameters);
+        List<FilterModel> GroupingFilters(DataTable dt);
     }
 }

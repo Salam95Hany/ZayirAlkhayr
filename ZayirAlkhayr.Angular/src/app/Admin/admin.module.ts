@@ -17,6 +17,7 @@ import { AdminUserComponent } from './Components/Settings/admin-user/admin-user.
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RoleCheckerDirective } from './Directives/role-checker.directive';
 import { AdminHomeComponent } from './admin-home/admin-home.component';
+import { SearchArryPipe } from './Pipes/search-arry.pipe';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { AdminHomeComponent } from './admin-home/admin-home.component';
     AdminPaginationComponent,
     AdminUserComponent,
     RoleCheckerDirective,
-    AdminHomeComponent
+    AdminHomeComponent,
+    SearchArryPipe
   ],
   imports: [
     CommonModule,

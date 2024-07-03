@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { UploadFileModel } from '../Models/FileModel';
+import { FilterModel } from '../Models/FilterModel';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,10 @@ export class AdminWebsiteService {
 
   GetHomeSliderImages() {
     return this.http.get<any[]>(this.apiURL + 'WebsiteHome/GetHomeSliderImages');
+  }
+
+  GetHomeSliderImagesFilter() {
+    return this.http.get<FilterModel[]>(this.apiURL + 'WebsiteHome/GetHomeSliderImagesFilter');
   }
 
   AddNewSliderImage(Model: any) {

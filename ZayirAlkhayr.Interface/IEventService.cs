@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace ZayirAlkhayr.Interface
 {
     public interface IEventService
     {
-        List<Event> GetAllEvents();
+        DataTable GetAllEvents();
         List<EventGroupingModel> GetAllWebSiteEvents();
         List<EventSliderImages> GetEventSliderImagesById(int EventId);
         HandleErrorResponseModel AddNewEvent(Event Model);

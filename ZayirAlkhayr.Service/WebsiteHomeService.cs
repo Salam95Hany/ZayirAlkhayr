@@ -40,6 +40,14 @@ namespace ZayirAlkhayr.Service
             return dt;
         }
 
+        public List<FilterModel> GetHomeSliderImagesFilter()
+        {
+            var Params = new SqlParameter[0];
+            var dt = _sQLHelper.ExecuteDataTable("web.SP_GetAllWebPagesFilter", Params);
+            var Filters = _sQLHelper.GroupingFilters(dt);
+            return Filters;
+        }
+
         public List<Footer> GetFooterData()
         {
             var results = _Context.Footers.ToList();

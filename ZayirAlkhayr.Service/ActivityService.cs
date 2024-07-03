@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -22,35 +23,24 @@ namespace ZayirAlkhayr.Service
         private readonly IManageFileService _manageFileService;
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _environment;
+        private readonly ISQLHelper _sQLHelper;
         private string ApiLocalUrl;
-        public ActivityService(ZADbContext Context, IManageFileService manageFileService, IConfiguration configuration, IWebHostEnvironment environment)
+        public ActivityService(ZADbContext Context, IManageFileService manageFileService, IConfiguration configuration, IWebHostEnvironment environment, ISQLHelper sQLHelper)
         {
             _Context = Context;
             _manageFileService = manageFileService;
             _configuration = configuration;
             _environment = environment;
+            _sQLHelper = sQLHelper;
             ApiLocalUrl = _configuration["ApiUrlLocal"];
         }
 
         public DataTable GetAllActivities()
         {
-            var Users = _Context.Users.ToList();
-            var results = _Context.Activities.ToList();
-            var Data = (from res in results
-                        join user in Users on res.InsertUser equals user.Id
-                        select new
-                        {
-                            Id = res.Id,
-                            Name = res.Name,
-                            Description = res.Description,
-                            Image = Path.Combine(ApiLocalUrl, ImageFiles.ActivityImages.ToString(), res.Image),
-                            InsertDate = res.InsertDate,
-                            IsVisible = res.IsVisible,
-                            CreatedBy = user.UserName
-                        }).ToList().ToDataTable();
-
-
-            return Data;
+            var Params = new SqlParameter[1];
+            Params[0] = new SqlParameter("@ApiUrl", ApiLocalUrl);
+            var dt = _sQLHelper.ExecuteDataTable("web.SP_GetAllActivities", Params);
+            return dt;
         }
 
         public List<ActivitySliderImage> GetActivitySliderImagesById(int ActivityId)

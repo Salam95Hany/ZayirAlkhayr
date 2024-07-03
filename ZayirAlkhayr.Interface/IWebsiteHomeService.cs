@@ -12,6 +12,7 @@ namespace ZayirAlkhayr.Interface
     public interface IWebsiteHomeService
     {
         DataTable GetHomeSliderImages();
+        List<FilterModel> GetHomeSliderImagesFilter();
         List<Footer> GetFooterData();
         Task<HandleErrorResponseModel> AddNewSliderImage(SliderImage Model);
         HandleErrorResponseModel AddNewFooterData(Footer Model);

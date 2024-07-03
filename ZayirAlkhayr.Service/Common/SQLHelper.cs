@@ -10,6 +10,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using ZayirAlkhayr.Interface.Common;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Mvc.Filters;
+using ZayirAlkhayr.Entities.Common;
 
 namespace ZayirAlkhayr.Service.Common
 {
@@ -92,6 +94,29 @@ namespace ZayirAlkhayr.Service.Common
                     sqlParameter.Value = (object)DBNull.Value;
                 command.Parameters.Add(sqlParameter);
             }
+        }
+
+        public List<FilterModel> GroupingFilters(DataTable dt)
+        {
+            List<FilterModel> List = dt.AsEnumerable().GroupBy(y => new
+            {
+                CategoryName = y.Field<string>("CategoryName"),
+            }).Select(x => new FilterModel
+            {
+                CategoryName = x.Key.CategoryName,
+                IsVisible = x.FirstOrDefault().Field<bool>("IsVisible"),
+                FilterType = x.FirstOrDefault().Field<string>("FilterType"),
+                FilterItems = x.Select(s => new FilterModel
+                {
+                    CategoryName = s.Field<string>("CategoryName"),
+                    ItemValue = s.Field<string>("ItemValue"),
+                    ItemKey = s.Field<string>("ItemKey"),
+                    ItemId = s.Field<string>("ItemId")
+                }).ToList()
+                
+            }).ToList();
+
+            return List;
         }
     }
 }

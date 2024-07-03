@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Data;
 using System.Threading.Tasks;
 using ZayirAlkhayr.Entities.Common;
 using ZayirAlkhayr.Entities.Models;
@@ -26,7 +27,7 @@ namespace ZayirAlkhayr.Controllers
         }
 
         [HttpGet("GetAllEvents")]
-        public List<Event> GetAllEvents()
+        public DataTable GetAllEvents()
         {
             var result = _eventService.GetAllEvents();
             return result;

@@ -16,7 +16,7 @@ namespace ZayirAlkhayr.Controllers
     public class WebsiteHomeController : ControllerBase
     {
         private readonly IWebsiteHomeService _websiteHomeService;
-        
+
         public WebsiteHomeController(IWebsiteHomeService websiteHomeService)
         {
             _websiteHomeService = websiteHomeService;
@@ -26,6 +26,13 @@ namespace ZayirAlkhayr.Controllers
         public DataTable GetHomeSliderImages()
         {
             var result = _websiteHomeService.GetHomeSliderImages();
+            return result;
+        }
+
+        [HttpGet("GetHomeSliderImagesFilter")]
+        public List<FilterModel> GetHomeSliderImagesFilter()
+        {
+            var result = _websiteHomeService.GetHomeSliderImagesFilter();
             return result;
         }
 
