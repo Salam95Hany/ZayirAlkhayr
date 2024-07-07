@@ -5,6 +5,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ValidationFormService } from '../../Services/validation-form.service';
 import { UploadFileModel } from '../../Models/FileModel';
 import { ToastrService } from 'ngx-toastr';
+import { PagingFilterModel } from '../../Models/PagingFilterModel';
+import { FilterModel } from '../../Models/FilterModel';
 
 @Component({
   selector: 'app-admin-activity',
@@ -23,6 +25,12 @@ export class AdminActivityComponent implements OnInit {
     files: [],
     deletedFiles: []
   } as UploadFileModel;
+  PagingFilter: PagingFilterModel = {
+    filterList: [],
+    currentpage: 1,
+    pagesize: 5
+  }
+  FilterList: FilterModel[] = [];
   ItemForm: FormGroup;
   isFileExist = false;
   ImageFile: any;
@@ -37,6 +45,7 @@ export class AdminActivityComponent implements OnInit {
     this.UserModel = JSON.parse(localStorage.getItem('UserModel'));;
     this.FormInit();
     this.GetAllActivities();
+    this.GetWebsiteAdminFilters();
   }
 
   FormInit() {
@@ -116,10 +125,27 @@ export class AdminActivityComponent implements OnInit {
   }
 
   GetAllActivities() {
-    this.adminService.GetAllActivities().subscribe(data => {
+    this.adminService.GetAllActivities(this.PagingFilter).subscribe(data => {
       this.ActivitiesData = data;
-      this.TotalCount = data.length;
+      this.TotalCount = data && data.length > 0 ? data[0].totalCount : 0;
     });
+  }
+
+  PageChange(obj: any) {
+    this.PagingFilter.currentpage = obj.page;
+    this.GetAllActivities();
+  }
+
+  GetWebsiteAdminFilters() {
+    this.adminService.GetAllWebPagesFilters('Activity').subscribe(data => {
+      this.FilterList = data;
+
+    });
+  }
+
+  FilterChecked(filterList: FilterModel[]) {
+    this.PagingFilter.filterList = filterList;
+    this.GetAllActivities();
   }
 
   onFileChange(event: any) {
@@ -191,6 +217,7 @@ export class AdminActivityComponent implements OnInit {
         if (data.done) {
           this.toaster.success(data.message);
           this.GetAllActivities();
+          this.GetWebsiteAdminFilters();
           this.modalService.dismissAll();
         }
         else
@@ -214,6 +241,7 @@ export class AdminActivityComponent implements OnInit {
       if (data.done) {
         this.toaster.success(data.message);
         this.GetAllActivities();
+        this.GetWebsiteAdminFilters();
         this.modalService.dismissAll();
       }
       else

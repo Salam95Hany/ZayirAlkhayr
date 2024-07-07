@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PagingFilterModel } from 'src/app/Admin/Models/PagingFilterModel';
 import { AdminWebsiteService } from 'src/app/Admin/Services/admin-website.service';
 
 @Component({
@@ -8,6 +9,11 @@ import { AdminWebsiteService } from 'src/app/Admin/Services/admin-website.servic
 })
 export class ActivityComponent implements OnInit {
   ActivitiesData: any[] = [];
+  PagingFilter: PagingFilterModel = {
+    filterList: [],
+    currentpage: 1,
+    pagesize: 100
+  }
   constructor(private adminService: AdminWebsiteService) {
 
   }
@@ -17,7 +23,7 @@ export class ActivityComponent implements OnInit {
   }
 
   GetAllActivities() {
-    this.adminService.GetAllActivities().subscribe(data => {
+    this.adminService.GetAllActivities(this.PagingFilter).subscribe(data => {
       this.ActivitiesData = data;
       this.ActivitiesData = this.ActivitiesData.filter(i => i.isVisible);
     });

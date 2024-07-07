@@ -20,10 +20,10 @@ namespace ZayirAlkhayr.Controllers
             _photoService = photoService;
         }
 
-        [HttpGet("GetAllPhotos")]
-        public DataTable GetAllPhotos()
+        [HttpPost("GetAllPhotos")]
+        public DataTable GetAllPhotos(PagingFilterModel PagingFilter)
         {
-            var results = _photoService.GetAllPhotos();
+            var results = _photoService.GetAllPhotos(PagingFilter);
             return results;
         }
 

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { UploadFileModel } from '../Models/FileModel';
 import { FilterModel } from '../Models/FilterModel';
+import { PagingFilterModel } from '../Models/PagingFilterModel';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +14,12 @@ export class AdminWebsiteService {
 
   // ============================= SliderImage ==============================
 
-  GetHomeSliderImages() {
-    return this.http.get<any[]>(this.apiURL + 'WebsiteHome/GetHomeSliderImages');
+  GetHomeSliderImages(PagingFilter: PagingFilterModel) {
+    return this.http.post<any[]>(this.apiURL + 'WebsiteHome/GetHomeSliderImages', PagingFilter);
   }
 
-  GetHomeSliderImagesFilter() {
-    return this.http.get<FilterModel[]>(this.apiURL + 'WebsiteHome/GetHomeSliderImagesFilter');
+  GetAllWebPagesFilters(PageName: string) {
+    return this.http.get<FilterModel[]>(this.apiURL + 'WebsiteHome/GetAllWebPagesFilters?PageName=' + PageName);
   }
 
   AddNewSliderImage(Model: any) {
@@ -35,8 +36,8 @@ export class AdminWebsiteService {
 
   // ============================= Activity ==============================
 
-  GetAllActivities() {
-    return this.http.get<any[]>(this.apiURL + 'Activity/GetAllActivities');
+  GetAllActivities(PagingFilter: PagingFilterModel) {
+    return this.http.post<any[]>(this.apiURL + 'Activity/GetAllActivities', PagingFilter);
   }
 
   GetActivitySliderImagesById(ActivityId: number) {
@@ -65,8 +66,8 @@ export class AdminWebsiteService {
 
   // ============================= Photos ==============================
 
-  GetAllPhotos() {
-    return this.http.get<any[]>(this.apiURL + 'Photo/GetAllPhotos');
+  GetAllPhotos(PagingFilter: PagingFilterModel) {
+    return this.http.post<any[]>(this.apiURL + 'Photo/GetAllPhotos',PagingFilter);
   }
 
   GetPhotoDetails(PhotoId: number) {
@@ -95,8 +96,8 @@ export class AdminWebsiteService {
 
   // ============================= Events ==============================
 
-  GetAllEvents() {
-    return this.http.get<any[]>(this.apiURL + 'Event/GetAllEvents');
+  GetAllEvents(PagingFilter: PagingFilterModel) {
+    return this.http.post<any[]>(this.apiURL + 'Event/GetAllEvents',PagingFilter);
   }
 
   GetAllWebSiteEvents() {

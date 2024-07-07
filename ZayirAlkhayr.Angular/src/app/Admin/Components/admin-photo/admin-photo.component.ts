@@ -5,6 +5,8 @@ import { ValidationFormService } from '../../Services/validation-form.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { UploadFileModel } from '../../Models/FileModel';
+import { PagingFilterModel } from '../../Models/PagingFilterModel';
+import { FilterModel } from '../../Models/FilterModel';
 
 @Component({
   selector: 'app-admin-photo',
@@ -22,6 +24,12 @@ export class AdminPhotoComponent implements OnInit {
     files: [],
     deletedFiles: []
   } as UploadFileModel;
+  PagingFilter: PagingFilterModel = {
+    filterList: [],
+    currentpage: 1,
+    pagesize: 5
+  }
+  FilterList: FilterModel[] = [];
   isFilter = false;
   ItemForm: FormGroup;
   UserModel: any;
@@ -36,6 +44,7 @@ export class AdminPhotoComponent implements OnInit {
     this.UserModel = JSON.parse(localStorage.getItem('UserModel'));;
     this.FormInit();
     this.GetAllPhotos();
+    this.GetWebsiteAdminFilters();
   }
 
   FormInit() {
@@ -115,10 +124,27 @@ export class AdminPhotoComponent implements OnInit {
   }
 
   GetAllPhotos() {
-    this.adminService.GetAllPhotos().subscribe(data => {
+    this.adminService.GetAllPhotos(this.PagingFilter).subscribe(data => {
       this.PhotosData = data;
-      this.TotalCount = data.length;
+      this.TotalCount = data && data.length > 0 ? data[0].totalCount : 0;
     });
+  }
+
+  PageChange(obj: any) {
+    this.PagingFilter.currentpage = obj.page;
+    this.GetAllPhotos();
+  }
+
+  GetWebsiteAdminFilters() {
+    this.adminService.GetAllWebPagesFilters('Photo').subscribe(data => {
+      this.FilterList = data;
+
+    });
+  }
+
+  FilterChecked(filterList: FilterModel[]) {
+    this.PagingFilter.filterList = filterList;
+    this.GetAllPhotos();
   }
 
   onFileChange(event: any) {
@@ -190,6 +216,7 @@ export class AdminPhotoComponent implements OnInit {
         if (data.done) {
           this.toaster.success(data.message);
           this.GetAllPhotos();
+          this.GetWebsiteAdminFilters();
           this.modalService.dismissAll();
         }
         else
@@ -213,6 +240,7 @@ export class AdminPhotoComponent implements OnInit {
       if (data.done) {
         this.toaster.success(data.message);
         this.GetAllPhotos();
+        this.GetWebsiteAdminFilters();
         this.modalService.dismissAll();
       }
       else

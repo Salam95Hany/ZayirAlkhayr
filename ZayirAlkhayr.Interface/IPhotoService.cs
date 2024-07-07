@@ -12,7 +12,7 @@ namespace ZayirAlkhayr.Interface
 {
     public interface IPhotoService
     {
-        DataTable GetAllPhotos();
+        DataTable GetAllPhotos(PagingFilterModel PagingFilter);
         List<PhotoDetails> GetPhotoDetails(int PhotoId);
         PhotoModel GetPhotoWithDetailsById(int PhotoId);
         Task<HandleErrorResponseModel> AddNewPhoto(Photos Model);

@@ -19,10 +19,10 @@ namespace ZayirAlkhayr.Controllers
             _activityService = activityService;
         }
 
-        [HttpGet("GetAllActivities")]
-        public DataTable GetAllActivities()
+        [HttpPost("GetAllActivities")]
+        public DataTable GetAllActivities(PagingFilterModel PagingFilter)
         {
-            var results = _activityService.GetAllActivities();
+            var results = _activityService.GetAllActivities(PagingFilter);
             return results;
         }
 

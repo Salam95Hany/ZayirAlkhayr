@@ -22,17 +22,17 @@ namespace ZayirAlkhayr.Controllers
             _websiteHomeService = websiteHomeService;
         }
 
-        [HttpGet("GetHomeSliderImages")]
-        public DataTable GetHomeSliderImages()
+        [HttpPost("GetHomeSliderImages")]
+        public DataTable GetHomeSliderImages(PagingFilterModel PagingFilter)
         {
-            var result = _websiteHomeService.GetHomeSliderImages();
+            var result = _websiteHomeService.GetHomeSliderImages(PagingFilter);
             return result;
         }
 
-        [HttpGet("GetHomeSliderImagesFilter")]
-        public List<FilterModel> GetHomeSliderImagesFilter()
+        [HttpGet("GetAllWebPagesFilters")]
+        public List<FilterModel> GetAllWebPagesFilters(string PageName)
         {
-            var result = _websiteHomeService.GetHomeSliderImagesFilter();
+            var result = _websiteHomeService.GetAllWebPagesFilters(PageName);
             return result;
         }
 

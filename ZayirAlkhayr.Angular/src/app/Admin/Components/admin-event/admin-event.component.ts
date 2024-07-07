@@ -6,6 +6,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { UploadFileModel } from '../../Models/FileModel';
 import { DatePipe } from '@angular/common';
+import { PagingFilterModel } from '../../Models/PagingFilterModel';
+import { FilterModel } from '../../Models/FilterModel';
 
 @Component({
   selector: 'app-admin-event',
@@ -22,6 +24,12 @@ export class AdminEventComponent implements OnInit {
     files: [],
     deletedFiles: []
   } as UploadFileModel;
+  PagingFilter: PagingFilterModel = {
+    filterList: [],
+    currentpage: 1,
+    pagesize: 5
+  }
+  FilterList: FilterModel[] = [];
   ItemForm: FormGroup;
   UserModel: any;
   EventId: any;
@@ -34,6 +42,7 @@ export class AdminEventComponent implements OnInit {
     this.UserModel = JSON.parse(localStorage.getItem('UserModel'));;
     this.FormInit();
     this.GetAllEvents();
+    this.GetWebsiteAdminFilters();
   }
 
   FormInit() {
@@ -108,10 +117,27 @@ export class AdminEventComponent implements OnInit {
   }
 
   GetAllEvents() {
-    this.adminService.GetAllEvents().subscribe(data => {
+    this.adminService.GetAllEvents(this.PagingFilter).subscribe(data => {
       this.EventsData = data;
-      this.TotalCount = data.length;
+      this.TotalCount = data && data.length > 0 ? data[0].totalCount : 0;
     });
+  }
+
+  PageChange(obj: any) {
+    this.PagingFilter.currentpage = obj.page;
+    this.GetAllEvents();
+  }
+
+  GetWebsiteAdminFilters() {
+    this.adminService.GetAllWebPagesFilters('Event').subscribe(data => {
+      this.FilterList = data;
+
+    });
+  }
+
+  FilterChecked(filterList: FilterModel[]) {
+    this.PagingFilter.filterList = filterList;
+    this.GetAllEvents();
   }
 
   onMultiFileChange(event: any) {
@@ -164,6 +190,7 @@ export class AdminEventComponent implements OnInit {
         if (data.done) {
           this.toaster.success(data.message);
           this.GetAllEvents();
+          this.GetWebsiteAdminFilters();
           this.modalService.dismissAll();
         }
         else
@@ -187,6 +214,7 @@ export class AdminEventComponent implements OnInit {
       if (data.done) {
         this.toaster.success(data.message);
         this.GetAllEvents();
+        this.GetWebsiteAdminFilters();
         this.modalService.dismissAll();
       }
       else

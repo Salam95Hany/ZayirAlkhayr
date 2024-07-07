@@ -32,17 +32,22 @@ namespace ZayirAlkhayr.Service
             ApiLocalUrl = _configuration["ApiUrlLocal"];
         }
 
-        public DataTable GetHomeSliderImages()
+        public DataTable GetHomeSliderImages(PagingFilterModel PagingFilter)
         {
-            var Params = new SqlParameter[1];
-            Params[0] = new SqlParameter("@ApiUrl", ApiLocalUrl);
+            var FilterDt = _sQLHelper.ConvertFilterModelToDataTable(PagingFilter.FilterList);
+            var Params = new SqlParameter[4];
+            Params[0] = new SqlParameter("@FilterList", FilterDt);
+            Params[1] = new SqlParameter("@ApiUrl", ApiLocalUrl);
+            Params[2] = new SqlParameter("@CurrentPage", PagingFilter.Currentpage);
+            Params[3] = new SqlParameter("@PageSize", PagingFilter.Pagesize);
             var dt = _sQLHelper.ExecuteDataTable("web.SP_GetHomeSliderImages", Params);
             return dt;
         }
 
-        public List<FilterModel> GetHomeSliderImagesFilter()
+        public List<FilterModel> GetAllWebPagesFilters(string PageName)
         {
-            var Params = new SqlParameter[0];
+            var Params = new SqlParameter[1];
+            Params[0] = new SqlParameter("@PageName", PageName);
             var dt = _sQLHelper.ExecuteDataTable("web.SP_GetAllWebPagesFilter", Params);
             var Filters = _sQLHelper.GroupingFilters(dt);
             return Filters;

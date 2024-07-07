@@ -23,8 +23,9 @@
                     <div class="form-check dropdown-item cursor-pointer rounded"
                         *ngFor="let filter of item.filterItems | searchArry: FilterSearchText:'itemKey';let x = index">
                         <input class="form-check-input" type="checkbox" [(ngModel)]="filter.isChecked" (change)="filterChecked()" id="{{item.categoryName}}_{{x}}">
-                        <label class="form-check-label cursor-pointer" for="{{item.categoryName}}_{{x}}">
-                            {{filter.itemKey}} {{filter.itemValue}}
+                        <label class="form-check-label cursor-pointer filter-content" for="{{item.categoryName}}_{{x}}">
+                            <span>{{filter.itemKey}}</span>
+                            <span>{{filter.itemValue}}</span>
                         </label>
                     </div>
                 </div>

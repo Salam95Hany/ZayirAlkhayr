@@ -5,11 +5,20 @@
         <i class="uil uil-plus-circle"></i>
         <span class="navbar-brand m-0">اضافه</span>
       </button>
+      <button class="btn main-button d-flex align-items-center gap-2" (click)="isFilter = !isFilter"
+        [attr.aria-expanded]="!isFilter">
+        <i class="uil uil-filter"></i>
+        <span class="navbar-brand m-0">{{ isFilter ? 'عرض' : 'اخفاء' }} الفلاتر</span>
+      </button>
     </div>
     <div>
-      <app-admin-pagination [currentPage]="1" [pageSize]="10" [totalPages]="0"
-        [totalCount]="TotalCount"></app-admin-pagination>
+      <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="0"
+        [totalCount]="TotalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
     </div>
+  </div>
+  <div class="px-3 py-2 bg-light border-bottom" #collapse="ngbCollapse" [(ngbCollapse)]="isFilter">
+    <app-admin-filters [FilterList]="FilterList" [PlaceHolder]="'بالعنوان'"
+      (FilterChecked)="FilterChecked($event)"></app-admin-filters>
   </div>
   <div class="card-body card-body-h">
     <div class="table-responsive">

@@ -11,7 +11,7 @@ namespace ZayirAlkhayr.Interface
 {
     public interface IEventService
     {
-        DataTable GetAllEvents();
+        DataTable GetAllEvents(PagingFilterModel PagingFilter);
         List<EventGroupingModel> GetAllWebSiteEvents();
         List<EventSliderImages> GetEventSliderImagesById(int EventId);
         HandleErrorResponseModel AddNewEvent(Event Model);

@@ -5,6 +5,7 @@ import { ValidationFormService } from '../../Services/validation-form.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { FilterModel } from '../../Models/FilterModel';
+import { PagingFilterModel } from '../../Models/PagingFilterModel';
 
 @Component({
   selector: 'app-home-slideimage',
@@ -13,6 +14,11 @@ import { FilterModel } from '../../Models/FilterModel';
 })
 export class HomeSlideimageComponent implements OnInit {
   @ViewChild('InputFile') InputFile: ElementRef;
+  PagingFilter: PagingFilterModel = {
+    filterList: [],
+    currentpage: 1,
+    pagesize: 5
+  }
   FilterList: FilterModel[] = [];
   SliderData: any[] = [];
   fileURL: any[] = [];
@@ -31,7 +37,7 @@ export class HomeSlideimageComponent implements OnInit {
     this.UserModel = JSON.parse(localStorage.getItem('UserModel'));
     this.FormInit();
     this.GetHomeSliderImages();
-    this.GetHomeSliderImagesFilter();
+    this.GetWebsiteAdminFilters();
   }
 
   FormInit() {
@@ -91,16 +97,27 @@ export class HomeSlideimageComponent implements OnInit {
   }
 
   GetHomeSliderImages() {
-    this.adminService.GetHomeSliderImages().subscribe(data => {
+    this.adminService.GetHomeSliderImages(this.PagingFilter).subscribe(data => {
       this.SliderData = data;
-      this.TotalCount = data.length;
+      this.TotalCount = data && data.length > 0 ? data[0].totalCount : 0;
     });
   }
 
-  GetHomeSliderImagesFilter() {
-    this.adminService.GetHomeSliderImagesFilter().subscribe(data => {
+  PageChange(obj: any) {
+    this.PagingFilter.currentpage = obj.page;
+    this.GetHomeSliderImages();
+  }
+
+  GetWebsiteAdminFilters() {
+    this.adminService.GetAllWebPagesFilters('Home').subscribe(data => {
       this.FilterList = data;
+
     });
+  }
+
+  FilterChecked(filterList: FilterModel[]) {
+    this.PagingFilter.filterList = filterList;
+    this.GetHomeSliderImages();
   }
 
   onFileChange(event: any) {
@@ -111,10 +128,6 @@ export class HomeSlideimageComponent implements OnInit {
       this.ImageFile = data[1][0];
       this.isFileExist = false;
     });
-  }
-
-  FilterChecked(filterList: FilterModel[]) {
-    console.log(filterList);
   }
 
   DeleteSelectedFile() {
@@ -141,6 +154,7 @@ export class HomeSlideimageComponent implements OnInit {
         if (data.done) {
           this.toaster.success(data.message);
           this.GetHomeSliderImages();
+          this.GetWebsiteAdminFilters();
           this.modalService.dismissAll();
         }
         else
@@ -164,6 +178,7 @@ export class HomeSlideimageComponent implements OnInit {
       if (data.done) {
         this.toaster.success(data.message);
         this.GetHomeSliderImages();
+        this.GetWebsiteAdminFilters();
         this.modalService.dismissAll();
       }
       else

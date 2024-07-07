@@ -26,10 +26,10 @@ namespace ZayirAlkhayr.Controllers
             return result;
         }
 
-        [HttpGet("GetAllEvents")]
-        public DataTable GetAllEvents()
+        [HttpPost("GetAllEvents")]
+        public DataTable GetAllEvents(PagingFilterModel PagingFilter)
         {
-            var result = _eventService.GetAllEvents();
+            var result = _eventService.GetAllEvents(PagingFilter);
             return result;
         }
 

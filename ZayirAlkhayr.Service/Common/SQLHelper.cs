@@ -113,10 +113,16 @@ namespace ZayirAlkhayr.Service.Common
                     ItemKey = s.Field<string>("ItemKey"),
                     ItemId = s.Field<string>("ItemId")
                 }).ToList()
-                
+
             }).ToList();
 
             return List;
+        }
+
+        public DataTable ConvertFilterModelToDataTable(List<FilterModel> FilterList)
+        {
+            var dt = FilterList.Select(i => new { CategoryName = i.CategoryName, ItemId = i.ItemId }).ToList().ToDataTable();
+            return dt;
         }
     }
 }

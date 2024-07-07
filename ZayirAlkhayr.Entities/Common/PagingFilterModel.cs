@@ -17,7 +17,5 @@ namespace ZayirAlkhayr.Entities.Common
         public int Currentpage { get; set; }
         public List<FilterModel> FilterList { get; set; }
         public string UserId { get; set; }
-        public string SearchText { get; set; }
-        public string PlaceHolder { get; set; }
     }
 }

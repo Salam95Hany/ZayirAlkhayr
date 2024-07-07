@@ -3,6 +3,7 @@ import { Slide } from "../media/media.interface";
 import { AnimationType } from "../media/media.animations";
 import { Router } from '@angular/router';
 import { AdminWebsiteService } from 'src/app/Admin/Services/admin-website.service';
+import { PagingFilterModel } from 'src/app/Admin/Models/PagingFilterModel';
 
 @Component({
   selector: 'app-header',
@@ -11,6 +12,11 @@ import { AdminWebsiteService } from 'src/app/Admin/Services/admin-website.servic
 })
 export class HeaderComponent implements OnInit {
   @ViewChild("navbar") navbarEl: HTMLElement;
+  PagingFilter: PagingFilterModel = {
+    filterList: [],
+    currentpage: 1,
+    pagesize: 25,
+  }
   collapsed = true;
   slides: Slide[] = [];
   animationType = AnimationType.Scale;
@@ -25,7 +31,7 @@ export class HeaderComponent implements OnInit {
   }
 
   GetHomeSliderImages() {
-    this.adminService.GetHomeSliderImages().subscribe(data => {
+    this.adminService.GetHomeSliderImages(this.PagingFilter).subscribe(data => {
       this.slides = data.filter(i => i.isVisible).map<Slide>(i => { return { headline: i.title, src: i.image } });
     });
   }

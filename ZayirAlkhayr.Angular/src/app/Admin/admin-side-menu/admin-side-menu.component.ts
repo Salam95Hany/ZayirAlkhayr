@@ -11,9 +11,10 @@ export class AdminSideMenuComponent implements OnInit {
   @Output() closeSideMenuFromOverlayEvent = new EventEmitter<boolean>();
   isCollapsed_1 = true;
   isCollapsed_2 = true;
+  isCollapsed_3 = true;
   UserModel: any;
 
-  constructor(private formService: ValidationFormService) { }
+  constructor() { }
 
   ngOnInit(): void {
     this.UserModel = JSON.parse(localStorage.getItem('UserModel'));

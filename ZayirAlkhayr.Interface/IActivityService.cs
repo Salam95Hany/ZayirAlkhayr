@@ -12,7 +12,7 @@ namespace ZayirAlkhayr.Interface
 {
     public interface IActivityService
     {
-        DataTable GetAllActivities();
+        DataTable GetAllActivities(PagingFilterModel PagingFilter);
         List<ActivitySliderImage> GetActivitySliderImagesById(int ActivityId);
         ActivityModel GetActivityWithSliderImagesById(int ActivityId);
         Task<HandleErrorResponseModel> AddNewActivity(Activity Model);

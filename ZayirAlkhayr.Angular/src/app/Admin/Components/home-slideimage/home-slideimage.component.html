@@ -32,11 +32,13 @@
       </button>
     </div>
     <div>
-      <app-admin-pagination [currentPage]="1" [pageSize]="10" [totalPages]="0" [totalCount]="TotalCount"></app-admin-pagination>
+      <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="0"
+        [totalCount]="TotalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
     </div>
   </div>
-   <div class="px-3 py-2 bg-light border-bottom" #collapse="ngbCollapse" [(ngbCollapse)]="isFilter">
-    <app-admin-filters [FilterList]="FilterList" [PlaceHolder]="'بالوصف'" (FilterChecked)="FilterChecked($event)"></app-admin-filters>
+  <div class="px-3 py-2 bg-light border-bottom" #collapse="ngbCollapse" [(ngbCollapse)]="isFilter">
+    <app-admin-filters [FilterList]="FilterList" [PlaceHolder]="'بالوصف'"
+      (FilterChecked)="FilterChecked($event)"></app-admin-filters>
   </div>
   <div class="card-body card-body-h">
     <div class="table-responsive">
@@ -69,7 +71,8 @@
             </td>
             <td>
               <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
-                <i class="uil uil-edit text-primary icon-table-action shadow-sm" (click)="openAddItemModal(OpenItemModal,item)"></i>
+                <i class="uil uil-edit text-primary icon-table-action shadow-sm"
+                  (click)="openAddItemModal(OpenItemModal,item)"></i>
                 <i class="uil uil-times-circle text-danger icon-table-action shadow-sm"
                   (click)="openDeleteItemModal(deleteItemModal,item)"></i>
               </div>

@@ -5,6 +5,4 @@ export interface PagingFilterModel {
     currentpage?: number;
     filterList: FilterModel[];
     userId?: string;
-    searchText?: string;
-    placeHolder?: string;
 }

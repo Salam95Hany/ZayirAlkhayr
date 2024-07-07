@@ -36,10 +36,14 @@ namespace ZayirAlkhayr.Service
             ApiLocalUrl = _configuration["ApiUrlLocal"];
         }
 
-        public DataTable GetAllPhotos()
+        public DataTable GetAllPhotos(PagingFilterModel PagingFilter)
         {
-            var Params = new SqlParameter[1];
-            Params[0] = new SqlParameter("@ApiUrl", ApiLocalUrl);
+            var FilterDt = _sQLHelper.ConvertFilterModelToDataTable(PagingFilter.FilterList);
+            var Params = new SqlParameter[4];
+            Params[0] = new SqlParameter("@FilterList", FilterDt);
+            Params[1] = new SqlParameter("@ApiUrl", ApiLocalUrl);
+            Params[2] = new SqlParameter("@CurrentPage", PagingFilter.Currentpage);
+            Params[3] = new SqlParameter("@PageSize", PagingFilter.Pagesize);
             var dt = _sQLHelper.ExecuteDataTable("web.SP_GetAllPhotos", Params);
             return dt;
         }
