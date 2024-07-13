@@ -36,22 +36,23 @@
                             <span *ngIf="header.dataType == 'image'">
                                 <img src="{{item[header.displayValue]}}" class="table-image">
                             </span>
-                            <span *ngIf="header.dataType == 'link'">
-                                <a style="text-decoration: none;" href="https://www.facebook.com/"
-                                    target="_blank">فيس بوك</a>
+                            <span *ngIf="header.dataType == 'link' && item[header.displayValue]">
+                                <a style="text-decoration: none;" href="{{item[header.displayValue]}}"
+                                    target="_blank">فيس
+                                    بوك</a>
                             </span>
                             <span *ngIf="header.dataType == 'text'">
-                               {{item[header.displayValue]}}
+                                {{item[header.displayValue]}}
                             </span>
                         </td>
                         <td>
                             <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
                                 <i class="uil uil-edit text-primary icon-table-action shadow-sm"
-                                    (click)="openAddItemModal(OpenItemModal,null)"></i>
+                                    (click)="openAddItemModal(OpenItemModal,item)"></i>
                                 <i class="uil uil-times-circle text-danger icon-table-action shadow-sm"
-                                    (click)="openDeleteItemModal(deleteItemModal,null)"></i>
+                                    (click)="openDeleteItemModal(deleteItemModal,item)"></i>
                                 <i class="uil uil-document-info text-success icon-table-action shadow-sm"
-                                    (click)="openCashSidePanel(CashSidePanel)"></i>
+                                    (click)="openCashSidePanel(CashSidePanel,item)"></i>
                             </div>
                         </td>
                     </tr>
@@ -76,37 +77,55 @@
                 <div class="row g-3">
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" formControlName="fullName" id="floatingInput_1" placeholder="new-user">
+                            <input type="text" class="form-control" formControlName="fullName" id="floatingInput_1"
+                                placeholder="new-user" required>
                             <label for="floatingInput_1">اسم المتبرع</label>
+                            <div *ngIf="ItemForm.controls['fullName']?.invalid && (ItemForm.controls['fullName']?.dirty || ItemForm.controls['fullName']?.touched)"
+                                class="alert text-danger">
+                                <div *ngIf="ItemForm.controls['fullName'].errors?.['required']">
+                                    هذا الحقل مطلوب
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" formControlName="description" id="floatingInput_1" placeholder="new-user">
+                            <input type="text" class="form-control" formControlName="description" id="floatingInput_1"
+                                placeholder="new-user">
                             <label for="floatingInput_1">الوصف</label>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" formControlName="phone" id="floatingInput_1" placeholder="new-user">
+                            <input type="text" class="form-control" formControlName="phone" id="floatingInput_1"
+                                placeholder="new-user" required>
                             <label for="floatingInput_1">رقم التلفون</label>
+                            <div *ngIf="ItemForm.controls['phone']?.invalid && (ItemForm.controls['phone']?.dirty || ItemForm.controls['phone']?.touched)"
+                                class="alert text-danger">
+                                <div *ngIf="ItemForm.controls['phone'].errors?.['required']">
+                                    هذا الحقل مطلوب
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" formControlName="phone2" id="floatingInput_1" placeholder="new-user">
+                            <input type="text" class="form-control" formControlName="phone2" id="floatingInput_1"
+                                placeholder="new-user">
                             <label for="floatingInput_1">رقم التلفون 2</label>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" formControlName="address" id="floatingInput_1" placeholder="new-user">
+                            <input type="text" class="form-control" formControlName="address" id="floatingInput_1"
+                                placeholder="new-user">
                             <label for="floatingInput_1">العنوان</label>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" formControlName="faceBook" id="floatingInput_1" placeholder="new-user">
+                            <input type="text" class="form-control" formControlName="faceBook" id="floatingInput_1"
+                                placeholder="new-user">
                             <label for="floatingInput_1">صفحة الفيس بوك</label>
                         </div>
                     </div>
@@ -115,18 +134,21 @@
                             <button
                                 class="dropdown-with-search-btn btn border h-100 w-100 d-flex align-items-center justify-content-between selector-padding"
                                 id="dropdownBasic1" ngbDropdownToggle>
-                                الجنسية
+                                {{NationalityName}}
                             </button>
                             <div class="width-530 py-0 overflow-hidden" ngbDropdownMenu
                                 aria-labelledby="dropdownBasic1">
                                 <ul class="dropdown-list-box list-unstyled max-height-200 overflow-auto px-1 py-1 m-0">
-                                    <ng-container>
-                                        <li class="dropdown-item cursor-pointer rounded">سورية</li>
-                                        <li class="dropdown-item cursor-pointer rounded">مصر</li>
-                                        <li class="dropdown-item cursor-pointer rounded">السودان</li>
+                                    <ng-container *ngFor="let item of NationalityList">
+                                        <li class="dropdown-item cursor-pointer rounded"
+                                            (click)="NationalityName = item;NationalityValidation = false"
+                                            [ngClass]="{'DropDownSelected': NationalityName == item}">{{item}}</li>
                                     </ng-container>
                                 </ul>
                             </div>
+                        </div>
+                        <div class="alert text-danger" *ngIf="NationalityValidation">
+                            هذا الحقل مطلوب
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -134,12 +156,25 @@
                             <div class="choose-file-btn">تحميل صورة</div>
                         </div>
                     </div>
+                    <div class="col-lg-12" *ngIf="fileURL.length > 0">
+                        <hr class="border-success">
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6 g-2">
+                            <div class="col" *ngFor="let url of fileURL">
+                                <div class="choosed-img img-thumbnail shadow-sm">
+                                    <img src="{{url.image}}" loading="lazy" alt="" />
+                                    <div class="choosed-img-delete" (click)="DeleteSelectedFile()">
+                                        <i class="far fa-times-circle"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
     <div class="modal-footer justify-content-start gap-2">
-        <button type="submit" class="btn main-button d-flex align-items-center gap-2">
+        <button type="submit" class="btn main-button d-flex align-items-center gap-2" (click)="AddNewItem()">
             <i class="uil uil-plus-circle"></i>
             <span>اضافه</span>
         </button>
@@ -161,7 +196,7 @@
         <p class="fs-5 m-0">هل انت متأكد أنك تريد حذف هذا العنصر</p>
     </div>
     <div class="modal-footer justify-content-start">
-        <button type="button" class="btn btn-success">
+        <button type="button" class="btn btn-success" (click)="DeleteItem()">
             <i class="fas fa-check"></i>
             <span class="ms-2">نعم</span>
         </button>
@@ -176,7 +211,8 @@
     <div class="offcanvas-header pb-0 d-flex align-items-center justify-content-between">
         <div>
             <h4 class="offcanvas-title m-0 d-flex align-items-center w-100"><i
-                    class="uil uil-document-info text-success"></i> سلام هاني البدوي - 1000
+                    class="uil uil-document-info text-success"></i> {{BeneFactorValues.fullName}} -
+                {{BeneFactorValues.code}}
             </h4>
         </div>
         <button type="button" class="btn bg-danger text-white rounded" aria-label="Close" (click)="offcanvas.dismiss()">
@@ -189,18 +225,20 @@
             <div class="row g-3">
                 <div class="col-lg-5">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user">
+                        <input type="text" class="form-control" [(ngModel)]="BeneFactorValues.totalValue"
+                            id="floatingInput_1" placeholder="new-user">
                         <label for="floatingInput_1">مبلغ التبرع</label>
                     </div>
                 </div>
                 <div class="col-lg-5">
                     <div class="form-floating">
-                        <input type="date" class="form-control" id="floatingInput_1" placeholder="new-user">
+                        <input type="date" class="form-control" [(ngModel)]="BeneFactorValues.paymentDate"
+                            id="floatingInput_1" placeholder="new-user">
                         <label for="floatingInput_1">تاريخ التبرع</label>
                     </div>
                 </div>
                 <div class="col-lg-2">
-                    <button class="btn btn-success mt-3">اضافة</button>
+                    <button class="btn btn-success mt-3" (click)="AddNewBeneFactorValues()">اضافة</button>
                 </div>
             </div>
         </div>
@@ -218,13 +256,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>5000</td>
-                                <td>13 مايو 2024</td>
+                            <tr *ngFor="let item of BeneFactorValuesData">
+                                <td>{{item.totalValue}}</td>
+                                <td>{{item.paymentDate | date}}</td>
                                 <td>
                                     <div class="col-lg-6 d-flex">
                                         <label class="jtoggler-wrapper m-0 mx-0">
-                                            <input type="checkbox" class="jtoggler">
+                                            <input type="checkbox" [(ngModel)]="item.isActive" class="jtoggler" disabled>
                                             <div class="jtoggler-control">
                                                 <div class="jtoggler-handle"></div>
                                             </div>
@@ -240,4 +278,4 @@
     </div>
 </ng-template>
 
-<input type="file" #InputFile class="choose-file-input" hidden />
+<input type="file" #InputFile class="choose-file-input" (change)="onFileChange($event)" hidden />

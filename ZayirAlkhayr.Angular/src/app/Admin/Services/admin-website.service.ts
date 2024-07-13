@@ -156,8 +156,16 @@ export class AdminWebsiteService {
     return this.http.post<any[]>(this.apiURL + 'BeneFactor/GetAllBeneFactorFilters', PagingFilter);
   }
 
+  GetAllBeneFactorValuesById(BeneFactorId: number) {
+    return this.http.get<any[]>(this.apiURL + 'BeneFactor/GetAllBeneFactorValuesById?BeneFactorId=' + BeneFactorId);
+  }
+
   AddNewBeneFactor(Model: any) {
     return this.http.post<any>(this.apiURL + 'BeneFactor/AddNewBeneFactor', Model);
+  }
+
+  AddNewBeneFactorValues(Model: any) {
+    return this.http.post<any>(this.apiURL + 'BeneFactor/AddNewBeneFactorValues', Model);
   }
 
   UpdateBeneFactor(Model: any) {

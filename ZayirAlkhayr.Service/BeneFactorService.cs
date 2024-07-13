@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,6 +43,23 @@ namespace ZayirAlkhayr.Service
             Params[4] = new SqlParameter("@IsFilter", false);
             var dt = _sQLHelper.ExecuteDataset("web.SP_GetAllBeneFactorsDataWithFilters", Params);
             return dt;
+        }
+
+        public List<BeneFactorValues> GetAllBeneFactorValuesById(int BeneFactorId)
+        {
+            var results = _Context.BeneFactorValues.Where(i => i.BeneFactorId == BeneFactorId).Select(i => new BeneFactorValues
+            {
+                TotalValue = i.TotalValue,
+                PaymentDate = i.PaymentDate,
+                IsActive = i.IsActive,
+            }).ToList();
+            return results;
+        }
+
+        public List<BeneFactorTypes> GetAllBeneFactorTypes()
+        {
+            var results = _Context.BeneFactorTypes.ToList();
+            return results;
         }
 
         public List<FilterModel> GetAllBeneFactorFilters(PagingFilterModel PagingFilter)
@@ -87,6 +105,36 @@ namespace ZayirAlkhayr.Service
 
                 Response.Done = true;
                 Response.Message = "تم اضافة متبرع جديد بنجاح";
+                return Response;
+            }
+            catch (Exception)
+            {
+                var Response = new HandleErrorResponseModel();
+                Response.Done = false;
+                Response.Message = "لقد حدث خطا";
+                return Response;
+            }
+        }
+
+        public HandleErrorResponseModel AddNewBeneFactorValues(BeneFactorValues Model)
+        {
+            try
+            {
+                var Response = new HandleErrorResponseModel();
+                var BeneFactorObj = new BeneFactorValues();
+                BeneFactorObj.BeneFactorId = Model.BeneFactorId;
+                BeneFactorObj.BeneFactorTypeId = 1;
+                BeneFactorObj.TotalValue = Model.TotalValue;
+                BeneFactorObj.PaymentDate = Model.PaymentDate;
+                BeneFactorObj.IsActive = Model.IsActive;
+                BeneFactorObj.InsertUser = Model.InsertUser;
+                BeneFactorObj.InsertDate = DateTime.Now;
+
+                _Context.BeneFactorValues.Add(BeneFactorObj);
+                _Context.SaveChanges();
+
+                Response.Done = true;
+                Response.Message = "تم اضافة مبلغ جديد بنجاح";
                 return Response;
             }
             catch (Exception)

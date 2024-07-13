@@ -16,5 +16,8 @@ namespace ZayirAlkhayr.Interface
         Task<HandleErrorResponseModel> AddNewBeneFactor(BeneFactors Model);
         Task<HandleErrorResponseModel> UpdateBeneFactor(BeneFactors Model);
         HandleErrorResponseModel DeleteBeneFactor(int BeneFactorId);
+        HandleErrorResponseModel AddNewBeneFactorValues(BeneFactorValues Model);
+        List<BeneFactorValues> GetAllBeneFactorValuesById(int BeneFactorId);
+        List<BeneFactorTypes> GetAllBeneFactorTypes();
     }
 }

@@ -33,15 +33,36 @@ namespace ZayirAlkhayr.Controllers
             return results;
         }
 
+        [HttpGet("GetAllBeneFactorValuesById")]
+        public List<BeneFactorValues> GetAllBeneFactorValuesById(int BeneFactorId)
+        {
+            var results = _beneFactorService.GetAllBeneFactorValuesById(BeneFactorId);
+            return results;
+        }
+
+        [HttpGet("GetAllBeneFactorTypes")]
+        public List<BeneFactorTypes> GetAllBeneFactorTypes()
+        {
+            var results = _beneFactorService.GetAllBeneFactorTypes();
+            return results;
+        }
+
         [HttpPost("AddNewBeneFactor")]
-        public async Task<HandleErrorResponseModel> AddNewBeneFactor(BeneFactors Model)
+        public async Task<HandleErrorResponseModel> AddNewBeneFactor([FromForm] BeneFactors Model)
         {
             var results = await _beneFactorService.AddNewBeneFactor(Model);
             return results;
         }
 
+        [HttpPost("AddNewBeneFactorValues")]
+        public HandleErrorResponseModel AddNewBeneFactorValues(BeneFactorValues Model)
+        {
+            var results = _beneFactorService.AddNewBeneFactorValues(Model);
+            return results;
+        }
+
         [HttpPost("UpdateBeneFactor")]
-        public async Task<HandleErrorResponseModel> UpdateBeneFactor(BeneFactors Model)
+        public async Task<HandleErrorResponseModel> UpdateBeneFactor([FromForm] BeneFactors Model)
         {
             var results = await _beneFactorService.UpdateBeneFactor(Model);
             return results;

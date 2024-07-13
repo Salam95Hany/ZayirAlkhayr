@@ -4,9 +4,9 @@ import { AdminWebsiteService } from '../../Services/admin-website.service';
 import { ValidationFormService } from '../../Services/validation-form.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { UploadFileModel } from '../../Models/FileModel';
 import { PagingFilterModel } from '../../Models/PagingFilterModel';
 import { FilterModel } from '../../Models/FilterModel';
+import { BeneFactorValues } from '../../Models/BeneFactorModel';
 
 @Component({
   selector: 'app-bene-factor',
@@ -16,12 +16,12 @@ import { FilterModel } from '../../Models/FilterModel';
 export class BeneFactorComponent implements OnInit {
   @ViewChild('InputFile') InputFile: ElementRef;
   isFilter = false;
+  BeneFactorValues: BeneFactorValues = {} as BeneFactorValues;
+  BeneFactorValuesData: any[] = [];
   BeneFactorData: any[] = [];
   BeneFactorHeaders: any[] = [];
-  FileModel: UploadFileModel = {
-    files: [],
-    deletedFiles: []
-  } as UploadFileModel;
+  fileURL: any[] = [];
+  NationalityList = ['سورية', 'مصر', 'السودان']
   PagingFilter: PagingFilterModel = {
     filterList: [],
     currentpage: 1,
@@ -34,6 +34,9 @@ export class BeneFactorComponent implements OnInit {
   UserModel: any;
   BeneFactorId: any;
   TotalCount = 0;
+  NationalityName = 'الجنسية';
+  NationalityValidation = false;
+  NationalityId: any;
 
   constructor(private modalService: NgbModal, private offcanvasService: NgbOffcanvas,
     private adminService: AdminWebsiteService, private formService: ValidationFormService
@@ -43,6 +46,7 @@ export class BeneFactorComponent implements OnInit {
 
   ngOnInit(): void {
     this.UserModel = JSON.parse(localStorage.getItem('UserModel'));
+    this.FormInit();
     this.GetAllBeneFactorData();
     this.GetAllBeneFactorFilters();
   }
@@ -51,8 +55,8 @@ export class BeneFactorComponent implements OnInit {
     this.ItemForm = this.fb.group({
       id: 0,
       fullName: ['', Validators.required],
-      description: ['', Validators.required],
-      phone: null,
+      description: null,
+      phone: ['', Validators.required],
       phone2: null,
       address: null,
       nationality: null,
@@ -64,7 +68,10 @@ export class BeneFactorComponent implements OnInit {
   }
 
   FillEditForm(item: any) {
-    let fileName = item.image.split('\\');
+    this.fileURL = [];
+    this.fileURL.push(item);
+    this.NationalityName = item.nationality;
+    let fileName = item.image.split('/');
     this.ItemForm.setValue({
       id: item.id,
       fullName: item.fullName,
@@ -84,6 +91,7 @@ export class BeneFactorComponent implements OnInit {
     this.ItemForm.reset();
     this.BeneFactorId = '';
     this.InputFile.nativeElement.value = '';
+    this.NationalityValidation = false;
     this.ItemForm.get('id').setValue(0);
     this.ItemForm.get('InsertUser').setValue(this.UserModel?.userId);
   }
@@ -91,6 +99,7 @@ export class BeneFactorComponent implements OnInit {
   openAddItemModal(content: any, item: any) {
     this.ResetForm();
     this.isFileExist = false;
+    this.fileURL = [];
     this.ImageFile = null;
     if (item)
       this.FillEditForm(item);
@@ -111,8 +120,18 @@ export class BeneFactorComponent implements OnInit {
     });
   }
 
-  openCashSidePanel(content: any) {
+  openCashSidePanel(content: any, item: any) {
+    this.BeneFactorValues.beneFactorId = item.id;
+    this.BeneFactorValues.fullName = item.fullName;
+    this.BeneFactorValues.code = item.code;
+    this.GetAllBeneFactorValuesById();
     this.offcanvasService.open(content, { position: 'end' });
+  }
+
+  GetAllBeneFactorValuesById() {
+    this.adminService.GetAllBeneFactorValuesById(this.BeneFactorValues.beneFactorId).subscribe(data => {
+      this.BeneFactorValuesData = data;
+    });
   }
 
   GetAllBeneFactorData() {
@@ -140,8 +159,10 @@ export class BeneFactorComponent implements OnInit {
   }
 
   onFileChange(event: any) {
+    this.fileURL = [];
     this.ImageFile = null;
     this.formService.onSelectedFile(event.target.files).then(data => {
+      this.fileURL.push(data[0]);
       this.ImageFile = data[1][0];
       this.isFileExist = false;
     });
@@ -149,17 +170,20 @@ export class BeneFactorComponent implements OnInit {
 
   DeleteSelectedFile() {
     this.ImageFile = null;
+    this.fileURL = [];
     this.InputFile.nativeElement.value = '';
   }
 
   AddNewItem() {
     let isValid = this.ItemForm.valid;
 
-    if (!isValid) {
+    this.NationalityValidation = this.NationalityName == 'الجنسية';
+    if (!isValid || this.NationalityValidation) {
       this.formService.validateAllFormFields(this.ItemForm);
       return;
     }
     this.ItemForm.patchValue({ file: this.ImageFile });
+    this.ItemForm.patchValue({ nationality: this.NationalityName });
     const formData = new FormData();
     this.formService.buildFormData(formData, this.ItemForm.value);
     if (this.ItemForm.controls['id'].value == 0) {
@@ -184,6 +208,32 @@ export class BeneFactorComponent implements OnInit {
           this.toaster.error(data.message);
       });
     }
+  }
+
+  AddNewBeneFactorValues() {
+    if (!this.BeneFactorValues.totalValue) {
+      this.toaster.warning('برجاء ادخال مبلغ التبرع');
+      return;
+    }
+
+    if (!this.BeneFactorValues.paymentDate) {
+      this.toaster.warning('برجاء ادخال تاريخ التبرع');
+      return;
+    }
+
+    this.BeneFactorValues.isActive = false;
+    this.BeneFactorValues.insertUser = this.UserModel?.userId;
+    this.adminService.AddNewBeneFactorValues(this.BeneFactorValues).subscribe(data => {
+      if (data.done) {
+        this.toaster.success(data.message);
+        this.BeneFactorValues.totalValue = null;
+        this.BeneFactorValues.paymentDate = '';
+        this.GetAllBeneFactorValuesById();
+        this.modalService.dismissAll();
+      }
+      else
+        this.toaster.error(data.message);
+    })
   }
 
   DeleteItem() {
