@@ -28,6 +28,7 @@
     <Folder Include="wwwroot\ActivitySliderImages\" />
     <Folder Include="wwwroot\ExportFiles\" />
     <Folder Include="wwwroot\EventSliderImages\" />
+    <Folder Include="wwwroot\BeneFactorImages\" />
     <Folder Include="wwwroot\PhotoDetailImages\" />
     <Folder Include="wwwroot\PhotoImages\" />
     <Folder Include="wwwroot\SliderImages\" />

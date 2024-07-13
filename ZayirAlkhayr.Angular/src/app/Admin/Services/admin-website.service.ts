@@ -67,7 +67,7 @@ export class AdminWebsiteService {
   // ============================= Photos ==============================
 
   GetAllPhotos(PagingFilter: PagingFilterModel) {
-    return this.http.post<any[]>(this.apiURL + 'Photo/GetAllPhotos',PagingFilter);
+    return this.http.post<any[]>(this.apiURL + 'Photo/GetAllPhotos', PagingFilter);
   }
 
   GetPhotoDetails(PhotoId: number) {
@@ -97,7 +97,7 @@ export class AdminWebsiteService {
   // ============================= Events ==============================
 
   GetAllEvents(PagingFilter: PagingFilterModel) {
-    return this.http.post<any[]>(this.apiURL + 'Event/GetAllEvents',PagingFilter);
+    return this.http.post<any[]>(this.apiURL + 'Event/GetAllEvents', PagingFilter);
   }
 
   GetAllWebSiteEvents() {
@@ -144,5 +144,27 @@ export class AdminWebsiteService {
 
   DeleteUser(UserId: string) {
     return this.http.get<any>(this.apiURL + 'User/DeleteUser?UserId=' + UserId);
+  }
+
+  // ============================= BeneFactor ==============================
+
+  GetAllBeneFactorData(PagingFilter: PagingFilterModel) {
+    return this.http.post<any>(this.apiURL + 'BeneFactor/GetAllBeneFactorData', PagingFilter);
+  }
+
+  GetAllBeneFactorFilters(PagingFilter: PagingFilterModel) {
+    return this.http.post<any[]>(this.apiURL + 'BeneFactor/GetAllBeneFactorFilters', PagingFilter);
+  }
+
+  AddNewBeneFactor(Model: any) {
+    return this.http.post<any>(this.apiURL + 'BeneFactor/AddNewBeneFactor', Model);
+  }
+
+  UpdateBeneFactor(Model: any) {
+    return this.http.post<any>(this.apiURL + 'BeneFactor/UpdateBeneFactor', Model);
+  }
+
+  DeleteBeneFactor(BeneFactorId: number) {
+    return this.http.get<any>(this.apiURL + 'BeneFactor/DeleteBeneFactor?BeneFactorId=' + BeneFactorId);
   }
 }
