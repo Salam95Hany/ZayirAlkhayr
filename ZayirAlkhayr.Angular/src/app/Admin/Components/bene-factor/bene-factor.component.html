@@ -13,47 +13,37 @@
             </button>
         </div>
         <div>
-            <app-admin-pagination [currentPage]="1" [pageSize]="5" [totalPages]="0"
-                [totalCount]="0"></app-admin-pagination>
+            <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize"
+                [totalPages]="0" [totalCount]="TotalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
         </div>
     </div>
     <div class="px-3 py-2 bg-light border-bottom" #collapse="ngbCollapse" [(ngbCollapse)]="isFilter">
-        <app-admin-filters [PlaceHolder]="'بالكود, الاسم'"></app-admin-filters>
+        <app-admin-filters [FilterList]="FilterList" [PlaceHolder]="'بالكود, الاسم'"
+            (FilterChecked)="FilterChecked($event)"></app-admin-filters>
     </div>
     <div class="card-body card-body-h">
         <div class="table-responsive">
             <table class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
                 <thead>
                     <tr>
-                        <th class="th-width"></th>
-                        <th>الكود</th>
-                        <th>الاسم</th>
-                        <th>الوصف</th>
-                        <th>رقم التلفون</th>
-                        <th>رقم التلفون 2</th>
-                        <th>العنوان</th>
-                        <th>الجنسية</th>
-                        <th>صفحة الفيس بوك</th>
-                        <th>تمت الاضافة من قبل</th>
-                        <th>تاريخ الاضافة</th>
+                        <th *ngFor="let item of BeneFactorHeaders">{{item.displayName}}</th>
                         <th class="text-center">أجراءات</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td></td>
-                        <td>1000</td>
-                        <td>سلام هاني البدوي</td>
-                        <td>عدم ذكر اي معلومات</td>
-                        <td>01102614667</td>
-                        <td>01124564843</td>
-                        <td>الاسكندرية-العجمي-شاطئ النخيل</td>
-                        <td>سورية</td>
-                        <td>
-                            <a style="text-decoration: none;" href="https://www.facebook.com/" target="_blank">Facebook</a>
+                    <tr *ngFor="let item of BeneFactorData">
+                        <td *ngFor="let header of BeneFactorHeaders">
+                            <span *ngIf="header.dataType == 'image'">
+                                <img src="{{item[header.displayValue]}}" class="table-image">
+                            </span>
+                            <span *ngIf="header.dataType == 'link'">
+                                <a style="text-decoration: none;" href="https://www.facebook.com/"
+                                    target="_blank">فيس بوك</a>
+                            </span>
+                            <span *ngIf="header.dataType == 'text'">
+                               {{item[header.displayValue]}}
+                            </span>
                         </td>
-                        <td>Salam Hany</td>
-                        <td>13 مايو 2024</td>
                         <td>
                             <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
                                 <i class="uil uil-edit text-primary icon-table-action shadow-sm"
@@ -82,41 +72,41 @@
     </div>
     <div class="modal-body gray-bgcolor">
         <div class="bg-white p-3 rounded shadow-sm">
-            <form>
+            <form [formGroup]="ItemForm" autocomplete="off">
                 <div class="row g-3">
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user">
+                            <input type="text" class="form-control" formControlName="fullName" id="floatingInput_1" placeholder="new-user">
                             <label for="floatingInput_1">اسم المتبرع</label>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user">
+                            <input type="text" class="form-control" formControlName="description" id="floatingInput_1" placeholder="new-user">
                             <label for="floatingInput_1">الوصف</label>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user">
+                            <input type="text" class="form-control" formControlName="phone" id="floatingInput_1" placeholder="new-user">
                             <label for="floatingInput_1">رقم التلفون</label>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user">
+                            <input type="text" class="form-control" formControlName="phone2" id="floatingInput_1" placeholder="new-user">
                             <label for="floatingInput_1">رقم التلفون 2</label>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user">
+                            <input type="text" class="form-control" formControlName="address" id="floatingInput_1" placeholder="new-user">
                             <label for="floatingInput_1">العنوان</label>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user">
+                            <input type="text" class="form-control" formControlName="faceBook" id="floatingInput_1" placeholder="new-user">
                             <label for="floatingInput_1">صفحة الفيس بوك</label>
                         </div>
                     </div>
@@ -218,7 +208,8 @@
         <div class="card">
             <div class="card-body card-body-h">
                 <div class="table-responsive">
-                    <table class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
+                    <table
+                        class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
                         <thead>
                             <tr>
                                 <th>مبلغ التبرع</th>

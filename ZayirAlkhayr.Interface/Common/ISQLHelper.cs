@@ -15,5 +15,6 @@ namespace ZayirAlkhayr.Interface.Common
         DataSet ExecuteDataset(string commandText, SqlParameter[] commandParameters);
         List<FilterModel> GroupingFilters(DataTable dt);
         DataTable ConvertFilterModelToDataTable(List<FilterModel> FilterList);
+        int GenerateCode();
     }
 }

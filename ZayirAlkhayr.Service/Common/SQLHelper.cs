@@ -72,6 +72,25 @@ namespace ZayirAlkhayr.Service.Common
                 throw;
             }
         }
+
+        public int ExecuteScalar(string procName, params SqlParameter[] sqlParameters)
+        {
+            int value = 0;
+            using (var con = new SqlConnection(ConnectionString))
+            {
+                using (SqlCommand sqlCommand = new SqlCommand())
+                {
+                    if (sqlParameters != null)
+                        sqlCommand.Parameters.AddRange(sqlParameters);
+                    sqlCommand.Connection = con;
+                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                    sqlCommand.CommandText = procName;
+                    con.Open();
+                    value = int.Parse(sqlCommand.ExecuteScalar().ToString());
+                }
+            }
+            return value;
+        }
         private void PrepareCommand(SqlConnection connection, SqlCommand command, SqlTransaction transaction, CommandType commandType, string commandText, SqlParameter[] commandParameters)
         {
             if (connection.State != ConnectionState.Open)
@@ -123,6 +142,12 @@ namespace ZayirAlkhayr.Service.Common
         {
             var dt = FilterList.Select(i => new { CategoryName = i.CategoryName, ItemId = i.ItemId }).ToList().ToDataTable();
             return dt;
+        }
+
+        public int GenerateCode()
+        {
+            var Params = new SqlParameter[0];
+            return ExecuteScalar("web.SP_GetBeneFactorCodeSequences", Params);
         }
     }
 }

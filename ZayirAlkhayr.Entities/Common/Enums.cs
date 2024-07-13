@@ -22,7 +22,8 @@ namespace ZayirAlkhayr.Entities.Common
         ExportFiles = 3,
         PhotoImages = 4,
         PhotoDetailImages = 5,
-        EventSliderImages = 6
+        EventSliderImages = 6,
+        BeneFactorImages= 7
     }
 
     public enum FamilyStatusTabs
