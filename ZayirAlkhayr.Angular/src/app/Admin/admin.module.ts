@@ -18,6 +18,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RoleCheckerDirective } from './Directives/role-checker.directive';
 import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { SearchArryPipe } from './Pipes/search-arry.pipe';
+import { BeneFactorComponent } from './Components/bene-factor/bene-factor.component';
+import { BeneFactorDetailsComponent } from './Components/bene-factor-details/bene-factor-details.component';
+import { BeneFactorTypesComponent } from './Components/bene-factor-types/bene-factor-types.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,10 @@ import { SearchArryPipe } from './Pipes/search-arry.pipe';
     AdminUserComponent,
     RoleCheckerDirective,
     AdminHomeComponent,
-    SearchArryPipe
+    SearchArryPipe,
+    BeneFactorComponent,
+    BeneFactorDetailsComponent,
+    BeneFactorTypesComponent
   ],
   imports: [
     CommonModule,

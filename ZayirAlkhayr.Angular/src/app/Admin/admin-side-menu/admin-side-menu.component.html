@@ -75,15 +75,21 @@
           </li>
           <ul class="list-unstyled m-0 menu-list-collapsed" #collapse3="ngbCollapse" [(ngbCollapse)]="isCollapsed_3">
             <li>
-              <a class="side-menu-list-link sub-link">
+              <a class="side-menu-list-link sub-link" routerLink="./benefactors" routerLinkActive="active">
                 <i class="uil uil-sliders-v-alt"></i>
                 <span class="side-menu-text">المتبرعين</span>
               </a>
             </li>
             <li>
-              <a class="side-menu-list-link sub-link">
+              <a class="side-menu-list-link sub-link" routerLink="./benefactor-detail" routerLinkActive="active">
                 <i class="uil uil-sliders-v-alt"></i>
                 <span class="side-menu-text">تفاصيل المتبرعين</span>
+              </a>
+            </li>
+            <li>
+              <a class="side-menu-list-link sub-link" routerLink="./benefactor-type" routerLinkActive="active">
+                <i class="uil uil-sliders-v-alt"></i>
+                <span class="side-menu-text">أنواع التبرع</span>
               </a>
             </li>
           </ul>

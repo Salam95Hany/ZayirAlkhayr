@@ -8,6 +8,9 @@ import { AdminPhotoComponent } from './Components/admin-photo/admin-photo.compon
 import { AdminUserComponent } from './Components/Settings/admin-user/admin-user.component';
 import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { AuthGuard } from '../Auth/auth.guard';
+import { BeneFactorComponent } from './Components/bene-factor/bene-factor.component';
+import { BeneFactorDetailsComponent } from './Components/bene-factor-details/bene-factor-details.component';
+import { BeneFactorTypesComponent } from './Components/bene-factor-types/bene-factor-types.component';
 
 const routes: Routes = [
   {
@@ -43,6 +46,24 @@ const routes: Routes = [
       {
         path: 'photo',
         component: AdminPhotoComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ["SupperAdmin", "WebSite"] }
+      },
+      {
+        path: 'benefactors',
+        component: BeneFactorComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ["SupperAdmin", "WebSite"] }
+      },
+      {
+        path: 'benefactor-detail',
+        component: BeneFactorDetailsComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ["SupperAdmin", "WebSite"] }
+      },
+      {
+        path: 'benefactor-type',
+        component: BeneFactorTypesComponent,
         canActivate: [AuthGuard],
         data: { roles: ["SupperAdmin", "WebSite"] }
       },

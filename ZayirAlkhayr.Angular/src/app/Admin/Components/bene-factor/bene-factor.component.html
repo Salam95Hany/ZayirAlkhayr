@@ -1,0 +1,252 @@
+<div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <div class="d-flex align-items-center flex-wrap gap-2">
+            <button class="btn main-button d-flex align-items-center gap-2"
+                (click)="openAddItemModal(OpenItemModal,null)">
+                <i class="uil uil-plus-circle"></i>
+                <span class="navbar-brand m-0">اضافة</span>
+            </button>
+            <button class="btn main-button d-flex align-items-center gap-2" (click)="isFilter = !isFilter"
+                [attr.aria-expanded]="!isFilter">
+                <i class="uil uil-filter"></i>
+                <span class="navbar-brand m-0">{{ isFilter ? 'عرض' : 'اخفاء' }} الفلاتر</span>
+            </button>
+        </div>
+        <div>
+            <app-admin-pagination [currentPage]="1" [pageSize]="5" [totalPages]="0"
+                [totalCount]="0"></app-admin-pagination>
+        </div>
+    </div>
+    <div class="px-3 py-2 bg-light border-bottom" #collapse="ngbCollapse" [(ngbCollapse)]="isFilter">
+        <app-admin-filters [PlaceHolder]="'بالكود, الاسم'"></app-admin-filters>
+    </div>
+    <div class="card-body card-body-h">
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
+                <thead>
+                    <tr>
+                        <th class="th-width"></th>
+                        <th>الكود</th>
+                        <th>الاسم</th>
+                        <th>الوصف</th>
+                        <th>رقم التلفون</th>
+                        <th>رقم التلفون 2</th>
+                        <th>العنوان</th>
+                        <th>الجنسية</th>
+                        <th>صفحة الفيس بوك</th>
+                        <th>تمت الاضافة من قبل</th>
+                        <th>تاريخ الاضافة</th>
+                        <th class="text-center">أجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td>1000</td>
+                        <td>سلام هاني البدوي</td>
+                        <td>عدم ذكر اي معلومات</td>
+                        <td>01102614667</td>
+                        <td>01124564843</td>
+                        <td>الاسكندرية-العجمي-شاطئ النخيل</td>
+                        <td>سورية</td>
+                        <td>
+                            <a style="text-decoration: none;" href="https://www.facebook.com/" target="_blank">Facebook</a>
+                        </td>
+                        <td>Salam Hany</td>
+                        <td>13 مايو 2024</td>
+                        <td>
+                            <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
+                                <i class="uil uil-edit text-primary icon-table-action shadow-sm"
+                                    (click)="openAddItemModal(OpenItemModal,null)"></i>
+                                <i class="uil uil-times-circle text-danger icon-table-action shadow-sm"
+                                    (click)="openDeleteItemModal(deleteItemModal,null)"></i>
+                                <i class="uil uil-document-info text-success icon-table-action shadow-sm"
+                                    (click)="openCashSidePanel(CashSidePanel)"></i>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #OpenItemModal let-modal>
+    <div class="modal-header d-flex align-items-center justify-content-between main-bgcolor text-white">
+        <div class="display-7 d-flex align-items-center gap-3">
+            <i class="uil uil-focus-add"></i>
+            <span>اضافه متبرع جديد</span>
+        </div>
+        <i class="fas fa-times cursor-pointer fa-2x modal-close-btn" (click)="modal.dismiss()"></i>
+    </div>
+    <div class="modal-body gray-bgcolor">
+        <div class="bg-white p-3 rounded shadow-sm">
+            <form>
+                <div class="row g-3">
+                    <div class="col-lg-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user">
+                            <label for="floatingInput_1">اسم المتبرع</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user">
+                            <label for="floatingInput_1">الوصف</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user">
+                            <label for="floatingInput_1">رقم التلفون</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user">
+                            <label for="floatingInput_1">رقم التلفون 2</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user">
+                            <label for="floatingInput_1">العنوان</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user">
+                            <label for="floatingInput_1">صفحة الفيس بوك</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div ngbDropdown class="dropdown-with-search overflow-hidden" container="body">
+                            <button
+                                class="dropdown-with-search-btn btn border h-100 w-100 d-flex align-items-center justify-content-between selector-padding"
+                                id="dropdownBasic1" ngbDropdownToggle>
+                                الجنسية
+                            </button>
+                            <div class="width-530 py-0 overflow-hidden" ngbDropdownMenu
+                                aria-labelledby="dropdownBasic1">
+                                <ul class="dropdown-list-box list-unstyled max-height-200 overflow-auto px-1 py-1 m-0">
+                                    <ng-container>
+                                        <li class="dropdown-item cursor-pointer rounded">سورية</li>
+                                        <li class="dropdown-item cursor-pointer rounded">مصر</li>
+                                        <li class="dropdown-item cursor-pointer rounded">السودان</li>
+                                    </ng-container>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="choose-file-box position-relative border rounded h-58" (click)="InputFile.click()">
+                            <div class="choose-file-btn">تحميل صورة</div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer justify-content-start gap-2">
+        <button type="submit" class="btn main-button d-flex align-items-center gap-2">
+            <i class="uil uil-plus-circle"></i>
+            <span>اضافه</span>
+        </button>
+        <button class="btn btn-danger rounded-25 d-flex align-items-center gap-2" (click)="modal.close()">
+            <i class="uil uil-times-circle"></i>
+            <span>الغاء</span>
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #deleteItemModal let-modal>
+    <div class="modal-header main-bgcolor text-white">
+        <div class="display-7 d-flex align-items-center gap-3">
+            <i class="uil uil-trash-alt"></i>
+            <span>حذف متبرع</span>
+        </div>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">هل انت متأكد أنك تريد حذف هذا العنصر</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">نعم</span>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">لا</span>
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #CashSidePanel let-offcanvas>
+    <div class="offcanvas-header pb-0 d-flex align-items-center justify-content-between">
+        <div>
+            <h4 class="offcanvas-title m-0 d-flex align-items-center w-100"><i
+                    class="uil uil-document-info text-success"></i> سلام هاني البدوي - 1000
+            </h4>
+        </div>
+        <button type="button" class="btn bg-danger text-white rounded" aria-label="Close" (click)="offcanvas.dismiss()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <div class="offcanvas-body pt-0">
+        <hr>
+        <div class="mb-3">
+            <div class="row g-3">
+                <div class="col-lg-5">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user">
+                        <label for="floatingInput_1">مبلغ التبرع</label>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="form-floating">
+                        <input type="date" class="form-control" id="floatingInput_1" placeholder="new-user">
+                        <label for="floatingInput_1">تاريخ التبرع</label>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <button class="btn btn-success mt-3">اضافة</button>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="card">
+            <div class="card-body card-body-h">
+                <div class="table-responsive">
+                    <table class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
+                        <thead>
+                            <tr>
+                                <th>مبلغ التبرع</th>
+                                <th>تاريخ التبرع</th>
+                                <th>تم صرف المبلغ بالكامل</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>5000</td>
+                                <td>13 مايو 2024</td>
+                                <td>
+                                    <div class="col-lg-6 d-flex">
+                                        <label class="jtoggler-wrapper m-0 mx-0">
+                                            <input type="checkbox" class="jtoggler">
+                                            <div class="jtoggler-control">
+                                                <div class="jtoggler-handle"></div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<input type="file" #InputFile class="choose-file-input" hidden />

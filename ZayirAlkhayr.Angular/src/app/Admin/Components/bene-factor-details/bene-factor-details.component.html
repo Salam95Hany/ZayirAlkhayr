@@ -1,0 +1,198 @@
+<div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <div class="d-flex align-items-center flex-wrap gap-2">
+            <button class="btn main-button d-flex align-items-center gap-2"
+                (click)="openAddItemModal(OpenItemModal,null)">
+                <i class="uil uil-plus-circle"></i>
+                <span class="navbar-brand m-0">اضافة</span>
+            </button>
+        </div>
+        <div>
+            <app-admin-pagination [currentPage]="1" [pageSize]="5" [totalPages]="0"
+                [totalCount]="0"></app-admin-pagination>
+        </div>
+    </div>
+    <div class="card-body card-body-h">
+        <div class="row mb-3">
+            <div class="col-lg-3">
+                <div ngbDropdown class="dropdown-with-search overflow-hidden" container="body">
+                    <button
+                        class="dropdown-with-search-btn btn border h-100 w-100 d-flex align-items-center justify-content-between selector-padding"
+                        id="dropdownBasic1" ngbDropdownToggle>
+                        المتبرع
+                    </button>
+                    <div class="width-380 py-0 overflow-hidden" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                        <ul class="dropdown-list-box list-unstyled max-height-200 overflow-auto px-1 py-1 m-0">
+                            <ng-container>
+                                <li class="dropdown-item cursor-pointer rounded">سلام هاني البدوي</li>
+                                <li class="dropdown-item cursor-pointer rounded">محمود محمد</li>
+                                <li class="dropdown-item cursor-pointer rounded">أمجد عماد</li>
+                            </ng-container>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-1 d-flex align-items-center">
+                <div class="me-2">كاش</div>
+                <label class="jtoggler-wrapper m-0 mx-0">
+                    <input type="checkbox" class="jtoggler" (change)="GetBenefactorType($event.target.checked)">
+                    <div class="jtoggler-control">
+                        <div class="jtoggler-handle"></div>
+                    </div>
+                </label>
+                <div class="ms-2">الكل</div>
+            </div>
+            <div class="col-lg-3" *ngIf="BenefactorType == 'Cash'">
+                <div ngbDropdown class="dropdown-with-search overflow-hidden" container="body">
+                    <button
+                        class="dropdown-with-search-btn btn border h-100 w-100 d-flex align-items-center justify-content-between selector-padding"
+                        id="dropdownBasic1" ngbDropdownToggle>
+                        قيم التبرع
+                    </button>
+                    <div class="width-380 py-0 overflow-hidden" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                        <ul class="dropdown-list-box list-unstyled max-height-200 overflow-auto px-1 py-1 m-0">
+                            <ng-container>
+                                <li class="dropdown-item cursor-pointer rounded">5000 - 11 مايو 2024</li>
+                                <li class="dropdown-item cursor-pointer rounded">2000 - 11 مايو 2024</li>
+                            </ng-container>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2" *ngIf="BenefactorType == 'Cash'">
+                <div class="form-floating">
+                    <input type="text" class="form-control" value="5000" id="floatingInput_1" placeholder="new-user">
+                    <label for="floatingInput_1">مبلغ التبرع</label>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
+                <thead>
+                    <tr>
+                        <th class="th-width"></th>
+                        <th>الكود</th>
+                        <th>نوع التبرع</th>
+                        <th>تاريخ التبرع</th>
+                        <th>قيمة التبرع</th>
+                        <th>تفاصيل التبرع</th>
+                        <th>تمت الاضافة من قبل</th>
+                        <th>تاريخ الاضافة</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td>1000</td>
+                        <td>كاش</td>
+                        <td>13 مايو 2024</td>
+                        <td>500</td>
+                        <td>كفالة يتيم</td>
+                        <td>Salam Hany</td>
+                        <td>13 مايو 2024</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>1000</td>
+                        <td>كاش</td>
+                        <td>13 مايو 2024</td>
+                        <td>500</td>
+                        <td>اطعام عائلة فقيرة</td>
+                        <td>Salam Hany</td>
+                        <td>13 مايو 2024</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>1000</td>
+                        <td>بطانية</td>
+                        <td>13 مايو 2024</td>
+                        <td>-</td>
+                        <td>عائلة فقيرة</td>
+                        <td>Salam Hany</td>
+                        <td>13 مايو 2024</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #OpenItemModal let-modal>
+    <div class="modal-header d-flex align-items-center justify-content-between main-bgcolor text-white">
+        <div class="display-7 d-flex align-items-center gap-3">
+            <i class="uil uil-focus-add"></i>
+            <span>اضافه تفاصيل</span>
+        </div>
+        <i class="fas fa-times cursor-pointer fa-2x modal-close-btn" (click)="modal.dismiss()"></i>
+    </div>
+    <div class="modal-body gray-bgcolor">
+        <div class="bg-white p-3 rounded shadow-sm">
+            <form>
+                <div class="row g-3">
+                    <div class="col-lg-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" value="1000" id="floatingInput_1"
+                                placeholder="new-user" disabled>
+                            <label for="floatingInput_1">الكود</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div ngbDropdown class="dropdown-with-search overflow-hidden" container="body">
+                            <button
+                                class="dropdown-with-search-btn btn border h-100 w-100 d-flex align-items-center justify-content-between selector-padding"
+                                id="dropdownBasic1" [disabled]="BenefactorType == 'Cash'" ngbDropdownToggle>
+                                {{BenefactorType == 'Cash' ? 'كاش' : 'نوع التبرع'}}
+                            </button>
+                            <div class="width-530 py-0 overflow-hidden" ngbDropdownMenu
+                                aria-labelledby="dropdownBasic1">
+                                <ul class="dropdown-list-box list-unstyled max-height-200 overflow-auto px-1 py-1 m-0">
+                                    <ng-container>
+                                        <li class="dropdown-item cursor-pointer rounded">بطانية</li>
+                                        <li class="dropdown-item cursor-pointer rounded">شاليه</li>
+                                    </ng-container>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-floating">
+                            <input type="date" class="form-control" value="1000" id="floatingInput_1"
+                                placeholder="new-user">
+                            <label for="floatingInput_1">تاريخ التبرع</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6" *ngIf="BenefactorType == 'Cash'">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user">
+                            <label for="floatingInput_1">قيمة التبرع</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user">
+                            <label for="floatingInput_1">تفاصيل التبرع</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="choose-file-box position-relative border rounded h-58" (click)="InputFile.click()">
+                            <div class="choose-file-btn">تحميل صورة</div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer justify-content-start gap-2">
+        <button type="submit" class="btn main-button d-flex align-items-center gap-2">
+            <i class="uil uil-plus-circle"></i>
+            <span>اضافه</span>
+        </button>
+        <button class="btn btn-danger rounded-25 d-flex align-items-center gap-2" (click)="modal.close()">
+            <i class="uil uil-times-circle"></i>
+            <span>الغاء</span>
+        </button>
+    </div>
+</ng-template>
+
+<input type="file" #InputFile class="choose-file-input" hidden />
