@@ -64,7 +64,10 @@
             </li>
           </ul>
         </ul>
-
+      </div>
+      <div appRole [roles]="['SupperAdmin','BeneFactors']">
+        <hr>
+        <div class="side-menu-list-title side-menu-text">المتبرعين</div>
         <ul class="side-menu-list list-unstyled p-0 m-0">
           <li class="side-menu-list-item">
             <a class="side-menu-list-link with-sub-menu" [class.expanded]="isCollapsed_3" (click)="collapse3.toggle()"

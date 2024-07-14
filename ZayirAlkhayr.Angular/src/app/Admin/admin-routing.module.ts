@@ -17,13 +17,13 @@ const routes: Routes = [
     path: '',
     component: AdminComponent,
     canActivate: [AuthGuard],
-    data: { roles: ["SupperAdmin", "WebSite", "Services"] },
+    data: { roles: ["SupperAdmin", "WebSite", "Services","BeneFactors"] },
     children: [
       {
         path: 'home',
         component: AdminHomeComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "WebSite", "Services"] },
+        data: { roles: ["SupperAdmin", "WebSite", "Services","BeneFactors"] },
       },
       {
         path: 'home-slideimage',
@@ -53,19 +53,19 @@ const routes: Routes = [
         path: 'benefactors',
         component: BeneFactorComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "WebSite"] }
+        data: { roles: ["SupperAdmin", "BeneFactors"] }
       },
       {
         path: 'benefactor-detail',
         component: BeneFactorDetailsComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "WebSite"] }
+        data: { roles: ["SupperAdmin", "BeneFactors"] }
       },
       {
         path: 'benefactor-type',
         component: BeneFactorTypesComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "WebSite"] }
+        data: { roles: ["SupperAdmin", "BeneFactors"] }
       },
       {
         path: 'user',

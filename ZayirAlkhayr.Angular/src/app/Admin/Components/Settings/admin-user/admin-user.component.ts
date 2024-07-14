@@ -15,7 +15,7 @@ export class AdminUserComponent implements OnInit {
   ItemForm: FormGroup;
   UserId: any;
   RoleName = '--اختر--';
-  Roles = ['SupperAdmin', 'WebSite', 'Services'];
+  Roles = ['SupperAdmin', 'WebSite', 'Services','BeneFactors'];
   RoleValidation = false;
   ManagerUserId = '321db4e1-e32b-4aeb-8802-b076f9d7227d';
   TotalCount = 0;
