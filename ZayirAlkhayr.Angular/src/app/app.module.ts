@@ -17,6 +17,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SwiperModule } from 'swiper/angular';
 import { CarouselComponent } from './WebSite/media/media.component';
 import { LoginComponent } from './login/login.component';
+import { DonorsComponent } from './WebSite/donors/donors.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { LoginComponent } from './login/login.component';
     HeaderComponent,
     CarouselComponent,
     LoginComponent,
+    DonorsComponent,
   ],
   imports: [
     BrowserModule,

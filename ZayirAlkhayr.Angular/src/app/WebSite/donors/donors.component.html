@@ -1,0 +1,216 @@
+<!-- DONOR HEADER -->
+<nav class="navbar navbar-expand-md navbar-light bg-body-tertiary py-0">
+	<div class="container">
+    <div class="d-flex align-items-center gap-2">
+      <div class="img-logo-box">
+        <img src="../../../assets/logo-2.png" class="logo-img" loading="lazy" alt="" />
+      </div>
+      <div class="fw-bold">سلام هانى</div>
+    </div>
+    <button class="hamburger hamburger--elastic shadow-lg donor-humburger my-2 my-md-0" (click)="collapsed = !collapsed" [class.is-active]="!collapsed">
+      <span class="hamburger-box">
+        <span class="hamburger-inner"></span>
+      </span>
+    </button>
+		<div class="navbar-collapse py-3 py-md-0" [class.collapse]="collapsed" id="navbarContent">
+			<ul class="navbar-nav ms-auto">
+				<li class="nav-item">
+          <a class="nav-link d-flex align-items-center gap-2 cursor-pointer py-0" routerLink="/">
+            <i class="uil uil-sign-out-alt"></i>
+            <span>تسجيل الخروج</span>
+          </a>
+        </li>
+			</ul>
+		</div>
+	</div>
+</nav>
+
+<!-- DONOR CONTENT -->
+<div class="container pt-3">
+  <div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
+
+      <div>
+        <div class="position-relative">
+          <input type="text" class="form-control border width-250" placeholder="بحث..." />
+          <i class="uil uil-search search-icon-input"></i>
+        </div>
+      </div>
+    </div>
+    <div class="card-body card-body-h overflow-auto">
+      <div class="table-responsive">
+        <table class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
+          <thead>
+            <tr>
+              <th>الصورة</th>
+              <th>العنوان</th>
+              <th class="text-center">أجراءات</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>تفاصيل 1</td>
+              <td>تفاصيل 2</td>
+              <td>
+                <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
+                  <i class="uil uil-edit text-primary icon-table-action shadow-sm"></i>
+                  <i class="uil uil-times-circle text-danger icon-table-action shadow-sm"></i>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <hr />
+      <div class="table-responsive">
+        <table class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
+          <thead>
+            <tr>
+              <th class="width-30-per">مبلغ التبرع</th>
+              <th class="width-30-per">تاريخ التبرع</th>
+              <th class="width-30-per">تم صرف المبلغ بالكامل</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="td-collapser cursor-pointer" (click)="isCollapsed_1 = !isCollapsed_1" [attr.aria-expanded]="isCollapsed_1">
+                <div class="d-flex align-items-center gap-2">
+                  <i class="uil uil-plus-circle"></i>
+                  <span>5000</span>
+                </div>
+              </td>
+              <td>السبت 13 يوليو, 2024</td>
+              <td>
+                <label class="jtoggler-wrapper">
+                  <input type="checkbox" class="jtoggler jqtoggler-inited">
+                  <span class="jtoggler-control">
+                    <span class="jtoggler-handle"></span>
+                  </span>
+                </label>
+              </td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="isCollapsed_1">
+            <tr class="collapsed-tr">
+              <td >3000</td>
+              <td>الخميس 30 يناير, 2024</td>
+              <td>
+                <label class="jtoggler-wrapper">
+                  <input type="checkbox" class="jtoggler jqtoggler-inited">
+                  <span class="jtoggler-control">
+                    <span class="jtoggler-handle"></span>
+                  </span>
+                </label>
+              </td>
+            </tr>
+          </tbody>
+
+          <tbody>
+            <tr>
+              <td class="td-collapser cursor-pointer" (click)="isCollapsed_2 = !isCollapsed_2" [attr.aria-expanded]="isCollapsed_2">
+                <div class="d-flex align-items-center gap-2">
+                  <i class="uil uil-plus-circle"></i>
+                  <span>1000</span>
+                </div>
+              </td>
+              <td>الاحد 20 مارس, 2024</td>
+              <td>
+                <label class="jtoggler-wrapper">
+                  <input type="checkbox" class="jtoggler jqtoggler-inited">
+                  <span class="jtoggler-control">
+                    <span class="jtoggler-handle"></span>
+                  </span>
+                </label>
+              </td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="isCollapsed_2">
+            <tr class="collapsed-tr">
+              <td>2500</td>
+              <td>الخميس 28 يونيو, 2024</td>
+              <td>
+                <label class="jtoggler-wrapper">
+                  <input type="checkbox" class="jtoggler jqtoggler-inited">
+                  <span class="jtoggler-control">
+                    <span class="jtoggler-handle"></span>
+                  </span>
+                </label>
+              </td>
+            </tr>
+            <tr class="collapsed-tr">
+              <td>2500</td>
+              <td>الثلاثاء 10 اغسطس, 2024</td>
+              <td>
+                <label class="jtoggler-wrapper">
+                  <input type="checkbox" class="jtoggler jqtoggler-inited">
+                  <span class="jtoggler-control">
+                    <span class="jtoggler-handle"></span>
+                  </span>
+                </label>
+              </td>
+            </tr>
+          </tbody>
+
+            <tbody>
+              <tr>
+                <td class="td-collapser cursor-pointer" (click)="isCollapsed_3 = !isCollapsed_3" [attr.aria-expanded]="isCollapsed_3">
+                  <div class="d-flex align-items-center gap-2">
+                    <i class="uil uil-plus-circle"></i>
+                    <span>6500</span>
+                  </div>
+                </td>
+                <td>الثلاثاء 1 فبراير, 2024</td>
+                <td>
+                  <label class="jtoggler-wrapper">
+                    <input type="checkbox" class="jtoggler jqtoggler-inited">
+                    <span class="jtoggler-control">
+                      <span class="jtoggler-handle"></span>
+                    </span>
+                  </label>
+                </td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="isCollapsed_3">
+              <tr class="collapsed-tr">
+                <td>2500</td>
+                <td>الاحد 25 مارس, 2024</td>
+                <td>
+                  <label class="jtoggler-wrapper">
+                    <input type="checkbox" class="jtoggler jqtoggler-inited">
+                    <span class="jtoggler-control">
+                      <span class="jtoggler-handle"></span>
+                    </span>
+                  </label>
+                </td>
+              </tr>
+              <tr class="collapsed-tr">
+                <td>3500</td>
+                <td>الاثنين 18 أبريل, 2024</td>
+                <td>
+                  <label class="jtoggler-wrapper">
+                    <input type="checkbox" class="jtoggler jqtoggler-inited">
+                    <span class="jtoggler-control">
+                      <span class="jtoggler-handle"></span>
+                    </span>
+                  </label>
+                </td>
+              </tr>
+              <tr class="collapsed-tr">
+                <td>4000</td>
+                <td>الاربعاء 14 يناير, 2024</td>
+                <td>
+                  <label class="jtoggler-wrapper">
+                    <input type="checkbox" class="jtoggler jqtoggler-inited">
+                    <span class="jtoggler-control">
+                      <span class="jtoggler-handle"></span>
+                    </span>
+                  </label>
+                </td>
+              </tr>
+            </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+

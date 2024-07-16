@@ -121,6 +121,10 @@ body {
   line-height: 1.2;
 }
 
+.width-30-per {
+  width: 30%;
+}
+
 .width-250 {
   width: 250px;
 }
@@ -224,7 +228,7 @@ body {
 
 .card-header {
   background-color: #e9e9e9;
-  height: 55px;
+  min-height: 55px;
 }
 
 .form-control:focus {
@@ -278,6 +282,23 @@ body {
   -moz-border-radius: 25px;
   -ms-border-radius: 25px;
   -o-border-radius: 25px;
+}
+.badge {
+  cursor: pointer;
+}
+.badge-sky {
+  background-color: #d5e6f6;
+  color: #1f407d;
+}
+
+.badge-danger {
+  background-color: #edc7cb;
+  color: #dc3545;
+}
+
+.badge-success {
+  background-color: #d9efd8;
+  color: #269124;
 }
 
 a,

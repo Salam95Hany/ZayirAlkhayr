@@ -1,0 +1,64 @@
+.navbar {
+  background: var(--main-color-gradient);
+  min-height: var(--admin-header-height);
+  z-index: 3;
+}
+.navbar,
+.navbar .nav-link {
+  color: #FFF;
+}
+.navbar .nav-link {
+  height: 60px;
+}
+.img-logo-box {
+  border: 2px solid var(--secondary-color);
+  border-radius: 50%;
+  background-color: #FFF;
+  --dim: 50px;
+  width: var(--dim);
+  height: var(--dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.img-logo-box .logo-img {
+  --dim: 40px;
+  width: var(--dim);
+  height: var(--dim);
+  margin-top: -15px;
+}
+.donor-humburger {
+  display: none;
+}
+@media (min-width: 768px) {
+  .navbar .nav-link:hover {
+    background-color: #FFF;
+    color: var(--main-color);
+  }
+}
+@media (max-width: 767px) {
+  .donor-humburger {
+    display: flex;
+  }
+  .navbar .nav-link {
+    height: 30px;
+  }
+}
+
+
+/* Table Collapse And Expand Style */
+.td-collapser .uil-plus-circle {
+  font-size: 19px;
+}
+.td-collapser[aria-expanded="false"] .uil-plus-circle {
+  color: #198754;
+}
+.td-collapser[aria-expanded="true"] .uil-plus-circle {
+  color: #dc3545;
+}
+.td-collapser[aria-expanded="true"] .uil-plus-circle::before {
+  content: '\e994';
+}
+.collapsed-tr > td:first-child {
+  padding-right: 32px;
+}

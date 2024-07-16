@@ -8,6 +8,7 @@ import { PhotosComponent } from './WebSite/photos/photos.component';
 import { ActivityDetailsComponent } from './WebSite/activity-details/activity-details.component';
 import { PhotoDetailsComponent } from './WebSite/photo-details/photo-details.component';
 import { LoginComponent } from './login/login.component';
+import { DonorsComponent } from './WebSite/donors/donors.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -23,6 +24,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'activity', pathMatch: 'full' }
     ]
   },
+  { path: 'donors', component: DonorsComponent },
   { path: '', redirectTo: '', pathMatch: 'full' },
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];

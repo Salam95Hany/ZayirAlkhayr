@@ -1,83 +1,102 @@
-<div class="d-flex align-items-center flex-wrap gap-2">
-    <div class="position-relative">
-      <input type="text" class="form-control border width-250" placeholder="بحث..." />
-      <i class="uil uil-search search-icon-input"></i>
-    </div>
-    <div class="filter-button" ngbDropdown display="dynamic" placement="bottom-end" [autoClose]="'outside'">
-        <button class="btn main-filter-button d-flex align-items-center gap-2" ngbDropdownToggle>
-            <i class="uil uil-filter"></i>
-            <span class="navbar-brand m-0">الاسم</span>
-        </button>
-        <div ngbDropdownMenu
-            class="dropdown-menu shadow-sm border animate__animated animate__fadeInUp p-0 overflow-hidden">
-            <div class="filter-search p-2 gray-bgcolor border-bottom">
-              <div class="position-relative">
-                <input type="text" class="form-control form-control-sm" placeholder="بحث..." />
-                <i class="uil uil-search search-icon-input"></i>
+<div class="d-flex flex-column gap-2">
+  <div class="d-flex align-items-center flex-wrap gap-2">
+      <div class="position-relative">
+        <input type="text" class="form-control border width-250" placeholder="بحث..." />
+        <i class="uil uil-search search-icon-input"></i>
+      </div>
+      <div class="filter-button" ngbDropdown display="dynamic" placement="bottom-end" [autoClose]="'outside'">
+          <button class="btn main-filter-button d-flex align-items-center gap-2" ngbDropdownToggle>
+              <i class="uil uil-filter"></i>
+              <span class="navbar-brand m-0">الاسم</span>
+          </button>
+          <div ngbDropdownMenu
+              class="dropdown-menu shadow-sm border animate__animated animate__fadeInUp p-0 overflow-hidden">
+              <div class="filter-search p-2 gray-bgcolor border-bottom">
+                <div class="position-relative">
+                  <input type="text" class="form-control form-control-sm" placeholder="بحث..." />
+                  <i class="uil uil-search search-icon-input"></i>
+                </div>
               </div>
-            </div>
-            <div class="min-width-230 max-height-180 px-2 py-2 overflow-auto bg-white">
-                <div class="form-check dropdown-item cursor-pointer rounded">
-                    <input class="form-check-input" type="checkbox" id="filter_1">
-                    <label class="form-check-label cursor-pointer" for="filter_1">
-                        فلتر 1
-                    </label>
-                </div>
-                <div class="form-check dropdown-item cursor-pointer rounded">
-                    <input class="form-check-input" type="checkbox" id="filter_2">
-                    <label class="form-check-label cursor-pointer" for="filter_2">
-                        فلتر 2
-                    </label>
-                </div>
-                <div class="form-check dropdown-item cursor-pointer rounded">
-                    <input class="form-check-input" type="checkbox" id="filter_3">
-                    <label class="form-check-label cursor-pointer" for="filter_3">
-                        فلتر 3
-                    </label>
-                </div>
-                <div class="form-check dropdown-item cursor-pointer rounded">
-                    <input class="form-check-input" type="checkbox" id="filter_4">
-                    <label class="form-check-label cursor-pointer" for="filter_4">
-                        فلتر 4
-                    </label>
-                </div>
-                <div class="form-check dropdown-item cursor-pointer rounded">
-                    <input class="form-check-input" type="checkbox" id="filter_5">
-                    <label class="form-check-label cursor-pointer" for="filter_5">
-                        فلتر 5
-                    </label>
-                </div>
-                <div class="form-check dropdown-item cursor-pointer rounded">
-                    <input class="form-check-input" type="checkbox" id="filter_6">
-                    <label class="form-check-label cursor-pointer" for="filter_6">
-                        فلتر 6
-                    </label>
-                </div>
-                <div class="form-check dropdown-item cursor-pointer rounded">
-                    <input class="form-check-input" type="checkbox" id="filter_7">
-                    <label class="form-check-label cursor-pointer" for="filter_7">
-                        فلتر 7
-                    </label>
-                </div>
-                <div class="form-check dropdown-item cursor-pointer rounded">
-                    <input class="form-check-input" type="checkbox" id="filter_8">
-                    <label class="form-check-label cursor-pointer" for="filter_8">
-                        فلتر 8
-                    </label>
-                </div>
-                <div class="form-check dropdown-item cursor-pointer rounded">
-                    <input class="form-check-input" type="checkbox" id="filter_9">
-                    <label class="form-check-label cursor-pointer" for="filter_9">
-                        فلتر 9
-                    </label>
-                </div>
-                <div class="form-check dropdown-item cursor-pointer rounded">
-                    <input class="form-check-input" type="checkbox" id="filter_10">
-                    <label class="form-check-label cursor-pointer" for="filter_10">
-                        فلتر 10
-                    </label>
-                </div>
-            </div>
-        </div>
+              <div class="min-width-230 max-height-180 px-2 py-2 overflow-auto bg-white">
+                  <div class="form-check dropdown-item cursor-pointer rounded">
+                      <input class="form-check-input" type="checkbox" id="filter_1">
+                      <label class="form-check-label cursor-pointer" for="filter_1">
+                          فلتر 1
+                      </label>
+                  </div>
+                  <div class="form-check dropdown-item cursor-pointer rounded">
+                      <input class="form-check-input" type="checkbox" id="filter_2">
+                      <label class="form-check-label cursor-pointer" for="filter_2">
+                          فلتر 2
+                      </label>
+                  </div>
+                  <div class="form-check dropdown-item cursor-pointer rounded">
+                      <input class="form-check-input" type="checkbox" id="filter_3">
+                      <label class="form-check-label cursor-pointer" for="filter_3">
+                          فلتر 3
+                      </label>
+                  </div>
+                  <div class="form-check dropdown-item cursor-pointer rounded">
+                      <input class="form-check-input" type="checkbox" id="filter_4">
+                      <label class="form-check-label cursor-pointer" for="filter_4">
+                          فلتر 4
+                      </label>
+                  </div>
+                  <div class="form-check dropdown-item cursor-pointer rounded">
+                      <input class="form-check-input" type="checkbox" id="filter_5">
+                      <label class="form-check-label cursor-pointer" for="filter_5">
+                          فلتر 5
+                      </label>
+                  </div>
+                  <div class="form-check dropdown-item cursor-pointer rounded">
+                      <input class="form-check-input" type="checkbox" id="filter_6">
+                      <label class="form-check-label cursor-pointer" for="filter_6">
+                          فلتر 6
+                      </label>
+                  </div>
+                  <div class="form-check dropdown-item cursor-pointer rounded">
+                      <input class="form-check-input" type="checkbox" id="filter_7">
+                      <label class="form-check-label cursor-pointer" for="filter_7">
+                          فلتر 7
+                      </label>
+                  </div>
+                  <div class="form-check dropdown-item cursor-pointer rounded">
+                      <input class="form-check-input" type="checkbox" id="filter_8">
+                      <label class="form-check-label cursor-pointer" for="filter_8">
+                          فلتر 8
+                      </label>
+                  </div>
+                  <div class="form-check dropdown-item cursor-pointer rounded">
+                      <input class="form-check-input" type="checkbox" id="filter_9">
+                      <label class="form-check-label cursor-pointer" for="filter_9">
+                          فلتر 9
+                      </label>
+                  </div>
+                  <div class="form-check dropdown-item cursor-pointer rounded">
+                      <input class="form-check-input" type="checkbox" id="filter_10">
+                      <label class="form-check-label cursor-pointer" for="filter_10">
+                          فلتر 10
+                      </label>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="d-flex align-items-center flex-wrap gap-2">
+    <div class="badge badge-success round"> فلتر 1
+      <i class="fas fa-times-circle font-small-3 px-02 cursor-pointer"></i>
     </div>
+    <div class="badge badge-sky round"> فلتر 2
+      <i class="fas fa-times-circle font-small-3 px-02 cursor-pointer"></i>
+    </div>
+    <div class="badge badge-sky round"> فلتر 3
+      <i class="fas fa-times-circle font-small-3 px-02 cursor-pointer"></i>
+    </div>
+    <div class="badge badge-success round"> فلتر 4
+      <i class="fas fa-times-circle font-small-3 px-02 cursor-pointer"></i>
+    </div>
+    <div class="badge badge-danger round"> امسح الكل
+      <i class="fas fa-times-circle font-small-3 px-02 cursor-pointer"></i>
+    </div>
+  </div>
 </div>

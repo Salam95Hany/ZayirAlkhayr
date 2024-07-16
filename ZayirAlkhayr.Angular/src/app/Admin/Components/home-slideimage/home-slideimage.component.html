@@ -1,81 +1,127 @@
-<div class="card">
-  <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
-    <div class="d-flex align-items-center flex-wrap gap-2">
-      <button class="btn main-button d-flex align-items-center gap-2" (click)="openAddItemModal(OpenItemModal)">
-        <i class="uil uil-plus-circle"></i>
-        <span class="navbar-brand m-0">اضافه</span>
-      </button>
-      <!-- <div class="nav-item" ngbDropdown display="dynamic" placement="bottom-end">
-        <button class="btn main-button d-flex align-items-center gap-2" ngbDropdownToggle>
-          <i class="uil uil-export"></i>
-          <span class="navbar-brand m-0">تنزيل</span>
-        </button>
-        <div ngbDropdownMenu class="dropdown-menu border shadow-sm animate__animated animate__fadeInUp">
-          <a class="cursor-pointer" ngbDropdownItem (click)="$event.preventDefault()">
-            <i class="far fa-file-pdf"></i>
-            <span class="ms-2">PDF</span>
-          </a>
-          <a class="cursor-pointer" ngbDropdownItem (click)="$event.preventDefault()">
-            <i class="far fa-file-excel"></i>
-            <span class="ms-2">Excel</span>
-          </a>
-          <a class="cursor-pointer" ngbDropdownItem (click)="$event.preventDefault()">
-            <i class="far fa-file-word"></i>
-            <span class="ms-2">Word</span>
-          </a>
+<div class="row g-4">
+  <div class="col-xl-4">
+    <div class="homepage-img-box">
+      <img src="../../../../assets/logo-2.png" class="homepage-img" loading="lazy" alt="" />
+    </div>
+  </div>
+  <div class="col-xl-8">
+    <div class="home-staticts mb-3">
+      <div class="row g-3">
+        <div class="col-lg-4">
+          <div class="staticts-card visitors position-relative d-flex flex-column gap-2 align-items-center rounded shadow-sm h-100">
+            <div class="staticts-icon">
+              <i class="uil uil-users-alt"></i>
+            </div>
+            <div class="staticts-name">الزائرين</div>
+            <div class="staticts-number">5</div>
+          </div>
         </div>
-      </div> -->
-      <button class="btn main-button d-flex align-items-center gap-2" (click)="isFilter = !isFilter"
-        [attr.aria-expanded]="!isFilter">
-        <i class="uil uil-filter"></i>
-        <span class="navbar-brand m-0">{{ isFilter ? 'عرض' : 'اخفاء' }} الفلاتر</span>
-      </button>
+        <div class="col-lg-4">
+          <div class="staticts-card active-users position-relative d-flex flex-column gap-2 align-items-center rounded shadow-sm h-100">
+            <div class="staticts-icon">
+              <i class="uil uil-user-check"></i>
+            </div>
+            <div class="staticts-name">المستخدمين النشطين</div>
+            <div class="staticts-number">1</div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="staticts-card nonactive-users position-relative d-flex flex-column gap-2 align-items-center rounded shadow-sm h-100">
+            <div class="staticts-icon">
+              <i class="uil uil-user-exclamation"></i>
+            </div>
+            <div class="staticts-name">المستخدمين غير النشطين</div>
+            <div class="staticts-number">1</div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div>
-      <app-admin-pagination></app-admin-pagination>
-      <!-- <nav>
-        <ul class="pagination pagination-sm m-0">
-          <li class="page-item">
-            <a class="page-link">التالى</a>
-          </li>
-          <li class="page-item"><a class="page-link">1</a></li>
-          <li class="page-item active" aria-current="page">
-            <a class="page-link">2</a>
-          </li>
-          <li class="page-item"><a class="page-link">3</a></li>
-          <li class="page-item disabled">
-            <a class="page-link">السابق</a>
-          </li>
-        </ul>
-      </nav> -->
-    </div>
-  </div>
-  <div class="px-3 py-2 bg-light border-bottom" #collapse="ngbCollapse" [(ngbCollapse)]="isFilter">
-    <app-admin-filters></app-admin-filters>
-  </div>
-  <div class="card-body card-body-h">
-    <div class="table-responsive">
-      <table class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
-        <thead>
-          <tr>
-            <th>الصورة</th>
-            <th>العنوان</th>
-            <th class="text-center">أجراءات</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>تفاصيل 1</td>
-            <td>تفاصيل 2</td>
-            <td>
-              <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
-                <i class="uil uil-edit text-primary icon-table-action shadow-sm" (click)="openAddItemModal(OpenItemModal)"></i>
-                <i class="uil uil-times-circle text-danger icon-table-action shadow-sm" (click)="openDeleteItemModal(deleteItemModal)"></i>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="card">
+      <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <div class="row g-3">
+          <div class="col-lg-6">
+            <div class="d-flex align-items-center flex-wrap gap-2">
+              <button class="btn main-button d-flex align-items-center gap-2" (click)="openAddItemModal(OpenItemModal)">
+                <i class="uil uil-plus-circle"></i>
+                <span class="navbar-brand m-0">اضافه</span>
+              </button>
+              <!-- <div class="nav-item" ngbDropdown display="dynamic" placement="bottom-end">
+                <button class="btn main-button d-flex align-items-center gap-2" ngbDropdownToggle>
+                  <i class="uil uil-export"></i>
+                  <span class="navbar-brand m-0">تنزيل</span>
+                </button>
+                <div ngbDropdownMenu class="dropdown-menu border shadow-sm animate__animated animate__fadeInUp">
+                  <a class="cursor-pointer" ngbDropdownItem (click)="$event.preventDefault()">
+                    <i class="far fa-file-pdf"></i>
+                    <span class="ms-2">PDF</span>
+                  </a>
+                  <a class="cursor-pointer" ngbDropdownItem (click)="$event.preventDefault()">
+                    <i class="far fa-file-excel"></i>
+                    <span class="ms-2">Excel</span>
+                  </a>
+                  <a class="cursor-pointer" ngbDropdownItem (click)="$event.preventDefault()">
+                    <i class="far fa-file-word"></i>
+                    <span class="ms-2">Word</span>
+                  </a>
+                </div>
+              </div> -->
+              <button class="btn main-button d-flex align-items-center gap-2" (click)="isFilter = !isFilter"
+                [attr.aria-expanded]="!isFilter">
+                <i class="uil uil-filter"></i>
+                <span class="navbar-brand m-0">{{ isFilter ? 'عرض' : 'اخفاء' }} الفلاتر</span>
+              </button>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div>
+              <app-admin-pagination></app-admin-pagination>
+              <!-- <nav>
+                <ul class="pagination pagination-sm m-0">
+                  <li class="page-item">
+                    <a class="page-link">التالى</a>
+                  </li>
+                  <li class="page-item"><a class="page-link">1</a></li>
+                  <li class="page-item active" aria-current="page">
+                    <a class="page-link">2</a>
+                  </li>
+                  <li class="page-item"><a class="page-link">3</a></li>
+                  <li class="page-item disabled">
+                    <a class="page-link">السابق</a>
+                  </li>
+                </ul>
+              </nav> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="px-3 py-2 bg-light border-bottom" #collapse="ngbCollapse" [(ngbCollapse)]="isFilter">
+        <app-admin-filters></app-admin-filters>
+      </div>
+      <div class="card-body card-body-h overflow-auto">
+        <div class="table-responsive">
+          <table class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
+            <thead>
+              <tr>
+                <th>الصورة</th>
+                <th>العنوان</th>
+                <th class="text-center">أجراءات</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>تفاصيل 1</td>
+                <td>تفاصيل 2</td>
+                <td>
+                  <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
+                    <i class="uil uil-edit text-primary icon-table-action shadow-sm" (click)="openAddItemModal(OpenItemModal)"></i>
+                    <i class="uil uil-times-circle text-danger icon-table-action shadow-sm" (click)="openDeleteItemModal(deleteItemModal)"></i>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -214,7 +260,7 @@
   <div class="modal-body">
       <p class="fs-5 m-0">هل انت متأكد أنك تريد حذف هذا العنصر</p>
   </div>
-  <div class="modal-footer justify-content-start">
+  <div class="modal-footer justify-content-center">
       <button type="button" class="btn btn-success" (click)="modal.close('Save click')">
           <i class="fas fa-check"></i>
           <span class="ms-2">نعم</span>
