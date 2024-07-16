@@ -49,17 +49,23 @@ namespace ZayirAlkhayr.Service
         {
             var results = _Context.BeneFactorValues.Where(i => i.BeneFactorId == BeneFactorId).Select(i => new BeneFactorValues
             {
+                Id = i.Id,
                 TotalValue = i.TotalValue,
-                PaymentDate = i.PaymentDate,
+                PaymentDateStr = i.PaymentDate.ToString("dddd d MMMM , yyyy", new CultureInfo("ar-AE")),
                 IsActive = i.IsActive,
             }).ToList();
             return results;
         }
 
-        public List<BeneFactorTypes> GetAllBeneFactorTypes()
+        public DataTable GetAllBeneFactorTypes(PagingFilterModel PagingFilter)
         {
-            var results = _Context.BeneFactorTypes.ToList();
-            return results;
+            var SearchText = PagingFilter.FilterList.FirstOrDefault(i => i.CategoryName == "SearchText");
+            var Params = new SqlParameter[3];
+            Params[0] = new SqlParameter("@SearchText", SearchText?.ItemId);
+            Params[1] = new SqlParameter("@CurrentPage", PagingFilter.Currentpage);
+            Params[2] = new SqlParameter("@PageSize", PagingFilter.Pagesize);
+            var dt = _sQLHelper.ExecuteDataTable("web.SP_GetAllBeneFactorTypes", Params);
+            return dt;
         }
 
         public List<FilterModel> GetAllBeneFactorFilters(PagingFilterModel PagingFilter)
@@ -74,6 +80,24 @@ namespace ZayirAlkhayr.Service
             var dt = _sQLHelper.ExecuteDataTable("web.SP_GetAllBeneFactorsDataWithFilters", Params);
             var Filters = _sQLHelper.GroupingFilters(dt);
             return Filters;
+        }
+
+        public DataTable GetAllBeneFactorDetails(int BeneFactorId)
+        {
+            var Params = new SqlParameter[2];
+            Params[0] = new SqlParameter("@ApiUrl", ApiLocalUrl);
+            Params[1] = new SqlParameter("@BeneFactorId", BeneFactorId);
+            var dt = _sQLHelper.ExecuteDataTable("web.SP_GetAllBeneFactorDetails", Params);
+            return dt;
+        }
+
+        public DataTable GetAllBeneFactorDetailsByValueId(int BeneFactorValueId)
+        {
+            var Params = new SqlParameter[2];
+            Params[0] = new SqlParameter("@ApiUrl", ApiLocalUrl);
+            Params[1] = new SqlParameter("@BeneFactorValueId", BeneFactorValueId);
+            var dt = _sQLHelper.ExecuteDataTable("web.SP_GetAllBeneFactorDetailsByValueId", Params);
+            return dt;
         }
 
         public async Task<HandleErrorResponseModel> AddNewBeneFactor(BeneFactors Model)
@@ -94,11 +118,14 @@ namespace ZayirAlkhayr.Service
                 BeneFactorObj.InsertUser = Model.InsertUser;
                 BeneFactorObj.InsertDate = DateTime.Now;
 
-                var FileName = await _manageFileService.UploadFile(Model.Files, "", ImageFiles.BeneFactorImages);
-                if (FileName.Done)
-                    BeneFactorObj.Image = FileName.StringValue;
-                else
-                    return FileName;
+                if (Model.Files != null)
+                {
+                    var FileName = await _manageFileService.UploadFile(Model.Files, "", ImageFiles.BeneFactorImages);
+                    if (FileName.Done)
+                        BeneFactorObj.Image = FileName.StringValue;
+                    else
+                        return FileName;
+                }
 
                 _Context.BeneFactors.Add(BeneFactorObj);
                 _Context.SaveChanges();
@@ -123,7 +150,6 @@ namespace ZayirAlkhayr.Service
                 var Response = new HandleErrorResponseModel();
                 var BeneFactorObj = new BeneFactorValues();
                 BeneFactorObj.BeneFactorId = Model.BeneFactorId;
-                BeneFactorObj.BeneFactorTypeId = 1;
                 BeneFactorObj.TotalValue = Model.TotalValue;
                 BeneFactorObj.PaymentDate = Model.PaymentDate;
                 BeneFactorObj.IsActive = Model.IsActive;
@@ -145,6 +171,81 @@ namespace ZayirAlkhayr.Service
                 return Response;
             }
         }
+
+        public HandleErrorResponseModel AddNewBeneFactorType(BeneFactorTypes Model)
+        {
+            try
+            {
+                var Response = new HandleErrorResponseModel();
+                var BeneFactorObj = new BeneFactorTypes();
+                BeneFactorObj.Name = Model.Name;
+                BeneFactorObj.InsertUser = Model.InsertUser;
+                BeneFactorObj.InsertDate = DateTime.Now;
+
+                _Context.BeneFactorTypes.Add(BeneFactorObj);
+                _Context.SaveChanges();
+
+                Response.Done = true;
+                Response.Message = "تم اضافة نوع جديد بنجاح";
+                return Response;
+            }
+            catch (Exception)
+            {
+                var Response = new HandleErrorResponseModel();
+                Response.Done = false;
+                Response.Message = "لقد حدث خطا";
+                return Response;
+            }
+        }
+
+        public async Task<HandleErrorResponseModel> AddNewBeneFactorDetails(BeneFactorDetails Model)
+        {
+            try
+            {
+                var Response = new HandleErrorResponseModel();
+                var BeneFactorObj = new BeneFactorDetails();
+                BeneFactorObj.BeneFactorId = Model.BeneFactorId;
+                BeneFactorObj.BeneFactorValueId = Model.BeneFactorValueId;
+                BeneFactorObj.BeneFactorTypeId = Model.BeneFactorTypeId;
+                BeneFactorObj.Details = Model.Details;
+                BeneFactorObj.PaymentDate = Model.PaymentDate;
+                BeneFactorObj.TotalValue = Model.TotalValue;
+                BeneFactorObj.InsertUser = Model.InsertUser;
+                BeneFactorObj.InsertDate = DateTime.Now;
+
+                if (Model.Files != null)
+                {
+                    var FileName = await _manageFileService.UploadFile(Model.Files, "", ImageFiles.BeneFactorDetailsImages);
+                    if (FileName.Done)
+                        BeneFactorObj.Image = FileName.StringValue;
+                    else
+                        return FileName;
+                }
+
+                if (Model.IsFinalSubscribe)
+                {
+                    var BeneFactorType = _Context.BeneFactorValues.FirstOrDefault(i => i.Id == Model.BeneFactorValueId);
+                    if (BeneFactorType != null)
+                        BeneFactorType.IsActive = true;
+                }
+
+                _Context.BeneFactorDetails.Add(BeneFactorObj);
+                _Context.SaveChanges();
+
+                Response.Done = true;
+                Response.Message = "تم اضافة متبرع جديد بنجاح";
+                return Response;
+            }
+            catch (Exception)
+            {
+                var Response = new HandleErrorResponseModel();
+                Response.Done = false;
+                Response.Message = "لقد حدث خطا";
+                return Response;
+            }
+        }
+
+
 
         public async Task<HandleErrorResponseModel> UpdateBeneFactor(BeneFactors Model)
         {

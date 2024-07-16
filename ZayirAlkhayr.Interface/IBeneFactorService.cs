@@ -18,6 +18,10 @@ namespace ZayirAlkhayr.Interface
         HandleErrorResponseModel DeleteBeneFactor(int BeneFactorId);
         HandleErrorResponseModel AddNewBeneFactorValues(BeneFactorValues Model);
         List<BeneFactorValues> GetAllBeneFactorValuesById(int BeneFactorId);
-        List<BeneFactorTypes> GetAllBeneFactorTypes();
+        DataTable GetAllBeneFactorTypes(PagingFilterModel PagingFilter);
+        HandleErrorResponseModel AddNewBeneFactorType(BeneFactorTypes Model);
+        DataTable GetAllBeneFactorDetails(int BeneFactorId);
+        Task<HandleErrorResponseModel> AddNewBeneFactorDetails(BeneFactorDetails Model);
+        DataTable GetAllBeneFactorDetailsByValueId(int BeneFactorValueId);
     }
 }

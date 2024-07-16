@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZayirAlkhayr.Entities.Models;
 
 namespace ZayirAlkhayr.Entities.Migrations
 {
     [DbContext(typeof(ZADbContext))]
-    partial class ZADbContextModelSnapshot : ModelSnapshot
+    [Migration("20240714171614_BeneFactorTypesMigration")]
+    partial class BeneFactorTypesMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -285,16 +287,10 @@ namespace ZayirAlkhayr.Entities.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BeneFactorId")
+                    b.Property<int>("BeneFactorValueId")
                         .HasColumnType("int");
 
-                    b.Property<int>("BeneFactorTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("BeneFactorValueId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Details")
+                    b.Property<string>("DetailType")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Image")
@@ -358,6 +354,9 @@ namespace ZayirAlkhayr.Entities.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("BeneFactorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BeneFactorTypeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("InsertDate")

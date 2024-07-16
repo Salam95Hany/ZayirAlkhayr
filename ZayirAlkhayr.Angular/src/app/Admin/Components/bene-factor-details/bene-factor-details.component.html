@@ -19,14 +19,14 @@
                     <button
                         class="dropdown-with-search-btn btn border h-100 w-100 d-flex align-items-center justify-content-between selector-padding"
                         id="dropdownBasic1" ngbDropdownToggle>
-                        المتبرع
+                        {{BeneFactorName}}
                     </button>
                     <div class="width-380 py-0 overflow-hidden" ngbDropdownMenu aria-labelledby="dropdownBasic1">
                         <ul class="dropdown-list-box list-unstyled max-height-200 overflow-auto px-1 py-1 m-0">
-                            <ng-container>
-                                <li class="dropdown-item cursor-pointer rounded">سلام هاني البدوي</li>
-                                <li class="dropdown-item cursor-pointer rounded">محمود محمد</li>
-                                <li class="dropdown-item cursor-pointer rounded">أمجد عماد</li>
+                            <ng-container *ngFor="let item of BeneFactorData">
+                                <li class="dropdown-item cursor-pointer rounded"
+                                    [ngClass]="{'DropDownSelected': BeneFactorName == item.fullName}"
+                                    (click)="OnChangeBeneFactor(item)">{{item.fullName}}</li>
                             </ng-container>
                         </ul>
                     </div>
@@ -35,7 +35,7 @@
             <div class="col-lg-1 d-flex align-items-center">
                 <div class="me-2">كاش</div>
                 <label class="jtoggler-wrapper m-0 mx-0">
-                    <input type="checkbox" class="jtoggler" (change)="GetBenefactorType($event.target.checked)">
+                    <input type="checkbox" class="jtoggler" [(ngModel)]="TypeSwitcher" (change)="GetBenefactorType($event.target.checked)">
                     <div class="jtoggler-control">
                         <div class="jtoggler-handle"></div>
                     </div>
@@ -47,13 +47,15 @@
                     <button
                         class="dropdown-with-search-btn btn border h-100 w-100 d-flex align-items-center justify-content-between selector-padding"
                         id="dropdownBasic1" ngbDropdownToggle>
-                        قيم التبرع
+                        {{BeneFactorValueName}}
                     </button>
                     <div class="width-380 py-0 overflow-hidden" ngbDropdownMenu aria-labelledby="dropdownBasic1">
                         <ul class="dropdown-list-box list-unstyled max-height-200 overflow-auto px-1 py-1 m-0">
-                            <ng-container>
-                                <li class="dropdown-item cursor-pointer rounded">5000 - 11 مايو 2024</li>
-                                <li class="dropdown-item cursor-pointer rounded">2000 - 11 مايو 2024</li>
+                            <ng-container *ngFor="let item of BeneFactorValuesData">
+                                <li class="dropdown-item cursor-pointer rounded"
+                                    [ngClass]="{'DropDownSelected': BeneFactorValueName == item.totalValue +'-'+ item.paymentDateStr}"
+                                    (click)="OnChangeBeneFactorValue(item)">{{item.totalValue}} -
+                                    {{item.paymentDateStr}}</li>
                             </ng-container>
                         </ul>
                     </div>
@@ -61,7 +63,8 @@
             </div>
             <div class="col-lg-2" *ngIf="BenefactorType == 'Cash'">
                 <div class="form-floating">
-                    <input type="text" class="form-control" value="5000" id="floatingInput_1" placeholder="new-user">
+                    <input type="text" class="form-control" [value]="TotalValue" id="floatingInput_1" disabled
+                        placeholder="new-user">
                     <label for="floatingInput_1">مبلغ التبرع</label>
                 </div>
             </div>
@@ -81,35 +84,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td></td>
-                        <td>1000</td>
-                        <td>كاش</td>
-                        <td>13 مايو 2024</td>
-                        <td>500</td>
-                        <td>كفالة يتيم</td>
-                        <td>Salam Hany</td>
-                        <td>13 مايو 2024</td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>1000</td>
-                        <td>كاش</td>
-                        <td>13 مايو 2024</td>
-                        <td>500</td>
-                        <td>اطعام عائلة فقيرة</td>
-                        <td>Salam Hany</td>
-                        <td>13 مايو 2024</td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>1000</td>
-                        <td>بطانية</td>
-                        <td>13 مايو 2024</td>
-                        <td>-</td>
-                        <td>عائلة فقيرة</td>
-                        <td>Salam Hany</td>
-                        <td>13 مايو 2024</td>
+                    <tr *ngFor="let item of BeneFactorDetailsData">
+                        <td>
+                            <img src="{{item.image}}" class="table-image">
+                        </td>
+                        <td>{{item.code}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.paymentDate}}</td>
+                        <td>{{item.totalValue ?? '-'}}</td>
+                        <td>{{item.details}}</td>
+                        <td>{{item.insertUser}}</td>
+                        <td>{{item.insertDate}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -128,11 +113,11 @@
     </div>
     <div class="modal-body gray-bgcolor">
         <div class="bg-white p-3 rounded shadow-sm">
-            <form>
+            <form [formGroup]="ItemForm" autocomplete="off">
                 <div class="row g-3">
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" value="1000" id="floatingInput_1"
+                            <input type="text" class="form-control" [value]="Code" id="floatingInput_1"
                                 placeholder="new-user" disabled>
                             <label for="floatingInput_1">الكود</label>
                         </div>
@@ -142,14 +127,17 @@
                             <button
                                 class="dropdown-with-search-btn btn border h-100 w-100 d-flex align-items-center justify-content-between selector-padding"
                                 id="dropdownBasic1" [disabled]="BenefactorType == 'Cash'" ngbDropdownToggle>
-                                {{BenefactorType == 'Cash' ? 'كاش' : 'نوع التبرع'}}
+                                {{BeneFactorTypeName}}
                             </button>
                             <div class="width-530 py-0 overflow-hidden" ngbDropdownMenu
                                 aria-labelledby="dropdownBasic1">
                                 <ul class="dropdown-list-box list-unstyled max-height-200 overflow-auto px-1 py-1 m-0">
-                                    <ng-container>
-                                        <li class="dropdown-item cursor-pointer rounded">بطانية</li>
-                                        <li class="dropdown-item cursor-pointer rounded">شاليه</li>
+                                    <ng-container *ngFor="let item of BeneFactorTypesData">
+                                        <li class="dropdown-item cursor-pointer rounded"
+                                            (click)="OnChangeBeneFactorType(item)"
+                                            [ngClass]="{'DropDownSelected': BeneFactorTypeName == item.name}">
+                                            {{item.name}}
+                                        </li>
                                     </ng-container>
                                 </ul>
                             </div>
@@ -157,20 +145,34 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="date" class="form-control" value="1000" id="floatingInput_1"
-                                placeholder="new-user">
+                            <input type="date" class="form-control" formControlName="paymentDate" value="1000"
+                                id="floatingInput_1" placeholder="new-user" required>
                             <label for="floatingInput_1">تاريخ التبرع</label>
+                        </div>
+                        <div *ngIf="ItemForm.controls['paymentDate']?.invalid && (ItemForm.controls['paymentDate']?.dirty || ItemForm.controls['paymentDate']?.touched)"
+                            class="alert text-danger">
+                            <div *ngIf="ItemForm.controls['paymentDate'].errors?.['required']">
+                                هذا الحقل مطلوب
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-6" *ngIf="BenefactorType == 'Cash'">
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user">
+                            <input type="text" class="form-control" formControlName="totalValue" id="floatingInput_1"
+                                placeholder="new-user" required>
                             <label for="floatingInput_1">قيمة التبرع</label>
+                        </div>
+                        <div *ngIf="ItemForm.controls['totalValue']?.invalid && (ItemForm.controls['totalValue']?.dirty || ItemForm.controls['totalValue']?.touched)"
+                            class="alert text-danger">
+                            <div *ngIf="ItemForm.controls['totalValue'].errors?.['required']">
+                                هذا الحقل مطلوب
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user">
+                            <input type="text" class="form-control" formControlName="details" id="floatingInput_1"
+                                placeholder="new-user">
                             <label for="floatingInput_1">تفاصيل التبرع</label>
                         </div>
                     </div>
@@ -179,12 +181,25 @@
                             <div class="choose-file-btn">تحميل صورة</div>
                         </div>
                     </div>
+                    <div class="col-lg-12" *ngIf="fileURL.length > 0">
+                        <hr class="border-success">
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6 g-2">
+                            <div class="col" *ngFor="let url of fileURL">
+                                <div class="choosed-img img-thumbnail shadow-sm">
+                                    <img src="{{url.image}}" loading="lazy" alt="" />
+                                    <div class="choosed-img-delete" (click)="DeleteSelectedFile()">
+                                        <i class="far fa-times-circle"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
     <div class="modal-footer justify-content-start gap-2">
-        <button type="submit" class="btn main-button d-flex align-items-center gap-2">
+        <button type="submit" class="btn main-button d-flex align-items-center gap-2" (click)="AddNewItem()">
             <i class="uil uil-plus-circle"></i>
             <span>اضافه</span>
         </button>
@@ -195,4 +210,4 @@
     </div>
 </ng-template>
 
-<input type="file" #InputFile class="choose-file-input" hidden />
+<input type="file" #InputFile class="choose-file-input" (change)="onFileChange($event)" hidden />

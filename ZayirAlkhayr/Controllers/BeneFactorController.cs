@@ -40,10 +40,24 @@ namespace ZayirAlkhayr.Controllers
             return results;
         }
 
-        [HttpGet("GetAllBeneFactorTypes")]
-        public List<BeneFactorTypes> GetAllBeneFactorTypes()
+        [HttpPost("GetAllBeneFactorTypes")]
+        public DataTable GetAllBeneFactorTypes(PagingFilterModel PagingFilter)
         {
-            var results = _beneFactorService.GetAllBeneFactorTypes();
+            var results = _beneFactorService.GetAllBeneFactorTypes(PagingFilter);
+            return results;
+        }
+
+        [HttpGet("GetAllBeneFactorDetails")]
+        public DataTable GetAllBeneFactorDetails(int BeneFactorId)
+        {
+            var results = _beneFactorService.GetAllBeneFactorDetails(BeneFactorId);
+            return results;
+        }
+
+        [HttpGet("GetAllBeneFactorDetailsByValueId")]
+        public DataTable GetAllBeneFactorDetailsByValueId(int BeneFactorValueId)
+        {
+            var results = _beneFactorService.GetAllBeneFactorDetailsByValueId(BeneFactorValueId);
             return results;
         }
 
@@ -58,6 +72,20 @@ namespace ZayirAlkhayr.Controllers
         public HandleErrorResponseModel AddNewBeneFactorValues(BeneFactorValues Model)
         {
             var results = _beneFactorService.AddNewBeneFactorValues(Model);
+            return results;
+        }
+
+        [HttpPost("AddNewBeneFactorType")]
+        public HandleErrorResponseModel AddNewBeneFactorType(BeneFactorTypes Model)
+        {
+            var results = _beneFactorService.AddNewBeneFactorType(Model);
+            return results;
+        }
+
+        [HttpPost("AddNewBeneFactorDetails")]
+        public async Task<HandleErrorResponseModel> AddNewBeneFactorDetails([FromForm] BeneFactorDetails Model)
+        {
+            var results = await _beneFactorService.AddNewBeneFactorDetails(Model);
             return results;
         }
 

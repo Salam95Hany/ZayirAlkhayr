@@ -160,12 +160,32 @@ export class AdminWebsiteService {
     return this.http.get<any[]>(this.apiURL + 'BeneFactor/GetAllBeneFactorValuesById?BeneFactorId=' + BeneFactorId);
   }
 
+  GetAllBeneFactorTypes(PagingFilter: PagingFilterModel) {
+    return this.http.post<any[]>(this.apiURL + 'BeneFactor/GetAllBeneFactorTypes', PagingFilter);
+  }
+
+  GetAllBeneFactorDetails(BeneFactorId: number) {
+    return this.http.get<any[]>(this.apiURL + 'BeneFactor/GetAllBeneFactorDetails?BeneFactorId=' + BeneFactorId);
+  }
+
+  GetAllBeneFactorDetailsByValueId(BeneFactorValueId: number) {
+    return this.http.get<any[]>(this.apiURL + 'BeneFactor/GetAllBeneFactorDetailsByValueId?BeneFactorValueId=' + BeneFactorValueId);
+  }
+
   AddNewBeneFactor(Model: any) {
     return this.http.post<any>(this.apiURL + 'BeneFactor/AddNewBeneFactor', Model);
   }
 
   AddNewBeneFactorValues(Model: any) {
     return this.http.post<any>(this.apiURL + 'BeneFactor/AddNewBeneFactorValues', Model);
+  }
+
+  AddNewBeneFactorType(Model: any) {
+    return this.http.post<any>(this.apiURL + 'BeneFactor/AddNewBeneFactorType', Model);
+  }
+
+  AddNewBeneFactorDetails(Model: any) {
+    return this.http.post<any>(this.apiURL + 'BeneFactor/AddNewBeneFactorDetails', Model);
   }
 
   UpdateBeneFactor(Model: any) {

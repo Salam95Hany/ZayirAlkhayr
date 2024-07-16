@@ -13,7 +13,6 @@ namespace ZayirAlkhayr.Entities.Models
     {
         public int Id { get; set; }
         public int BeneFactorId { get; set; }
-        public int BeneFactorTypeId { get; set; }
         public double? TotalValue { get; set; }
         public DateTime PaymentDate { get; set; }
         public bool IsActive { get; set; }
@@ -21,5 +20,7 @@ namespace ZayirAlkhayr.Entities.Models
         public DateTime? InsertDate { get; set; }
         public string UpdateUser { get; set; }
         public DateTime? UpdateDate { get; set; }
+        [NotMapped]
+        public string PaymentDateStr { get; set; }
     }
 }

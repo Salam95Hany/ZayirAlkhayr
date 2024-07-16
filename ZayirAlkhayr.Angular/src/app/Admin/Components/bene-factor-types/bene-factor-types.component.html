@@ -2,15 +2,23 @@
     <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
         <div class="d-flex align-items-center flex-wrap gap-2">
             <button class="btn main-button d-flex align-items-center gap-2"
-                (click)="openAddItemModal(OpenItemModal,null)">
+                (click)="openAddItemModal(OpenItemModal)">
                 <i class="uil uil-plus-circle"></i>
                 <span class="navbar-brand m-0">اضافة</span>
             </button>
+            <button class="btn main-button d-flex align-items-center gap-2" (click)="isFilter = !isFilter"
+                [attr.aria-expanded]="!isFilter">
+                <i class="uil uil-filter"></i>
+                <span class="navbar-brand m-0">{{ isFilter ? 'عرض' : 'اخفاء' }} الفلاتر</span>
+            </button>
         </div>
         <div>
-            <app-admin-pagination [currentPage]="1" [pageSize]="5" [totalPages]="0"
-                [totalCount]="0"></app-admin-pagination>
+            <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize"
+                [totalPages]="0" [totalCount]="TotalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
         </div>
+    </div>
+    <div class="px-3 py-2 bg-light border-bottom" #collapse="ngbCollapse" [(ngbCollapse)]="isFilter">
+        <app-admin-filters [PlaceHolder]="'بالكود, الاسم'" (FilterChecked)="FilterChecked($event)"></app-admin-filters>
     </div>
     <div class="card-body card-body-h">
         <div class="table-responsive">
@@ -23,20 +31,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>كاش</td>
-                        <td>Salam Hany</td>
-                        <td>13 مايو 2024</td>
-                    </tr>
-                    <tr>
-                        <td>بطانية</td>
-                        <td>Salam Hany</td>
-                        <td>13 مايو 2024</td>
-                    </tr>
-                    <tr>
-                        <td>شاليه</td>
-                        <td>Salam Hany</td>
-                        <td>13 مايو 2024</td>
+                    <tr *ngFor="let item of BeneFactorTypesData">
+                        <td>{{item.name}}</td>
+                        <td>{{item.createdBy}}</td>
+                        <td>{{item.insertDate}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -55,12 +53,19 @@
     </div>
     <div class="modal-body gray-bgcolor">
         <div class="bg-white p-3 rounded shadow-sm">
-            <form>
+            <form [formGroup]="ItemForm" autocomplete="off">
                 <div class="row g-3">
                     <div class="col-lg-12">
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user">
+                            <input type="text" class="form-control" formControlName="name" id="floatingInput_1"
+                                placeholder="new-user" required>
                             <label for="floatingInput_1">الاسم</label>
+                            <div *ngIf="ItemForm.controls['name']?.invalid && (ItemForm.controls['name']?.dirty || ItemForm.controls['name']?.touched)"
+                                class="alert text-danger">
+                                <div *ngIf="ItemForm.controls['name'].errors?.['required']">
+                                    هذا الحقل مطلوب
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -68,35 +73,13 @@
         </div>
     </div>
     <div class="modal-footer justify-content-start gap-2">
-        <button type="submit" class="btn main-button d-flex align-items-center gap-2">
+        <button type="submit" class="btn main-button d-flex align-items-center gap-2" (click)="AddNewItem()">
             <i class="uil uil-plus-circle"></i>
             <span>اضافه</span>
         </button>
         <button class="btn btn-danger rounded-25 d-flex align-items-center gap-2" (click)="modal.close()">
             <i class="uil uil-times-circle"></i>
             <span>الغاء</span>
-        </button>
-    </div>
-</ng-template>
-
-<ng-template #deleteItemModal let-modal>
-    <div class="modal-header main-bgcolor text-white">
-        <div class="display-7 d-flex align-items-center gap-3">
-            <i class="uil uil-trash-alt"></i>
-            <span>حذف نوع</span>
-        </div>
-    </div>
-    <div class="modal-body">
-        <p class="fs-5 m-0">هل انت متأكد أنك تريد حذف هذا العنصر</p>
-    </div>
-    <div class="modal-footer justify-content-start">
-        <button type="button" class="btn btn-success">
-            <i class="fas fa-check"></i>
-            <span class="ms-2">نعم</span>
-        </button>
-        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
-            <i class="fas fa-times"></i>
-            <span class="ms-2">لا</span>
         </button>
     </div>
 </ng-template>
