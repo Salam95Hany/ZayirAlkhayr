@@ -62,19 +62,6 @@ namespace ZayirAlkhayr.Service.Common
             return Response;
         }
 
-        public HandleErrorResponseModel DownloadFile(string FileName, ImageFiles FolderName)
-        {
-            var Response = new HandleErrorResponseModel();
-            var FolderPath = Path.Combine(_environment.WebRootPath, FolderName.ToString());
-
-            if (!Directory.Exists(FolderPath))
-                Directory.CreateDirectory(FolderPath);
-
-            string FullPath = Path.Combine(FolderPath, FileName);
-            Response.StringValue = FullPath;
-            return Response;
-            //return new TempPhysicalFileResult(FullPath), "application/xlsx");
-        }
         public HandleErrorResponseModel DeleteFile(string FileName, ImageFiles FolderName)
         {
             var Response = new HandleErrorResponseModel();

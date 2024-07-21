@@ -8,6 +8,7 @@ using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using ZayirAlkhayr.Entities.Common;
 using ZayirAlkhayr.Interface.Common;
 
 namespace ZayirAlkhayr.Service.Common
@@ -23,11 +24,11 @@ namespace ZayirAlkhayr.Service.Common
         public string Export(ExportTemplateBase exportTemplateBase, DataTable data)
         {
             var localPath = GetLocalPath(exportTemplateBase.TemplateName, ".xlsx");
-            Export(localPath, data, _environment, exportTemplateBase.SubstitutionDictionary());
+            Export(localPath, data, _environment, exportTemplateBase);
             return GetDownloadUrl(Path.GetFileName(localPath));
         }
 
-        public void Export(string fullPath, DataTable data, IWebHostEnvironment hostingEnvironment, Dictionary<string, string> substitutionValue = null)
+        public void Export(string fullPath, DataTable data, IWebHostEnvironment hostingEnvironment, ExportTemplateBase exportTemplateBase)
         {
             int startrow = 5;
             try
@@ -38,13 +39,14 @@ namespace ZayirAlkhayr.Service.Common
                 {
                     var sheet = package.Workbook.Worksheets["Sheet1"];
                     var worksheet = package.Workbook.Worksheets.Add("RightToLeft");
-                    WriteHeader(sheet, data.Columns.Cast<DataColumn>().Select(e => e.ColumnName).ToList());
+                    exportTemplateBase.Header.TblHeaders = data.Columns.Cast<DataColumn>().Select(e => e.ColumnName).ToList();
+                    WriteHeader(sheet, exportTemplateBase.Header);
                     for (var i = 0; i < data.Rows.Count; ++i)
                     {
                         WriteRow(sheet, data.Rows[i].ItemArray, startrow);
                         startrow++;
                     }
-
+                    var substitutionValue = exportTemplateBase.SubstitutionDictionary();
                     SetTemplateValues(ref sheet, substitutionValue);
                     worksheet.View.RightToLeft = true;
                     package.Save();
@@ -84,18 +86,20 @@ namespace ZayirAlkhayr.Service.Common
             worksheet.Name = IsValidSheetName && !string.IsNullOrEmpty(sheetName) ? sheetName : "Sheet1";
         }
 
-        private void WriteHeader(ExcelWorksheet worksheet, IList<string> headers, int? startRow = null)
+        private void WriteHeader(ExcelWorksheet worksheet, ExportHeaders Headers)
         {
             try
             {
-                for (var i = 0; i < headers.Count; i++)
+                for (var i = 0; i < Headers.TblHeaders.Count; i++)
                 {
-                    var headerValue = headers[i];
-                    var headerCell = worksheet.Cells[startRow ?? 4, i + 1];
+                    var headerName = Headers.TblHeaders[i];
+                    var header = Headers.ListHeaders.FirstOrDefault(i => i.NameEn == headerName);
+                    var headerValue = header.NameAr;
+                    var headerCell = worksheet.Cells[4, i + 1];
                     headerCell.Value = headerValue;
                     headerCell.AutoFitColumns(20);
                 }
-                ExcelRange cells = worksheet.Cells[startRow ?? 4, 1, startRow ?? 4, headers.Count];
+                ExcelRange cells = worksheet.Cells[4, 1, 4, Headers.TblHeaders.Count];
             }
             catch (Exception ex)
             {

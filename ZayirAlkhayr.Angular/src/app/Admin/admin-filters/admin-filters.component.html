@@ -1,4 +1,4 @@
-<div class="d-flex align-items-center flex-wrap gap-2">
+<div class="d-flex align-items-center flex-wrap gap-2 mb-2">
     <div class="position-relative">
         <input type="text" [(ngModel)]="SearchText" (keyup.enter)="InputSearchChange()"
             class="form-control border width-250" placeholder="بحث {{PlaceHolder}}..." />
@@ -15,14 +15,16 @@
                 class="dropdown-menu shadow-sm border animate__animated animate__fadeInUp p-0 overflow-hidden">
                 <div class="filter-search p-2 gray-bgcolor border-bottom">
                     <div class="position-relative">
-                        <input type="text" class="form-control form-control-sm" [(ngModel)]="FilterSearchText" placeholder="بحث..." />
+                        <input type="text" class="form-control form-control-sm" [(ngModel)]="FilterSearchText"
+                            placeholder="بحث..." />
                         <i class="uil uil-search search-icon-input"></i>
                     </div>
                 </div>
                 <div class="min-width-230 max-height-180 px-2 py-2 overflow-auto bg-white">
                     <div class="form-check dropdown-item cursor-pointer rounded"
                         *ngFor="let filter of item.filterItems | searchArry: FilterSearchText:'itemKey';let x = index">
-                        <input class="form-check-input" type="checkbox" [(ngModel)]="filter.isChecked" (change)="filterChecked()" id="{{item.categoryName}}_{{x}}">
+                        <input class="form-check-input" type="checkbox" [(ngModel)]="filter.isChecked"
+                            (change)="filterChecked()" id="{{item.categoryName}}_{{x}}">
                         <label class="form-check-label cursor-pointer filter-content" for="{{item.categoryName}}_{{x}}">
                             <span>{{filter.itemKey}}</span>
                             <span>{{filter.itemValue}}</span>
@@ -33,3 +35,24 @@
         </div>
     </ng-container>
 </div>
+
+<div class="d-flex align-items-center flex-wrap gap-2">
+    <div class="badge badge-success round fs-15" *ngFor="let selected of SelectedFilter;let i = index">
+        <span *ngIf="selected.categoryName != 'SearchText'" class="me-1">{{selected.categoryName}} : {{selected.itemKey}}</span>
+        <span *ngIf="selected.categoryName == 'SearchText'" class="me-1">{{selected.categoryNameAr}} : {{selected.itemKey}}</span>
+        <i class="fas fa-times-circle font-small-3 px-02 cursor-pointer" (click)="RemoveSelectedFilter(selected,i)"></i>
+    </div>
+    <div class="badge badge-danger round fs-15" *ngIf="SelectedFilter.length > 0"> امسح الكل
+        <i class="fas fa-times-circle font-small-3 px-02 cursor-pointer" (click)="RemoveAllFilters()"></i>
+    </div>
+</div>
+
+<!-- <div class="badge badge-sky round fs-15"> فلتر 2
+    <i class="fas fa-times-circle font-small-3 px-02 cursor-pointer"></i>
+  </div>
+  <div class="badge badge-sky round fs-15"> فلتر 3
+    <i class="fas fa-times-circle font-small-3 px-02 cursor-pointer"></i>
+  </div>
+  <div class="badge badge-success round fs-15"> فلتر 4
+    <i class="fas fa-times-circle font-small-3 px-02 cursor-pointer"></i>
+  </div> -->

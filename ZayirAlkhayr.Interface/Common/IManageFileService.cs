@@ -11,7 +11,6 @@ namespace ZayirAlkhayr.Interface.Common
     public interface IManageFileService
     {
         Task<HandleErrorResponseModel> UploadFile(IFormFile File, string OldFileName, ImageFiles FolderName);
-        HandleErrorResponseModel DownloadFile(string FileName, ImageFiles FolderName);
         HandleErrorResponseModel DeleteFile(string FileName, ImageFiles FolderName);
     }
 }

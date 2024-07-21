@@ -7,6 +7,9 @@ import { ToastrService } from 'ngx-toastr';
 import { PagingFilterModel } from '../../Models/PagingFilterModel';
 import { FilterModel } from '../../Models/FilterModel';
 import { BeneFactorValues } from '../../Models/BeneFactorModel';
+import { PDFHeaderSelectedModel, PDFModel } from '../../Models/PDFHeaderSelected';
+import { PdfDownloadService } from '../../Services/pdf-download.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-bene-factor',
@@ -20,6 +23,11 @@ export class BeneFactorComponent implements OnInit {
   BeneFactorValuesData: any[] = [];
   BeneFactorData: any[] = [];
   BeneFactorHeaders: any[] = [];
+  PDFHeaderModel: PDFHeaderSelectedModel[] = [];
+  PDFModel: PDFModel = {
+    filterList: [],
+    headers: []
+  };
   fileURL: any[] = [];
   NationalityList = ['سورية', 'مصر', 'السودان']
   PagingFilter: PagingFilterModel = {
@@ -34,13 +42,15 @@ export class BeneFactorComponent implements OnInit {
   UserModel: any;
   BeneFactorId: any;
   TotalCount = 0;
+  RowCount = 20;
   NationalityName = 'الجنسية';
+  DefaultImage = '../../../../assets/logo-2.png';
   NationalityValidation = false;
   NationalityId: any;
 
   constructor(private modalService: NgbModal, private offcanvasService: NgbOffcanvas,
-    private adminService: AdminWebsiteService, private formService: ValidationFormService
-    , private fb: FormBuilder, private toaster: ToastrService) {
+    private adminService: AdminWebsiteService, private formService: ValidationFormService, private datepipe: DatePipe
+    , private fb: FormBuilder, private toaster: ToastrService, private pdfService: PdfDownloadService) {
 
   }
 
@@ -128,9 +138,24 @@ export class BeneFactorComponent implements OnInit {
     this.offcanvasService.open(content, { position: 'end' });
   }
 
+  BeneFactorValueCollapseClick(item: any) {
+    item.isCollapsed = !item.isCollapsed;
+    this.BeneFactorValuesData.filter(i => i.id != item.id).forEach(item => {
+      item.isCollapsed = false;
+    });
+
+    if (item.isCollapsed && (!item.values || item.values.length == 0))
+      this.adminService.GetAllBeneFactorDetailsByValueId(item.id).subscribe(data => {
+        let obj = this.BeneFactorValuesData.find(i => i.id == item.id);
+        if (obj)
+          obj.values = data;
+      });
+  }
+
   GetAllBeneFactorValuesById() {
     this.adminService.GetAllBeneFactorValuesById(this.BeneFactorValues.beneFactorId).subscribe(data => {
       this.BeneFactorValuesData = data;
+      this.BeneFactorValuesData.forEach(i => i.isCollapsed = false);
     });
   }
 
@@ -155,6 +180,7 @@ export class BeneFactorComponent implements OnInit {
 
   FilterChecked(filterList: FilterModel[]) {
     this.PagingFilter.filterList = filterList;
+    this.PDFModel.filterList = filterList;
     this.GetAllBeneFactorData();
   }
 
@@ -247,6 +273,62 @@ export class BeneFactorComponent implements OnInit {
       else
         this.toaster.error(data.message);
     });
+  }
+
+  NumbersOnly(key: any) {
+    return this.formService.NumbersOnly(key);
+  }
+
+  OpenPdfFileItemModal(content: any) {
+    this.PDFHeaderModel = this.pdfService.ConverHeaderToPDFModel(this.BeneFactorHeaders);
+    this.RowCount = 20;
+    this.modalService.open(content, {
+      size: 'md',
+      scrollable: true,
+      centered: true
+    });
+  }
+
+  DownloadPdfFile() {
+    let checked = this.PDFHeaderModel.filter(i => i.isSelected);
+    let isAllowSummation = this.PDFHeaderModel.filter(i => i.isAllowSummation);
+    if (isAllowSummation.length > 1) {
+      this.toaster.warning('لا يمكن اختيار جمع قيم العامود الا لعامود واحد فقط');
+      return;
+    }
+
+    if (checked.length == 0) {
+      this.toaster.warning('اختر عامود واحد على الاقل');
+      return;
+    }
+
+    if (checked.length > 6) {
+      this.toaster.warning('لا يمكن اختيار أكثر من 6 أعمدة');
+      return;
+    }
+
+    if (this.RowCount == 0 || !this.RowCount) {
+      this.toaster.warning('أدخل عدد الاسطر');
+      return;
+    }
+
+    if (this.RowCount > 20) {
+      this.toaster.warning('عدد الاسطر لا يتجاوز 20 سطر');
+      return;
+    }
+    let today = this.datepipe.transform(new Date(), 'yyyy-MM-dd');
+    let fileName = 'المتبرعين' + '_' + today;
+    this.PDFModel.headers = this.PDFHeaderModel.filter(i => i.isSelected);
+    this.pdfService.DownloadFile(this.PDFModel, fileName + '.pdf', 'BeneFactor/ExportBeneFactorsPDFFile?RowCount=' + this.RowCount);
+    this.modalService.dismissAll();
+  }
+
+  DownloadExcelFile() {
+    let userName = this.UserModel?.userName;
+    let today = this.datepipe.transform(new Date(), 'yyyy-MM-dd');
+    let fileName = 'المتبرعين' + '_' + today;
+    this.PDFModel.headers = this.pdfService.ConverHeaderToPDFModel(this.BeneFactorHeaders);
+    this.pdfService.DownloadFile(this.PDFModel, fileName + '.xlsx', 'BeneFactor/ExportBeneFactorsExcelFile?UserName=' + userName);
   }
 
 }

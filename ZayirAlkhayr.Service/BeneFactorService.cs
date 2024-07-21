@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using PosSystem.Entities.Common;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -22,13 +23,17 @@ namespace ZayirAlkhayr.Service
         private readonly ISQLHelper _sQLHelper;
         private readonly IConfiguration _configuration;
         private readonly IManageFileService _manageFileService;
+        private readonly ICreatePdfFileService _createPdfFileService;
+        private readonly IExportManagerService _exportManagerService;
         private string ApiLocalUrl;
-        public BeneFactorService(ZADbContext context, ISQLHelper sQLHelper, IConfiguration configuration, IManageFileService manageFileService)
+        public BeneFactorService(ZADbContext context, ISQLHelper sQLHelper, IConfiguration configuration, IManageFileService manageFileService, ICreatePdfFileService createPdfFileService, IExportManagerService exportManagerService)
         {
             _Context = context;
             _sQLHelper = sQLHelper;
             _configuration = configuration;
             _manageFileService = manageFileService;
+            _createPdfFileService = createPdfFileService;
+            _exportManagerService = exportManagerService;
             ApiLocalUrl = _configuration["ApiUrlLocal"];
         }
 
@@ -82,11 +87,13 @@ namespace ZayirAlkhayr.Service
             return Filters;
         }
 
-        public DataTable GetAllBeneFactorDetails(int BeneFactorId)
+        public DataTable GetAllBeneFactorDetails(PagingFilterModel PagingFilter, int BeneFactorId)
         {
-            var Params = new SqlParameter[2];
+            var Params = new SqlParameter[4];
             Params[0] = new SqlParameter("@ApiUrl", ApiLocalUrl);
             Params[1] = new SqlParameter("@BeneFactorId", BeneFactorId);
+            Params[2] = new SqlParameter("@CurrentPage", PagingFilter.Currentpage);
+            Params[3] = new SqlParameter("@PageSize", PagingFilter.Pagesize);
             var dt = _sQLHelper.ExecuteDataTable("web.SP_GetAllBeneFactorDetails", Params);
             return dt;
         }
@@ -98,6 +105,32 @@ namespace ZayirAlkhayr.Service
             Params[1] = new SqlParameter("@BeneFactorValueId", BeneFactorValueId);
             var dt = _sQLHelper.ExecuteDataTable("web.SP_GetAllBeneFactorDetailsByValueId", Params);
             return dt;
+        }
+
+        public DataTable ExportBeneFactorsData(PDFModel Model)
+        {
+            var FilterDt = _sQLHelper.ConvertFilterModelToDataTable(Model.FilterList);
+            var Params = new SqlParameter[1];
+            Params[0] = new SqlParameter("@FilterList", FilterDt);
+            var dt = _sQLHelper.ExecuteDataTable("web.SP_ExportBeneFactorsData", Params);
+            return dt;
+        }
+
+        public string ExportBeneFactorsPDFFile(PDFModel Model, int RowCount)
+        {
+            var Dt = ExportBeneFactorsData(Model);
+            var DtBatches = Dt.ToDataTableBatches(RowCount);
+            Model.Headers = Model.Headers.OrderBy(i => i.DisplayOrder).ToList();
+            var File = _createPdfFileService.CreatePdfFile(DtBatches, Model.Headers, ImageFiles.ExportFiles.ToString(), "المتبرعين");
+            return File;
+        }
+
+        public string ExportBeneFactorsExcelFile(PDFModel Model, string UserName)
+        {
+            var Dt = ExportBeneFactorsData(Model);
+            var ExportTemplate = new ExportTemplateBase { Name = "المتبرعين", SheetName = "المتبرعين", TemplateName = "المتبرعين", UserName = UserName, Header = new ExportHeaders { ListHeaders = Model.Headers } };
+            var File = _exportManagerService.Export(ExportTemplate, Dt);
+            return File;
         }
 
         public async Task<HandleErrorResponseModel> AddNewBeneFactor(BeneFactors Model)

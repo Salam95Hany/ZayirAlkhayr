@@ -8,8 +8,8 @@
             </button>
         </div>
         <div>
-            <app-admin-pagination [currentPage]="1" [pageSize]="5" [totalPages]="0"
-                [totalCount]="0"></app-admin-pagination>
+            <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize"
+                [totalPages]="0" [totalCount]="TotalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
         </div>
     </div>
     <div class="card-body card-body-h">
@@ -17,7 +17,7 @@
             <div class="col-lg-3">
                 <div ngbDropdown class="dropdown-with-search overflow-hidden" container="body">
                     <button
-                        class="dropdown-with-search-btn btn border h-100 w-100 d-flex align-items-center justify-content-between selector-padding"
+                        class="dropdown-with-search-btn btn border h-58 w-100 d-flex align-items-center justify-content-between selector-padding"
                         id="dropdownBasic1" ngbDropdownToggle>
                         {{BeneFactorName}}
                     </button>
@@ -35,7 +35,8 @@
             <div class="col-lg-1 d-flex align-items-center">
                 <div class="me-2">كاش</div>
                 <label class="jtoggler-wrapper m-0 mx-0">
-                    <input type="checkbox" class="jtoggler" [(ngModel)]="TypeSwitcher" (change)="GetBenefactorType($event.target.checked)">
+                    <input type="checkbox" class="jtoggler" [(ngModel)]="TypeSwitcher"
+                        (change)="GetBenefactorType($event.target.checked)">
                     <div class="jtoggler-control">
                         <div class="jtoggler-handle"></div>
                     </div>
@@ -45,7 +46,7 @@
             <div class="col-lg-3" *ngIf="BenefactorType == 'Cash'">
                 <div ngbDropdown class="dropdown-with-search overflow-hidden" container="body">
                     <button
-                        class="dropdown-with-search-btn btn border h-100 w-100 d-flex align-items-center justify-content-between selector-padding"
+                        class="dropdown-with-search-btn btn border h-58 w-100 d-flex align-items-center justify-content-between selector-padding"
                         id="dropdownBasic1" ngbDropdownToggle>
                         {{BeneFactorValueName}}
                     </button>
@@ -86,7 +87,7 @@
                 <tbody>
                     <tr *ngFor="let item of BeneFactorDetailsData">
                         <td>
-                            <img src="{{item.image}}" class="table-image">
+                            <img src="{{item.image}}" class="table-image" (error)="$event.target.src = DefaultImage">
                         </td>
                         <td>{{item.code}}</td>
                         <td>{{item.name}}</td>
@@ -125,7 +126,7 @@
                     <div class="col-lg-6">
                         <div ngbDropdown class="dropdown-with-search overflow-hidden" container="body">
                             <button
-                                class="dropdown-with-search-btn btn border h-100 w-100 d-flex align-items-center justify-content-between selector-padding"
+                                class="dropdown-with-search-btn btn border h-58 w-100 d-flex align-items-center justify-content-between selector-padding"
                                 id="dropdownBasic1" [disabled]="BenefactorType == 'Cash'" ngbDropdownToggle>
                                 {{BeneFactorTypeName}}
                             </button>

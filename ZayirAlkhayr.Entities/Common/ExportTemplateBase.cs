@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZayirAlkhayr.Entities.Common;
 
 namespace PosSystem.Entities.Common
 {
@@ -13,6 +14,7 @@ namespace PosSystem.Entities.Common
         public string UserName { get; set; }
         public string TemplateName { get; set; }
         public string SheetName { get; set; }
+        public ExportHeaders Header { get; set; }
         public Dictionary<string, string> SubstitutionDictionary()
         {
             var parameter = new Dictionary<string, string>
@@ -24,5 +26,12 @@ namespace PosSystem.Entities.Common
             };
             return parameter;
         }
+    }
+
+    public class ExportHeaders
+    {
+        public List<PDFHeaderSelected> ListHeaders { get; set; }
+        public IList<string> TblHeaders { get; set; }
+        
     }
 }

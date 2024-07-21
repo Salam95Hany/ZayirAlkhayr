@@ -14,4 +14,10 @@ namespace ZayirAlkhayr.Entities.Common
         public string ValueType { get; set; }
         public int DisplayOrder { get; set; }
     }
+
+    public class PDFModel
+    {
+        public List<PDFHeaderSelected> Headers { get; set; }
+        public List<FilterModel> FilterList { get; set; }
+    }
 }

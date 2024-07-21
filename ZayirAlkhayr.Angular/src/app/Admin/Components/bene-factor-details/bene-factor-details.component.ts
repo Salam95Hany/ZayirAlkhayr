@@ -24,10 +24,12 @@ export class BeneFactorDetailsComponent implements OnInit {
   BeneFactorValueId: any;
   BeneFactorValueName = 'قيم التبرع';
   BeneFactorTypeName = 'نوع التبرع';
+  DefaultImage = '../../../../assets/logo-2.png';
   BeneFactorTypeId: any;
   UserModel: any;
   Code: any;
   TotalValue = 0;
+  TotalCount = 0;
   BeneFactorTotalValue = 0;
   isFileExist = false;
   BeneFactorTypeValidation = false;
@@ -37,7 +39,7 @@ export class BeneFactorDetailsComponent implements OnInit {
   PagingFilter: PagingFilterModel = {
     filterList: [],
     currentpage: 1,
-    pagesize: 5
+    pagesize: 10
   }
   constructor(private modalService: NgbModal,
     private adminService: AdminWebsiteService, private formService: ValidationFormService
@@ -114,6 +116,7 @@ export class BeneFactorDetailsComponent implements OnInit {
       this.BeneFactorValueId = null;
       this.BeneFactorValueName = 'قيم التبرع';
       this.TotalValue = 0;
+      this.PagingFilter.currentpage = 1;
       this.GetAllBeneFactorDetails();
     }
   }
@@ -177,9 +180,15 @@ export class BeneFactorDetailsComponent implements OnInit {
   }
 
   GetAllBeneFactorDetails() {
-    this.adminService.GetAllBeneFactorDetails(this.BeneFactorId).subscribe(data => {
+    this.adminService.GetAllBeneFactorDetails(this.PagingFilter, this.BeneFactorId).subscribe(data => {
       this.BeneFactorDetailsData = data;
+      this.TotalCount = data && data.length > 0 ? data[0].totalCount : 0;
     });
+  }
+
+  PageChange(obj: any) {
+    this.PagingFilter.currentpage = obj.page;
+    this.GetAllBeneFactorDetails();
   }
 
   GetAllBeneFactorDetailsByValueId() {
@@ -200,18 +209,20 @@ export class BeneFactorDetailsComponent implements OnInit {
   }
 
   AddNewItem() {
-    debugger;
     let num = Number(this.ItemForm.controls['totalValue'].value);
     let isFinalSubscribe = this.TotalValue - num;
-    if (this.TotalValue == 0) {
-      this.toaster.warning('لا يمكن اضافة تبرع جديد لقد نفذ مبلغ التبرع');
-      return;
-    }
+    if (this.BenefactorType == 'Cash'){
+      if (this.TotalValue == 0) {
+        this.toaster.warning('لا يمكن اضافة تبرع جديد لقد نفذ مبلغ التبرع');
+        return;
+      }
 
     if (num > this.TotalValue) {
       this.toaster.warning('لا يمكن اضافة قيمة اكبر من باق مبلغ التبرع');
       return;
     }
+    }
+      
 
     let isValid = this.ItemForm.valid;
     this.BeneFactorTypeValidation = this.BeneFactorTypeName.startsWith('نوع التبرع');

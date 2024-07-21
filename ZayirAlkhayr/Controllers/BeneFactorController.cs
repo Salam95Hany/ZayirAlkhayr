@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ZayirAlkhayr.Entities.Common;
 using ZayirAlkhayr.Entities.Models;
 using ZayirAlkhayr.Interface;
+using ZayirAlkhayr.Service.Common;
 
 namespace ZayirAlkhayr.Controllers
 {
@@ -47,10 +48,10 @@ namespace ZayirAlkhayr.Controllers
             return results;
         }
 
-        [HttpGet("GetAllBeneFactorDetails")]
-        public DataTable GetAllBeneFactorDetails(int BeneFactorId)
+        [HttpPost("GetAllBeneFactorDetails")]
+        public DataTable GetAllBeneFactorDetails(PagingFilterModel PagingFilter, int BeneFactorId)
         {
-            var results = _beneFactorService.GetAllBeneFactorDetails(BeneFactorId);
+            var results = _beneFactorService.GetAllBeneFactorDetails(PagingFilter, BeneFactorId);
             return results;
         }
 
@@ -101,6 +102,20 @@ namespace ZayirAlkhayr.Controllers
         {
             var results = _beneFactorService.DeleteBeneFactor(BeneFactorId);
             return results;
+        }
+
+        [HttpPost("ExportBeneFactorsPDFFile")]
+        public IActionResult ExportBeneFactorsPDFFile(PDFModel Model, int RowCount)
+        {
+            var FullPath = _beneFactorService.ExportBeneFactorsPDFFile(Model, RowCount);
+            return new TempPhysicalFileResult(FullPath, "application/pdf");
+        }
+
+        [HttpPost("ExportBeneFactorsExcelFile")]
+        public IActionResult ExportBeneFactorsExcelFile(PDFModel Model, string UserName)
+        {
+            var FullPath = _beneFactorService.ExportBeneFactorsExcelFile(Model, UserName);
+            return new TempPhysicalFileResult(FullPath, "application/xlsx");
         }
     }
 }

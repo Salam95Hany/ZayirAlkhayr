@@ -20,8 +20,10 @@ namespace ZayirAlkhayr.Interface
         List<BeneFactorValues> GetAllBeneFactorValuesById(int BeneFactorId);
         DataTable GetAllBeneFactorTypes(PagingFilterModel PagingFilter);
         HandleErrorResponseModel AddNewBeneFactorType(BeneFactorTypes Model);
-        DataTable GetAllBeneFactorDetails(int BeneFactorId);
+        DataTable GetAllBeneFactorDetails(PagingFilterModel PagingFilter,int BeneFactorId);
         Task<HandleErrorResponseModel> AddNewBeneFactorDetails(BeneFactorDetails Model);
         DataTable GetAllBeneFactorDetailsByValueId(int BeneFactorValueId);
+        string ExportBeneFactorsPDFFile(PDFModel Model, int RowCount);
+        string ExportBeneFactorsExcelFile(PDFModel Model, string UserName);
     }
 }

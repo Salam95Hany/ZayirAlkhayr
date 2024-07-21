@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { UploadFileModel } from '../Models/FileModel';
 import { FilterModel } from '../Models/FilterModel';
 import { PagingFilterModel } from '../Models/PagingFilterModel';
 
@@ -164,8 +163,8 @@ export class AdminWebsiteService {
     return this.http.post<any[]>(this.apiURL + 'BeneFactor/GetAllBeneFactorTypes', PagingFilter);
   }
 
-  GetAllBeneFactorDetails(BeneFactorId: number) {
-    return this.http.get<any[]>(this.apiURL + 'BeneFactor/GetAllBeneFactorDetails?BeneFactorId=' + BeneFactorId);
+  GetAllBeneFactorDetails(PagingFilter: PagingFilterModel, BeneFactorId: number) {
+    return this.http.post<any[]>(this.apiURL + 'BeneFactor/GetAllBeneFactorDetails?BeneFactorId=' + BeneFactorId,PagingFilter);
   }
 
   GetAllBeneFactorDetailsByValueId(BeneFactorValueId: number) {

@@ -16,16 +16,16 @@ export class AdminFiltersComponent {
   FilterSearchText = '';
   SearchText = '';
 
-  constructor() {
-
-  }
+  constructor() { }
 
   InputSearchChange() {
     this.SelectedFilter = this.SelectedFilter.filter(i => i.categoryName != 'SearchText');
     if (this.SearchText)
       this.SelectedFilter.push({
         categoryName: 'SearchText',
-        itemId: this.SearchText
+        categoryNameAr: 'مربع البحث',
+        itemId: this.SearchText,
+        itemKey: this.SearchText
       });
     this.FilterChecked.emit(this.SelectedFilter);
   }
@@ -46,16 +46,19 @@ export class AdminFiltersComponent {
   RemoveSelectedFilter(filter: any, index: number) {
     this.SelectedFilter.splice(index, 1);
     this.FilterList.map(item => {
-      let checked = item.filterItems.find(a => a.categoryName == filter.categoryName);
+      let checked = item.filterItems.find(a => a.itemId == filter.itemId);
       if (checked) {
         checked.isChecked = false;
       }
     });
+    if (filter.categoryName == 'SearchText')
+      this.SearchText = '';
     this.FilterChecked.emit(this.SelectedFilter);
   }
 
   RemoveAllFilters() {
     this.SelectedFilter = [];
+    this.SearchText = '';
     this.FilterList.map(item => {
       item.filterItems.map(a => a.isChecked = false);
     });
