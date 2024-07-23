@@ -20,6 +20,13 @@ namespace ZayirAlkhayr.Controllers
             _beneFactorService = beneFactorService;
         }
 
+        [HttpGet("BeneFactorLogin")]
+        public BeneFactorLoginModel BeneFactorLogin(int Code, string BeneFactorName)
+        {
+            var results = _beneFactorService.BeneFactorLogin(Code, BeneFactorName);
+            return results;
+        }
+
         [HttpPost("GetAllBeneFactorData")]
         public DataSet GetAllBeneFactorData(PagingFilterModel PagingFilter)
         {
@@ -59,6 +66,27 @@ namespace ZayirAlkhayr.Controllers
         public DataTable GetAllBeneFactorDetailsByValueId(int BeneFactorValueId)
         {
             var results = _beneFactorService.GetAllBeneFactorDetailsByValueId(BeneFactorValueId);
+            return results;
+        }
+
+        [HttpGet("GetBeneFactorDetailsByBeneFactorId")]
+        public DataTable GetBeneFactorDetailsByBeneFactorId(int BeneFactorId, int BeneFactorTypeId)
+        {
+            var results = _beneFactorService.GetBeneFactorDetailsByBeneFactorId(BeneFactorId, BeneFactorTypeId);
+            return results;
+        }
+
+        [HttpGet("GetBeneFactorDetailsStatistics")]
+        public DataTable GetBeneFactorDetailsStatistics(int BeneFactorId)
+        {
+            var results = _beneFactorService.GetBeneFactorDetailsStatistics(BeneFactorId);
+            return results;
+        }
+
+        [HttpPost("GetBeneFactorTypeByIds")]
+        public List<BeneFactorTypes> GetBeneFactorTypeByIds(List<int> Ids)
+        {
+            var results = _beneFactorService.GetBeneFactorTypeByIds(Ids);
             return results;
         }
 

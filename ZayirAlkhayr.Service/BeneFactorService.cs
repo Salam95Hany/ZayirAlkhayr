@@ -37,6 +37,30 @@ namespace ZayirAlkhayr.Service
             ApiLocalUrl = _configuration["ApiUrlLocal"];
         }
 
+        public BeneFactorLoginModel BeneFactorLogin(int Code, string BeneFactorName)
+        {
+            var Response = new BeneFactorLoginModel();
+            var result = _Context.BeneFactors.FirstOrDefault(i => i.Code == Code && i.FullName == BeneFactorName);
+            if (result != null)
+            {
+                Response.BeneFactorId = result.Id;
+                Response.Name = result.FullName;
+                Response.Code = result.Code;
+                Response.LoginId = Guid.NewGuid().ToString();
+                Response.LoginDate = DateTime.Now;
+                Response.ResponseCode = 200;
+                Response.ResponseMessage = "تم تسجيل الدخول بنجاح";
+                return Response;
+            }
+            else
+            {
+                Response.ResponseCode = 100;
+                Response.ResponseMessage = "اسم المستخدم او الكود غير صالح";
+                return Response;
+            }
+
+        }
+
         public DataSet GetAllBeneFactorData(PagingFilterModel PagingFilter)
         {
             var FilterDt = _sQLHelper.ConvertFilterModelToDataTable(PagingFilter.FilterList);
@@ -107,6 +131,30 @@ namespace ZayirAlkhayr.Service
             return dt;
         }
 
+        public DataTable GetBeneFactorDetailsByBeneFactorId(int BeneFactorId, int BeneFactorTypeId)
+        {
+            var Params = new SqlParameter[3];
+            Params[0] = new SqlParameter("@ApiUrl", ApiLocalUrl);
+            Params[1] = new SqlParameter("@BeneFactorId", BeneFactorId);
+            Params[2] = new SqlParameter("@BeneFactorTypeId", BeneFactorTypeId);
+            var dt = _sQLHelper.ExecuteDataTable("web.SP_GetBeneFactorDetailsByBeneFactorId", Params);
+            return dt;
+        }
+
+        public DataTable GetBeneFactorDetailsStatistics(int BeneFactorId)
+        {
+            var Params = new SqlParameter[1];
+            Params[0] = new SqlParameter("@BeneFactorId", BeneFactorId);
+            var dt = _sQLHelper.ExecuteDataTable("web.SP_GetBeneFactorDetailsStatistics", Params);
+            return dt;
+        }
+
+        public List<BeneFactorTypes> GetBeneFactorTypeByIds(List<int> Ids)
+        {
+            var results = _Context.BeneFactorTypes.Where(i => Ids.Contains(i.Id)).ToList();
+            return results;
+        }
+
         public DataTable ExportBeneFactorsData(PDFModel Model)
         {
             var FilterDt = _sQLHelper.ConvertFilterModelToDataTable(Model.FilterList);
@@ -132,6 +180,7 @@ namespace ZayirAlkhayr.Service
             var File = _exportManagerService.Export(ExportTemplate, Dt);
             return File;
         }
+
 
         public async Task<HandleErrorResponseModel> AddNewBeneFactor(BeneFactors Model)
         {

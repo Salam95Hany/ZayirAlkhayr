@@ -20,6 +20,8 @@ import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { NotAuthorizedComponent } from './Auth/not-authorized/not-authorized.component';
+import { BenefactorLoginComponent } from './WebSite/benefactor/benefactor-login/benefactor-login.component';
+import { BenefactorWebDetailsComponent } from './WebSite/benefactor/benefactor-web-details/benefactor-web-details.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,8 @@ import { NotAuthorizedComponent } from './Auth/not-authorized/not-authorized.com
     CarouselComponent,
     LoginComponent,
     NotAuthorizedComponent,
+    BenefactorLoginComponent,
+    BenefactorWebDetailsComponent,
   ],
   imports: [
     BrowserModule,

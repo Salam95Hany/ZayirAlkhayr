@@ -164,11 +164,23 @@ export class AdminWebsiteService {
   }
 
   GetAllBeneFactorDetails(PagingFilter: PagingFilterModel, BeneFactorId: number) {
-    return this.http.post<any[]>(this.apiURL + 'BeneFactor/GetAllBeneFactorDetails?BeneFactorId=' + BeneFactorId,PagingFilter);
+    return this.http.post<any[]>(this.apiURL + 'BeneFactor/GetAllBeneFactorDetails?BeneFactorId=' + BeneFactorId, PagingFilter);
   }
 
   GetAllBeneFactorDetailsByValueId(BeneFactorValueId: number) {
     return this.http.get<any[]>(this.apiURL + 'BeneFactor/GetAllBeneFactorDetailsByValueId?BeneFactorValueId=' + BeneFactorValueId);
+  }
+
+  GetBeneFactorDetailsByBeneFactorId(BeneFactorId: number, BeneFactorTypeId: number) {
+    return this.http.get<any[]>(this.apiURL + 'BeneFactor/GetBeneFactorDetailsByBeneFactorId?BeneFactorId=' + BeneFactorId + '&BeneFactorTypeId=' + BeneFactorTypeId);
+  }
+
+  GetBeneFactorDetailsStatistics(BeneFactorId: number) {
+    return this.http.get<any[]>(this.apiURL + 'BeneFactor/GetBeneFactorDetailsStatistics?BeneFactorId=' + BeneFactorId);
+  }
+
+  GetBeneFactorTypeByIds(BeneFactorTypeIds: number[]) {
+    return this.http.post<any[]>(this.apiURL + 'BeneFactor/GetBeneFactorTypeByIds', BeneFactorTypeIds);
   }
 
   AddNewBeneFactor(Model: any) {

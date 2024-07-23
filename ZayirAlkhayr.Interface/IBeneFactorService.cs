@@ -11,6 +11,7 @@ namespace ZayirAlkhayr.Interface
 {
     public interface IBeneFactorService
     {
+        BeneFactorLoginModel BeneFactorLogin(int Code, string BeneFactorName);
         DataSet GetAllBeneFactorData(PagingFilterModel PagingFilter);
         List<FilterModel> GetAllBeneFactorFilters(PagingFilterModel PagingFilter);
         Task<HandleErrorResponseModel> AddNewBeneFactor(BeneFactors Model);
@@ -23,6 +24,9 @@ namespace ZayirAlkhayr.Interface
         DataTable GetAllBeneFactorDetails(PagingFilterModel PagingFilter,int BeneFactorId);
         Task<HandleErrorResponseModel> AddNewBeneFactorDetails(BeneFactorDetails Model);
         DataTable GetAllBeneFactorDetailsByValueId(int BeneFactorValueId);
+        DataTable GetBeneFactorDetailsByBeneFactorId(int BeneFactorId, int BeneFactorTypeId);
+        DataTable GetBeneFactorDetailsStatistics(int BeneFactorId);
+        List<BeneFactorTypes> GetBeneFactorTypeByIds(List<int> Ids);
         string ExportBeneFactorsPDFFile(PDFModel Model, int RowCount);
         string ExportBeneFactorsExcelFile(PDFModel Model, string UserName);
     }

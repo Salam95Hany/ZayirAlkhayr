@@ -9,10 +9,16 @@ import { ActivityDetailsComponent } from './WebSite/activity-details/activity-de
 import { PhotoDetailsComponent } from './WebSite/photo-details/photo-details.component';
 import { LoginComponent } from './login/login.component';
 import { NotAuthorizedComponent } from './Auth/not-authorized/not-authorized.component';
+import { BenefactorLoginComponent } from './WebSite/benefactor/benefactor-login/benefactor-login.component';
+import { BenefactorWebDetailsComponent } from './WebSite/benefactor/benefactor-web-details/benefactor-web-details.component';
+import { BenefactorauthGuard } from './Auth/benefactorauth.guard';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'not-authorized', component: NotAuthorizedComponent },
+  { path: 'benefactor-login', component: BenefactorLoginComponent },
+  { path: 'benefactor-details', component: BenefactorWebDetailsComponent, canActivate: [BenefactorauthGuard] },
+
   { path: 'admin', loadChildren: () => import('../app/Admin/admin.module').then(m => m.AdminModule) },
   {
     path: '', component: HomeComponent, children: [

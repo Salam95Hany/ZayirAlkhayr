@@ -211,18 +211,18 @@ export class BeneFactorDetailsComponent implements OnInit {
   AddNewItem() {
     let num = Number(this.ItemForm.controls['totalValue'].value);
     let isFinalSubscribe = this.TotalValue - num;
-    if (this.BenefactorType == 'Cash'){
+    if (this.BenefactorType == 'Cash') {
       if (this.TotalValue == 0) {
         this.toaster.warning('لا يمكن اضافة تبرع جديد لقد نفذ مبلغ التبرع');
         return;
       }
 
-    if (num > this.TotalValue) {
-      this.toaster.warning('لا يمكن اضافة قيمة اكبر من باق مبلغ التبرع');
-      return;
+      if (num > this.TotalValue) {
+        this.toaster.warning('لا يمكن اضافة قيمة اكبر من باق مبلغ التبرع');
+        return;
+      }
     }
-    }
-      
+
 
     let isValid = this.ItemForm.valid;
     this.BeneFactorTypeValidation = this.BeneFactorTypeName.startsWith('نوع التبرع');
