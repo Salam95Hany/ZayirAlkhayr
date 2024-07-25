@@ -46,7 +46,6 @@ namespace ZayirAlkhayr.Entities.Models
         public DbSet<WebSiteVisitors> WebSiteVisitors { get; set; }
         public DbSet<BeneFactors> BeneFactors { get; set; }
         public DbSet<BeneFactorTypes> BeneFactorTypes { get; set; }
-        public DbSet<BeneFactorValues> BeneFactorValues { get; set; }
         public DbSet<BeneFactorDetails> BeneFactorDetails { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

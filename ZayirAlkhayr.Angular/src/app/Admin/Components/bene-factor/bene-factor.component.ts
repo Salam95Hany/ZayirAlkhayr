@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { PagingFilterModel } from '../../Models/PagingFilterModel';
 import { FilterModel } from '../../Models/FilterModel';
-import { BeneFactorValues } from '../../Models/BeneFactorModel';
+import { BeneFactorDetails, BeneFactorValues } from '../../Models/BeneFactorModel';
 import { PDFHeaderSelectedModel, PDFModel } from '../../Models/PDFHeaderSelected';
 import { PdfDownloadService } from '../../Services/pdf-download.service';
 import { DatePipe } from '@angular/common';
@@ -19,7 +19,7 @@ import { DatePipe } from '@angular/common';
 export class BeneFactorComponent implements OnInit {
   @ViewChild('InputFile') InputFile: ElementRef;
   isFilter = false;
-  BeneFactorValues: BeneFactorValues = {} as BeneFactorValues;
+  BeneFactorValues: BeneFactorDetails = {} as BeneFactorDetails;
   BeneFactorValuesData: any[] = [];
   BeneFactorData: any[] = [];
   BeneFactorHeaders: any[] = [];
@@ -134,7 +134,7 @@ export class BeneFactorComponent implements OnInit {
     this.BeneFactorValues.beneFactorId = item.id;
     this.BeneFactorValues.fullName = item.fullName;
     this.BeneFactorValues.code = item.code;
-    this.GetAllBeneFactorValuesById();
+    this.GetAllBeneFactorParentById();
     this.offcanvasService.open(content, { position: 'end' });
   }
 
@@ -145,15 +145,15 @@ export class BeneFactorComponent implements OnInit {
     });
 
     if (item.isCollapsed && (!item.values || item.values.length == 0))
-      this.adminService.GetAllBeneFactorDetailsByValueId(item.id).subscribe(data => {
+      this.adminService.GetAllBeneFactorCashDetails(this.BeneFactorValues.beneFactorId, item.id).subscribe(data => {
         let obj = this.BeneFactorValuesData.find(i => i.id == item.id);
         if (obj)
           obj.values = data;
       });
   }
 
-  GetAllBeneFactorValuesById() {
-    this.adminService.GetAllBeneFactorValuesById(this.BeneFactorValues.beneFactorId).subscribe(data => {
+  GetAllBeneFactorParentById() {
+    this.adminService.GetAllBeneFactorParentById(this.BeneFactorValues.beneFactorId).subscribe(data => {
       this.BeneFactorValuesData = data;
       this.BeneFactorValuesData.forEach(i => i.isCollapsed = false);
     });
@@ -246,15 +246,18 @@ export class BeneFactorComponent implements OnInit {
       this.toaster.warning('برجاء ادخال تاريخ التبرع');
       return;
     }
-
+    this.BeneFactorValues.beneFactorTypeId = 1;
+    this.BeneFactorValues.isParent = true;
     this.BeneFactorValues.isActive = false;
     this.BeneFactorValues.insertUser = this.UserModel?.userId;
-    this.adminService.AddNewBeneFactorValues(this.BeneFactorValues).subscribe(data => {
+    const formData = new FormData();
+    this.formService.buildFormData(formData, this.BeneFactorValues);
+    this.adminService.AddNewBeneFactorDetails(formData).subscribe(data => {
       if (data.done) {
         this.toaster.success(data.message);
         this.BeneFactorValues.totalValue = null;
         this.BeneFactorValues.paymentDate = '';
-        this.GetAllBeneFactorValuesById();
+        this.GetAllBeneFactorParentById();
         this.modalService.dismissAll();
       }
       else

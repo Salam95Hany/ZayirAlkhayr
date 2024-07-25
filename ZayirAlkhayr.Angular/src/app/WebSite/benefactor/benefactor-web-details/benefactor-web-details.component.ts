@@ -42,9 +42,10 @@ export class BenefactorWebDetailsComponent implements OnInit {
   }
 
   openCashSidePanel(content: any, item: any) {
+    debugger;
     this.Type = item.name;
     this.TotalValue = item.totalValue;
-    this.BeneFactorValueId = item.beneFactorValueId;
+    this.BeneFactorValueId = item.id;
     this.GetAllBeneFactorDetailsByValueId();
     this.offcanvasService.open(content, { position: 'end' });
   }
@@ -57,7 +58,6 @@ export class BenefactorWebDetailsComponent implements OnInit {
 
   GetBeneFactorDetailsByBeneFactorId() {
     this.adminService.GetBeneFactorDetailsByBeneFactorId(this.BeneFactorId, this.BeneFactorTypeId).subscribe(data => {
-      debugger;
       this.BeneFactorDetailsData = data;
       if (this.FirstLoad) {
         this.BeneFactorTypeIds =[...new Set(this.BeneFactorDetailsData.map(i => i.beneFactorTypeId))];
@@ -74,7 +74,7 @@ export class BenefactorWebDetailsComponent implements OnInit {
   }
 
   GetAllBeneFactorDetailsByValueId() {
-    this.adminService.GetAllBeneFactorDetailsByValueId(this.BeneFactorValueId).subscribe(data => {
+    this.adminService.GetAllBeneFactorCashDetails(this.BeneFactorId,this.BeneFactorValueId).subscribe(data => {
       this.BeneFactorValues = data;
     });
   }

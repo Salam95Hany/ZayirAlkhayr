@@ -1,25 +1,30 @@
 <nav class="navbar navbar-expand-md navbar-light bg-body-tertiary py-0">
-  <div class="container">
+	<div class="container-fluid">
     <div class="d-flex align-items-center gap-2">
       <div class="img-logo-box">
         <img src="../../../assets/logo-2.png" class="logo-img" loading="lazy" alt="" />
       </div>
       <div class="fw-bold">{{BeneFactorModel?.name}} - {{BeneFactorModel?.code}}</div>
     </div>
-    <div class="navbar-collapse py-3 py-md-0" id="navbarContent">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
+    <button class="hamburger hamburger--elastic shadow-lg donor-humburger my-2 my-md-0" (click)="collapsed = !collapsed" [class.is-active]="!collapsed">
+      <span class="hamburger-box">
+        <span class="hamburger-inner"></span>
+      </span>
+    </button>
+		<div class="navbar-collapse py-3 py-md-0" [class.collapse]="collapsed" id="navbarContent">
+			<ul class="navbar-nav ms-auto">
+				<li class="nav-item">
           <a class="nav-link d-flex align-items-center gap-2 cursor-pointer py-0" (click)="LogOut()">
             <i class="uil uil-sign-out-alt"></i>
             <span>تسجيل الخروج</span>
           </a>
         </li>
-      </ul>
-    </div>
-  </div>
+			</ul>
+		</div>
+	</div>
 </nav>
-<div class="p-2">
-  <div class="home-staticts mb-3">
+<div class="container-fluid py-3">
+  <div class="home-staticts mb-2">
     <div class="row g-3">
       <div class="col-lg-4">
         <div
@@ -58,7 +63,7 @@
       <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
         <div ngbDropdown class="dropdown-with-search overflow-hidden" container="body">
           <button
-            class="dropdown-with-search-btn btn border w-100 d-flex align-items-center justify-content-between selector-padding"
+            class="dropdown-with-search-btn btn border w-100 min-width-160 bg-white d-flex align-items-center justify-content-between selector-padding"
             id="dropdownBasic1" ngbDropdownToggle>
             {{BeneFactorTypeName}}
           </button>

@@ -74,29 +74,6 @@ namespace ZayirAlkhayr.Service
             return dt;
         }
 
-        public List<BeneFactorValues> GetAllBeneFactorValuesById(int BeneFactorId)
-        {
-            var results = _Context.BeneFactorValues.Where(i => i.BeneFactorId == BeneFactorId).Select(i => new BeneFactorValues
-            {
-                Id = i.Id,
-                TotalValue = i.TotalValue,
-                PaymentDateStr = i.PaymentDate.ToString("dddd d MMMM , yyyy", new CultureInfo("ar-AE")),
-                IsActive = i.IsActive,
-            }).ToList();
-            return results;
-        }
-
-        public DataTable GetAllBeneFactorTypes(PagingFilterModel PagingFilter)
-        {
-            var SearchText = PagingFilter.FilterList.FirstOrDefault(i => i.CategoryName == "SearchText");
-            var Params = new SqlParameter[3];
-            Params[0] = new SqlParameter("@SearchText", SearchText?.ItemId);
-            Params[1] = new SqlParameter("@CurrentPage", PagingFilter.Currentpage);
-            Params[2] = new SqlParameter("@PageSize", PagingFilter.Pagesize);
-            var dt = _sQLHelper.ExecuteDataTable("web.SP_GetAllBeneFactorTypes", Params);
-            return dt;
-        }
-
         public List<FilterModel> GetAllBeneFactorFilters(PagingFilterModel PagingFilter)
         {
             var FilterDt = _sQLHelper.ConvertFilterModelToDataTable(PagingFilter.FilterList);
@@ -111,6 +88,29 @@ namespace ZayirAlkhayr.Service
             return Filters;
         }
 
+        public DataTable GetAllBeneFactorTypes(PagingFilterModel PagingFilter)
+        {
+            var SearchText = PagingFilter.FilterList.FirstOrDefault(i => i.CategoryName == "SearchText");
+            var Params = new SqlParameter[3];
+            Params[0] = new SqlParameter("@SearchText", SearchText?.ItemId);
+            Params[1] = new SqlParameter("@CurrentPage", PagingFilter.Currentpage);
+            Params[2] = new SqlParameter("@PageSize", PagingFilter.Pagesize);
+            var dt = _sQLHelper.ExecuteDataTable("web.SP_GetAllBeneFactorTypes", Params);
+            return dt;
+        }
+
+        public List<BeneFactorDetails> GetAllBeneFactorParentById(int BeneFactorId)
+        {
+            var results = _Context.BeneFactorDetails.Where(i => i.BeneFactorId == BeneFactorId && i.IsParent.Value).Select(i => new BeneFactorDetails
+            {
+                Id = i.Id,
+                TotalValue = i.TotalValue,
+                PaymentDateStr = i.PaymentDate.ToString("dddd d MMMM , yyyy", new CultureInfo("ar-AE")),
+                IsActive = i.IsActive,
+            }).ToList();
+            return results;
+        }
+
         public DataTable GetAllBeneFactorDetails(PagingFilterModel PagingFilter, int BeneFactorId)
         {
             var Params = new SqlParameter[4];
@@ -122,12 +122,13 @@ namespace ZayirAlkhayr.Service
             return dt;
         }
 
-        public DataTable GetAllBeneFactorDetailsByValueId(int BeneFactorValueId)
+        public DataTable GetAllBeneFactorCashDetails(int BeneFactorId,int ParentId)
         {
-            var Params = new SqlParameter[2];
+            var Params = new SqlParameter[3];
             Params[0] = new SqlParameter("@ApiUrl", ApiLocalUrl);
-            Params[1] = new SqlParameter("@BeneFactorValueId", BeneFactorValueId);
-            var dt = _sQLHelper.ExecuteDataTable("web.SP_GetAllBeneFactorDetailsByValueId", Params);
+            Params[1] = new SqlParameter("@BeneFactorId", BeneFactorId);
+            Params[2] = new SqlParameter("@ParentId", ParentId);
+            var dt = _sQLHelper.ExecuteDataTable("web.SP_GetAllBeneFactorCashDetails", Params);
             return dt;
         }
 
@@ -225,35 +226,6 @@ namespace ZayirAlkhayr.Service
             }
         }
 
-        public HandleErrorResponseModel AddNewBeneFactorValues(BeneFactorValues Model)
-        {
-            try
-            {
-                var Response = new HandleErrorResponseModel();
-                var BeneFactorObj = new BeneFactorValues();
-                BeneFactorObj.BeneFactorId = Model.BeneFactorId;
-                BeneFactorObj.TotalValue = Model.TotalValue;
-                BeneFactorObj.PaymentDate = Model.PaymentDate;
-                BeneFactorObj.IsActive = Model.IsActive;
-                BeneFactorObj.InsertUser = Model.InsertUser;
-                BeneFactorObj.InsertDate = DateTime.Now;
-
-                _Context.BeneFactorValues.Add(BeneFactorObj);
-                _Context.SaveChanges();
-
-                Response.Done = true;
-                Response.Message = "تم اضافة مبلغ جديد بنجاح";
-                return Response;
-            }
-            catch (Exception)
-            {
-                var Response = new HandleErrorResponseModel();
-                Response.Done = false;
-                Response.Message = "لقد حدث خطا";
-                return Response;
-            }
-        }
-
         public HandleErrorResponseModel AddNewBeneFactorType(BeneFactorTypes Model)
         {
             try
@@ -287,13 +259,14 @@ namespace ZayirAlkhayr.Service
                 var Response = new HandleErrorResponseModel();
                 var BeneFactorObj = new BeneFactorDetails();
                 BeneFactorObj.BeneFactorId = Model.BeneFactorId;
-                BeneFactorObj.BeneFactorValueId = Model.BeneFactorValueId;
+                BeneFactorObj.ParentId = Model.ParentId;
                 BeneFactorObj.BeneFactorTypeId = Model.BeneFactorTypeId;
                 BeneFactorObj.Details = Model.Details;
                 BeneFactorObj.PaymentDate = Model.PaymentDate;
                 BeneFactorObj.TotalValue = Model.TotalValue;
                 BeneFactorObj.InsertUser = Model.InsertUser;
                 BeneFactorObj.InsertDate = DateTime.Now;
+                BeneFactorObj.IsParent = Model.IsParent;
 
                 if (Model.Files != null)
                 {
@@ -306,10 +279,11 @@ namespace ZayirAlkhayr.Service
 
                 if (Model.IsFinalSubscribe)
                 {
-                    var BeneFactorType = _Context.BeneFactorValues.FirstOrDefault(i => i.Id == Model.BeneFactorValueId);
-                    if (BeneFactorType != null)
-                        BeneFactorType.IsActive = true;
+                    var BeneFactorParent = _Context.BeneFactorDetails.FirstOrDefault(i => i.Id == Model.ParentId);
+                    if (BeneFactorParent != null)
+                        BeneFactorParent.IsActive = true;
                 }
+                    
 
                 _Context.BeneFactorDetails.Add(BeneFactorObj);
                 _Context.SaveChanges();

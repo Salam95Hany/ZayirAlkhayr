@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ValidationFormService } from '../Services/validation-form.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-side-menu',
@@ -13,11 +14,18 @@ export class AdminSideMenuComponent implements OnInit {
   isCollapsed_2 = true;
   isCollapsed_3 = true;
   UserModel: any;
+  WebSite = ['home-slideimage', 'activity', 'event', 'photo'];
+  BeneFactor = ['benefactors', 'benefactor-detail', 'benefactor-type'];
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
     this.UserModel = JSON.parse(localStorage.getItem('UserModel'));
+    let url = this.router.url.split('/')[2];
+    if (this.WebSite.includes(url))
+      this.isCollapsed_1 = false;
+    else if (this.BeneFactor.includes(url))
+      this.isCollapsed_3 = false;
   }
 
   onCloseSidemenuFromOverlay() {

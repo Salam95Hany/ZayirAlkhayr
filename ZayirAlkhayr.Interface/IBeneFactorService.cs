@@ -17,16 +17,15 @@ namespace ZayirAlkhayr.Interface
         Task<HandleErrorResponseModel> AddNewBeneFactor(BeneFactors Model);
         Task<HandleErrorResponseModel> UpdateBeneFactor(BeneFactors Model);
         HandleErrorResponseModel DeleteBeneFactor(int BeneFactorId);
-        HandleErrorResponseModel AddNewBeneFactorValues(BeneFactorValues Model);
-        List<BeneFactorValues> GetAllBeneFactorValuesById(int BeneFactorId);
         DataTable GetAllBeneFactorTypes(PagingFilterModel PagingFilter);
         HandleErrorResponseModel AddNewBeneFactorType(BeneFactorTypes Model);
         DataTable GetAllBeneFactorDetails(PagingFilterModel PagingFilter,int BeneFactorId);
         Task<HandleErrorResponseModel> AddNewBeneFactorDetails(BeneFactorDetails Model);
-        DataTable GetAllBeneFactorDetailsByValueId(int BeneFactorValueId);
+        DataTable GetAllBeneFactorCashDetails(int BeneFactorId, int ParentId);
         DataTable GetBeneFactorDetailsByBeneFactorId(int BeneFactorId, int BeneFactorTypeId);
         DataTable GetBeneFactorDetailsStatistics(int BeneFactorId);
         List<BeneFactorTypes> GetBeneFactorTypeByIds(List<int> Ids);
+        List<BeneFactorDetails> GetAllBeneFactorParentById(int BeneFactorId);
         string ExportBeneFactorsPDFFile(PDFModel Model, int RowCount);
         string ExportBeneFactorsExcelFile(PDFModel Model, string UserName);
     }

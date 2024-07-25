@@ -155,8 +155,8 @@ export class AdminWebsiteService {
     return this.http.post<any[]>(this.apiURL + 'BeneFactor/GetAllBeneFactorFilters', PagingFilter);
   }
 
-  GetAllBeneFactorValuesById(BeneFactorId: number) {
-    return this.http.get<any[]>(this.apiURL + 'BeneFactor/GetAllBeneFactorValuesById?BeneFactorId=' + BeneFactorId);
+  GetAllBeneFactorParentById(BeneFactorId: number) {
+    return this.http.get<any[]>(this.apiURL + 'BeneFactor/GetAllBeneFactorParentById?BeneFactorId=' + BeneFactorId);
   }
 
   GetAllBeneFactorTypes(PagingFilter: PagingFilterModel) {
@@ -167,8 +167,8 @@ export class AdminWebsiteService {
     return this.http.post<any[]>(this.apiURL + 'BeneFactor/GetAllBeneFactorDetails?BeneFactorId=' + BeneFactorId, PagingFilter);
   }
 
-  GetAllBeneFactorDetailsByValueId(BeneFactorValueId: number) {
-    return this.http.get<any[]>(this.apiURL + 'BeneFactor/GetAllBeneFactorDetailsByValueId?BeneFactorValueId=' + BeneFactorValueId);
+  GetAllBeneFactorCashDetails(BeneFactorId: number, ParentId: any) {
+    return this.http.get<any[]>(this.apiURL + 'BeneFactor/GetAllBeneFactorCashDetails?BeneFactorId=' + BeneFactorId + '&ParentId=' + ParentId);
   }
 
   GetBeneFactorDetailsByBeneFactorId(BeneFactorId: number, BeneFactorTypeId: number) {

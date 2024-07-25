@@ -13,11 +13,13 @@ namespace ZayirAlkhayr.Entities.Models
     {
         public int Id { get; set; }
         public int BeneFactorId { get; set; }
-        public int? BeneFactorValueId { get; set; }
+        public int? ParentId { get; set; }
         public int BeneFactorTypeId { get; set; }
         public string Image { get; set; }
         public string Details { get; set; }
         public double? TotalValue { get; set; }
+        public bool? IsActive { get; set; }
+        public bool? IsParent { get; set; }
         public DateTime PaymentDate { get; set; }
         public string InsertUser { get; set; }
         public DateTime? InsertDate { get; set; }
@@ -29,5 +31,7 @@ namespace ZayirAlkhayr.Entities.Models
         public bool IsFinalSubscribe { get; set; }
         [NotMapped]
         public IFormFile Files { get; set; }
+        [NotMapped]
+        public string PaymentDateStr { get; set; }
     }
 }

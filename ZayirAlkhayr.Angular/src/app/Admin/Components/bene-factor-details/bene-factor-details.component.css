@@ -3,11 +3,12 @@
   min-height: calc(100vh - var(--card-h));
 }
 
-.width-380 {
-  width: 500px;
-}
 
 .DropDownSelected {
   background: rgba(0, 0, 0, .12);
   color: #1976d2;
+}
+
+.width-270{
+  width: 270px;
 }

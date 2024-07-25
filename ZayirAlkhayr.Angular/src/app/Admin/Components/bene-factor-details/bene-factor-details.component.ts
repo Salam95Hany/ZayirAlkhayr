@@ -58,13 +58,14 @@ export class BeneFactorDetailsComponent implements OnInit {
     this.ItemForm = this.fb.group({
       id: 0,
       beneFactorId: null,
-      beneFactorValueId: null,
       beneFactorTypeId: null,
+      parentId: null,
       details: null,
       totalValue: ['', Validators.required],
       paymentDate: ['', Validators.required],
       insertUser: null,
       isFinalSubscribe: false,
+      isParent: false,
       oldFileName: null,
       file: null,
     });
@@ -82,6 +83,7 @@ export class BeneFactorDetailsComponent implements OnInit {
     this.ItemForm.get('id').setValue(0);
     this.ItemForm.get('totalValue').setValue(0);
     this.ItemForm.get('isFinalSubscribe').setValue(false);
+    this.ItemForm.get('isParent').setValue(false);
     this.ItemForm.get('insertUser').setValue(this.UserModel?.userId);
   }
 
@@ -132,11 +134,12 @@ export class BeneFactorDetailsComponent implements OnInit {
     this.BenefactorType = 'All';
     this.TypeSwitcher = false;
     this.TotalValue = 0;
-    this.GetAllBeneFactorValuesById();
+    this.GetAllBeneFactorParentById();
     this.GetAllBeneFactorDetails();
   }
 
   OnChangeBeneFactorValue(item: any) {
+    debugger;
     this.TotalValue = 0;
     this.BeneFactorValueId = item.id;
     this.TotalValue = item.totalValue;
@@ -173,8 +176,8 @@ export class BeneFactorDetailsComponent implements OnInit {
     });
   }
 
-  GetAllBeneFactorValuesById() {
-    this.adminService.GetAllBeneFactorValuesById(this.BeneFactorId).subscribe(data => {
+  GetAllBeneFactorParentById() {
+    this.adminService.GetAllBeneFactorParentById(this.BeneFactorId).subscribe(data => {
       this.BeneFactorValuesData = data.filter(i => !i.isActive);
     });
   }
@@ -192,7 +195,7 @@ export class BeneFactorDetailsComponent implements OnInit {
   }
 
   GetAllBeneFactorDetailsByValueId() {
-    this.adminService.GetAllBeneFactorDetailsByValueId(this.BeneFactorValueId).subscribe(data => {
+    this.adminService.GetAllBeneFactorCashDetails(this.BeneFactorId,this.BeneFactorValueId).subscribe(data => {
       this.BeneFactorDetailsData = data;
       let detailsTotalValue = 0;
       this.BeneFactorDetailsData.filter(i => i.beneFactorTypeId == 1).forEach(i => {
@@ -212,6 +215,7 @@ export class BeneFactorDetailsComponent implements OnInit {
     let num = Number(this.ItemForm.controls['totalValue'].value);
     let isFinalSubscribe = this.TotalValue - num;
     if (this.BenefactorType == 'Cash') {
+      this.ItemForm.get('parentId').setValue(this.BeneFactorValueId);
       if (this.TotalValue == 0) {
         this.toaster.warning('لا يمكن اضافة تبرع جديد لقد نفذ مبلغ التبرع');
         return;
@@ -235,7 +239,7 @@ export class BeneFactorDetailsComponent implements OnInit {
       this.ItemForm.get('isFinalSubscribe').setValue(true);
 
     this.ItemForm.get('beneFactorId').setValue(this.BeneFactorId);
-    this.ItemForm.get('beneFactorValueId').setValue(this.BeneFactorValueId);
+    
     this.ItemForm.get('beneFactorTypeId').setValue(this.BeneFactorTypeId);
     this.ItemForm.get('file').setValue(this.ImageFile);
     const formData = new FormData();

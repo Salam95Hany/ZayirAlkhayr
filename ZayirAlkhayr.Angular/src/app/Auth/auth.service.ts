@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -31,10 +32,23 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     let currentUser = JSON.parse(localStorage.getItem('UserModel'));
-    if (!currentUser)
+    if (!currentUser || this.isTokenExpired())
       return false;
 
     return true;
+  }
+
+  isTokenExpired(): boolean {
+    let access_token = JSON.parse(localStorage.getItem('UserModel'))?.token;
+    if (!access_token)
+      return true;
+    const decode = jwtDecode(access_token);
+    if (!decode.exp)
+      return true;
+    const expirationDate = decode.exp * 1000;
+    const now = new Date().getTime();
+    const expirationDateWithHours = new Date(expirationDate + (8 * 60 * 60 * 1000)).getTime();
+    return expirationDateWithHours < now;
   }
 
   isInRole(roles: string[]): boolean {

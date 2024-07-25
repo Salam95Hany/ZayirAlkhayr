@@ -41,13 +41,6 @@ namespace ZayirAlkhayr.Controllers
             return results;
         }
 
-        [HttpGet("GetAllBeneFactorValuesById")]
-        public List<BeneFactorValues> GetAllBeneFactorValuesById(int BeneFactorId)
-        {
-            var results = _beneFactorService.GetAllBeneFactorValuesById(BeneFactorId);
-            return results;
-        }
-
         [HttpPost("GetAllBeneFactorTypes")]
         public DataTable GetAllBeneFactorTypes(PagingFilterModel PagingFilter)
         {
@@ -62,10 +55,10 @@ namespace ZayirAlkhayr.Controllers
             return results;
         }
 
-        [HttpGet("GetAllBeneFactorDetailsByValueId")]
-        public DataTable GetAllBeneFactorDetailsByValueId(int BeneFactorValueId)
+        [HttpGet("GetAllBeneFactorCashDetails")]
+        public DataTable GetAllBeneFactorCashDetails(int BeneFactorId, int ParentId)
         {
-            var results = _beneFactorService.GetAllBeneFactorDetailsByValueId(BeneFactorValueId);
+            var results = _beneFactorService.GetAllBeneFactorCashDetails(BeneFactorId, ParentId);
             return results;
         }
 
@@ -90,17 +83,17 @@ namespace ZayirAlkhayr.Controllers
             return results;
         }
 
+        [HttpGet("GetAllBeneFactorParentById")]
+        public List<BeneFactorDetails> GetAllBeneFactorParentById(int BeneFactorId)
+        {
+            var results = _beneFactorService.GetAllBeneFactorParentById(BeneFactorId);
+            return results;
+        }
+
         [HttpPost("AddNewBeneFactor")]
         public async Task<HandleErrorResponseModel> AddNewBeneFactor([FromForm] BeneFactors Model)
         {
             var results = await _beneFactorService.AddNewBeneFactor(Model);
-            return results;
-        }
-
-        [HttpPost("AddNewBeneFactorValues")]
-        public HandleErrorResponseModel AddNewBeneFactorValues(BeneFactorValues Model)
-        {
-            var results = _beneFactorService.AddNewBeneFactorValues(Model);
             return results;
         }
 
