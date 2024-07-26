@@ -47,8 +47,7 @@ export class AuthService {
       return true;
     const expirationDate = decode.exp * 1000;
     const now = new Date().getTime();
-    const expirationDateWithHours = new Date(expirationDate + (8 * 60 * 60 * 1000)).getTime();
-    return expirationDateWithHours < now;
+    return expirationDate < now;
   }
 
   isInRole(roles: string[]): boolean {
