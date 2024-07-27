@@ -60,6 +60,7 @@ export class AuthService {
   }
 
   loginRedirect(): void {
+    localStorage.removeItem('UserModel');
     this.router.navigateByUrl('/login');
   }
 

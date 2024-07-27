@@ -8,7 +8,7 @@
       <div class="col-lg-8 d-flex align-items-center">
         <div class="event-info">
           <h4 class="fw-bold mb-2 main-color">{{event.title}}</h4>
-          <span class="fs-14px" *ngIf="event.fromDate && event.toDate">{{event.fromDate}} - {{event.toDate}}</span>
+          <span class="fs-14px" *ngIf="event.fromDateStr && event.toDateStr">{{event.fromDateStr}} - {{event.toDateStr}}</span>
           <p class="m-0 mt-3">{{event.description}}</p>
         </div>
       </div>

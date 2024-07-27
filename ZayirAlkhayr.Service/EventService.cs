@@ -46,8 +46,8 @@ namespace ZayirAlkhayr.Service
                     Id = i.Id,
                     Title = i.Title,
                     Description = i.Description,
-                    FromDate = i.FromDate,
-                    ToDate = i.ToDate,
+                    FromDateStr = i.FromDate != null ? i.FromDate.Value.ToString("d MMMM , yyyy @ hh:mm t", new CultureInfo("ar-AE")) : "",
+                    ToDateStr = i.ToDate != null ? i.ToDate.Value.ToString("d MMMM , yyyy @ hh:mm t", new CultureInfo("ar-AE")) : "",
                     Images = _Context.EventSliderImages.Where(x => x.EventId == i.Id).Select(i => Path.Combine(ApiLocalUrl, ImageFiles.EventSliderImages.ToString(), i.Image)).ToList(),
 
                 }).OrderByDescending(o => o.InsertDate).ToList(),

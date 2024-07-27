@@ -32,7 +32,7 @@ namespace ZayirAlkhayr
         {
             Configuration = configuration;
         }
-        readonly string MyAllowSpecificOrigins = "_ZayirAlkhayr"; 
+        readonly string MyAllowSpecificOrigins = "_ZayirAlkhayr";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -128,6 +128,7 @@ namespace ZayirAlkhayr
             app.UseAuthentication();
             app.UseRouting();
             app.UseAuthorization();
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCors(MyAllowSpecificOrigins);
             app.UseForwardedHeaders(new ForwardedHeadersOptions

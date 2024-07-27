@@ -139,7 +139,6 @@ export class BeneFactorDetailsComponent implements OnInit {
   }
 
   OnChangeBeneFactorValue(item: any) {
-    debugger;
     this.TotalValue = 0;
     this.BeneFactorValueId = item.id;
     this.TotalValue = item.totalValue;
@@ -195,7 +194,7 @@ export class BeneFactorDetailsComponent implements OnInit {
   }
 
   GetAllBeneFactorDetailsByValueId() {
-    this.adminService.GetAllBeneFactorCashDetails(this.BeneFactorId,this.BeneFactorValueId).subscribe(data => {
+    this.adminService.GetAllBeneFactorCashDetails(this.BeneFactorId, this.BeneFactorValueId).subscribe(data => {
       this.BeneFactorDetailsData = data;
       let detailsTotalValue = 0;
       this.BeneFactorDetailsData.filter(i => i.beneFactorTypeId == 1).forEach(i => {
@@ -227,7 +226,6 @@ export class BeneFactorDetailsComponent implements OnInit {
       }
     }
 
-
     let isValid = this.ItemForm.valid;
     this.BeneFactorTypeValidation = this.BeneFactorTypeName.startsWith('نوع التبرع');
     if (!isValid || this.BeneFactorTypeValidation) {
@@ -239,7 +237,7 @@ export class BeneFactorDetailsComponent implements OnInit {
       this.ItemForm.get('isFinalSubscribe').setValue(true);
 
     this.ItemForm.get('beneFactorId').setValue(this.BeneFactorId);
-    
+
     this.ItemForm.get('beneFactorTypeId').setValue(this.BeneFactorTypeId);
     this.ItemForm.get('file').setValue(this.ImageFile);
     const formData = new FormData();
@@ -257,6 +255,10 @@ export class BeneFactorDetailsComponent implements OnInit {
       else
         this.toaster.error(data.message);
     });
+  }
+
+  NumbersOnly(key: any) {
+    return this.formService.NumbersOnly(key);
   }
 
 }

@@ -1,8 +1,8 @@
+<span class="main-color fw-bold fs-5">{{PhotoDetails.title}}</span>
 <p class="fs-5 lh-lg mb-4" *ngIf="PhotoDetails">
   {{PhotoDetails.description}}
-  <span class="main-color fw-bold">{{PhotoDetails.title}}</span>
-  
 </p>
+
 
 <div class="row gy-4">
   <div class="col-md-6 col-lg-4" *ngFor="let img of imageUrls; index as i"

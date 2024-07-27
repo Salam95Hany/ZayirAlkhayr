@@ -80,6 +80,7 @@
                                 <i class="uil uil-edit text-primary icon-table-action shadow-sm"
                                     (click)="openAddItemModal(OpenItemModal,item)"></i>
                                 <i class="uil uil-times-circle text-danger icon-table-action shadow-sm"
+                                appRole [roles]="['SupperAdmin']"
                                     (click)="openDeleteItemModal(deleteItemModal,item)"></i>
                                 <i class="uil uil-document-info text-success icon-table-action shadow-sm"
                                     (click)="openCashSidePanel(CashSidePanel,item)"></i>
@@ -191,7 +192,7 @@
                         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6 g-2">
                             <div class="col" *ngFor="let url of fileURL">
                                 <div class="choosed-img img-thumbnail shadow-sm">
-                                    <img src="{{url.image}}" loading="lazy" alt="" />
+                                    <img src="{{url.image}}"  (error)="$event.target.src = DefaultImage" loading="lazy" alt="" />
                                     <div class="choosed-img-delete" (click)="DeleteSelectedFile()">
                                         <i class="far fa-times-circle"></i>
                                     </div>
@@ -283,7 +284,7 @@
                                 <tr>
                                     <th class="width-30-per">مبلغ التبرع</th>
                                     <th class="width-30-per">تاريخ التبرع</th>
-                                    <th class="width-30-per">تم صرف المبلغ بالكامل</th>
+                                    <th class="width-30-per text-center">تم صرف المبلغ بالكامل</th>
                                 </tr>
                             </thead>
                             <ng-container *ngFor="let item of BeneFactorValuesData">
@@ -298,7 +299,7 @@
                                             </div>
                                         </td>
                                         <td>{{item.paymentDateStr}}</td>
-                                        <td>
+                                        <td class="text-center">
                                             <label class="jtoggler-wrapper">
                                                 <input type="checkbox" [(ngModel)]="item.isActive"
                                                     class="jtoggler jqtoggler-inited" disabled>

@@ -13,7 +13,7 @@
     </div>
     <div>
       <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="0"
-      [totalCount]="TotalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
+        [totalCount]="TotalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
     </div>
   </div>
   <div class="px-3 py-2 bg-light border-bottom" #collapse="ngbCollapse" [(ngbCollapse)]="isFilter">
@@ -30,7 +30,7 @@
             <th>الوصف</th>
             <th>تمت الاضافة من قبل</th>
             <th>تاريخ الاضافة</th>
-            <th>مرئي في الموقع</th>
+            <th class="text-center">مرئي في الموقع</th>
             <th class="text-center">أجراءات</th>
           </tr>
         </thead>
@@ -43,7 +43,7 @@
             <td>{{item.description}}</td>
             <td>{{item.createdBy}}</td>
             <td>{{item.insertDate}}</td>
-            <td>
+            <td class="text-center">
               <label class="jtoggler-wrapper m-0 mx-0">
                 <input type="checkbox" [(ngModel)]="item.isVisible" class="jtoggler" disabled>
                 <div class="jtoggler-control">
@@ -55,8 +55,8 @@
               <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
                 <i class="uil uil-edit text-primary icon-table-action shadow-sm"
                   (click)="openAddItemModal(OpenItemModal,item)"></i>
-                <i class="uil uil-times-circle text-danger icon-table-action shadow-sm"
-                  (click)="openDeleteItemModal(deleteItemModal,item)"></i>
+                <i class="uil uil-times-circle text-danger icon-table-action shadow-sm" 
+                appRole [roles]="['SupperAdmin']" (click)="openDeleteItemModal(deleteItemModal,item)"></i>
                 <i class="uil uil-plus text-primary icon-table-action shadow-sm"
                   (click)="openAddImagesModal(OpenAddImagesModal,item)"></i>
               </div>
@@ -109,7 +109,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-6 d-flex">
+          <div class="col-lg-6 d-flex d-flex align-items-center">
             <div class="me-2">مرئي</div>
             <label class="jtoggler-wrapper m-0 mx-0">
               <input type="checkbox" formControlName="isVisible" class="jtoggler">

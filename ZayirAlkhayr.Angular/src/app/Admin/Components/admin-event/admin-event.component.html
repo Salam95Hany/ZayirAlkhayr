@@ -32,7 +32,7 @@
             <th>الشهر</th>
             <th>تمت الاضافة من قبل</th>
             <th>تاريخ الاضافة</th>
-            <th>مرئي في الموقع</th>
+            <th class="text-center">مرئي في الموقع</th>
             <th class="text-center">أجراءات</th>
           </tr>
         </thead>
@@ -45,7 +45,7 @@
             <td>{{item.month | date:'MMMM' : 'ar-SA'}}</td>
             <td>{{item.createdBy}}</td>
             <td>{{item.insertDate}}</td>
-            <td>
+            <td class="text-center">
               <label class="jtoggler-wrapper m-0 mx-0">
                 <input type="checkbox" [(ngModel)]="item.isVisible" class="jtoggler" disabled>
                 <div class="jtoggler-control">
@@ -58,6 +58,7 @@
                 <i class="uil uil-edit text-primary icon-table-action shadow-sm"
                   (click)="openAddItemModal(OpenItemModal,item)"></i>
                 <i class="uil uil-times-circle text-danger icon-table-action shadow-sm"
+                appRole [roles]="['SupperAdmin']"
                   (click)="openDeleteItemModal(deleteItemModal,item)"></i>
                 <i class="uil uil-plus text-primary icon-table-action shadow-sm"
                   (click)="openAddImagesModal(OpenAddImagesModal,item)"></i>
@@ -139,7 +140,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-6 d-flex">
+          <div class="col-lg-6 d-flex align-items-center">
             <div class="me-2">مرئي</div>
             <label class="jtoggler-wrapper m-0 mx-0">
               <input type="checkbox" formControlName="isVisible" class="jtoggler">

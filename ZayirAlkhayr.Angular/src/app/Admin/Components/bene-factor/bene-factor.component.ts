@@ -107,6 +107,7 @@ export class BeneFactorComponent implements OnInit {
   }
 
   openAddItemModal(content: any, item: any) {
+    debugger;
     this.ResetForm();
     this.isFileExist = false;
     this.fileURL = [];
@@ -134,6 +135,8 @@ export class BeneFactorComponent implements OnInit {
     this.BeneFactorValues.beneFactorId = item.id;
     this.BeneFactorValues.fullName = item.fullName;
     this.BeneFactorValues.code = item.code;
+    this.BeneFactorValues.totalValue = null;
+    this.BeneFactorValues.paymentDate = null;
     this.GetAllBeneFactorParentById();
     this.offcanvasService.open(content, { position: 'end' });
   }

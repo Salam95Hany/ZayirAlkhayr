@@ -33,8 +33,8 @@ export class AdminUserComponent implements OnInit {
   FormInit() {
     this.ItemForm = this.fb.group({
       userId: null,
-      userName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
+      userName: ['', [Validators.required, Validators.pattern("^[a-zA-Z \-\']+")]],
+      email: ['', [Validators.required, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
       password: ['', [Validators.required, Validators.minLength(4)]],
       phoneNumber: ['', Validators.required],
       address: ['', Validators.required],

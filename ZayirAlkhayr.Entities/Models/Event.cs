@@ -24,5 +24,9 @@ namespace ZayirAlkhayr.Entities.Models
         public DateTime Month { get; set; }
         [NotMapped]
         public List<string> Images { get; set; }
+        [NotMapped]
+        public string FromDateStr { get; set; }
+        [NotMapped]
+        public string ToDateStr { get; set; }
     }
 }

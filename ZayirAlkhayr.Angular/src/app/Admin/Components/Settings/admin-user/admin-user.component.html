@@ -81,6 +81,9 @@
               <div *ngIf="ItemForm.controls['userName'].errors?.['required']">
                 هذا الحقل مطلوب
               </div>
+              <div *ngIf="ItemForm.controls['userName'].errors?.['pattern']">
+                أدخل أحرف انكليزية فقط
+              </div>
             </div>
           </div>
           <div class="col-lg-6">
