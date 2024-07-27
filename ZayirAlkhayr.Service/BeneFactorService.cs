@@ -122,7 +122,7 @@ namespace ZayirAlkhayr.Service
             return dt;
         }
 
-        public DataTable GetAllBeneFactorCashDetails(int BeneFactorId,int ParentId)
+        public DataTable GetAllBeneFactorCashDetails(int BeneFactorId, int ParentId)
         {
             var Params = new SqlParameter[3];
             Params[0] = new SqlParameter("@ApiUrl", ApiLocalUrl);
@@ -168,7 +168,11 @@ namespace ZayirAlkhayr.Service
         public string ExportBeneFactorsPDFFile(PDFModel Model, int RowCount)
         {
             var Dt = ExportBeneFactorsData(Model);
+            for (int i = 0; i < Dt.Rows.Count; i++)
+                Dt.Rows[i]["Id"] = (i + 1).ToString();
+
             var DtBatches = Dt.ToDataTableBatches(RowCount);
+            Model.Headers.Add(new PDFHeaderSelected { DisplayOrder = 0, NameAr = "الرقم", NameEn = "Id", ValueType = "Text", IsAllowSummation = false });
             Model.Headers = Model.Headers.OrderBy(i => i.DisplayOrder).ToList();
             var File = _createPdfFileService.CreatePdfFile(DtBatches, Model.Headers, ImageFiles.ExportFiles.ToString(), "المتبرعين");
             return File;
@@ -177,6 +181,10 @@ namespace ZayirAlkhayr.Service
         public string ExportBeneFactorsExcelFile(PDFModel Model, string UserName)
         {
             var Dt = ExportBeneFactorsData(Model);
+            for (int i = 0; i < Dt.Rows.Count; i++)
+                Dt.Rows[i]["Id"] = (i + 1).ToString();
+
+            Model.Headers.Add(new PDFHeaderSelected { DisplayOrder = 0, NameAr = "الرقم", NameEn = "Id", ValueType = "Text", IsAllowSummation = false });
             var ExportTemplate = new ExportTemplateBase { Name = "المتبرعين", SheetName = "المتبرعين", TemplateName = "المتبرعين", UserName = UserName, Header = new ExportHeaders { ListHeaders = Model.Headers } };
             var File = _exportManagerService.Export(ExportTemplate, Dt);
             return File;
@@ -283,7 +291,7 @@ namespace ZayirAlkhayr.Service
                     if (BeneFactorParent != null)
                         BeneFactorParent.IsActive = true;
                 }
-                    
+
 
                 _Context.BeneFactorDetails.Add(BeneFactorObj);
                 _Context.SaveChanges();
@@ -349,23 +357,26 @@ namespace ZayirAlkhayr.Service
             {
                 var Response = new HandleErrorResponseModel();
                 var BeneFactor = _Context.BeneFactors.FirstOrDefault(i => i.Id == BeneFactorId);
+                var BeneFactorDetails = _Context.BeneFactorDetails.Where(i => i.BeneFactorId == BeneFactorId).ToList();
                 if (BeneFactor != null)
                 {
-                    var File = _manageFileService.DeleteFile(BeneFactor.Image, ImageFiles.BeneFactorImages);
-                    if (File.Done)
+                    if (BeneFactor.Image != null)
+                        _manageFileService.DeleteFile(BeneFactor.Image, ImageFiles.BeneFactorImages);
+
+                    _Context.BeneFactors.Remove(BeneFactor);
+                    if (BeneFactorDetails.Count > 0)
                     {
-                        _Context.BeneFactors.Remove(BeneFactor);
-                        _Context.SaveChanges();
-                        Response.Done = true;
-                        Response.Message = "تم حذف المتبرع بنجاح";
-                        return Response;
+                        foreach (var item in BeneFactorDetails)
+                            if (item.Image != null)
+                                _manageFileService.DeleteFile(item.Image, ImageFiles.BeneFactorDetailsImages);
+
+                        _Context.BeneFactorDetails.RemoveRange(BeneFactorDetails);
                     }
-                    else
-                    {
-                        Response.Done = false;
-                        Response.Message = "لقد حدث خطا";
-                        return Response;
-                    }
+
+                    _Context.SaveChanges();
+                    Response.Done = true;
+                    Response.Message = "تم حذف المتبرع بنجاح";
+                    return Response;
                 }
                 else
                 {
