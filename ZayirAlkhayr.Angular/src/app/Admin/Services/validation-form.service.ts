@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 })
 export class ValidationFormService {
   fileURL: any[] = [];
-  
+
   constructor() { }
 
   validateAllFormFields(formGroup: FormGroup) {
@@ -82,5 +82,29 @@ export class ValidationFormService {
     let patt = /^([0-9\+])$/;
     let result = patt.test(key);
     return result;
+  }
+
+  TrimFormInputValue(ItemForm: FormGroup) {
+    Object.keys(ItemForm.value).forEach(key => {
+      if (typeof (ItemForm.value[key]) == 'string') {
+        ItemForm.get(key).setValue(ItemForm.value[key]?.trim())
+        ItemForm.get(key).setValue(ItemForm.value[key].replace(/\s+/g, ' '))
+      }
+    });
+    
+    return ItemForm;
+  }
+
+  noSpaceValidator(control: FormControl) {
+    if (control.value?.trim()?.length === 0 && control.value) {
+      return { noSpace: true };
+    }
+
+    if (!control.value) {
+      return null;
+    }
+
+
+    return null;
   }
 }

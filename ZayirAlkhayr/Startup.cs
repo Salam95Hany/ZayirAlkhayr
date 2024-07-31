@@ -50,6 +50,7 @@ namespace ZayirAlkhayr
             });
             services.AddControllers();
             services.AddDbContext<ZADbContext>();
+            QuestPDF.Settings.License = LicenseType.Community;
             services.AddIdentity<AdminUser, IdentityRole>(options =>
             {
                 options.Password.RequireNonAlphanumeric = false;
@@ -90,7 +91,7 @@ namespace ZayirAlkhayr
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ZayirAlkhayr", Version = "v1" });
             });
-            QuestPDF.Settings.License = LicenseType.Community;
+            //QuestPDF.Settings.License = LicenseType.Community;
             services.AddScoped<IWebsiteHomeService, WebsiteHomeService>();
             services.AddScoped<IEventService, EventService>();
             services.AddScoped<IActivityService, ActivityService>();

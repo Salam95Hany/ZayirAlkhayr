@@ -55,7 +55,7 @@ namespace ZayirAlkhayr.Service
                          new Claim("UserID" , user.Id.ToString()),
                          new Claim(_options.ClaimsIdentity.RoleClaimType, role.FirstOrDefault())
                      }),
-                    Expires = DateTime.UtcNow.AddHours(8),
+                    Expires = DateTime.Now.AddHours(8),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
                 var tokenHandler = new JwtSecurityTokenHandler();

@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Configuration;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
@@ -27,10 +28,8 @@ namespace ZayirAlkhayr.Service.Common
         public string CreatePdfFile(List<DataTable> Data, List<PDFHeaderSelected> HeaderNames, string FileName, string PageName)
         {
             var FullPath = Path.Combine(_environment.WebRootPath, "ExportFiles", FileName + ".pdf");
-            var firstCol = Math.Round((decimal)(Data[0].Columns.Count / 2));
-            var secondCol = Data[0].Columns.Count - firstCol;
 
-            Document.Create(container =>
+            var document = Document.Create(container =>
             {
                 foreach (var dt in Data)
                 {
@@ -39,7 +38,7 @@ namespace ZayirAlkhayr.Service.Common
                         page.Size(PageSizes.A4);
                         page.Margin(1, Unit.Millimetre);
                         page.PageColor(Colors.White);
-                        page.DefaultTextStyle(x => x.FontSize(10));
+                        page.DefaultTextStyle(x => x.FontSize(10).FontFamily("Arial"));
                         page.ContentFromRightToLeft();
 
                         // Page Header
@@ -53,11 +52,11 @@ namespace ZayirAlkhayr.Service.Common
                                     txt.Line("المشهرة برقم 4242 لسنة 2021");
                                     txt.Line("تحت رعاية وزارة التضامن الاجتماعي");
                                 });
-                                row.AutoItem().PaddingHorizontal(180);
-                                row.AutoItem().Height(85).Width(85).Image(Path.Combine(_environment.WebRootPath, "Template", "ZayirAlkhayrLogo2.jpeg"));
+                                row.AutoItem().PaddingHorizontal(190);
+                                row.AutoItem().Width(70).Image(Path.Combine(_environment.WebRootPath, "Template", "ZayirAlkhayrLogo2.jpeg"));
                             });
 
-                            col.Item().AlignCenter().PaddingBottom(5).Text("كشف تسليم مساعدات مالية-محافظة الاسكندرية-      /      /      ").FontSize(15);
+                            col.Item().AlignCenter().PaddingBottom(5).Text("كشف تسليم مساعدات مالية - محافظة الاسكندرية -      /      /      ").FontSize(15);
                             col.Item().LineHorizontal(2);
                             col.Item().AlignCenter().PaddingTop(5).PaddingBottom(5).Text(PageName).FontSize(15);
 
@@ -104,6 +103,9 @@ namespace ZayirAlkhayr.Service.Common
                                 var obj = HeaderNames.FirstOrDefault(i => i.IsAllowSummation);
                                 if (obj != null)
                                 {
+                                    var firstCol = Math.Round((decimal)(Data[0].Columns.Count / 2));
+                                    var secondCol = Data[0].Columns.Count - firstCol;
+
                                     tbl.Footer(tblf =>
                                     {
                                         int Counter = 0;
@@ -120,7 +122,7 @@ namespace ZayirAlkhayr.Service.Common
                         {
                             col.Item().PaddingBottom(60).Row(row =>
                             {
-                                row.AutoItem().AlignRight().Text("مسؤول التوزيع").FontSize(15);
+                                row.AutoItem().AlignRight().PaddingRight(20).Text("مسؤول التوزيع").FontSize(15);
                                 row.AutoItem().PaddingHorizontal(190);
                                 row.AutoItem().Text("رئيس مجلس الأمناء").FontSize(15);
                             });
@@ -136,7 +138,9 @@ namespace ZayirAlkhayr.Service.Common
                     });
                 }
 
-            }).GeneratePdf(FullPath);
+            });
+
+            document.GeneratePdf(FullPath);
 
             return FullPath;
         }

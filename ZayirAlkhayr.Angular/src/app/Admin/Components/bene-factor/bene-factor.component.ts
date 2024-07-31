@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { PagingFilterModel } from '../../Models/PagingFilterModel';
 import { FilterModel } from '../../Models/FilterModel';
-import { BeneFactorDetails, BeneFactorValues } from '../../Models/BeneFactorModel';
+import { BeneFactorDetails } from '../../Models/BeneFactorModel';
 import { PDFHeaderSelectedModel, PDFModel } from '../../Models/PDFHeaderSelected';
 import { PdfDownloadService } from '../../Services/pdf-download.service';
 import { DatePipe } from '@angular/common';
@@ -64,7 +64,7 @@ export class BeneFactorComponent implements OnInit {
   FormInit() {
     this.ItemForm = this.fb.group({
       id: 0,
-      fullName: ['', Validators.required],
+      fullName: ['', [Validators.required, this.formService.noSpaceValidator]],
       description: null,
       phone: ['', Validators.required],
       phone2: null,
@@ -107,7 +107,6 @@ export class BeneFactorComponent implements OnInit {
   }
 
   openAddItemModal(content: any, item: any) {
-    debugger;
     this.ResetForm();
     this.isFileExist = false;
     this.fileURL = [];
@@ -204,6 +203,7 @@ export class BeneFactorComponent implements OnInit {
   }
 
   AddNewItem() {
+    this.ItemForm = this.formService.TrimFormInputValue(this.ItemForm);
     let isValid = this.ItemForm.valid;
 
     this.NationalityValidation = this.NationalityName == 'الجنسية';
@@ -211,6 +211,7 @@ export class BeneFactorComponent implements OnInit {
       this.formService.validateAllFormFields(this.ItemForm);
       return;
     }
+
     this.ItemForm.patchValue({ file: this.ImageFile });
     this.ItemForm.patchValue({ nationality: this.NationalityName });
     const formData = new FormData();
@@ -296,6 +297,11 @@ export class BeneFactorComponent implements OnInit {
   }
 
   DownloadPdfFile() {
+    if (this.BeneFactorData.length == 0) {
+      this.toaster.warning('لا يوجد بيانات للتنزيل');
+      return;
+    }
+
     let checked = this.PDFHeaderModel.filter(i => i.isSelected);
     let isAllowSummation = this.PDFHeaderModel.filter(i => i.isAllowSummation);
     if (isAllowSummation.length > 1) {
@@ -330,6 +336,11 @@ export class BeneFactorComponent implements OnInit {
   }
 
   DownloadExcelFile() {
+    if (this.BeneFactorData.length == 0) {
+      this.toaster.warning('لا يوجد بيانات للتنزيل');
+      return;
+    }
+    
     let userName = this.UserModel?.userName;
     let today = this.datepipe.transform(new Date(), 'yyyy-MM-dd');
     let fileName = 'المتبرعين' + '_' + today;

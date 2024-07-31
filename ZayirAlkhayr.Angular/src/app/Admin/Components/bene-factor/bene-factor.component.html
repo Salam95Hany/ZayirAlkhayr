@@ -79,9 +79,8 @@
                             <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
                                 <i class="uil uil-edit text-primary icon-table-action shadow-sm"
                                     (click)="openAddItemModal(OpenItemModal,item)"></i>
-                                <i class="uil uil-times-circle text-danger icon-table-action shadow-sm"
-                                appRole [roles]="['SupperAdmin']"
-                                    (click)="openDeleteItemModal(deleteItemModal,item)"></i>
+                                <i class="uil uil-times-circle text-danger icon-table-action shadow-sm" appRole
+                                    [roles]="['SupperAdmin']" (click)="openDeleteItemModal(deleteItemModal,item)"></i>
                                 <i class="uil uil-document-info text-success icon-table-action shadow-sm"
                                     (click)="openCashSidePanel(CashSidePanel,item)"></i>
                             </div>
@@ -116,20 +115,24 @@
                                 <div *ngIf="ItemForm.controls['fullName'].errors?.['required']">
                                     هذا الحقل مطلوب
                                 </div>
+                                <div *ngIf="ItemForm.controls['fullName'].errors?.['noSpace']">
+                                    لا يمكن ان يحتوي الحقل على مسافات فقط
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" formControlName="description" id="floatingInput_1"
-                                placeholder="new-user">
+                            <input type="text" class="form-control" (keydown.space)="$event.preventDefault()"
+                                formControlName="description" id="floatingInput_1" placeholder="new-user">
                             <label for="floatingInput_1">الوصف</label>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" (keypress)="NumbersOnly($event.key)"
-                                formControlName="phone" id="floatingInput_1" placeholder="new-user" required>
+                            <input type="text" (paste)="false" (copy)="false" (cut)="false" class="form-control"
+                                (keypress)="NumbersOnly($event.key)" formControlName="phone" id="floatingInput_1"
+                                placeholder="new-user" required>
                             <label for="floatingInput_1">رقم التلفون</label>
                             <div *ngIf="ItemForm.controls['phone']?.invalid && (ItemForm.controls['phone']?.dirty || ItemForm.controls['phone']?.touched)"
                                 class="alert text-danger">
@@ -141,8 +144,9 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" (keypress)="NumbersOnly($event.key)"
-                                formControlName="phone2" id="floatingInput_1" placeholder="new-user">
+                            <input type="text" class="form-control" (keypress)="NumbersOnly($event.key)" (paste)="false"
+                                (copy)="false" (cut)="false" formControlName="phone2" id="floatingInput_1"
+                                placeholder="new-user">
                             <label for="floatingInput_1">رقم التلفون 2</label>
                         </div>
                     </div>
@@ -192,7 +196,8 @@
                         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6 g-2">
                             <div class="col" *ngFor="let url of fileURL">
                                 <div class="choosed-img img-thumbnail shadow-sm">
-                                    <img src="{{url.image}}"  (error)="$event.target.src = DefaultImage" loading="lazy" alt="" />
+                                    <img src="{{url.image}}" (error)="$event.target.src = DefaultImage" loading="lazy"
+                                        alt="" />
                                     <div class="choosed-img-delete" (click)="DeleteSelectedFile()">
                                         <i class="far fa-times-circle"></i>
                                     </div>
@@ -256,8 +261,9 @@
             <div class="row g-3">
                 <div class="col-lg-5">
                     <div class="form-floating">
-                        <input type="text" class="form-control" (keypress)="NumbersOnly($event.key)"
-                            [(ngModel)]="BeneFactorValues.totalValue" id="floatingInput_1" placeholder="new-user">
+                        <input type="text" class="form-control" (keypress)="NumbersOnly($event.key)" (paste)="false"
+                            (copy)="false" (cut)="false" [(ngModel)]="BeneFactorValues.totalValue" id="floatingInput_1"
+                            placeholder="new-user">
                         <label for="floatingInput_1">مبلغ التبرع</label>
                     </div>
                 </div>
@@ -350,8 +356,8 @@
                     </label>
                 </div>
                 <div class="col-lg-2">
-                    <input type="text" class="form-control" (keypress)="NumbersOnly($event.key)"
-                        [(ngModel)]="item.displayOrder" placeholder="الترتيب">
+                    <input type="text" class="form-control" (keypress)="NumbersOnly($event.key)" (paste)="false"
+                        (copy)="false" (cut)="false" [(ngModel)]="item.displayOrder" placeholder="الترتيب">
                 </div>
                 <div class="col-lg-5 d-flex align-items-center" *ngIf="item.valueType == 'Number'">
                     <div class="me-2">جمع قيم العامود</div>
@@ -366,8 +372,8 @@
             <div class="row g-3 mb-2">
                 <div class="col-lg-12">
                     <div class="form-floating">
-                        <input type="text" class="form-control" (keypress)="NumbersOnly($event.key)"
-                            [(ngModel)]="RowCount" id="floatingInput_1">
+                        <input type="text" class="form-control" (keypress)="NumbersOnly($event.key)" (paste)="false"
+                            (copy)="false" (cut)="false" [(ngModel)]="RowCount" id="floatingInput_1">
                         <label for="floatingInput_1">عدد الاسطر في الصفحة الواحدة</label>
                     </div>
                 </div>
