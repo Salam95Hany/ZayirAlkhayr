@@ -1,27 +1,28 @@
 <nav class="navbar navbar-expand-md navbar-light bg-body-tertiary py-0">
-	<div class="container-fluid">
+  <div class="container-fluid">
     <div class="d-flex align-items-center gap-2">
       <div class="img-logo-box">
         <img src="../../../assets/logo-2.png" class="logo-img" loading="lazy" alt="" />
       </div>
       <div class="fw-bold">{{BeneFactorModel?.name}} - {{BeneFactorModel?.code}}</div>
     </div>
-    <button class="hamburger hamburger--elastic shadow-lg donor-humburger my-2 my-md-0" (click)="collapsed = !collapsed" [class.is-active]="!collapsed">
+    <button class="hamburger hamburger--elastic shadow-lg donor-humburger my-2 my-md-0" (click)="collapsed = !collapsed"
+      [class.is-active]="!collapsed">
       <span class="hamburger-box">
         <span class="hamburger-inner"></span>
       </span>
     </button>
-		<div class="navbar-collapse py-3 py-md-0" [class.collapse]="collapsed" id="navbarContent">
-			<ul class="navbar-nav ms-auto">
-				<li class="nav-item">
+    <div class="navbar-collapse py-3 py-md-0" [class.collapse]="collapsed" id="navbarContent">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
           <a class="nav-link d-flex align-items-center gap-2 cursor-pointer py-0" (click)="LogOut()">
             <i class="uil uil-sign-out-alt"></i>
             <span>تسجيل الخروج</span>
           </a>
         </li>
-			</ul>
-		</div>
-	</div>
+      </ul>
+    </div>
+  </div>
 </nav>
 <div class="container-fluid py-3">
   <div class="home-staticts mb-2">
@@ -60,7 +61,11 @@
   </div>
   <div class="pt-3">
     <div class="card">
-      <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
+      <div class="card-header d-flex align-items-center flex-wrap gap-3">
+        <button class="btn main-button d-flex align-items-center gap-2" (click)="OpenNoteModal(NoteModal)">
+          <i class="uil uil-plus-circle"></i>
+          <span class="navbar-brand m-0">اضافة ملاحظة</span>
+        </button>
         <div ngbDropdown class="dropdown-with-search overflow-hidden" container="body">
           <button
             class="dropdown-with-search-btn btn border w-100 min-width-160 bg-white d-flex align-items-center justify-content-between selector-padding"
@@ -82,6 +87,7 @@
             </ul>
           </div>
         </div>
+
       </div>
       <div class="card-body card-body-h overflow-auto">
         <div class="table-responsive">
@@ -99,7 +105,8 @@
             <tbody>
               <tr *ngFor="let item of BeneFactorDetailsData">
                 <td>
-                  <img src="{{item.image}}" class="table-image" (error)="$event.target.src = DefaultImage">
+                  <img src="{{item.image}}" class="table-image" (error)="$event.target.src = DefaultImage"
+                    (click)="OpenImageModal(ImageModal,item.image)">
                 </td>
                 <td>{{item.name}}</td>
                 <td>{{item.paymentDate}}</td>
@@ -164,5 +171,43 @@
         </div>
       </div>
     </div>
+  </div>
+</ng-template>
+
+<ng-template #ImageModal let-modal>
+  <div class="modal-body overflow-y-hidden">
+    <img src="{{ImageSrc}}" (error)="$event.target.src = DefaultImage" class="w-100 h-100">
+  </div>
+</ng-template>
+
+
+<ng-template #NoteModal let-modal>
+  <div class="modal-header main-bgcolor text-white">
+    <div class="display-7 d-flex align-items-center gap-3">
+      <i class="uil uil-clipboard-notes"></i>
+      <span>اضافة ملاحظة</span>
+    </div>
+  </div>
+  <div class="modal-body">
+    <div>
+      <label for="exampleFormControlInput1" class="form-label">اكتب ملاحظاتك</label>
+      <textarea rows="5" class="form-control" placeholder="اكتب ملاحظاتك"></textarea>
+    </div>
+    <hr class="border-top my-4">
+    <div>
+      <label for="exampleFormControlInput1" class="form-label">اكتب اقتراحاتك</label>
+      <textarea rows="5" class="form-control" placeholder="اكتب اقتراحاتك"></textarea>
+    </div>
+   
+  </div>
+  <div class="modal-footer justify-content-start">
+    <button type="button" class="btn btn-success">
+      <i class="fas fa-check"></i>
+      <span class="ms-2">إضافة</span>
+    </button>
+    <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+      <i class="fas fa-times"></i>
+      <span class="ms-2">إغلاق</span>
+    </button>
   </div>
 </ng-template>

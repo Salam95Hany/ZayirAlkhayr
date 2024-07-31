@@ -35,7 +35,7 @@ export class BeneFactorTypesComponent implements OnInit {
 
   FormInit() {
     this.ItemForm = this.fb.group({
-      name: ['', Validators.required],
+      name: ['', [Validators.required, this.formService.noSpaceValidator]],
       InsertUser: null
     });
   }
@@ -72,6 +72,7 @@ export class BeneFactorTypesComponent implements OnInit {
   }
 
   AddNewItem() {
+    this.ItemForm = this.formService.TrimFormInputValue(this.ItemForm);
     let isValid = this.ItemForm.valid;
 
     if (!isValid) {

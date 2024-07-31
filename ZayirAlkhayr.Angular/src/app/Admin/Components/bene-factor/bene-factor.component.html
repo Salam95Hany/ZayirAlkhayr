@@ -123,31 +123,38 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" (keydown.space)="$event.preventDefault()"
+                            <input type="text" class="form-control"
                                 formControlName="description" id="floatingInput_1" placeholder="new-user">
                             <label for="floatingInput_1">الوصف</label>
+                            <div *ngIf="ItemForm.controls['description'].errors?.['noSpace']" class="alert text-danger">
+                                لا يمكن ان يحتوي الحقل على مسافات فقط
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" (paste)="false" (copy)="false" (cut)="false" class="form-control"
-                                (keypress)="NumbersOnly($event.key)" formControlName="phone" id="floatingInput_1"
-                                placeholder="new-user" required>
+                            <input type="text" class="form-control" (keypress)="NumbersOnly($event.key)"
+                                formControlName="phone" id="floatingInput_1" placeholder="new-user" required>
                             <label for="floatingInput_1">رقم التلفون</label>
                             <div *ngIf="ItemForm.controls['phone']?.invalid && (ItemForm.controls['phone']?.dirty || ItemForm.controls['phone']?.touched)"
                                 class="alert text-danger">
                                 <div *ngIf="ItemForm.controls['phone'].errors?.['required']">
                                     هذا الحقل مطلوب
                                 </div>
+                                <div *ngIf="ItemForm.controls['phone'].errors?.['pattern']">
+                                    أدخل أرقام فقط
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" (keypress)="NumbersOnly($event.key)" (paste)="false"
-                                (copy)="false" (cut)="false" formControlName="phone2" id="floatingInput_1"
-                                placeholder="new-user">
+                            <input type="text" class="form-control" (keypress)="NumbersOnly($event.key)"
+                                formControlName="phone2" id="floatingInput_1" placeholder="new-user">
                             <label for="floatingInput_1">رقم التلفون 2</label>
+                            <div *ngIf="ItemForm.controls['phone2'].errors?.['pattern']" class="alert text-danger">
+                                أدخل أرقام فقط
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -155,6 +162,9 @@
                             <input type="text" class="form-control" formControlName="address" id="floatingInput_1"
                                 placeholder="new-user">
                             <label for="floatingInput_1">العنوان</label>
+                            <div *ngIf="ItemForm.controls['address'].errors?.['noSpace']" class="alert text-danger">
+                                لا يمكن ان يحتوي الحقل على مسافات فقط
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -162,6 +172,9 @@
                             <input type="text" class="form-control" formControlName="faceBook" id="floatingInput_1"
                                 placeholder="new-user">
                             <label for="floatingInput_1">صفحة الفيس بوك</label>
+                            <div *ngIf="ItemForm.controls['faceBook'].errors?.['noSpace']" class="alert text-danger">
+                                لا يمكن ان يحتوي الحقل على مسافات فقط
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -263,7 +276,7 @@
                     <div class="form-floating">
                         <input type="text" class="form-control" (keypress)="NumbersOnly($event.key)" (paste)="false"
                             (copy)="false" (cut)="false" [(ngModel)]="BeneFactorValues.totalValue" id="floatingInput_1"
-                            placeholder="new-user">
+                            placeholder="new-user" autocomplete="off">
                         <label for="floatingInput_1">مبلغ التبرع</label>
                     </div>
                 </div>

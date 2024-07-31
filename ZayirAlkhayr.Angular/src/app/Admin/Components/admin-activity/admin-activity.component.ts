@@ -51,8 +51,8 @@ export class AdminActivityComponent implements OnInit {
   FormInit() {
     this.ItemForm = this.fb.group({
       id: 0,
-      name: ['', Validators.required],
-      description: ['', Validators.required],
+      name: ['', [Validators.required, this.formService.noSpaceValidator]],
+      description: ['', [Validators.required, this.formService.noSpaceValidator]],
       isVisible: true,
       InsertUser: null,
       oldFileName: null,
@@ -63,7 +63,7 @@ export class AdminActivityComponent implements OnInit {
   FillEditForm(item: any) {
     this.fileURL = [];
     this.fileURL.push(item);
-    let fileName = item.image.split('\\');
+    let fileName = item.image.split('/');
     this.ItemForm.setValue({
       id: item.id,
       name: item.name,
@@ -186,7 +186,7 @@ export class AdminActivityComponent implements OnInit {
   AddMultiImagesFile() {
     if (this.multiImagesFile.length == 0 && this.FileModel.deletedFiles.length == 0)
       return;
-
+    
     this.FileModel.id = this.ActivityId;
     this.FileModel.files = this.multiImagesFile.map(i => i.file);
     const formData = new FormData();
@@ -202,6 +202,7 @@ export class AdminActivityComponent implements OnInit {
   }
 
   AddNewActivity() {
+    this.ItemForm = this.formService.TrimFormInputValue(this.ItemForm);
     let isValid = this.ItemForm.valid;
     this.isFileExist = this.fileURL.length == 0;
 

@@ -68,7 +68,7 @@ namespace ZayirAlkhayr.Service
                 Slider.Title = Model.Title;
                 Slider.IsVisible = Model.IsVisible;
                 Slider.InsertUser = Model.InsertUser;
-                Slider.InsertDate = DateTime.Now;
+                Slider.InsertDate = DateTime.Now.AddHours(1);
 
                 var FileName = await _manageFileService.UploadFile(Model.Files, "", ImageFiles.SliderImages);
                 if (FileName.Done)
@@ -101,7 +101,7 @@ namespace ZayirAlkhayr.Service
                 Slider.Title = Model.Title;
                 Slider.IsVisible = Model.IsVisible;
                 Slider.UpdateUser = Model.InsertUser;
-                Slider.UpdateDate = DateTime.Now;
+                Slider.UpdateDate = DateTime.Now.AddHours(1);
 
                 if (Model.Files != null)
                 {
@@ -252,7 +252,7 @@ namespace ZayirAlkhayr.Service
             try
             {
                 var sessionId = Guid.NewGuid().ToString();
-                var Visitor = new WebSiteVisitors { SessionId = sessionId, InsertDate = DateTime.Now };
+                var Visitor = new WebSiteVisitors { SessionId = sessionId, InsertDate = DateTime.Now.AddHours(1) };
                 _Context.WebSiteVisitors.Add(Visitor);
                 _Context.SaveChanges();
                 return sessionId;

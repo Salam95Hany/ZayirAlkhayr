@@ -55,14 +55,14 @@ namespace ZayirAlkhayr.Service
                          new Claim("UserID" , user.Id.ToString()),
                          new Claim(_options.ClaimsIdentity.RoleClaimType, role.FirstOrDefault())
                      }),
-                    Expires = DateTime.Now.AddHours(8),
+                    Expires = DateTime.Now.AddHours(9),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var securityToken = tokenHandler.CreateToken(tokenDescriptor);
                 var token = tokenHandler.WriteToken(securityToken);
                 user.IsActive = true;
-                user.LoginDate = DateTime.Now;
+                user.LoginDate = DateTime.Now.AddHours(1);
                 _context.SaveChanges();
                 ApplicationUserModel userModel = new ApplicationUserModel
                 {
@@ -70,9 +70,9 @@ namespace ZayirAlkhayr.Service
                     Role = role.FirstOrDefault(),
                     UserId = user.Id,
                     Token = token,
-                    LoginDate = DateTime.Now,
+                    LoginDate = DateTime.Now.AddHours(1),
                     LoginDateAr = DateTime.Now.ToString("dddd d MMMM , yyyy", new CultureInfo("ar-AE")),
-                    LoginTimeAr = DateTime.Now.ToString("hh:mm:ss"),
+                    LoginTimeAr = DateTime.Now.AddHours(1).ToString("hh:mm:ss"),
                     ResponseCode = 200,
                     ResponseMessage = "تم تسجيل الدخول بنجاح",
 
@@ -85,7 +85,7 @@ namespace ZayirAlkhayr.Service
                 {
                     ResponseCode = 100,
                     ResponseMessage = "اسم المستخدم او كلمة المرور غير صالح",
-                    LoginDate = DateTime.Now
+                    LoginDate = DateTime.Now.AddHours(1)
                 };
                 return userModel;
             }

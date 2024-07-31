@@ -63,7 +63,7 @@ namespace ZayirAlkhayr.Service
             var Activity = _Context.Activities.FirstOrDefault(i => i.Id == ActivityId);
             if (Activity == null) { return new ActivityModel(); }
             var ActivitySliderImage = _Context.ActivitiesSliderImage.Where(i => i.ActivityId == ActivityId).ToList();
-            
+
             var ActivityModel = new ActivityModel
             {
                 Id = Activity.Id,
@@ -84,7 +84,7 @@ namespace ZayirAlkhayr.Service
                 ActivityObj.Description = Model.Description;
                 ActivityObj.IsVisible = Model.IsVisible;
                 ActivityObj.InsertUser = Model.InsertUser;
-                ActivityObj.InsertDate = DateTime.Now;
+                ActivityObj.InsertDate = DateTime.Now.AddHours(1);
 
                 var FileName = await _manageFileService.UploadFile(Model.Files, "", ImageFiles.ActivityImages);
                 if (FileName.Done)
@@ -118,7 +118,7 @@ namespace ZayirAlkhayr.Service
                 ActivityObj.Description = Model.Description;
                 ActivityObj.IsVisible = Model.IsVisible;
                 ActivityObj.UpdateUser = Model.InsertUser;
-                ActivityObj.UpdateDate = DateTime.Now;
+                ActivityObj.UpdateDate = DateTime.Now.AddHours(1);
 
                 if (Model.Files != null)
                 {

@@ -60,7 +60,7 @@ export class BeneFactorDetailsComponent implements OnInit {
       beneFactorId: null,
       beneFactorTypeId: null,
       parentId: null,
-      details: null,
+      details: ['', this.formService.noSpaceValidator],
       totalValue: ['', Validators.required],
       paymentDate: ['', Validators.required],
       insertUser: null,
@@ -225,7 +225,7 @@ export class BeneFactorDetailsComponent implements OnInit {
         return;
       }
     }
-
+    this.ItemForm = this.formService.TrimFormInputValue(this.ItemForm);
     let isValid = this.ItemForm.valid;
     this.BeneFactorTypeValidation = this.BeneFactorTypeName.startsWith('نوع التبرع');
     if (!isValid || this.BeneFactorTypeValidation) {

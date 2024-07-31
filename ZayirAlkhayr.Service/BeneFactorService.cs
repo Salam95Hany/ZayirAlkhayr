@@ -47,7 +47,7 @@ namespace ZayirAlkhayr.Service
                 Response.Name = result.FullName;
                 Response.Code = result.Code;
                 Response.LoginId = Guid.NewGuid().ToString();
-                Response.LoginDate = DateTime.Now;
+                Response.LoginDate = DateTime.Now.AddHours(1);
                 Response.ResponseCode = 200;
                 Response.ResponseMessage = "تم تسجيل الدخول بنجاح";
                 return Response;
@@ -207,7 +207,7 @@ namespace ZayirAlkhayr.Service
                 BeneFactorObj.Nationality = Model.Nationality;
                 BeneFactorObj.FaceBook = Model.FaceBook;
                 BeneFactorObj.InsertUser = Model.InsertUser;
-                BeneFactorObj.InsertDate = DateTime.Now;
+                BeneFactorObj.InsertDate = DateTime.Now.AddHours(1);
 
                 if (Model.Files != null)
                 {
@@ -242,7 +242,7 @@ namespace ZayirAlkhayr.Service
                 var BeneFactorObj = new BeneFactorTypes();
                 BeneFactorObj.Name = Model.Name;
                 BeneFactorObj.InsertUser = Model.InsertUser;
-                BeneFactorObj.InsertDate = DateTime.Now;
+                BeneFactorObj.InsertDate = DateTime.Now.AddHours(1);
 
                 _Context.BeneFactorTypes.Add(BeneFactorObj);
                 _Context.SaveChanges();
@@ -273,7 +273,7 @@ namespace ZayirAlkhayr.Service
                 BeneFactorObj.PaymentDate = Model.PaymentDate;
                 BeneFactorObj.TotalValue = Model.TotalValue;
                 BeneFactorObj.InsertUser = Model.InsertUser;
-                BeneFactorObj.InsertDate = DateTime.Now;
+                BeneFactorObj.InsertDate = DateTime.Now.AddHours(1);
                 BeneFactorObj.IsParent = Model.IsParent;
 
                 if (Model.Files != null)
@@ -325,7 +325,7 @@ namespace ZayirAlkhayr.Service
                 BeneFactorObj.Nationality = Model.Nationality;
                 BeneFactorObj.FaceBook = Model.FaceBook;
                 BeneFactorObj.UpdateUser = Model.InsertUser;
-                BeneFactorObj.UpdateDate = DateTime.Now;
+                BeneFactorObj.UpdateDate = DateTime.Now.AddHours(1);
 
                 if (Model.Files != null)
                 {

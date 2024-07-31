@@ -85,7 +85,7 @@ namespace ZayirAlkhayr.Service
                 PhotoObj.Description = Model.Description;
                 PhotoObj.IsVisible = Model.IsVisible;
                 PhotoObj.InsertUser = Model.InsertUser;
-                PhotoObj.InsertDate = DateTime.Now;
+                PhotoObj.InsertDate = DateTime.Now.AddHours(1);
 
                 var FileName = await _manageFileService.UploadFile(Model.Files, "", ImageFiles.PhotoImages);
                 if (FileName.Done)
@@ -119,7 +119,7 @@ namespace ZayirAlkhayr.Service
                 PhotoObj.Description = Model.Description;
                 PhotoObj.IsVisible = Model.IsVisible;
                 PhotoObj.UpdateUser = Model.UpdateUser;
-                PhotoObj.UpdateDate = DateTime.Now;
+                PhotoObj.UpdateDate = DateTime.Now.AddHours(1);
 
                 if (Model.Files != null)
                 {

@@ -92,7 +92,7 @@ namespace ZayirAlkhayr.Service
                 Event.Month = Model.Month;
                 Event.IsVisible = Model.IsVisible;
                 Event.InsertUser = Model.InsertUser;
-                Event.InsertDate = DateTime.Now;
+                Event.InsertDate = DateTime.Now.AddHours(1);
 
                 _Context.Events.Add(Event);
                 _Context.SaveChanges();
@@ -123,7 +123,7 @@ namespace ZayirAlkhayr.Service
                 Event.Month = Model.Month;
                 Event.IsVisible = Model.IsVisible;
                 Event.UpdateUser = Model.UpdateUser;
-                Event.UpdateDate = DateTime.Now;
+                Event.UpdateDate = DateTime.Now.AddHours(1);
 
                 _Context.SaveChanges();
 

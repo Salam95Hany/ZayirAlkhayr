@@ -107,10 +107,14 @@
 <ng-template #OpenItemModal let-modal>
     <div class="modal-header d-flex align-items-center justify-content-between main-bgcolor text-white">
         <div class="display-7 d-flex align-items-center gap-3">
-            <i class="uil uil-focus-add"></i>
-            <span>اضافه تفاصيل</span>
+                <i class="uil uil-focus-add"></i>
+                <span>اضافه تفاصيل</span>
         </div>
-        <i class="fas fa-times cursor-pointer fa-2x modal-close-btn" (click)="modal.dismiss()"></i>
+        <div class="d-flex align-items-center">
+            <span class="me-3 fs-5" *ngIf="BenefactorType == 'Cash'">باق المبلغ : {{TotalValue}}</span>
+            <i class="fas fa-times cursor-pointer fa-2x modal-close-btn" (click)="modal.dismiss()"></i>
+        </div>
+        
     </div>
     <div class="modal-body gray-bgcolor">
         <div class="bg-white p-3 rounded shadow-sm">
@@ -162,8 +166,8 @@
                     </div>
                     <div class="col-lg-6" *ngIf="BenefactorType == 'Cash'">
                         <div class="form-floating">
-                            <input type="text" class="form-control" (keypress)="NumbersOnly($event.key)" formControlName="totalValue" id="floatingInput_1"
-                                placeholder="new-user" required>
+                            <input type="text" class="form-control" (copy)="false" (paste)="false" (cut)="false" (keypress)="NumbersOnly($event.key)" formControlName="totalValue" id="floatingInput_1"
+                                placeholder="new-user" autocomplete="off" required>
                             <label for="floatingInput_1">قيمة التبرع</label>
                         </div>
                         <div *ngIf="ItemForm.controls['totalValue']?.invalid && (ItemForm.controls['totalValue']?.dirty || ItemForm.controls['totalValue']?.touched)"
@@ -178,6 +182,9 @@
                             <input type="text" class="form-control" formControlName="details" id="floatingInput_1"
                                 placeholder="new-user">
                             <label for="floatingInput_1">تفاصيل التبرع</label>
+                            <div *ngIf="ItemForm.controls['details'].errors?.['noSpace']" class="alert text-danger">
+                                لا يمكن ان يحتوي الحقل على مسافات فقط
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-6">

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { PagingFilterModel } from 'src/app/Admin/Models/PagingFilterModel';
 import { AdminWebsiteService } from 'src/app/Admin/Services/admin-website.service';
 
@@ -25,12 +25,15 @@ export class BenefactorWebDetailsComponent implements OnInit {
   Type = '';
   TotalValue = 0;
   DefaultImage = '../../../../assets/logo-2.png';
+  ImageSrc: any;
   PagingFilter: PagingFilterModel = {
     filterList: [],
     currentpage: 1,
     pagesize: 100
   }
-  constructor(private router: Router, private adminService: AdminWebsiteService, private offcanvasService: NgbOffcanvas) {
+  constructor(private router: Router, private adminService: AdminWebsiteService, private offcanvasService: NgbOffcanvas,
+    private modalService: NgbModal
+  ) {
 
   }
 
@@ -42,7 +45,6 @@ export class BenefactorWebDetailsComponent implements OnInit {
   }
 
   openCashSidePanel(content: any, item: any) {
-    debugger;
     this.Type = item.name;
     this.TotalValue = item.totalValue;
     this.BeneFactorValueId = item.id;
@@ -60,7 +62,7 @@ export class BenefactorWebDetailsComponent implements OnInit {
     this.adminService.GetBeneFactorDetailsByBeneFactorId(this.BeneFactorId, this.BeneFactorTypeId).subscribe(data => {
       this.BeneFactorDetailsData = data;
       if (this.FirstLoad) {
-        this.BeneFactorTypeIds =[...new Set(this.BeneFactorDetailsData.map(i => i.beneFactorTypeId))];
+        this.BeneFactorTypeIds = [...new Set(this.BeneFactorDetailsData.map(i => i.beneFactorTypeId))];
         this.GetBeneFactorTypeByIds();
       }
       this.FirstLoad = false;
@@ -74,7 +76,7 @@ export class BenefactorWebDetailsComponent implements OnInit {
   }
 
   GetAllBeneFactorDetailsByValueId() {
-    this.adminService.GetAllBeneFactorCashDetails(this.BeneFactorId,this.BeneFactorValueId).subscribe(data => {
+    this.adminService.GetAllBeneFactorCashDetails(this.BeneFactorId, this.BeneFactorValueId).subscribe(data => {
       this.BeneFactorValues = data;
     });
   }
@@ -88,6 +90,23 @@ export class BenefactorWebDetailsComponent implements OnInit {
   LogOut() {
     localStorage.removeItem('BeneFactorModel');
     this.router.navigateByUrl('/');
+  }
+
+  OpenImageModal(content: any, src: any) {
+    this.ImageSrc = src;
+    this.modalService.open(content, {
+      size: 'md',
+      scrollable: true,
+      centered: true
+    });
+  }
+
+  OpenNoteModal(content: any) {
+    this.modalService.open(content, {
+      size: 'lg',
+      scrollable: true,
+      centered: true
+    });
   }
 
 }

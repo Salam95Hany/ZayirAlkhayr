@@ -50,8 +50,8 @@ export class AdminPhotoComponent implements OnInit {
   FormInit() {
     this.ItemForm = this.fb.group({
       id: 0,
-      title: ['', Validators.required],
-      description: ['', Validators.required],
+      title: ['', [Validators.required, this.formService.noSpaceValidator]],
+      description: ['', [Validators.required, this.formService.noSpaceValidator]],
       isVisible: true,
       InsertUser: null,
       oldFileName: null,
@@ -62,7 +62,7 @@ export class AdminPhotoComponent implements OnInit {
   FillEditForm(item: any) {
     this.fileURL = [];
     this.fileURL.push(item);
-    let fileName = item.image.split('\\');
+    let fileName = item.image.split('/');
     this.ItemForm.setValue({
       id: item.id,
       title: item?.title,
@@ -201,6 +201,7 @@ export class AdminPhotoComponent implements OnInit {
   }
 
   AddNewPhoto() {
+    this.ItemForm = this.formService.TrimFormInputValue(this.ItemForm);
     let isValid = this.ItemForm.valid;
     this.isFileExist = this.fileURL.length == 0;
 

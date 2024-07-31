@@ -65,12 +65,12 @@ export class BeneFactorComponent implements OnInit {
     this.ItemForm = this.fb.group({
       id: 0,
       fullName: ['', [Validators.required, this.formService.noSpaceValidator]],
-      description: null,
-      phone: ['', Validators.required],
-      phone2: null,
-      address: null,
+      description: ['', this.formService.noSpaceValidator],
+      phone: ['', [Validators.required, Validators.pattern("[0-9]+")]],
+      phone2: ['', Validators.pattern("[0-9]+")],
+      address: ['', this.formService.noSpaceValidator],
       nationality: null,
-      faceBook: null,
+      faceBook: ['', this.formService.noSpaceValidator],
       InsertUser: null,
       oldFileName: null,
       file: null,
@@ -101,6 +101,7 @@ export class BeneFactorComponent implements OnInit {
     this.ItemForm.reset();
     this.BeneFactorId = '';
     this.InputFile.nativeElement.value = '';
+    this.NationalityName = 'الجنسية';
     this.NationalityValidation = false;
     this.ItemForm.get('id').setValue(0);
     this.ItemForm.get('InsertUser').setValue(this.UserModel?.userId);
@@ -250,6 +251,12 @@ export class BeneFactorComponent implements OnInit {
       this.toaster.warning('برجاء ادخال تاريخ التبرع');
       return;
     }
+
+    if (this.BeneFactorValues.totalValue <= 0) {
+      this.toaster.warning('برجاء ادخال مبلغ أكبر من صفر');
+      return;
+    }
+
     this.BeneFactorValues.beneFactorTypeId = 1;
     this.BeneFactorValues.isParent = true;
     this.BeneFactorValues.isActive = false;
@@ -340,7 +347,7 @@ export class BeneFactorComponent implements OnInit {
       this.toaster.warning('لا يوجد بيانات للتنزيل');
       return;
     }
-    
+
     let userName = this.UserModel?.userName;
     let today = this.datepipe.transform(new Date(), 'yyyy-MM-dd');
     let fileName = 'المتبرعين' + '_' + today;

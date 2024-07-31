@@ -110,6 +110,9 @@
               <div *ngIf="ItemForm.controls['title'].errors?.['required']">
                 هذا الحقل مطلوب
               </div>
+              <div *ngIf="ItemForm.controls['title'].errors?.['noSpace']">
+                لا يمكن ان يحتوي الحقل على مسافات فقط
+            </div>
             </div>
           </div>
           <!-- <div class="col-lg-6">

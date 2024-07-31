@@ -48,8 +48,8 @@ export class AdminEventComponent implements OnInit {
   FormInit() {
     this.ItemForm = this.fb.group({
       id: 0,
-      title: ['', Validators.required],
-      description: ['', Validators.required],
+      title: ['', [Validators.required, this.formService.noSpaceValidator]],
+      description: ['', [Validators.required, this.formService.noSpaceValidator]],
       fromDate: null,
       toDate: null,
       month: null,
@@ -178,6 +178,7 @@ export class AdminEventComponent implements OnInit {
   }
 
   AddNewEvent() {
+    this.ItemForm = this.formService.TrimFormInputValue(this.ItemForm);
     let isValid = this.ItemForm.valid;
 
     if (!isValid) {
