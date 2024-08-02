@@ -8,6 +8,13 @@ import { AdminWebsiteService } from '../Services/admin-website.service';
 })
 export class AdminHomeComponent implements OnInit {
   UsersData: any[] = [];
+  Roles = [
+    { nameEn: 'SupperAdmin', nameAr: 'المدير' },
+    { nameEn: 'WebSite', nameAr: 'موقع زائر الخير' },
+    { nameEn: 'Services', nameAr: 'خدمات اجتماعية' },
+    { nameEn: 'BeneFactors', nameAr: 'المتبرعين' },
+    { nameEn: 'Accounts', nameAr: 'الحسابات' }
+  ];
   StatisticsData: any;
   TotalCount = 0;
 
@@ -29,6 +36,11 @@ export class AdminHomeComponent implements OnInit {
   GetAllUsers() {
     this.adminService.GetAllUsers().subscribe(data => {
       this.UsersData = data.filter(i => i.isActive);
+      this.UsersData.forEach(item => {
+        let role = this.Roles.find(i => i.nameEn == item.role);
+        if (role)
+          item.role = role.nameAr;
+      });
       this.TotalCount = this.UsersData.length;
     })
   }

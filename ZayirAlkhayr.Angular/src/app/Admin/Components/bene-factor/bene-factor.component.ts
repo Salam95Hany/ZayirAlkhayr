@@ -43,7 +43,7 @@ export class BeneFactorComponent implements OnInit {
   UserModel: any;
   BeneFactorId: any;
   TotalCount = 0;
-  RowCount = 20;
+  RowCount = 25;
   NationalityName = 'الجنسية';
   DefaultImage = '../../../../assets/logo-2.png';
   NationalityValidation = false;
@@ -303,7 +303,7 @@ export class BeneFactorComponent implements OnInit {
 
   OpenPdfFileItemModal(content: any) {
     this.PDFHeaderModel = this.pdfService.ConverHeaderToPDFModel(this.BeneFactorHeaders);
-    this.RowCount = 20;
+    this.RowCount = 25;
     this.modalService.open(content, {
       size: 'md',
       scrollable: true,
@@ -339,7 +339,7 @@ export class BeneFactorComponent implements OnInit {
       return;
     }
 
-    if (this.RowCount > 20) {
+    if (this.RowCount > 25) {
       this.toaster.warning('عدد الاسطر لا يتجاوز 20 سطر');
       return;
     }

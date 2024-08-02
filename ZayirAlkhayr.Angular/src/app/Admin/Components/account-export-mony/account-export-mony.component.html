@@ -1,0 +1,108 @@
+<div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <div class="d-flex align-items-center flex-wrap gap-2">
+            <button appRole [roles]="['SupperAdmin']" class="btn main-button d-flex align-items-center gap-2" (click)="openAddItemModal(OpenItemModal)">
+                <i class="uil uil-plus-circle"></i>
+                <span class="navbar-brand m-0">اضافة</span>
+            </button>
+            <button class="btn main-button d-flex align-items-center gap-2" (click)="isFilter = !isFilter"
+                [attr.aria-expanded]="!isFilter">
+                <i class="uil uil-filter"></i>
+                <span class="navbar-brand m-0">{{ isFilter ? 'عرض' : 'اخفاء' }} الفلاتر</span>
+            </button>
+            <div class="d-flex align-items-center">
+                <label class="w-80">إجمالي الصادرات :</label>
+                <input type="text" class="form-control bg-white" [value]="TotalExportValue" disabled>
+            </div>
+        </div>
+        <div>
+            <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize"
+                [totalPages]="0" [totalCount]="TotalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
+        </div>
+    </div>
+    <div class="px-3 py-2 bg-light border-bottom" #collapse="ngbCollapse" [(ngbCollapse)]="isFilter">
+        <app-admin-filters [ApplyDateFilter]="true" [PlaceHolder]="'ب اسم المستخدم'"
+            (FilterChecked)="FilterChecked($event)"></app-admin-filters>
+    </div>
+    <div class="card-body card-body-h">
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
+                <thead>
+                    <tr>
+                        <th>المبلغ</th>
+                        <th>التفاصيل</th>
+                        <th>تمت الاضافة من قبل</th>
+                        <th>تاريخ الاضافة</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of AccountMoneyList">
+                        <td>{{item.totalValue}}</td>
+                        <td>{{item.details}}</td>
+                        <td>{{item.createdBy}}</td>
+                        <td>{{item.insertDate}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<ng-template #OpenItemModal let-modal>
+    <div class="modal-header d-flex align-items-center justify-content-between main-bgcolor text-white">
+        <div class="display-7 d-flex align-items-center gap-3">
+            <i class="uil uil-focus-add"></i>
+            <span>اضافه مبلغ</span>
+        </div>
+    </div>
+    <div class="modal-body gray-bgcolor">
+        <div class="bg-white p-3 rounded shadow-sm">
+            <form [formGroup]="ItemForm" autocomplete="off">
+                <div class="row g-3">
+                    <div class="col-lg-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" (paste)="false" (keypress)="NumbersOnly($event.key)"
+                                formControlName="totalValue" id="floatingInput_1" placeholder="new-user"
+                                autocomplete="off" required>
+                            <label for="floatingInput_1">المبلغ</label>
+                        </div>
+                        <div *ngIf="ItemForm.controls['totalValue']?.invalid && (ItemForm.controls['totalValue']?.dirty || ItemForm.controls['totalValue']?.touched)"
+                            class="alert text-danger">
+                            <div *ngIf="ItemForm.controls['totalValue'].errors?.['required']">
+                                هذا الحقل مطلوب
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" formControlName="details" id="floatingInput_1"
+                                placeholder="new-user" required>
+                            <label for="floatingInput_1">التفاصيل</label>
+                            <div *ngIf="ItemForm.controls['details']?.invalid && (ItemForm.controls['details']?.dirty || ItemForm.controls['details']?.touched)"
+                                class="alert text-danger">
+                                <div *ngIf="ItemForm.controls['details'].errors?.['required']">
+                                    هذا الحقل مطلوب
+                                </div>
+                                <div *ngIf="ItemForm.controls['details'].errors?.['noSpace']">
+                                    لا يمكن ان يحتوي الحقل على مسافات فقط
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer justify-content-start gap-2">
+        <button type="submit" class="btn main-button d-flex align-items-center gap-2" (click)="AddNewItem()">
+            <i class="uil uil-plus-circle"></i>
+            <span>اضافه</span>
+        </button>
+        <button class="btn btn-danger rounded-25 d-flex align-items-center gap-2" (click)="modal.close()">
+            <i class="uil uil-times-circle"></i>
+            <span>الغاء</span>
+        </button>
+    </div>
+</ng-template>
+
+<ngx-loading [show]="showLoader"></ngx-loading>

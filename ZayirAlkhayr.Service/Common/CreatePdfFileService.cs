@@ -57,6 +57,7 @@ namespace ZayirAlkhayr.Service.Common
                             });
 
                             //col.Item().AlignCenter().PaddingBottom(5).Text("كشف تسليم مساعدات مالية - محافظة الاسكندرية -      /      /      ").FontSize(15);
+                            col.Item().PaddingBottom(5);
                             col.Item().LineHorizontal(2);
                             col.Item().AlignCenter().PaddingTop(5).PaddingBottom(5).Text(PageName).FontSize(15);
 
@@ -65,7 +66,7 @@ namespace ZayirAlkhayr.Service.Common
                         // Page Content
                         page.Content().Column(col =>
                         {
-                            col.Item().MaxHeight(600).Table(tbl =>
+                            col.Item().MaxHeight(620).Table(tbl =>
                             {
                                 IContainer DefaultCellStyle(IContainer container, string backgroundColor)
                                 {

@@ -41,7 +41,7 @@
               <div class="status-tag active" *ngIf="item.isActive">نشط</div>
               <div class="status-tag inactive" *ngIf="!item.isActive">غير نشط</div>
             </td>
-            <td>{{item.role}}</td>
+            <td>{{item.roleNameAr}}</td>
             <td>
               <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
                 <i class="uil uil-edit text-primary icon-table-action shadow-sm"
@@ -153,7 +153,7 @@
               <button
                 class="dropdown-with-search-btn btn border h-58 w-100 d-flex align-items-center justify-content-between selector-padding"
                 id="dropdownBasic1" ngbDropdownToggle>
-                {{RoleName}}
+                {{RoleNameAr}}
               </button>
               <div class="width-530 py-0 overflow-hidden" ngbDropdownMenu aria-labelledby="dropdownBasic1">
                 <!-- <div class="p-2 gray-bgcolor border-bottom">
@@ -164,8 +164,8 @@
                 </div> -->
                 <ul class="dropdown-list-box list-unstyled max-height-200 overflow-auto px-1 py-1 m-0">
                   <ng-container *ngFor="let role of Roles">
-                    <li class="dropdown-item cursor-pointer rounded" (click)="RoleName = role;RoleValidation = false"
-                      [ngClass]="{'DropDownSelected': RoleName == role}">{{role}}</li>
+                    <li class="dropdown-item cursor-pointer rounded" (click)="RoleChange(role)"
+                      [ngClass]="{'DropDownSelected': RoleNameAr == role.nameAr}">{{role.nameAr}}</li>
                   </ng-container>
                 </ul>
               </div>

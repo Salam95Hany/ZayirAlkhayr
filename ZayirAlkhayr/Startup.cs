@@ -98,6 +98,7 @@ namespace ZayirAlkhayr
             services.AddScoped<IPhotoService, PhotoService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IBeneFactorService, BeneFactorService>();
+            services.AddScoped<IAccountsMonyService, AccountsMonyService>();
             services.AddScoped<IManageFileService, ManageFileService>();
             services.AddScoped<IExportManagerService, ExportManagerService>();
             services.AddScoped<ICreatePdfFileService, CreatePdfFileService>();

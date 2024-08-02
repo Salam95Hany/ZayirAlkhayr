@@ -12,19 +12,21 @@ import { BeneFactorComponent } from './Components/bene-factor/bene-factor.compon
 import { BeneFactorDetailsComponent } from './Components/bene-factor-details/bene-factor-details.component';
 import { BeneFactorTypesComponent } from './Components/bene-factor-types/bene-factor-types.component';
 import { BeneFactorNotesComponent } from './Components/bene-factor-notes/bene-factor-notes.component';
+import { AccountImportMonyComponent } from './Components/account-import-mony/account-import-mony.component';
+import { AccountExportMonyComponent } from './Components/account-export-mony/account-export-mony.component';
 
 const routes: Routes = [
   {
     path: '',
     component: AdminComponent,
     canActivate: [AuthGuard],
-    data: { roles: ["SupperAdmin", "WebSite", "Services", "BeneFactors"] },
+    data: { roles: ["SupperAdmin", "WebSite", "Services", "BeneFactors", "Accounts"] },
     children: [
       {
         path: 'home',
         component: AdminHomeComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "WebSite", "Services", "BeneFactors"] },
+        data: { roles: ["SupperAdmin", "WebSite", "Services", "BeneFactors", "Accounts"] },
       },
       {
         path: 'home-slideimage',
@@ -73,6 +75,18 @@ const routes: Routes = [
         component: BeneFactorNotesComponent,
         canActivate: [AuthGuard],
         data: { roles: ["SupperAdmin", "BeneFactors"] }
+      },
+      {
+        path: 'account-import-money',
+        component: AccountImportMonyComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ["SupperAdmin", "Accounts"] }
+      },
+      {
+        path: 'account-export-money',
+        component: AccountExportMonyComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ["SupperAdmin", "Accounts"] }
       },
       {
         path: 'user',

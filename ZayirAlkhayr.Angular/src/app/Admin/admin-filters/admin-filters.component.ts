@@ -11,10 +11,12 @@ export class AdminFiltersComponent {
   @Output() FilterChecked = new EventEmitter<FilterModel[]>();
   @Input() FilterList: FilterModel[] = [];
   @Input() PlaceHolder: any;
+  @Input() ApplyDateFilter = false;
   SelectedFilter: FilterModel[] = [];
   isFilterOnly = false;
   FilterSearchText = '';
   SearchText = '';
+  DateFilter: any;
 
   constructor() { }
 
@@ -53,15 +55,30 @@ export class AdminFiltersComponent {
     });
     if (filter.categoryName == 'SearchText')
       this.SearchText = '';
+    if (filter.categoryName == 'Date')
+      this.DateFilter = '';
     this.FilterChecked.emit(this.SelectedFilter);
   }
 
   RemoveAllFilters() {
     this.SelectedFilter = [];
     this.SearchText = '';
+    this.DateFilter = '';
     this.FilterList.map(item => {
       item.filterItems.map(a => a.isChecked = false);
     });
+    this.FilterChecked.emit(this.SelectedFilter);
+  }
+
+  DateFilterChange() {
+    this.SelectedFilter = this.SelectedFilter.filter(i => i.categoryName != 'Date');
+    if (this.DateFilter)
+      this.SelectedFilter.push({
+        categoryName: 'Date',
+        categoryNameAr: 'التاريخ',
+        itemId: this.DateFilter,
+        itemKey: this.DateFilter
+      });
     this.FilterChecked.emit(this.SelectedFilter);
   }
 }

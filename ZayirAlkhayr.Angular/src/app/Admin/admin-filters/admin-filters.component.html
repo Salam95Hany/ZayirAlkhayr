@@ -34,12 +34,19 @@
             </div>
         </div>
     </ng-container>
+    <ng-container *ngIf="ApplyDateFilter">
+        <div>
+            <input type="date" class="form-control width-250" [(ngModel)]="DateFilter" (change)="DateFilterChange()">
+        </div>
+    </ng-container>
 </div>
 
 <div class="d-flex align-items-center flex-wrap gap-2">
     <div class="badge badge-success round fs-15" *ngFor="let selected of SelectedFilter;let i = index">
-        <span *ngIf="selected.categoryName != 'SearchText'" class="me-1">{{selected.categoryName}} : {{selected.itemKey}}</span>
-        <span *ngIf="selected.categoryName == 'SearchText'" class="me-1">{{selected.categoryNameAr}} : {{selected.itemKey}}</span>
+        <span *ngIf="!selected.categoryNameAr" class="me-1">{{selected.categoryName}} :
+            {{selected.itemKey}}</span>
+        <span *ngIf="selected.categoryNameAr" class="me-1">{{selected.categoryNameAr}} :
+            {{selected.itemKey}}</span>
         <i class="fas fa-times-circle font-small-3 px-02 cursor-pointer" (click)="RemoveSelectedFilter(selected,i)"></i>
     </div>
     <div class="badge badge-danger round fs-15" *ngIf="SelectedFilter.length > 0"> امسح الكل

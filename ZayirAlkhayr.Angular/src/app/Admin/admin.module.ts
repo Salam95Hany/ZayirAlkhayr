@@ -23,6 +23,8 @@ import { BeneFactorComponent } from './Components/bene-factor/bene-factor.compon
 import { BeneFactorDetailsComponent } from './Components/bene-factor-details/bene-factor-details.component';
 import { BeneFactorTypesComponent } from './Components/bene-factor-types/bene-factor-types.component';
 import { BeneFactorNotesComponent } from './Components/bene-factor-notes/bene-factor-notes.component';
+import { AccountImportMonyComponent } from './Components/account-import-mony/account-import-mony.component';
+import { AccountExportMonyComponent } from './Components/account-export-mony/account-export-mony.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { BeneFactorNotesComponent } from './Components/bene-factor-notes/bene-fa
     BeneFactorComponent,
     BeneFactorDetailsComponent,
     BeneFactorTypesComponent,
-    BeneFactorNotesComponent
+    BeneFactorNotesComponent,
+    AccountImportMonyComponent,
+    AccountExportMonyComponent
   ],
   imports: [
     CommonModule,

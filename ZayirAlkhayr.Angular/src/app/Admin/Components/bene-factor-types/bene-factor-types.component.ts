@@ -23,6 +23,7 @@ export class BeneFactorTypesComponent implements OnInit {
   TotalCount = 0;
   BeneFactorTypesData: any[] = [];
   ItemForm: FormGroup;
+  ItemFormWelcome: FormGroup;
   UserModel: any;
 
   constructor(private modalService: NgbModal, private adminService: AdminWebsiteService, private formService: ValidationFormService
@@ -31,12 +32,20 @@ export class BeneFactorTypesComponent implements OnInit {
   ngOnInit(): void {
     this.UserModel = JSON.parse(localStorage.getItem('UserModel'));
     this.FormInit();
+    this.WelcomeFormInit();
     this.GetAllBeneFactorTypes();
   }
 
   FormInit() {
     this.ItemForm = this.fb.group({
       name: ['', [Validators.required, this.formService.noSpaceValidator]],
+      InsertUser: null
+    });
+  }
+
+  WelcomeFormInit() {
+    this.ItemFormWelcome = this.fb.group({
+      message: ['', [Validators.required, this.formService.noSpaceValidator]],
       InsertUser: null
     });
   }
@@ -55,10 +64,28 @@ export class BeneFactorTypesComponent implements OnInit {
     });
   }
 
+  openWelcomeMessageModal(content: any) {
+    this.ItemFormWelcome.reset();
+    this.ItemFormWelcome.get('InsertUser').setValue(this.UserModel?.userId);
+    this.GetBeneFactorWelcomeMessage();
+    this.modalService.open(content, {
+      size: 'lg',
+      scrollable: true,
+      centered: true
+    });
+  }
+
   GetAllBeneFactorTypes() {
     this.adminService.GetAllBeneFactorTypes(this.PagingFilter).subscribe(data => {
       this.BeneFactorTypesData = data;
       this.TotalCount = data && data.length > 0 ? data[0].totalCount : 0;
+    });
+  }
+
+  GetBeneFactorWelcomeMessage() {
+    this.adminService.GetBeneFactorWelcomeMessage().subscribe(data => {
+      if (data)
+        this.ItemFormWelcome.get('message').setValue(data.message);
     });
   }
 
@@ -85,6 +112,26 @@ export class BeneFactorTypesComponent implements OnInit {
       if (data.done) {
         this.toaster.success(data.message);
         this.GetAllBeneFactorTypes();
+        this.modalService.dismissAll();
+      }
+      else
+        this.toaster.error(data.message);
+      this.showLoader = false;
+    });
+  }
+
+  AddNewWelcomeMessage() {
+    this.ItemFormWelcome = this.formService.TrimFormInputValue(this.ItemFormWelcome);
+    let isValid = this.ItemFormWelcome.valid;
+
+    if (!isValid) {
+      this.formService.validateAllFormFields(this.ItemFormWelcome);
+      return;
+    }
+    this.showLoader = true;
+    this.adminService.AddNewBeneFactorWelcomeMessage(this.ItemFormWelcome.value).subscribe(data => {
+      if (data.done) {
+        this.toaster.success(data.message);
         this.modalService.dismissAll();
       }
       else

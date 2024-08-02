@@ -14,8 +14,15 @@ export class AdminUserComponent implements OnInit {
   UsersData: any[] = [];
   ItemForm: FormGroup;
   UserId: any;
-  RoleName = '--اختر--';
-  Roles = ['SupperAdmin', 'WebSite', 'Services','BeneFactors'];
+  RoleName: any;
+  RoleNameAr = '--الصلاحيات--';
+  Roles = [
+    { nameEn: 'SupperAdmin', nameAr: 'المدير' },
+    { nameEn: 'WebSite', nameAr: 'موقع زائر الخير' },
+    { nameEn: 'Services', nameAr: 'خدمات اجتماعية' },
+    { nameEn: 'BeneFactors', nameAr: 'المتبرعين' },
+    { nameEn: 'Accounts', nameAr: 'الحسابات' }
+  ];
   RoleValidation = false;
   ManagerUserId = '321db4e1-e32b-4aeb-8802-b076f9d7227d';
   TotalCount = 0;
@@ -44,6 +51,7 @@ export class AdminUserComponent implements OnInit {
 
   FillEditForm(item: any) {
     this.RoleName = item?.role;
+    this.RoleNameAr = item?.roleNameAr;
     this.UserId = item.userId;
     this.ItemForm.setValue({
       userId: item.userId,
@@ -58,7 +66,8 @@ export class AdminUserComponent implements OnInit {
 
   ResetForm() {
     this.ItemForm.reset();
-    this.RoleName = '--اختر--';
+    this.RoleNameAr = '--الصلاحيات--';
+    this.RoleName = '';
     this.RoleValidation = false;
     this.ItemForm.get('userId').setValue(0);
   }
@@ -87,16 +96,27 @@ export class AdminUserComponent implements OnInit {
     });
   }
 
+  RoleChange(role: any) {
+    this.RoleNameAr = role.nameAr;
+    this.RoleName = role.nameEn;
+    this.RoleValidation = false
+  }
+
   GetAllUsers() {
     this.adminService.GetAllUsers().subscribe(data => {
       this.UsersData = data;
+      this.UsersData.forEach(item => {
+        let role = this.Roles.find(i => i.nameEn == item.role);
+        if (role)
+          item.roleNameAr = role.nameAr;
+      });
       this.TotalCount = this.UsersData.length;
     })
   }
 
   AddNewUser() {
     let isValid = this.ItemForm.valid;
-    this.RoleValidation = this.RoleName.startsWith('--');
+    this.RoleValidation = !this.RoleName;
     if (!isValid || this.RoleValidation) {
       this.formService.validateAllFormFields(this.ItemForm);
       return;
