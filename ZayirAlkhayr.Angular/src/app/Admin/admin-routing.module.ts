@@ -14,6 +14,7 @@ import { BeneFactorTypesComponent } from './Components/bene-factor-types/bene-fa
 import { BeneFactorNotesComponent } from './Components/bene-factor-notes/bene-factor-notes.component';
 import { AccountImportMonyComponent } from './Components/account-import-mony/account-import-mony.component';
 import { AccountExportMonyComponent } from './Components/account-export-mony/account-export-mony.component';
+import { BeneFactorNationalitiesComponent } from './Components/bene-factor-nationalities/bene-factor-nationalities.component';
 
 const routes: Routes = [
   {
@@ -73,6 +74,12 @@ const routes: Routes = [
       {
         path: 'benefactor-note',
         component: BeneFactorNotesComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ["SupperAdmin", "BeneFactors"] }
+      },
+      {
+        path: 'benefactor-nationality',
+        component: BeneFactorNationalitiesComponent,
         canActivate: [AuthGuard],
         data: { roles: ["SupperAdmin", "BeneFactors"] }
       },

@@ -23,7 +23,9 @@ export class AdminSideMenuComponent implements OnInit {
     { nameEn: 'Accounts', nameAr: 'الحسابات' }
   ];
   WebSite = ['home-slideimage', 'activity', 'event', 'photo'];
-  BeneFactor = ['benefactors', 'benefactor-detail', 'benefactor-type', 'benefactor-note', 'account-import-money', 'account-export-money'];
+  BeneFactor = ['benefactors', 'benefactor-detail', 'benefactor-type',
+    'benefactor-note', 'account-import-money', 'account-export-money', 'benefactor-nationality'
+  ];
 
   constructor(private router: Router) { }
 

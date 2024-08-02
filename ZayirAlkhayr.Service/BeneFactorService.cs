@@ -163,6 +163,17 @@ namespace ZayirAlkhayr.Service
             return dt;
         }
 
+        public DataTable GetAllBeneFactorNationalities(PagingFilterModel PagingFilter)
+        {
+            var SearchText = PagingFilter.FilterList.FirstOrDefault(i => i.CategoryName == "SearchText");
+            var Params = new SqlParameter[3];
+            Params[0] = new SqlParameter("@SearchText", SearchText?.ItemId);
+            Params[1] = new SqlParameter("@CurrentPage", PagingFilter.Currentpage);
+            Params[2] = new SqlParameter("@PageSize", PagingFilter.Pagesize);
+            var dt = _sQLHelper.ExecuteDataTable("web.SP_GetAllBeneFactorNationalities", Params);
+            return dt;
+        }
+
         public List<BeneFactorTypes> GetBeneFactorTypeByIds(List<int> Ids)
         {
             var results = _Context.BeneFactorTypes.Where(i => Ids.Contains(i.Id)).ToList();
@@ -223,7 +234,7 @@ namespace ZayirAlkhayr.Service
                 BeneFactorObj.Phone = Model.Phone;
                 BeneFactorObj.Phone2 = Model.Phone2;
                 BeneFactorObj.Address = Model.Address;
-                BeneFactorObj.Nationality = Model.Nationality;
+                BeneFactorObj.NationalityId = Model.NationalityId;
                 BeneFactorObj.FaceBook = Model.FaceBook;
                 BeneFactorObj.InsertUser = Model.InsertUser;
                 BeneFactorObj.InsertDate = DateTime.Now.AddHours(1);
@@ -268,6 +279,32 @@ namespace ZayirAlkhayr.Service
 
                 Response.Done = true;
                 Response.Message = "تم اضافة نوع جديد بنجاح";
+                return Response;
+            }
+            catch (Exception)
+            {
+                var Response = new HandleErrorResponseModel();
+                Response.Done = false;
+                Response.Message = "لقد حدث خطا";
+                return Response;
+            }
+        }
+
+        public HandleErrorResponseModel AddNewBeneFactorNationality(BeneFactorNationalities Model)
+        {
+            try
+            {
+                var Response = new HandleErrorResponseModel();
+                var BeneFactorObj = new BeneFactorNationalities();
+                BeneFactorObj.Name = Model.Name;
+                BeneFactorObj.InsertUser = Model.InsertUser;
+                BeneFactorObj.InsertDate = DateTime.Now.AddHours(1);
+
+                _Context.BeneFactorNationalities.Add(BeneFactorObj);
+                _Context.SaveChanges();
+
+                Response.Done = true;
+                Response.Message = "تم اضافة جنسية جديدة بنجاح";
                 return Response;
             }
             catch (Exception)

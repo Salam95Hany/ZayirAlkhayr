@@ -48,6 +48,13 @@ namespace ZayirAlkhayr.Controllers
             return results;
         }
 
+        [HttpPost("GetAllBeneFactorNationalities")]
+        public DataTable GetAllBeneFactorNationalities(PagingFilterModel PagingFilter)
+        {
+            var results = _beneFactorService.GetAllBeneFactorNationalities(PagingFilter);
+            return results;
+        }
+
         [HttpPost("GetAllBeneFactorDetails")]
         public DataTable GetAllBeneFactorDetails(PagingFilterModel PagingFilter, int BeneFactorId)
         {
@@ -115,6 +122,13 @@ namespace ZayirAlkhayr.Controllers
         public HandleErrorResponseModel AddNewBeneFactorType(BeneFactorTypes Model)
         {
             var results = _beneFactorService.AddNewBeneFactorType(Model);
+            return results;
+        }
+
+        [HttpPost("AddNewBeneFactorNationality")]
+        public HandleErrorResponseModel AddNewBeneFactorNationality(BeneFactorNationalities Model)
+        {
+            var results = _beneFactorService.AddNewBeneFactorNationality(Model);
             return results;
         }
 

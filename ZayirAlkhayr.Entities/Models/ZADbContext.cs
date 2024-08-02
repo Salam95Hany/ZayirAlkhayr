@@ -51,6 +51,7 @@ namespace ZayirAlkhayr.Entities.Models
         public DbSet<BeneFactorNotes> BeneFactorNotes { get; set; }
         public DbSet<AccountsImportMony> AccountsImportMony { get; set; }
         public DbSet<AccountsExportMony> AccountsExportMony { get; set; }
+        public DbSet<BeneFactorNationalities> BeneFactorNationalities { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -40,9 +40,9 @@
           <tr *ngFor="let item of EventsData">
             <td>{{item.title}}</td>
             <td>{{item.description}}</td>
-            <td>{{item.fromDate | date}}</td>
-            <td>{{item.toDate | date}}</td>
-            <td>{{item.month | date:'MMMM' : 'ar-SA'}}</td>
+            <td>{{item.fromDate}}</td>
+            <td>{{item.toDate}}</td>
+            <td>{{item.month}}</td>
             <td>{{item.createdBy}}</td>
             <td>{{item.insertDate}}</td>
             <td class="text-center">

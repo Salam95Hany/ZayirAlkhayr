@@ -189,8 +189,8 @@
                                 <ul class="dropdown-list-box list-unstyled max-height-200 overflow-auto px-1 py-1 m-0">
                                     <ng-container *ngFor="let item of NationalityList">
                                         <li class="dropdown-item cursor-pointer rounded"
-                                            (click)="NationalityName = item;NationalityValidation = false"
-                                            [ngClass]="{'DropDownSelected': NationalityName == item}">{{item}}</li>
+                                            (click)="OnChangeNationality(item)"
+                                            [ngClass]="{'DropDownSelected': NationalityName == item.name}">{{item.name}}</li>
                                     </ng-container>
                                 </ul>
                             </div>

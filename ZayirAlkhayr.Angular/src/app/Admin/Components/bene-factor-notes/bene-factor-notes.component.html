@@ -23,6 +23,7 @@
                     <tr>
                         <th>الكود</th>
                         <th>الاسم</th>
+                        <th>رقم التلفون</th>
                         <th>الجنسية</th>
                         <th>ملاحظات</th>
                         <th>اقتراحات</th>
@@ -33,6 +34,7 @@
                     <tr *ngFor="let item of BeneFactorNotes">
                         <td>{{item.code}}</td>
                         <td>{{item.fullName}}</td>
+                        <td>{{item.phone}}</td>
                         <td>{{item.nationality}}</td>
                         <td>{{item.note}}</td>
                         <td>{{item.suggestion}}</td>

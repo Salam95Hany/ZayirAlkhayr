@@ -1,0 +1,90 @@
+<div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <div class="d-flex align-items-center flex-wrap gap-2">
+            <button class="btn main-button d-flex align-items-center gap-2" (click)="openAddItemModal(OpenItemModal)">
+                <i class="uil uil-plus-circle"></i>
+                <span class="navbar-brand m-0">اضافة</span>
+            </button>
+            <button class="btn main-button d-flex align-items-center gap-2" (click)="isFilter = !isFilter"
+                [attr.aria-expanded]="!isFilter">
+                <i class="uil uil-filter"></i>
+                <span class="navbar-brand m-0">{{ isFilter ? 'عرض' : 'اخفاء' }} الفلاتر</span>
+            </button>
+        </div>
+        <div>
+            <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize"
+                [totalPages]="0" [totalCount]="TotalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
+        </div>
+    </div>
+    <div class="px-3 py-2 bg-light border-bottom" #collapse="ngbCollapse" [(ngbCollapse)]="isFilter">
+        <app-admin-filters [PlaceHolder]="'بالاسم'" (FilterChecked)="FilterChecked($event)"></app-admin-filters>
+    </div>
+    <div class="card-body card-body-h">
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
+                <thead>
+                    <tr>
+                        <th>الاسم</th>
+                        <th>تمت الاضافة من قبل</th>
+                        <th>تاريخ الاضافة</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of BeneFactorNationalities">
+                        <td>{{item.name}}</td>
+                        <td>{{item.createdBy}}</td>
+                        <td>{{item.insertDate}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #OpenItemModal let-modal>
+    <div class="modal-header d-flex align-items-center justify-content-between main-bgcolor text-white">
+        <div class="display-7 d-flex align-items-center gap-3">
+            <i class="uil uil-focus-add"></i>
+            <span>اضافه نوع جديد</span>
+        </div>
+        <i class="fas fa-times cursor-pointer fa-2x modal-close-btn" (click)="modal.dismiss()"></i>
+    </div>
+    <div class="modal-body gray-bgcolor">
+        <div class="bg-white p-3 rounded shadow-sm">
+            <form [formGroup]="ItemForm" autocomplete="off">
+                <div class="row g-3">
+                    <div class="col-lg-12">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" formControlName="name" id="floatingInput_1"
+                                placeholder="new-user" required>
+                            <label for="floatingInput_1">الاسم</label>
+                            <div *ngIf="ItemForm.controls['name']?.invalid && (ItemForm.controls['name']?.dirty || ItemForm.controls['name']?.touched)"
+                                class="alert text-danger">
+                                <div *ngIf="ItemForm.controls['name'].errors?.['required']">
+                                    هذا الحقل مطلوب
+                                </div>
+                                <div *ngIf="ItemForm.controls['name'].errors?.['noSpace']">
+                                    لا يمكن ان يحتوي الحقل على مسافات فقط
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer justify-content-start gap-2">
+        <button type="submit" class="btn main-button d-flex align-items-center gap-2" (click)="AddNewItem()">
+            <i class="uil uil-plus-circle"></i>
+            <span>اضافه</span>
+        </button>
+        <button class="btn btn-danger rounded-25 d-flex align-items-center gap-2" (click)="modal.close()">
+            <i class="uil uil-times-circle"></i>
+            <span>الغاء</span>
+        </button>
+    </div>
+</ng-template>
+
+
+<ngx-loading [show]="showLoader"></ngx-loading>

@@ -191,6 +191,10 @@ export class AdminWebsiteService {
     return this.http.get<any>(this.apiURL + 'BeneFactor/GetBeneFactorWelcomeMessage');
   }
 
+  GetAllBeneFactorNationalities(PagingFilter: PagingFilterModel) {
+    return this.http.post<any[]>(this.apiURL + 'BeneFactor/GetAllBeneFactorNationalities', PagingFilter);
+  }
+
   AddNewBeneFactor(Model: any) {
     return this.http.post<any>(this.apiURL + 'BeneFactor/AddNewBeneFactor', Model);
   }
@@ -213,6 +217,10 @@ export class AdminWebsiteService {
 
   AddNewBeneFactorWelcomeMessage(Model: any) {
     return this.http.post<any>(this.apiURL + 'BeneFactor/AddNewBeneFactorWelcomeMessage', Model);
+  }
+
+  AddNewBeneFactorNationality(Model: any) {
+    return this.http.post<any>(this.apiURL + 'BeneFactor/AddNewBeneFactorNationality', Model);
   }
 
   UpdateBeneFactor(Model: any) {

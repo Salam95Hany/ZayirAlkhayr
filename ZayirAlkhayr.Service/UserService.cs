@@ -72,7 +72,7 @@ namespace ZayirAlkhayr.Service
                     Token = token,
                     LoginDate = DateTime.Now.AddHours(1),
                     LoginDateAr = DateTime.Now.ToString("dddd d MMMM , yyyy", new CultureInfo("ar-AE")),
-                    LoginTimeAr = DateTime.Now.AddHours(1).ToString("hh:mm:ss"),
+                    LoginTimeAr = DateTime.Now.AddHours(1).ToString("hh:mm:ss t"),
                     ResponseCode = 200,
                     ResponseMessage = "تم تسجيل الدخول بنجاح",
 

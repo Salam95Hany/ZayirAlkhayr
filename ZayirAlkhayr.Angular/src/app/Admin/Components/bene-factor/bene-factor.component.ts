@@ -30,7 +30,7 @@ export class BeneFactorComponent implements OnInit {
     headers: []
   };
   fileURL: any[] = [];
-  NationalityList = ['سورية', 'مصر', 'السودان']
+  NationalityList: any[] = [];
   PagingFilter: PagingFilterModel = {
     filterList: [],
     currentpage: 1,
@@ -58,6 +58,7 @@ export class BeneFactorComponent implements OnInit {
   ngOnInit(): void {
     this.UserModel = JSON.parse(localStorage.getItem('UserModel'));
     this.FormInit();
+    this.GetAllBeneFactorNationalities();
     this.GetAllBeneFactorData();
     this.GetAllBeneFactorFilters();
   }
@@ -70,7 +71,7 @@ export class BeneFactorComponent implements OnInit {
       phone: ['', [Validators.required, Validators.pattern("[0-9]+")]],
       phone2: ['', Validators.pattern("[0-9]+")],
       address: ['', this.formService.noSpaceValidator],
-      nationality: null,
+      nationalityId: null,
       faceBook: ['', this.formService.noSpaceValidator],
       InsertUser: null,
       oldFileName: null,
@@ -82,6 +83,7 @@ export class BeneFactorComponent implements OnInit {
     this.fileURL = [];
     this.fileURL.push(item);
     this.NationalityName = item.nationality;
+    this.NationalityId = item.nationalityId;
     let fileName = item.image.split('/');
     this.ItemForm.setValue({
       id: item.id,
@@ -90,7 +92,7 @@ export class BeneFactorComponent implements OnInit {
       phone: item?.phone,
       phone2: item?.phone2,
       address: item?.address,
-      nationality: item?.nationality,
+      nationalityId: item?.nationalityId,
       faceBook: item?.faceBook,
       oldFileName: fileName[fileName.length - 1],
       InsertUser: this.UserModel?.userId,
@@ -103,6 +105,7 @@ export class BeneFactorComponent implements OnInit {
     this.BeneFactorId = '';
     this.InputFile.nativeElement.value = '';
     this.NationalityName = 'الجنسية';
+    this.NationalityId = '';
     this.NationalityValidation = false;
     this.ItemForm.get('id').setValue(0);
     this.ItemForm.get('InsertUser').setValue(this.UserModel?.userId);
@@ -171,6 +174,12 @@ export class BeneFactorComponent implements OnInit {
     });
   }
 
+  GetAllBeneFactorNationalities() {
+    this.adminService.GetAllBeneFactorNationalities(this.PagingFilter).subscribe(data => {
+      this.NationalityList = data;
+    });
+  }
+
   PageChange(obj: any) {
     this.PagingFilter.currentpage = obj.page;
     this.GetAllBeneFactorData();
@@ -186,6 +195,12 @@ export class BeneFactorComponent implements OnInit {
     this.PagingFilter.filterList = filterList;
     this.PDFModel.filterList = filterList;
     this.GetAllBeneFactorData();
+  }
+
+  OnChangeNationality(item: any) {
+    this.NationalityId = item.id;
+    this.NationalityName = item.name;
+    this.NationalityValidation = false
   }
 
   onFileChange(event: any) {
@@ -215,7 +230,7 @@ export class BeneFactorComponent implements OnInit {
     }
 
     this.ItemForm.patchValue({ file: this.ImageFile });
-    this.ItemForm.patchValue({ nationality: this.NationalityName });
+    this.ItemForm.patchValue({ nationalityId: this.NationalityId });
     const formData = new FormData();
     this.formService.buildFormData(formData, this.ItemForm.value);
     this.showLoader = true;
