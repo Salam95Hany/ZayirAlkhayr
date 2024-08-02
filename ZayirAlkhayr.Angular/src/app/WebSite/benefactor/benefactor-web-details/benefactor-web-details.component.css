@@ -53,10 +53,10 @@
   }
 }
 
-.card-body-h {
+/* .card-body-h {
   --card-h: 255px;
   min-height: calc(100vh - var(--card-h));
-}
+} */
 
 .DropDownSelected {
   background: rgba(0, 0, 0, .12);

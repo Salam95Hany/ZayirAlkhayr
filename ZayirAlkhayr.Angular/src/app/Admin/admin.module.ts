@@ -18,9 +18,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RoleCheckerDirective } from './Directives/role-checker.directive';
 import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { SearchArryPipe } from './Pipes/search-arry.pipe';
+import { ngxLoadingAnimationTypes, NgxLoadingModule } from "ngx-loading";
 import { BeneFactorComponent } from './Components/bene-factor/bene-factor.component';
 import { BeneFactorDetailsComponent } from './Components/bene-factor-details/bene-factor-details.component';
 import { BeneFactorTypesComponent } from './Components/bene-factor-types/bene-factor-types.component';
+import { BeneFactorNotesComponent } from './Components/bene-factor-notes/bene-factor-notes.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import { BeneFactorTypesComponent } from './Components/bene-factor-types/bene-fa
     SearchArryPipe,
     BeneFactorComponent,
     BeneFactorDetailsComponent,
-    BeneFactorTypesComponent
+    BeneFactorTypesComponent,
+    BeneFactorNotesComponent
   ],
   imports: [
     CommonModule,
@@ -47,6 +50,13 @@ import { BeneFactorTypesComponent } from './Components/bene-factor-types/bene-fa
     ReactiveFormsModule,
     FormsModule,
     PaginationModule.forRoot(),
+    NgxLoadingModule.forRoot({
+      animationType: ngxLoadingAnimationTypes.circleSwish,
+      backdropBackgroundColour: 'rgba(0, 18, 59, 0.6)',
+      backdropBorderRadius: '3px',
+      primaryColour: '#74c173',
+      fullScreenBackdrop: true
+    }),
     AdminRoutingModule
   ],
   providers:[DatePipe]

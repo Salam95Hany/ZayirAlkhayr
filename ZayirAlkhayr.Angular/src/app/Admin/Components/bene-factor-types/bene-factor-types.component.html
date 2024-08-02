@@ -65,7 +65,7 @@
                                 <div *ngIf="ItemForm.controls['name'].errors?.['required']">
                                     هذا الحقل مطلوب
                                 </div>
-                                <div *ngIf="ItemForm.controls['name'].errors?.['noSpace']" class="alert text-danger">
+                                <div *ngIf="ItemForm.controls['name'].errors?.['noSpace']">
                                     لا يمكن ان يحتوي الحقل على مسافات فقط
                                 </div>
                             </div>
@@ -86,3 +86,5 @@
         </button>
     </div>
 </ng-template>
+
+<ngx-loading [show]="showLoader"></ngx-loading>

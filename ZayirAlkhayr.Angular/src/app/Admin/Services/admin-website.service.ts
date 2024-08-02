@@ -183,6 +183,14 @@ export class AdminWebsiteService {
     return this.http.post<any[]>(this.apiURL + 'BeneFactor/GetBeneFactorTypeByIds', BeneFactorTypeIds);
   }
 
+  GetBeneFactorNotes(PagingFilter: PagingFilterModel) {
+    return this.http.post<any[]>(this.apiURL + 'BeneFactor/GetBeneFactorNotes', PagingFilter);
+  }
+
+  GetBeneFactorWelcomeMessage() {
+    return this.http.get<any>(this.apiURL + 'BeneFactor/GetBeneFactorWelcomeMessage');
+  }
+
   AddNewBeneFactor(Model: any) {
     return this.http.post<any>(this.apiURL + 'BeneFactor/AddNewBeneFactor', Model);
   }
@@ -197,6 +205,14 @@ export class AdminWebsiteService {
 
   AddNewBeneFactorDetails(Model: any) {
     return this.http.post<any>(this.apiURL + 'BeneFactor/AddNewBeneFactorDetails', Model);
+  }
+
+  AddNewBeneFactorNotes(Model: any) {
+    return this.http.post<any>(this.apiURL + 'BeneFactor/AddNewBeneFactorNotes', Model);
+  }
+
+  AddNewBeneFactorWelcomeMessage(Model: any) {
+    return this.http.post<any>(this.apiURL + 'BeneFactor/AddNewBeneFactorWelcomeMessage', Model);
   }
 
   UpdateBeneFactor(Model: any) {

@@ -27,10 +27,11 @@ export class AdminPhotoComponent implements OnInit {
   PagingFilter: PagingFilterModel = {
     filterList: [],
     currentpage: 1,
-    pagesize: 5
+    pagesize: 10
   }
   FilterList: FilterModel[] = [];
   isFilter = false;
+  showLoader = false;
   ItemForm: FormGroup;
   UserModel: any;
   ImageFile: any;
@@ -190,6 +191,7 @@ export class AdminPhotoComponent implements OnInit {
     this.FileModel.files = this.multiImagesFile.map(i => i.file);
     const formData = new FormData();
     this.formService.buildFormData(formData, this.FileModel);
+    this.showLoader = true;
     this.adminService.AddPhotoDetailsImage(formData).subscribe(data => {
       if (data.done) {
         this.modalService.dismissAll();
@@ -197,6 +199,7 @@ export class AdminPhotoComponent implements OnInit {
       }
       else
         this.toaster.error(data.message);
+      this.showLoader = false;
     });
   }
 
@@ -212,6 +215,7 @@ export class AdminPhotoComponent implements OnInit {
     this.ItemForm.patchValue({ file: this.ImageFile });
     const formData = new FormData();
     this.formService.buildFormData(formData, this.ItemForm.value);
+    this.showLoader = true;
     if (this.ItemForm.controls['id'].value == 0) {
       this.adminService.AddNewPhoto(formData).subscribe(data => {
         if (data.done) {
@@ -222,6 +226,7 @@ export class AdminPhotoComponent implements OnInit {
         }
         else
           this.toaster.error(data.message);
+        this.showLoader = false;
       });
     } else {
       this.adminService.UpdatePhoto(formData).subscribe(data => {
@@ -232,11 +237,13 @@ export class AdminPhotoComponent implements OnInit {
         }
         else
           this.toaster.error(data.message);
+        this.showLoader = false;
       });
     }
   }
 
   DeletePhoto() {
+    this.showLoader = true;
     this.adminService.DeletePhoto(this.PhotoId).subscribe(data => {
       if (data.done) {
         this.toaster.success(data.message);
@@ -246,6 +253,7 @@ export class AdminPhotoComponent implements OnInit {
       }
       else
         this.toaster.error(data.message);
+      this.showLoader = false;
     });
   }
 }

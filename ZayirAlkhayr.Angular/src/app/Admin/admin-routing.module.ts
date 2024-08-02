@@ -11,19 +11,20 @@ import { AuthGuard } from '../Auth/auth.guard';
 import { BeneFactorComponent } from './Components/bene-factor/bene-factor.component';
 import { BeneFactorDetailsComponent } from './Components/bene-factor-details/bene-factor-details.component';
 import { BeneFactorTypesComponent } from './Components/bene-factor-types/bene-factor-types.component';
+import { BeneFactorNotesComponent } from './Components/bene-factor-notes/bene-factor-notes.component';
 
 const routes: Routes = [
   {
     path: '',
     component: AdminComponent,
     canActivate: [AuthGuard],
-    data: { roles: ["SupperAdmin", "WebSite", "Services","BeneFactors"] },
+    data: { roles: ["SupperAdmin", "WebSite", "Services", "BeneFactors"] },
     children: [
       {
         path: 'home',
         component: AdminHomeComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "WebSite", "Services","BeneFactors"] },
+        data: { roles: ["SupperAdmin", "WebSite", "Services", "BeneFactors"] },
       },
       {
         path: 'home-slideimage',
@@ -64,6 +65,12 @@ const routes: Routes = [
       {
         path: 'benefactor-type',
         component: BeneFactorTypesComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ["SupperAdmin", "BeneFactors"] }
+      },
+      {
+        path: 'benefactor-note',
+        component: BeneFactorNotesComponent,
         canActivate: [AuthGuard],
         data: { roles: ["SupperAdmin", "BeneFactors"] }
       },

@@ -150,6 +150,54 @@ namespace ZayirAlkhayr.Entities.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("ZayirAlkhayr.Entities.Models.AccountsExportMony", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Details")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("InsertDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("InsertUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("TotalValue")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AccountsExportMony", "admin");
+                });
+
+            modelBuilder.Entity("ZayirAlkhayr.Entities.Models.AccountsImportMony", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Details")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("InsertDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("InsertUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("TotalValue")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AccountsImportMony", "admin");
+                });
+
             modelBuilder.Entity("ZayirAlkhayr.Entities.Models.Activity", b =>
                 {
                     b.Property<int>("Id")
@@ -329,6 +377,30 @@ namespace ZayirAlkhayr.Entities.Migrations
                     b.ToTable("BeneFactorDetails", "web");
                 });
 
+            modelBuilder.Entity("ZayirAlkhayr.Entities.Models.BeneFactorNotes", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BeneFactorId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("InsertDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Suggestion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BeneFactorNotes", "web");
+                });
+
             modelBuilder.Entity("ZayirAlkhayr.Entities.Models.BeneFactorTypes", b =>
                 {
                     b.Property<int>("Id")
@@ -354,6 +426,33 @@ namespace ZayirAlkhayr.Entities.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BeneFactorTypes", "web");
+                });
+
+            modelBuilder.Entity("ZayirAlkhayr.Entities.Models.BeneFactorWelcomeMessage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("InsertDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("InsertUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdateUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BeneFactorWelcomeMessage", "web");
                 });
 
             modelBuilder.Entity("ZayirAlkhayr.Entities.Models.BeneFactors", b =>

@@ -10,6 +10,7 @@ namespace ZayirAlkhayr.Entities.Common
     {
         public int BeneFactorId { get; set; }
         public string Name { get; set; }
+        public string WelcomeMessage { get; set; }
         public int Code { get; set; }
         public string LoginId { get; set; }
         public DateTime LoginDate { get; set; }

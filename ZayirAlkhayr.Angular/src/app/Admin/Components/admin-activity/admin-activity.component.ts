@@ -17,6 +17,7 @@ export class AdminActivityComponent implements OnInit {
   @ViewChild('InputFile') InputFile: ElementRef;
   @ViewChild('InputMultiFile') InputMultiFile: ElementRef;
   isFilter = false;
+  showLoader = false;
   ActivitiesData: any[] = [];
   fileURL: any[] = [];
   multiFileURL: any[] = [];
@@ -28,7 +29,7 @@ export class AdminActivityComponent implements OnInit {
   PagingFilter: PagingFilterModel = {
     filterList: [],
     currentpage: 1,
-    pagesize: 5
+    pagesize: 10
   }
   FilterList: FilterModel[] = [];
   ItemForm: FormGroup;
@@ -186,11 +187,12 @@ export class AdminActivityComponent implements OnInit {
   AddMultiImagesFile() {
     if (this.multiImagesFile.length == 0 && this.FileModel.deletedFiles.length == 0)
       return;
-    
+
     this.FileModel.id = this.ActivityId;
     this.FileModel.files = this.multiImagesFile.map(i => i.file);
     const formData = new FormData();
     this.formService.buildFormData(formData, this.FileModel);
+    this.showLoader = true;
     this.adminService.AddActivitySliderImage(formData).subscribe(data => {
       if (data.done) {
         this.modalService.dismissAll();
@@ -198,6 +200,7 @@ export class AdminActivityComponent implements OnInit {
       }
       else
         this.toaster.error(data.message);
+      this.showLoader = false;
     });
   }
 
@@ -213,6 +216,7 @@ export class AdminActivityComponent implements OnInit {
     this.ItemForm.patchValue({ file: this.ImageFile });
     const formData = new FormData();
     this.formService.buildFormData(formData, this.ItemForm.value);
+    this.showLoader = true;
     if (this.ItemForm.controls['id'].value == 0) {
       this.adminService.AddNewActivity(formData).subscribe(data => {
         if (data.done) {
@@ -223,6 +227,7 @@ export class AdminActivityComponent implements OnInit {
         }
         else
           this.toaster.error(data.message);
+        this.showLoader = false;
       });
     } else {
       this.adminService.UpdateActivity(formData).subscribe(data => {
@@ -233,11 +238,13 @@ export class AdminActivityComponent implements OnInit {
         }
         else
           this.toaster.error(data.message);
+        this.showLoader = false;
       });
     }
   }
 
   DeleteItem() {
+    this.showLoader = true;
     this.adminService.DeleteActivity(this.ActivityId).subscribe(data => {
       if (data.done) {
         this.toaster.success(data.message);
@@ -247,6 +254,7 @@ export class AdminActivityComponent implements OnInit {
       }
       else
         this.toaster.error(data.message);
+      this.showLoader = false;
     });
   }
 }

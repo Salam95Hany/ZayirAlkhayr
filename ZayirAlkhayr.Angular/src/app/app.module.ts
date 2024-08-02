@@ -19,6 +19,7 @@ import { CarouselComponent } from './WebSite/media/media.component';
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
+import { ngxLoadingAnimationTypes, NgxLoadingModule } from "ngx-loading";
 import { NotAuthorizedComponent } from './Auth/not-authorized/not-authorized.component';
 import { BenefactorLoginComponent } from './WebSite/benefactor/benefactor-login/benefactor-login.component';
 import { BenefactorWebDetailsComponent } from './WebSite/benefactor/benefactor-web-details/benefactor-web-details.component';
@@ -43,7 +44,6 @@ import { BenefactorWebDetailsComponent } from './WebSite/benefactor/benefactor-w
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
@@ -51,6 +51,13 @@ import { BenefactorWebDetailsComponent } from './WebSite/benefactor/benefactor-w
     SwiperModule,
     ToastrModule.forRoot({
       preventDuplicates: true
+    }),
+    NgxLoadingModule.forRoot({
+      animationType: ngxLoadingAnimationTypes.circleSwish,
+      backdropBackgroundColour: 'rgba(0, 18, 59, 0.6)',
+      backdropBorderRadius: '3px',
+      primaryColour: '#74c173',
+      fullScreenBackdrop: true
     }),
     ReactiveFormsModule,
     FormsModule

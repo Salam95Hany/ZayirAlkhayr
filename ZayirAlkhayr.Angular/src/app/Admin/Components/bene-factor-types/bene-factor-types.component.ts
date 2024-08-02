@@ -16,9 +16,10 @@ export class BeneFactorTypesComponent implements OnInit {
   PagingFilter: PagingFilterModel = {
     filterList: [],
     currentpage: 1,
-    pagesize: 20
+    pagesize: 10
   };
   isFilter = false;
+  showLoader = false;
   TotalCount = 0;
   BeneFactorTypesData: any[] = [];
   ItemForm: FormGroup;
@@ -79,15 +80,17 @@ export class BeneFactorTypesComponent implements OnInit {
       this.formService.validateAllFormFields(this.ItemForm);
       return;
     }
-      this.adminService.AddNewBeneFactorType(this.ItemForm.value).subscribe(data => {
-        if (data.done) {
-          this.toaster.success(data.message);
-          this.GetAllBeneFactorTypes();
-          this.modalService.dismissAll();
-        }
-        else
-          this.toaster.error(data.message);
-      });
+    this.showLoader = true;
+    this.adminService.AddNewBeneFactorType(this.ItemForm.value).subscribe(data => {
+      if (data.done) {
+        this.toaster.success(data.message);
+        this.GetAllBeneFactorTypes();
+        this.modalService.dismissAll();
+      }
+      else
+        this.toaster.error(data.message);
+      this.showLoader = false;
+    });
   }
 
 

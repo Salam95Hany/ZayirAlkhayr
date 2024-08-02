@@ -47,6 +47,10 @@ namespace ZayirAlkhayr.Entities.Models
         public DbSet<BeneFactors> BeneFactors { get; set; }
         public DbSet<BeneFactorTypes> BeneFactorTypes { get; set; }
         public DbSet<BeneFactorDetails> BeneFactorDetails { get; set; }
+        public DbSet<BeneFactorWelcomeMessage> BeneFactorWelcomeMessage { get; set; }
+        public DbSet<BeneFactorNotes> BeneFactorNotes { get; set; }
+        public DbSet<AccountsImportMony> AccountsImportMony { get; set; }
+        public DbSet<AccountsExportMony> AccountsExportMony { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

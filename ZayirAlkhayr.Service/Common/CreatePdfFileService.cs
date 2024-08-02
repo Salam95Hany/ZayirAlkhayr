@@ -56,7 +56,7 @@ namespace ZayirAlkhayr.Service.Common
                                 row.AutoItem().Width(70).Image(Path.Combine(_environment.WebRootPath, "Template", "ZayirAlkhayrLogo2.jpeg"));
                             });
 
-                            col.Item().AlignCenter().PaddingBottom(5).Text("كشف تسليم مساعدات مالية - محافظة الاسكندرية -      /      /      ").FontSize(15);
+                            //col.Item().AlignCenter().PaddingBottom(5).Text("كشف تسليم مساعدات مالية - محافظة الاسكندرية -      /      /      ").FontSize(15);
                             col.Item().LineHorizontal(2);
                             col.Item().AlignCenter().PaddingTop(5).PaddingBottom(5).Text(PageName).FontSize(15);
 
@@ -120,12 +120,12 @@ namespace ZayirAlkhayr.Service.Common
                         // Page Footer
                         page.Footer().Column(col =>
                         {
-                            col.Item().PaddingBottom(60).Row(row =>
-                            {
-                                row.AutoItem().AlignRight().PaddingRight(20).Text("مسؤول التوزيع").FontSize(15);
-                                row.AutoItem().PaddingHorizontal(190);
-                                row.AutoItem().Text("رئيس مجلس الأمناء").FontSize(15);
-                            });
+                            //col.Item().PaddingBottom(60).Row(row =>
+                            //{
+                            //    row.AutoItem().AlignRight().PaddingRight(20).Text("مسؤول التوزيع").FontSize(15);
+                            //    row.AutoItem().PaddingHorizontal(190);
+                            //    row.AutoItem().Text("رئيس مجلس الأمناء").FontSize(15);
+                            //});
 
                             col.Item().AlignCenter()
                             .Text(x =>

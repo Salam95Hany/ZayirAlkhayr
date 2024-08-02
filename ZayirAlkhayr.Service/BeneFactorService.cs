@@ -41,6 +41,7 @@ namespace ZayirAlkhayr.Service
         {
             var Response = new BeneFactorLoginModel();
             var result = _Context.BeneFactors.FirstOrDefault(i => i.Code == Code && i.FullName == BeneFactorName);
+            var WelcomeMessage = _Context.BeneFactorWelcomeMessage.FirstOrDefault();
             if (result != null)
             {
                 Response.BeneFactorId = result.Id;
@@ -48,6 +49,7 @@ namespace ZayirAlkhayr.Service
                 Response.Code = result.Code;
                 Response.LoginId = Guid.NewGuid().ToString();
                 Response.LoginDate = DateTime.Now.AddHours(1);
+                Response.WelcomeMessage = WelcomeMessage == null ? "" : WelcomeMessage.Message;
                 Response.ResponseCode = 200;
                 Response.ResponseMessage = "تم تسجيل الدخول بنجاح";
                 return Response;
@@ -150,9 +152,26 @@ namespace ZayirAlkhayr.Service
             return dt;
         }
 
+        public DataTable GetBeneFactorNotes(PagingFilterModel PagingFilter)
+        {
+            var FilterDt = _sQLHelper.ConvertFilterModelToDataTable(PagingFilter.FilterList);
+            var Params = new SqlParameter[3];
+            Params[0] = new SqlParameter("@FilterList", FilterDt);
+            Params[1] = new SqlParameter("@CurrentPage", PagingFilter.Currentpage);
+            Params[2] = new SqlParameter("@PageSize", PagingFilter.Pagesize);
+            var dt = _sQLHelper.ExecuteDataTable("web.SP_GetBeneFactorNotes", Params);
+            return dt;
+        }
+
         public List<BeneFactorTypes> GetBeneFactorTypeByIds(List<int> Ids)
         {
             var results = _Context.BeneFactorTypes.Where(i => Ids.Contains(i.Id)).ToList();
+            return results;
+        }
+
+        public BeneFactorWelcomeMessage GetBeneFactorWelcomeMessage()
+        {
+            var results = _Context.BeneFactorWelcomeMessage.FirstOrDefault();
             return results;
         }
 
@@ -298,6 +317,71 @@ namespace ZayirAlkhayr.Service
 
                 Response.Done = true;
                 Response.Message = "تم اضافة متبرع جديد بنجاح";
+                return Response;
+            }
+            catch (Exception)
+            {
+                var Response = new HandleErrorResponseModel();
+                Response.Done = false;
+                Response.Message = "لقد حدث خطا";
+                return Response;
+            }
+        }
+
+        public HandleErrorResponseModel AddNewBeneFactorNotes(BeneFactorNotes Model)
+        {
+            try
+            {
+                var Response = new HandleErrorResponseModel();
+                var BeneFactorObj = new BeneFactorNotes();
+                BeneFactorObj.BeneFactorId = Model.BeneFactorId;
+                BeneFactorObj.Note = Model.Note;
+                BeneFactorObj.Suggestion = Model.Suggestion;
+                BeneFactorObj.InsertDate = DateTime.Now.AddHours(1);
+
+
+                _Context.BeneFactorNotes.Add(BeneFactorObj);
+                _Context.SaveChanges();
+
+                Response.Done = true;
+                Response.Message = "تم اضافة ملاحظاتك بنجاح";
+                return Response;
+            }
+            catch (Exception)
+            {
+                var Response = new HandleErrorResponseModel();
+                Response.Done = false;
+                Response.Message = "لقد حدث خطا";
+                return Response;
+            }
+        }
+
+        public HandleErrorResponseModel AddNewBeneFactorWelcomeMessage(BeneFactorWelcomeMessage Model)
+        {
+            try
+            {
+                var Response = new HandleErrorResponseModel();
+                var WelcomeMessage = _Context.BeneFactorWelcomeMessage.FirstOrDefault();
+                if (WelcomeMessage == null)
+                {
+                    var BeneFactorObj = new BeneFactorWelcomeMessage();
+                    BeneFactorObj.Message = Model.Message;
+                    BeneFactorObj.InsertUser = Model.InsertUser;
+                    BeneFactorObj.InsertDate = DateTime.Now.AddHours(1);
+
+                    _Context.BeneFactorWelcomeMessage.Add(BeneFactorObj);
+                }
+                else
+                {
+                    WelcomeMessage.Message = Model.Message;
+                    WelcomeMessage.UpdateDate = DateTime.Now.AddHours(1);
+                    WelcomeMessage.UpdateUser = Model.UpdateUser;
+                }
+
+                _Context.SaveChanges();
+
+                Response.Done = true;
+                Response.Message = "تم اضافة رسالة ترحيبية بنجاح";
                 return Response;
             }
             catch (Exception)

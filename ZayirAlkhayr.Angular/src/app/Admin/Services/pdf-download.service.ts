@@ -39,6 +39,6 @@ export class PdfDownloadService {
         downloadLink.download = fileName;
         downloadLink.click();
       })
-    ).subscribe();
+    );
   }
 }

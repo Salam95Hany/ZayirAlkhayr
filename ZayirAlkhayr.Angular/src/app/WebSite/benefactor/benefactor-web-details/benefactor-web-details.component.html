@@ -105,7 +105,7 @@
             <tbody>
               <tr *ngFor="let item of BeneFactorDetailsData">
                 <td>
-                  <img src="{{item.image}}" class="table-image" (error)="$event.target.src = DefaultImage"
+                  <img src="{{item.image}}" class="table-image cursor-pointer" (error)="$event.target.src = DefaultImage"
                     (click)="OpenImageModal(ImageModal,item.image)">
                 </td>
                 <td>{{item.name}}</td>
@@ -154,6 +154,7 @@
             <table class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
               <thead>
                 <tr>
+                  <th class="th-width"></th>
                   <th>قيمة التبرع</th>
                   <th>تفاصيل التبرع</th>
                   <th>تاريخ التبرع</th>
@@ -161,6 +162,10 @@
               </thead>
               <tbody>
                 <tr *ngFor="let item of BeneFactorValues">
+                  <td>
+                    <img src="{{item.image}}" class="table-image cursor-pointer" (error)="$event.target.src = DefaultImage"
+                      (click)="OpenImageModal(ImageModal,item.image)">
+                  </td>
                   <td>{{item.totalValue}}</td>
                   <td>{{item.details}}</td>
                   <td>{{item.paymentDate}}</td>
@@ -191,17 +196,17 @@
   <div class="modal-body">
     <div>
       <label for="exampleFormControlInput1" class="form-label">اكتب ملاحظاتك</label>
-      <textarea rows="5" class="form-control" placeholder="اكتب ملاحظاتك"></textarea>
+      <textarea rows="5" class="form-control" placeholder="اكتب ملاحظاتك" [(ngModel)]="Notes"></textarea>
     </div>
     <hr class="border-top my-4">
     <div>
       <label for="exampleFormControlInput1" class="form-label">اكتب اقتراحاتك</label>
-      <textarea rows="5" class="form-control" placeholder="اكتب اقتراحاتك"></textarea>
+      <textarea rows="5" class="form-control" placeholder="اكتب اقتراحاتك" [(ngModel)]="Suggestions"></textarea>
     </div>
    
   </div>
   <div class="modal-footer justify-content-start">
-    <button type="button" class="btn btn-success">
+    <button type="button" class="btn btn-success" (click)="AddNewBeneFactorNotes()">
       <i class="fas fa-check"></i>
       <span class="ms-2">إضافة</span>
     </button>
@@ -211,3 +216,5 @@
     </button>
   </div>
 </ng-template>
+
+<ngx-loading [show]="showLoader"></ngx-loading>

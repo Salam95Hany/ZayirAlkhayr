@@ -17,6 +17,7 @@ import { FilterModel } from '../../Models/FilterModel';
 export class AdminEventComponent implements OnInit {
   @ViewChild('InputMultiFile') InputMultiFile: ElementRef;
   isFilter = false;
+  showLoader = false;
   EventsData: any[] = [];
   multiFileURL: any[] = [];
   multiImagesFile: any[] = [];
@@ -27,7 +28,7 @@ export class AdminEventComponent implements OnInit {
   PagingFilter: PagingFilterModel = {
     filterList: [],
     currentpage: 1,
-    pagesize: 5
+    pagesize: 10
   }
   FilterList: FilterModel[] = [];
   ItemForm: FormGroup;
@@ -167,6 +168,7 @@ export class AdminEventComponent implements OnInit {
     this.FileModel.files = this.multiImagesFile.map(i => i.file);
     const formData = new FormData();
     this.formService.buildFormData(formData, this.FileModel);
+    this.showLoader = true;
     this.adminService.AddEventSliderImage(formData).subscribe(data => {
       if (data.done) {
         this.modalService.dismissAll();
@@ -174,6 +176,7 @@ export class AdminEventComponent implements OnInit {
       }
       else
         this.toaster.error(data.message);
+      this.showLoader = false;
     });
   }
 
@@ -185,7 +188,7 @@ export class AdminEventComponent implements OnInit {
       this.formService.validateAllFormFields(this.ItemForm);
       return;
     }
-
+    this.showLoader = true;
     if (this.ItemForm.controls['id'].value == 0) {
       this.adminService.AddNewEvent(this.ItemForm.value).subscribe(data => {
         if (data.done) {
@@ -196,6 +199,7 @@ export class AdminEventComponent implements OnInit {
         }
         else
           this.toaster.error(data.message);
+        this.showLoader = false;
       });
     } else {
       this.adminService.UpdateEvent(this.ItemForm.value).subscribe(data => {
@@ -206,11 +210,13 @@ export class AdminEventComponent implements OnInit {
         }
         else
           this.toaster.error(data.message);
+        this.showLoader = false;
       });
     }
   }
 
   DeleteItem() {
+    this.showLoader = true;
     this.adminService.DeleteEvent(this.EventId).subscribe(data => {
       if (data.done) {
         this.toaster.success(data.message);
@@ -220,6 +226,7 @@ export class AdminEventComponent implements OnInit {
       }
       else
         this.toaster.error(data.message);
+        this.showLoader = false;
     });
   }
 }

@@ -19,6 +19,7 @@ import { DatePipe } from '@angular/common';
 export class BeneFactorComponent implements OnInit {
   @ViewChild('InputFile') InputFile: ElementRef;
   isFilter = false;
+  showLoader = false;
   BeneFactorValues: BeneFactorDetails = {} as BeneFactorDetails;
   BeneFactorValuesData: any[] = [];
   BeneFactorData: any[] = [];
@@ -33,7 +34,7 @@ export class BeneFactorComponent implements OnInit {
   PagingFilter: PagingFilterModel = {
     filterList: [],
     currentpage: 1,
-    pagesize: 5
+    pagesize: 10
   }
   FilterList: FilterModel[] = [];
   ItemForm: FormGroup;
@@ -217,6 +218,7 @@ export class BeneFactorComponent implements OnInit {
     this.ItemForm.patchValue({ nationality: this.NationalityName });
     const formData = new FormData();
     this.formService.buildFormData(formData, this.ItemForm.value);
+    this.showLoader = true;
     if (this.ItemForm.controls['id'].value == 0) {
       this.adminService.AddNewBeneFactor(formData).subscribe(data => {
         if (data.done) {
@@ -227,6 +229,7 @@ export class BeneFactorComponent implements OnInit {
         }
         else
           this.toaster.error(data.message);
+        this.showLoader = false;
       });
     } else {
       this.adminService.UpdateBeneFactor(formData).subscribe(data => {
@@ -237,6 +240,7 @@ export class BeneFactorComponent implements OnInit {
         }
         else
           this.toaster.error(data.message);
+        this.showLoader = false;
       });
     }
   }
@@ -263,6 +267,7 @@ export class BeneFactorComponent implements OnInit {
     this.BeneFactorValues.insertUser = this.UserModel?.userId;
     const formData = new FormData();
     this.formService.buildFormData(formData, this.BeneFactorValues);
+    this.showLoader = true;
     this.adminService.AddNewBeneFactorDetails(formData).subscribe(data => {
       if (data.done) {
         this.toaster.success(data.message);
@@ -273,10 +278,12 @@ export class BeneFactorComponent implements OnInit {
       }
       else
         this.toaster.error(data.message);
+      this.showLoader = false;
     })
   }
 
   DeleteItem() {
+    this.showLoader = true;
     this.adminService.DeleteBeneFactor(this.BeneFactorId).subscribe(data => {
       if (data.done) {
         this.toaster.success(data.message);
@@ -286,6 +293,7 @@ export class BeneFactorComponent implements OnInit {
       }
       else
         this.toaster.error(data.message);
+      this.showLoader = false;
     });
   }
 
@@ -338,7 +346,10 @@ export class BeneFactorComponent implements OnInit {
     let today = this.datepipe.transform(new Date(), 'yyyy-MM-dd');
     let fileName = 'المتبرعين' + '_' + today;
     this.PDFModel.headers = this.PDFHeaderModel.filter(i => i.isSelected);
-    this.pdfService.DownloadFile(this.PDFModel, fileName + '.pdf', 'BeneFactor/ExportBeneFactorsPDFFile?RowCount=' + this.RowCount);
+    this.showLoader = true;
+    this.pdfService.DownloadFile(this.PDFModel, fileName + '.pdf', 'BeneFactor/ExportBeneFactorsPDFFile?RowCount=' + this.RowCount).subscribe(data => {
+      this.showLoader = false;
+    });
     this.modalService.dismissAll();
   }
 
@@ -352,7 +363,9 @@ export class BeneFactorComponent implements OnInit {
     let today = this.datepipe.transform(new Date(), 'yyyy-MM-dd');
     let fileName = 'المتبرعين' + '_' + today;
     this.PDFModel.headers = this.pdfService.ConverHeaderToPDFModel(this.BeneFactorHeaders);
-    this.pdfService.DownloadFile(this.PDFModel, fileName + '.xlsx', 'BeneFactor/ExportBeneFactorsExcelFile?UserName=' + userName);
+    this.showLoader = true;
+    this.pdfService.DownloadFile(this.PDFModel, fileName + '.xlsx', 'BeneFactor/ExportBeneFactorsExcelFile?UserName=' + userName).subscribe(data => {
+      this.showLoader = false;
+    });
   }
-
 }

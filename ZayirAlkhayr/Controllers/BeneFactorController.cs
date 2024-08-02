@@ -90,6 +90,20 @@ namespace ZayirAlkhayr.Controllers
             return results;
         }
 
+        [HttpPost("GetBeneFactorNotes")]
+        public DataTable GetBeneFactorNotes(PagingFilterModel PagingFilter)
+        {
+            var results = _beneFactorService.GetBeneFactorNotes(PagingFilter);
+            return results;
+        }
+
+        [HttpGet("GetBeneFactorWelcomeMessage")]
+        public BeneFactorWelcomeMessage GetBeneFactorWelcomeMessage()
+        {
+            var results = _beneFactorService.GetBeneFactorWelcomeMessage();
+            return results;
+        }
+
         [HttpPost("AddNewBeneFactor")]
         public async Task<HandleErrorResponseModel> AddNewBeneFactor([FromForm] BeneFactors Model)
         {
@@ -108,6 +122,20 @@ namespace ZayirAlkhayr.Controllers
         public async Task<HandleErrorResponseModel> AddNewBeneFactorDetails([FromForm] BeneFactorDetails Model)
         {
             var results = await _beneFactorService.AddNewBeneFactorDetails(Model);
+            return results;
+        }
+
+        [HttpPost("AddNewBeneFactorNotes")]
+        public HandleErrorResponseModel AddNewBeneFactorNotes(BeneFactorNotes Model)
+        {
+            var results = _beneFactorService.AddNewBeneFactorNotes(Model);
+            return results;
+        }
+
+        [HttpPost("AddNewBeneFactorWelcomeMessage")]
+        public HandleErrorResponseModel AddNewBeneFactorWelcomeMessage(BeneFactorWelcomeMessage Model)
+        {
+            var results = _beneFactorService.AddNewBeneFactorWelcomeMessage(Model);
             return results;
         }
 

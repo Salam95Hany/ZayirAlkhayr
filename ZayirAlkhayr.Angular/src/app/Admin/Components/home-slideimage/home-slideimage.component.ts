@@ -14,10 +14,11 @@ import { PagingFilterModel } from '../../Models/PagingFilterModel';
 })
 export class HomeSlideimageComponent implements OnInit {
   @ViewChild('InputFile') InputFile: ElementRef;
+  showLoader = false;
   PagingFilter: PagingFilterModel = {
     filterList: [],
     currentpage: 1,
-    pagesize: 5
+    pagesize: 10
   }
   FilterList: FilterModel[] = [];
   SliderData: any[] = [];
@@ -150,6 +151,7 @@ export class HomeSlideimageComponent implements OnInit {
     this.ItemForm.patchValue({ file: this.ImageFile });
     const formData = new FormData();
     this.formService.buildFormData(formData, this.ItemForm.value);
+    this.showLoader = true;
     if (this.ItemForm.controls['id'].value == 0) {
       this.adminService.AddNewSliderImage(formData).subscribe(data => {
         if (data.done) {
@@ -160,6 +162,7 @@ export class HomeSlideimageComponent implements OnInit {
         }
         else
           this.toaster.error(data.message);
+        this.showLoader = false;
       });
     } else {
       this.adminService.UpdateSliderImage(formData).subscribe(data => {
@@ -170,11 +173,13 @@ export class HomeSlideimageComponent implements OnInit {
         }
         else
           this.toaster.error(data.message);
+        this.showLoader = false;
       });
     }
   }
 
   DeleteSlider() {
+    this.showLoader = true;
     this.adminService.DeleteSliderImage(this.SliderId).subscribe(data => {
       if (data.done) {
         this.toaster.success(data.message);
@@ -184,6 +189,7 @@ export class HomeSlideimageComponent implements OnInit {
       }
       else
         this.toaster.error(data.message);
+      this.showLoader = false;
     });
   }
 }

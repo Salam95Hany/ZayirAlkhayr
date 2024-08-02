@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { PagingFilterModel } from 'src/app/Admin/Models/PagingFilterModel';
 import { AdminWebsiteService } from 'src/app/Admin/Services/admin-website.service';
 
@@ -17,6 +18,7 @@ export class BenefactorWebDetailsComponent implements OnInit {
   BeneFactorStatistics: any;
   collapsed = true;
   FirstLoad = true;
+  showLoader = false;
   BeneFactorModel: any;
   BeneFactorId: any;
   BeneFactorValueId: any;
@@ -26,20 +28,26 @@ export class BenefactorWebDetailsComponent implements OnInit {
   TotalValue = 0;
   DefaultImage = '../../../../assets/logo-2.png';
   ImageSrc: any;
+  Notes = '';
+  Suggestions = '';
   PagingFilter: PagingFilterModel = {
     filterList: [],
     currentpage: 1,
     pagesize: 100
   }
   constructor(private router: Router, private adminService: AdminWebsiteService, private offcanvasService: NgbOffcanvas,
-    private modalService: NgbModal
-  ) {
-
-  }
+    private modalService: NgbModal, private toaster: ToastrService) { }
 
   ngOnInit(): void {
     this.BeneFactorModel = JSON.parse(localStorage.getItem('BeneFactorModel'));
     this.BeneFactorId = this.BeneFactorModel?.beneFactorId;
+    if (this.BeneFactorModel?.welcomeMessage)
+      this.toaster.info(this.BeneFactorModel?.welcomeMessage, `مرحبا ${this.BeneFactorModel?.name}`, {
+        progressBar: true,
+        progressAnimation: 'increasing',
+        timeOut: 10000,
+        positionClass: 'toast-top-center'
+      });
     this.GetBeneFactorDetailsStatistics();
     this.GetBeneFactorDetailsByBeneFactorId();
   }
@@ -102,11 +110,37 @@ export class BenefactorWebDetailsComponent implements OnInit {
   }
 
   OpenNoteModal(content: any) {
+    this.Notes = '';
+    this.Suggestions = '';
     this.modalService.open(content, {
       size: 'lg',
       scrollable: true,
       centered: true
     });
+  }
+
+  AddNewBeneFactorNotes() {
+    if (!this.Notes && !this.Suggestions) {
+      this.toaster.warning('برجاء إضافة ملاحظة او اقتراح');
+      return;
+    }
+
+    let obj = {
+      beneFactorId: this.BeneFactorId,
+      note: this.Notes,
+      suggestion: this.Suggestions
+    }
+    
+    this.showLoader = true;
+    this.adminService.AddNewBeneFactorNotes(obj).subscribe(data => {
+      if (data.done) {
+        this.toaster.success(data.message);
+        this.modalService.dismissAll();
+      }
+      else
+        this.toaster.error(data.message);
+      this.showLoader = false;
+    })
   }
 
 }

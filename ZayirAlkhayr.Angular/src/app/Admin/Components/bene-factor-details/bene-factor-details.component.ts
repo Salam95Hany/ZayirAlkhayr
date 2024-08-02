@@ -13,6 +13,7 @@ import { PagingFilterModel } from '../../Models/PagingFilterModel';
 })
 export class BeneFactorDetailsComponent implements OnInit {
   @ViewChild('InputFile') InputFile: ElementRef;
+  showLoader = false;
   BenefactorType = 'All';
   BeneFactorData: any[] = [];
   fileURL: any[] = [];
@@ -242,6 +243,7 @@ export class BeneFactorDetailsComponent implements OnInit {
     this.ItemForm.get('file').setValue(this.ImageFile);
     const formData = new FormData();
     this.formService.buildFormData(formData, this.ItemForm.value);
+    this.showLoader = true;
     this.adminService.AddNewBeneFactorDetails(formData).subscribe(data => {
       if (data.done) {
         this.toaster.success(data.message);
@@ -254,6 +256,7 @@ export class BeneFactorDetailsComponent implements OnInit {
       }
       else
         this.toaster.error(data.message);
+      this.showLoader = false;
     });
   }
 
