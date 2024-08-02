@@ -14,6 +14,7 @@ namespace ZayirAlkhayr.Interface
         DataTable GetHomeSliderImages(PagingFilterModel PagingFilter);
         List<FilterModel> GetAllWebPagesFilters(string PageName);
         List<Footer> GetFooterData();
+        List<PagesAutoSearch> GetPagesAutoSearch(string SearchText);
         Task<HandleErrorResponseModel> AddNewSliderImage(SliderImage Model);
         HandleErrorResponseModel AddNewFooterData(Footer Model);
         Task<HandleErrorResponseModel> UpdateSliderImage(SliderImage Model);

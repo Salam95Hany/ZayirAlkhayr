@@ -43,6 +43,13 @@ namespace ZayirAlkhayr.Controllers
             return result;
         }
 
+        [HttpGet("GetPagesAutoSearch")]
+        public List<PagesAutoSearch> GetPagesAutoSearch(string SearchText)
+        {
+            var result = _websiteHomeService.GetPagesAutoSearch(SearchText);
+            return result;
+        }
+
         [HttpPost("AddNewSliderImage")]
         public async Task<HandleErrorResponseModel> AddNewSliderImage([FromForm] SliderImage Model)
         {

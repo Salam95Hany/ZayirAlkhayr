@@ -21,6 +21,10 @@ export class AdminWebsiteService {
     return this.http.get<FilterModel[]>(this.apiURL + 'WebsiteHome/GetAllWebPagesFilters?PageName=' + PageName);
   }
 
+  GetPagesAutoSearch(SearchText: string) {
+    return this.http.get<any[]>(this.apiURL + 'WebsiteHome/GetPagesAutoSearch?SearchText=' + SearchText);
+  }
+
   AddNewSliderImage(Model: any) {
     return this.http.post<any>(this.apiURL + 'WebsiteHome/AddNewSliderImage', Model);
   }

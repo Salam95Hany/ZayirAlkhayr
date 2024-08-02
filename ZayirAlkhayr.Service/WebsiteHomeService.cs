@@ -59,6 +59,14 @@ namespace ZayirAlkhayr.Service
             return results;
         }
 
+        public List<PagesAutoSearch> GetPagesAutoSearch(string SearchText)
+        {
+            if (string.IsNullOrEmpty(SearchText))
+                return _Context.PagesAutoSearch.ToList();
+            else
+                return _Context.PagesAutoSearch.Where(i => i.Name.Contains(SearchText)).ToList();
+        }
+
         public async Task<HandleErrorResponseModel> AddNewSliderImage(SliderImage Model)
         {
             try

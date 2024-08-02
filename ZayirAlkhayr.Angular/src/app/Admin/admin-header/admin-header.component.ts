@@ -1,7 +1,7 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { ValidationFormService } from '../Services/validation-form.service';
+import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/Auth/auth.service';
+import { AdminWebsiteService } from '../Services/admin-website.service';
 
 @Component({
   selector: 'app-admin-header',
@@ -9,9 +9,12 @@ import { AuthService } from 'src/app/Auth/auth.service';
   styleUrls: ['./admin-header.component.css']
 })
 export class AdminHeaderComponent implements OnInit {
+  @ViewChildren('autoCompleteText') autoCompleteTextRefs: QueryList<ElementRef>;
   @ViewChild("autoCompleteWrapper") autoCompleteWrapper: ElementRef;
   @Output() collapseExpandContent = new EventEmitter<boolean>();
   @Input() isCollapseOrExpand = false;
+  PagesList: any[] = [];
+  SearchText = '';
   isCollapseExpandContent = false;
   isSearchOpen = false;
   collapsed = true;
@@ -19,16 +22,28 @@ export class AdminHeaderComponent implements OnInit {
   UserModel: any;
 
 
-  constructor(private formService: ValidationFormService, private router: Router, private authService: AuthService) {
+  constructor(private router: Router, private authService: AuthService, private adminService: AdminWebsiteService) {
     this.onClickOutside;
   }
 
   ngOnInit(): void {
-    this.UserModel = JSON.parse(localStorage.getItem('UserModel'));;
+    this.UserModel = JSON.parse(localStorage.getItem('UserModel'));
+    this.GetPagesAutoSearch();
+  }
+
+  HandleSearchEle(index: number, inputEle: any) {
+    this.showAutoCompleteMenu = false;
+    inputEle.value = this.autoCompleteTextRefs.toArray()[index].nativeElement.textContent;
   }
 
   onCollapseExpandMenu() {
     this.collapseExpandContent.emit();
+  }
+
+  GetPagesAutoSearch() {
+    this.adminService.GetPagesAutoSearch(this.SearchText).subscribe(data => {
+      this.PagesList = data;
+    });
   }
 
   onShowAutoCompleteMenu(input: HTMLInputElement) {
@@ -36,6 +51,8 @@ export class AdminHeaderComponent implements OnInit {
     if (input.value === '') {
       this.showAutoCompleteMenu = false;
     }
+    
+    this.GetPagesAutoSearch();
   }
 
   goToWebsite() {

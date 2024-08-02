@@ -1,0 +1,32 @@
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+
+namespace ZayirAlkhayr.Entities.Migrations
+{
+    public partial class PagesAutoSearchMigration : Migration
+    {
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.CreateTable(
+                name: "PagesAutoSearch",
+                schema: "admin",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PagesAutoSearch", x => x.Id);
+                });
+        }
+
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "PagesAutoSearch",
+                schema: "admin");
+        }
+    }
+}
