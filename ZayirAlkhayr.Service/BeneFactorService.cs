@@ -41,7 +41,6 @@ namespace ZayirAlkhayr.Service
         {
             var Response = new BeneFactorLoginModel();
             var result = _Context.BeneFactors.FirstOrDefault(i => i.Code == Code && i.FullName == BeneFactorName);
-            var WelcomeMessage = _Context.BeneFactorWelcomeMessage.FirstOrDefault();
             if (result != null)
             {
                 Response.BeneFactorId = result.Id;
@@ -49,7 +48,7 @@ namespace ZayirAlkhayr.Service
                 Response.Code = result.Code;
                 Response.LoginId = Guid.NewGuid().ToString();
                 Response.LoginDate = DateTime.Now.AddHours(1);
-                Response.WelcomeMessage = WelcomeMessage == null ? "" : WelcomeMessage.Message;
+                Response.WelcomeMessage = result.WelcomeMessage;
                 Response.ResponseCode = 200;
                 Response.ResponseMessage = "تم تسجيل الدخول بنجاح";
                 return Response;
@@ -180,12 +179,6 @@ namespace ZayirAlkhayr.Service
             return results;
         }
 
-        public BeneFactorWelcomeMessage GetBeneFactorWelcomeMessage()
-        {
-            var results = _Context.BeneFactorWelcomeMessage.FirstOrDefault();
-            return results;
-        }
-
         public DataTable ExportBeneFactorsData(PDFModel Model)
         {
             var FilterDt = _sQLHelper.ConvertFilterModelToDataTable(Model.FilterList);
@@ -234,6 +227,7 @@ namespace ZayirAlkhayr.Service
                 BeneFactorObj.Phone = Model.Phone;
                 BeneFactorObj.Phone2 = Model.Phone2;
                 BeneFactorObj.Address = Model.Address;
+                BeneFactorObj.WelcomeMessage = Model.WelcomeMessage;
                 BeneFactorObj.NationalityId = Model.NationalityId;
                 BeneFactorObj.FaceBook = Model.FaceBook;
                 BeneFactorObj.InsertUser = Model.InsertUser;
@@ -393,45 +387,6 @@ namespace ZayirAlkhayr.Service
             }
         }
 
-        public HandleErrorResponseModel AddNewBeneFactorWelcomeMessage(BeneFactorWelcomeMessage Model)
-        {
-            try
-            {
-                var Response = new HandleErrorResponseModel();
-                var WelcomeMessage = _Context.BeneFactorWelcomeMessage.FirstOrDefault();
-                if (WelcomeMessage == null)
-                {
-                    var BeneFactorObj = new BeneFactorWelcomeMessage();
-                    BeneFactorObj.Message = Model.Message;
-                    BeneFactorObj.InsertUser = Model.InsertUser;
-                    BeneFactorObj.InsertDate = DateTime.Now.AddHours(1);
-
-                    _Context.BeneFactorWelcomeMessage.Add(BeneFactorObj);
-                }
-                else
-                {
-                    WelcomeMessage.Message = Model.Message;
-                    WelcomeMessage.UpdateDate = DateTime.Now.AddHours(1);
-                    WelcomeMessage.UpdateUser = Model.UpdateUser;
-                }
-
-                _Context.SaveChanges();
-
-                Response.Done = true;
-                Response.Message = "تم اضافة رسالة ترحيبية بنجاح";
-                return Response;
-            }
-            catch (Exception)
-            {
-                var Response = new HandleErrorResponseModel();
-                Response.Done = false;
-                Response.Message = "لقد حدث خطا";
-                return Response;
-            }
-        }
-
-
-
         public async Task<HandleErrorResponseModel> UpdateBeneFactor(BeneFactors Model)
         {
             try
@@ -443,6 +398,7 @@ namespace ZayirAlkhayr.Service
                 BeneFactorObj.Phone = Model.Phone;
                 BeneFactorObj.Phone2 = Model.Phone2;
                 BeneFactorObj.Address = Model.Address;
+                BeneFactorObj.WelcomeMessage = Model.WelcomeMessage;
                 BeneFactorObj.Nationality = Model.Nationality;
                 BeneFactorObj.FaceBook = Model.FaceBook;
                 BeneFactorObj.UpdateUser = Model.InsertUser;

@@ -22,6 +22,7 @@ namespace ZayirAlkhayr.Entities.Models
         public string FaceBook { get; set; }
         public string Image { get; set; }
         public string InsertUser { get; set; }
+        public string WelcomeMessage { get; set; }
         public DateTime? InsertDate { get; set; }
         public string UpdateUser { get; set; }
         public DateTime? UpdateDate { get; set; }

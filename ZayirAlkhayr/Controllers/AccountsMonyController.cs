@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Data;
 using ZayirAlkhayr.Entities.Common;
 using ZayirAlkhayr.Entities.Models;
 using ZayirAlkhayr.Interface;
 using ZayirAlkhayr.Service;
+using ZayirAlkhayr.Service.Common;
 
 namespace ZayirAlkhayr.Controllers
 {
@@ -18,17 +20,31 @@ namespace ZayirAlkhayr.Controllers
             _accountsMonyService = accountsMonyService;
         }
 
-        [HttpPost("GetAllAccountsImportMony")]
-        public DataTable GetAllAccountsImportMony(PagingFilterModel PagingFilter)
+        [HttpPost("GetAllAccountsImportMonyData")]
+        public DataTable GetAllAccountsImportMonyData(PagingFilterModel PagingFilter)
         {
-            var results = _accountsMonyService.GetAllAccountsImportMony(PagingFilter);
+            var results = _accountsMonyService.GetAllAccountsImportMonyData(PagingFilter);
             return results;
         }
 
-        [HttpPost("GetAllAccountsExportMony")]
-        public DataTable GetAllAccountsExportMony(PagingFilterModel PagingFilter)
+        [HttpPost("GetAllAccountsImportMonyFilters")]
+        public List<FilterModel> GetAllAccountsImportMonyFilters(PagingFilterModel PagingFilter)
         {
-            var results = _accountsMonyService.GetAllAccountsExportMony(PagingFilter);
+            var results = _accountsMonyService.GetAllAccountsImportMonyFilters(PagingFilter);
+            return results;
+        }
+
+        [HttpPost("GetAllAccountsExportMonyData")]
+        public DataTable GetAllAccountsExportMonyData(PagingFilterModel PagingFilter)
+        {
+            var results = _accountsMonyService.GetAllAccountsExportMonyData(PagingFilter);
+            return results;
+        }
+
+        [HttpPost("GetAllAccountsExportMonyFilters")]
+        public List<FilterModel> GetAllAccountsExportMonyFilters(PagingFilterModel PagingFilter)
+        {
+            var results = _accountsMonyService.GetAllAccountsExportMonyFilters(PagingFilter);
             return results;
         }
 
@@ -51,6 +67,20 @@ namespace ZayirAlkhayr.Controllers
         {
             var results = _accountsMonyService.AddNewAccountsExportMony(Model);
             return results;
+        }
+
+        [HttpPost("ExportAccountsImportMonyExcelFile")]
+        public IActionResult ExportAccountsImportMonyExcelFile(PDFModel Model, string UserName)
+        {
+            var FullPath = _accountsMonyService.ExportAccountsImportMonyExcelFile(Model, UserName);
+            return new TempPhysicalFileResult(FullPath, "application/xlsx");
+        }
+
+        [HttpPost("ExportAccountsExportMonyExcelFile")]
+        public IActionResult ExportAccountsExportMonyExcelFile(PDFModel Model, string UserName)
+        {
+            var FullPath = _accountsMonyService.ExportAccountsExportMonyExcelFile(Model, UserName);
+            return new TempPhysicalFileResult(FullPath, "application/xlsx");
         }
     }
 }

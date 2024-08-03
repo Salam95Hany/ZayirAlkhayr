@@ -11,10 +11,14 @@ namespace ZayirAlkhayr.Interface
 {
     public interface IAccountsMonyService
     {
-        DataTable GetAllAccountsImportMony(PagingFilterModel PagingFilter);
-        DataTable GetAllAccountsExportMony(PagingFilterModel PagingFilter);
+        DataTable GetAllAccountsImportMonyData(PagingFilterModel PagingFilter);
+        List<FilterModel> GetAllAccountsImportMonyFilters(PagingFilterModel PagingFilter);
+        DataTable GetAllAccountsExportMonyData(PagingFilterModel PagingFilter);
+        List<FilterModel> GetAllAccountsExportMonyFilters(PagingFilterModel PagingFilter);
         DataTable GetAllImportExportMonyStatistics(PagingFilterModel PagingFilter);
         HandleErrorResponseModel AddNewAccountsImportMony(AccountsImportMony Model);
         HandleErrorResponseModel AddNewAccountsExportMony(AccountsExportMony Model);
+        string ExportAccountsImportMonyExcelFile(PDFModel Model, string UserName);
+        string ExportAccountsExportMonyExcelFile(PDFModel Model, string UserName);
     }
 }

@@ -4,7 +4,11 @@
             class="form-control border width-250" placeholder="بحث {{PlaceHolder}}..." />
         <i class="uil uil-search search-icon-input" (click)="InputSearchChange()"></i>
     </div>
-
+    <ng-container *ngIf="ApplyDateFilter">
+        <div>
+            <input type="date" class="form-control width-250" [(ngModel)]="DateFilter" (change)="DateFilterChange()">
+        </div>
+    </ng-container>
     <ng-container *ngFor="let item of FilterList">
         <div class="filter-button" ngbDropdown display="dynamic" placement="bottom-end" [autoClose]="'outside'">
             <button class="btn main-filter-button d-flex align-items-center gap-2" ngbDropdownToggle>
@@ -32,11 +36,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </ng-container>
-    <ng-container *ngIf="ApplyDateFilter">
-        <div>
-            <input type="date" class="form-control width-250" [(ngModel)]="DateFilter" (change)="DateFilterChange()">
         </div>
     </ng-container>
 </div>

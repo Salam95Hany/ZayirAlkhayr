@@ -52,6 +52,7 @@
                         <th>العنوان</th>
                         <th>الجنسية</th>
                         <th>صفحة الفيس بوك</th>
+                        <th>رسالة ترحيبية</th>
                         <th>تمت الاضافة من قبل</th>
                         <th>تاريخ الاضافة</th>
                         <th class="text-center">أجراءات</th>
@@ -73,6 +74,7 @@
                             <a *ngIf="item.faceBook" style="text-decoration: none;" href="{{item.faceBook}}"
                                 target="_blank">فيسبوك</a>
                         </td>
+                        <td>{{item.welcomeMessage}}</td>
                         <td>{{item.createdBy}}</td>
                         <td>{{item.insertDate}}</td>
                         <td>
@@ -202,6 +204,16 @@
                     <div class="col-lg-6">
                         <div class="choose-file-box position-relative border rounded h-58" (click)="InputFile.click()">
                             <div class="choose-file-btn">تحميل صورة</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-floating">
+                            <input type="text" class="form-control"
+                                formControlName="welcomeMessage" id="floatingInput_1" placeholder="new-user">
+                            <label for="floatingInput_1">رسالة ترحيبية</label>
+                            <div *ngIf="ItemForm.controls['welcomeMessage'].errors?.['noSpace']" class="alert text-danger">
+                                لا يمكن ان يحتوي الحقل على مسافات فقط
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-12" *ngIf="fileURL.length > 0">

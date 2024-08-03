@@ -13,12 +13,20 @@ export class AdminService {
 
   // ============================= AccountsMony ==============================
 
-  GetAllAccountsImportMony(PagingFilter: PagingFilterModel) {
-    return this.http.post<any[]>(this.apiURL + 'AccountsMony/GetAllAccountsImportMony', PagingFilter);
+  GetAllAccountsImportMonyData(PagingFilter: PagingFilterModel) {
+    return this.http.post<any[]>(this.apiURL + 'AccountsMony/GetAllAccountsImportMonyData', PagingFilter);
   }
 
-  GetAllAccountsExportMony(PagingFilter: PagingFilterModel) {
-    return this.http.post<any[]>(this.apiURL + 'AccountsMony/GetAllAccountsExportMony', PagingFilter);
+  GetAllAccountsImportMonyFilters(PagingFilter: PagingFilterModel) {
+    return this.http.post<any[]>(this.apiURL + 'AccountsMony/GetAllAccountsImportMonyFilters', PagingFilter);
+  }
+
+  GetAllAccountsExportMonyData(PagingFilter: PagingFilterModel) {
+    return this.http.post<any[]>(this.apiURL + 'AccountsMony/GetAllAccountsExportMonyData', PagingFilter);
+  }
+
+  GetAllAccountsExportMonyFilters(PagingFilter: PagingFilterModel) {
+    return this.http.post<any[]>(this.apiURL + 'AccountsMony/GetAllAccountsExportMonyFilters', PagingFilter);
   }
 
   GetAllImportExportMonyStatistics(PagingFilter: PagingFilterModel) {

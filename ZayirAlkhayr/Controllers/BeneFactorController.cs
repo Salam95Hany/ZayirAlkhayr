@@ -104,13 +104,6 @@ namespace ZayirAlkhayr.Controllers
             return results;
         }
 
-        [HttpGet("GetBeneFactorWelcomeMessage")]
-        public BeneFactorWelcomeMessage GetBeneFactorWelcomeMessage()
-        {
-            var results = _beneFactorService.GetBeneFactorWelcomeMessage();
-            return results;
-        }
-
         [HttpPost("AddNewBeneFactor")]
         public async Task<HandleErrorResponseModel> AddNewBeneFactor([FromForm] BeneFactors Model)
         {
@@ -143,13 +136,6 @@ namespace ZayirAlkhayr.Controllers
         public HandleErrorResponseModel AddNewBeneFactorNotes(BeneFactorNotes Model)
         {
             var results = _beneFactorService.AddNewBeneFactorNotes(Model);
-            return results;
-        }
-
-        [HttpPost("AddNewBeneFactorWelcomeMessage")]
-        public HandleErrorResponseModel AddNewBeneFactorWelcomeMessage(BeneFactorWelcomeMessage Model)
-        {
-            var results = _beneFactorService.AddNewBeneFactorWelcomeMessage(Model);
             return results;
         }
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using PosSystem.Entities.Common;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,40 +14,74 @@ using ZayirAlkhayr.Service.Common;
 
 namespace ZayirAlkhayr.Service
 {
-    public class AccountsMonyService: IAccountsMonyService
+    public class AccountsMonyService : IAccountsMonyService
     {
         private readonly ZADbContext _Context;
         private readonly ISQLHelper _sQLHelper;
-        public AccountsMonyService(ZADbContext context, ISQLHelper sQLHelper)
+        private readonly IExportManagerService _exportManagerService;
+        public AccountsMonyService(ZADbContext context, ISQLHelper sQLHelper, IExportManagerService exportManagerService)
         {
             _Context = context;
             _sQLHelper = sQLHelper;
+            _exportManagerService = exportManagerService;
         }
 
-        public DataTable GetAllAccountsExportMony(PagingFilterModel PagingFilter)
+        public DataTable GetAllAccountsExportMonyData(PagingFilterModel PagingFilter)
         {
             var FilterDt = _sQLHelper.ConvertFilterModelToDataTable(PagingFilter.FilterList);
             var Date = PagingFilter.FilterList.FirstOrDefault(i => i.CategoryName == "Date")?.ItemId;
-            var Params = new SqlParameter[4];
+            var Params = new SqlParameter[5];
             Params[0] = new SqlParameter("@FilterList", FilterDt);
             Params[1] = new SqlParameter("@Date", Date);
             Params[2] = new SqlParameter("@CurrentPage", PagingFilter.Currentpage);
             Params[3] = new SqlParameter("@PageSize", PagingFilter.Pagesize);
-            var dt = _sQLHelper.ExecuteDataTable("admin.SP_GetAllAccountsExportMony", Params);
+            Params[4] = new SqlParameter("@IsFilter", false);
+            var dt = _sQLHelper.ExecuteDataTable("admin.SP_GetAllAccountsExportMonyDataWithFilter", Params);
             return dt;
         }
 
-        public DataTable GetAllAccountsImportMony(PagingFilterModel PagingFilter)
+        public List<FilterModel> GetAllAccountsExportMonyFilters(PagingFilterModel PagingFilter)
         {
             var FilterDt = _sQLHelper.ConvertFilterModelToDataTable(PagingFilter.FilterList);
             var Date = PagingFilter.FilterList.FirstOrDefault(i => i.CategoryName == "Date")?.ItemId;
-            var Params = new SqlParameter[4];
+            var Params = new SqlParameter[5];
             Params[0] = new SqlParameter("@FilterList", FilterDt);
             Params[1] = new SqlParameter("@Date", Date);
             Params[2] = new SqlParameter("@CurrentPage", PagingFilter.Currentpage);
             Params[3] = new SqlParameter("@PageSize", PagingFilter.Pagesize);
-            var dt = _sQLHelper.ExecuteDataTable("admin.SP_GetAllAccountsImportMony", Params);
+            Params[4] = new SqlParameter("@IsFilter", true);
+            var dt = _sQLHelper.ExecuteDataTable("admin.SP_GetAllAccountsExportMonyDataWithFilter", Params);
+            var Filters = _sQLHelper.GroupingFilters(dt);
+            return Filters;
+        }
+
+        public DataTable GetAllAccountsImportMonyData(PagingFilterModel PagingFilter)
+        {
+            var FilterDt = _sQLHelper.ConvertFilterModelToDataTable(PagingFilter.FilterList);
+            var Date = PagingFilter.FilterList.FirstOrDefault(i => i.CategoryName == "Date")?.ItemId;
+            var Params = new SqlParameter[5];
+            Params[0] = new SqlParameter("@FilterList", FilterDt);
+            Params[1] = new SqlParameter("@Date", Date);
+            Params[2] = new SqlParameter("@CurrentPage", PagingFilter.Currentpage);
+            Params[3] = new SqlParameter("@PageSize", PagingFilter.Pagesize);
+            Params[4] = new SqlParameter("@IsFilter", false);
+            var dt = _sQLHelper.ExecuteDataTable("admin.SP_GetAllAccountsImportMonyDataWithFilter", Params);
             return dt;
+        }
+
+        public List<FilterModel> GetAllAccountsImportMonyFilters(PagingFilterModel PagingFilter)
+        {
+            var FilterDt = _sQLHelper.ConvertFilterModelToDataTable(PagingFilter.FilterList);
+            var Date = PagingFilter.FilterList.FirstOrDefault(i => i.CategoryName == "Date")?.ItemId;
+            var Params = new SqlParameter[5];
+            Params[0] = new SqlParameter("@FilterList", FilterDt);
+            Params[1] = new SqlParameter("@Date", Date);
+            Params[2] = new SqlParameter("@CurrentPage", PagingFilter.Currentpage);
+            Params[3] = new SqlParameter("@PageSize", PagingFilter.Pagesize);
+            Params[4] = new SqlParameter("@IsFilter", true);
+            var dt = _sQLHelper.ExecuteDataTable("admin.SP_GetAllAccountsImportMonyDataWithFilter", Params);
+            var Filters = _sQLHelper.GroupingFilters(dt);
+            return Filters;
         }
 
         public DataTable GetAllImportExportMonyStatistics(PagingFilterModel PagingFilter)
@@ -60,16 +95,68 @@ namespace ZayirAlkhayr.Service
             return dt;
         }
 
+        public DataSet ExportAccountsImportMonyData(PDFModel Model)
+        {
+            var FilterDt = _sQLHelper.ConvertFilterModelToDataTable(Model.FilterList);
+            var Date = Model.FilterList.FirstOrDefault(i => i.CategoryName == "Date")?.ItemId;
+            var Params = new SqlParameter[2];
+            Params[0] = new SqlParameter("@FilterList", FilterDt);
+            Params[1] = new SqlParameter("@Date", Date);
+            var dt = _sQLHelper.ExecuteDataset("admin.SP_ExportAccountsImportMonyData", Params);
+            return dt;
+        }
+
+        public DataSet ExportAccountsExportMonyData(PDFModel Model)
+        {
+            var FilterDt = _sQLHelper.ConvertFilterModelToDataTable(Model.FilterList);
+            var Date = Model.FilterList.FirstOrDefault(i => i.CategoryName == "Date")?.ItemId;
+            var Params = new SqlParameter[2];
+            Params[0] = new SqlParameter("@FilterList", FilterDt);
+            Params[1] = new SqlParameter("@Date", Date);
+            var dt = _sQLHelper.ExecuteDataset("admin.SP_ExportAccountsExportMonyData", Params);
+            return dt;
+        }
+
+        public string ExportAccountsImportMonyExcelFile(PDFModel Model, string UserName)
+        {
+            var Dt = ExportAccountsImportMonyData(Model);
+            Model.Headers = Dt.Tables[1].AsEnumerable().Select(i => new PDFHeaderSelected
+            {
+                NameEn = i.Field<string>("DisplayValue"),
+                NameAr = i.Field<string>("DisplayName")
+            }).ToList();
+
+            var ExportTemplate = new ExportTemplateBase { Name = "الايرادات", SheetName = "الايرادات", TemplateName = "الايرادات", UserName = UserName, Header = new ExportHeaders { ListHeaders = Model.Headers } };
+            var File = _exportManagerService.Export(ExportTemplate, Dt.Tables[0]);
+            return File;
+        }
+
+        public string ExportAccountsExportMonyExcelFile(PDFModel Model, string UserName)
+        {
+            var Dt = ExportAccountsExportMonyData(Model);
+            Model.Headers = Dt.Tables[1].AsEnumerable().Select(i => new PDFHeaderSelected
+            {
+                NameEn = i.Field<string>("DisplayValue"),
+                NameAr = i.Field<string>("DisplayName")
+            }).ToList();
+
+            var ExportTemplate = new ExportTemplateBase { Name = "الصادرات", SheetName = "الصادرات", TemplateName = "الصادرات", UserName = UserName, Header = new ExportHeaders { ListHeaders = Model.Headers } };
+            var File = _exportManagerService.Export(ExportTemplate, Dt.Tables[0]);
+            return File;
+        }
+
         public HandleErrorResponseModel AddNewAccountsImportMony(AccountsImportMony Model)
         {
             try
             {
                 var Response = new HandleErrorResponseModel();
                 var ImportObj = new AccountsImportMony();
+                ImportObj.BeneFactorId = Model.BeneFactorId;
+                ImportObj.BeneFactorTypeId = Model.BeneFactorTypeId;
                 ImportObj.TotalValue = Model.TotalValue;
                 ImportObj.Details = Model.Details;
                 ImportObj.InsertUser = Model.InsertUser;
-                ImportObj.InsertDate = DateTime.Now.AddHours(1);
+                ImportObj.InsertDate = Model.InsertDate;
 
                 _Context.AccountsImportMony.Add(ImportObj);
                 _Context.SaveChanges();
@@ -93,10 +180,12 @@ namespace ZayirAlkhayr.Service
             {
                 var Response = new HandleErrorResponseModel();
                 var ExportObj = new AccountsExportMony();
+                ExportObj.BeneFactorId = Model.BeneFactorId;
+                ExportObj.BeneFactorTypeId = Model.BeneFactorTypeId;
                 ExportObj.TotalValue = Model.TotalValue;
                 ExportObj.Details = Model.Details;
                 ExportObj.InsertUser = Model.InsertUser;
-                ExportObj.InsertDate = DateTime.Now.AddHours(1);
+                ExportObj.InsertDate = Model.InsertDate;
 
                 _Context.AccountsExportMony.Add(ExportObj);
                 _Context.SaveChanges();

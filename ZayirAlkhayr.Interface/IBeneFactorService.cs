@@ -28,9 +28,7 @@ namespace ZayirAlkhayr.Interface
         List<BeneFactorDetails> GetAllBeneFactorParentById(int BeneFactorId);
         DataTable GetBeneFactorNotes(PagingFilterModel PagingFilter);
         DataTable GetAllBeneFactorNationalities(PagingFilterModel PagingFilter);
-        BeneFactorWelcomeMessage GetBeneFactorWelcomeMessage();
         HandleErrorResponseModel AddNewBeneFactorNotes(BeneFactorNotes Model);
-        HandleErrorResponseModel AddNewBeneFactorWelcomeMessage(BeneFactorWelcomeMessage Model);
         HandleErrorResponseModel AddNewBeneFactorNationality(BeneFactorNationalities Model);
         string ExportBeneFactorsPDFFile(PDFModel Model, int RowCount);
         string ExportBeneFactorsExcelFile(PDFModel Model, string UserName);

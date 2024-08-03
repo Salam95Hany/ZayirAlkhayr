@@ -11,6 +11,8 @@ namespace ZayirAlkhayr.Entities.Models
     public class AccountsImportMony
     {
         public int Id { get; set; }
+        public int BeneFactorId { get; set; }
+        public int BeneFactorTypeId { get; set; }
         public double TotalValue { get; set; }
         public string Details { get; set; }
         public string InsertUser { get; set; }
