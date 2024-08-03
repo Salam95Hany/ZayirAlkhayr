@@ -17,16 +17,16 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  background-color: rgba(0, 0, 0, .7);
+  /* background-color: rgba(0, 0, 0, .7); */
   transition: background-color 150ms cubic-bezier(0.25, 0.46, 0.45, 0.84);
   -webkit-transition: background-color 150ms cubic-bezier(0.25, 0.46, 0.45, 0.84);
   -moz-transition: background-color 150ms cubic-bezier(0.25, 0.46, 0.45, 0.84);
   -ms-transition: background-color 150ms cubic-bezier(0.25, 0.46, 0.45, 0.84);
   -o-transition: background-color 150ms cubic-bezier(0.25, 0.46, 0.45, 0.84);
 }
-.carousel:hover::before {
+/* .carousel:hover::before {
   background-color: rgba(0, 0, 0, .4);
-}
+} */
 .slide {
   position: absolute;
   top: 0;

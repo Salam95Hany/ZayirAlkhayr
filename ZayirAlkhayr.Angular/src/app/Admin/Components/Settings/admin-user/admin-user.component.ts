@@ -19,7 +19,7 @@ export class AdminUserComponent implements OnInit {
   Roles = [
     { nameEn: 'SupperAdmin', nameAr: 'المدير' },
     { nameEn: 'WebSite', nameAr: 'موقع زائر الخير' },
-    { nameEn: 'Services', nameAr: 'خدمات اجتماعية' },
+    // { nameEn: 'Services', nameAr: 'خدمات اجتماعية' },
     { nameEn: 'BeneFactors', nameAr: 'المتبرعين' },
     { nameEn: 'Accounts', nameAr: 'الحسابات' }
   ];
