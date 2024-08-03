@@ -29,6 +29,7 @@ export class BeneFactorDetailsComponent implements OnInit {
   BeneFactorTypeId: any;
   UserModel: any;
   Code: any;
+  SearchText = '';
   TotalValue = 0;
   TotalCount = 0;
   BeneFactorTotalValue = 0;
