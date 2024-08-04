@@ -26,6 +26,7 @@ import { AdminSideMenuComponent } from './Shared/admin-side-menu/admin-side-menu
 import { AdminFiltersComponent } from './Shared/admin-filters/admin-filters.component';
 import { AdminPaginationComponent } from './Shared/admin-pagination/admin-pagination.component';
 import { AdminHomeComponent } from './Shared/admin-home/admin-home.component';
+import { AdminBackupComponent } from './Components/Settings/admin-backup/admin-backup.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { AdminHomeComponent } from './Shared/admin-home/admin-home.component';
     BeneFactorNotesComponent,
     AccountImportMonyComponent,
     AccountExportMonyComponent,
-    BeneFactorNationalitiesComponent
+    BeneFactorNationalitiesComponent,
+    AdminBackupComponent
   ],
   imports: [
     CommonModule,

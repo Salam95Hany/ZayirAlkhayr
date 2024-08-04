@@ -15,6 +15,7 @@ import { AccountImportMonyComponent } from './Components/BeneFactors/account-imp
 import { AccountExportMonyComponent } from './Components/BeneFactors/account-export-mony/account-export-mony.component';
 import { BeneFactorNationalitiesComponent } from './Components/BeneFactors/bene-factor-nationalities/bene-factor-nationalities.component';
 import { AdminHomeComponent } from './Shared/admin-home/admin-home.component';
+import { AdminBackupComponent } from './Components/Settings/admin-backup/admin-backup.component';
 
 const routes: Routes = [
   {
@@ -98,6 +99,12 @@ const routes: Routes = [
       {
         path: 'user',
         component: AdminUserComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ["SupperAdmin"] }
+      },
+      {
+        path: 'backup',
+        component: AdminBackupComponent,
         canActivate: [AuthGuard],
         data: { roles: ["SupperAdmin"] }
       },

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { FilterModel } from '../Models/FilterModel';
 import { PagingFilterModel } from '../Models/PagingFilterModel';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +40,16 @@ export class AdminService {
 
   AddNewAccountsExportMony(Model: any) {
     return this.http.post<any>(this.apiURL + 'AccountsMony/AddNewAccountsExportMony', Model);
+  }
+
+  // ============================= DbBackup ==============================
+
+  SaveDbBackupFile() {
+    return this.http.get<any>(this.apiURL + 'DbBackup/SaveDbBackupFile');
+  }
+
+  DownloadZipFile(Folder: string) {
+    return this.http.get<any>(this.apiURL + 'DbBackup/DownloadImagesFolder?Folder=' + Folder);
   }
 
 }
