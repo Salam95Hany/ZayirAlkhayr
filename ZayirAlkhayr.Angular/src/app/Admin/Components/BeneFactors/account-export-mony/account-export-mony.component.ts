@@ -36,7 +36,7 @@ export class AccountExportMonyComponent implements OnInit {
   PagingFilter: PagingFilterModel = {
     filterList: [],
     currentpage: 1,
-    pagesize: 25
+    pagesize: 20
   }
   PDFModel: PDFModel = {
     filterList: [],

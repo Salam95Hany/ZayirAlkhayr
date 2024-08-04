@@ -15,7 +15,7 @@ export class BeneFactorNotesComponent implements OnInit {
   PagingFilter: PagingFilterModel = {
     filterList: [],
     currentpage: 1,
-    pagesize: 10
+    pagesize: 20
   }
 
   constructor(private adminService: AdminWebsiteService) {

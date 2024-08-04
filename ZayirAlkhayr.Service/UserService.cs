@@ -55,7 +55,7 @@ namespace ZayirAlkhayr.Service
                          new Claim("UserID" , user.Id.ToString()),
                          new Claim(_options.ClaimsIdentity.RoleClaimType, role.FirstOrDefault())
                      }),
-                    Expires = DateTime.Now.AddHours(9),
+                    Expires = DateTime.Now.AddHours(8),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
                 var tokenHandler = new JwtSecurityTokenHandler();
@@ -72,7 +72,7 @@ namespace ZayirAlkhayr.Service
                     Token = token,
                     LoginDate = DateTime.Now.AddHours(1),
                     LoginDateAr = DateTime.Now.ToString("dddd d MMMM , yyyy", new CultureInfo("ar-AE")),
-                    LoginTimeAr = DateTime.Now.AddHours(1).ToString("hh:mm:ss t"),
+                    LoginTimeAr = DateTime.Now.AddHours(1).ToString("hh:mm:ss t", new CultureInfo("ar-AE")),
                     ResponseCode = 200,
                     ResponseMessage = "تم تسجيل الدخول بنجاح",
 

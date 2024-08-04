@@ -5,18 +5,13 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
-import { AdminHeaderComponent } from './admin-header/admin-header.component';
-import { AdminSideMenuComponent } from './admin-side-menu/admin-side-menu.component';
 import { HomeSlideimageComponent } from './Components/WebSite/home-slideimage/home-slideimage.component';
 import { AdminActivityComponent } from './Components/WebSite/admin-activity/admin-activity.component';
 import { AdminEventComponent } from './Components/WebSite/admin-event/admin-event.component';
 import { AdminPhotoComponent } from './Components/WebSite/admin-photo/admin-photo.component';
-import { AdminFiltersComponent } from './admin-filters/admin-filters.component';
-import { AdminPaginationComponent } from './admin-pagination/admin-pagination.component';
 import { AdminUserComponent } from './Components/Settings/admin-user/admin-user.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RoleCheckerDirective } from './Directives/role-checker.directive';
-import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { SearchArryPipe } from './Pipes/search-arry.pipe';
 import { ngxLoadingAnimationTypes, NgxLoadingModule } from "ngx-loading";
 import { BeneFactorComponent } from './Components/BeneFactors/bene-factor/bene-factor.component';
@@ -26,6 +21,11 @@ import { BeneFactorNotesComponent } from './Components/BeneFactors/bene-factor-n
 import { AccountImportMonyComponent } from './Components/BeneFactors/account-import-mony/account-import-mony.component';
 import { AccountExportMonyComponent } from './Components/BeneFactors/account-export-mony/account-export-mony.component';
 import { BeneFactorNationalitiesComponent } from './Components/BeneFactors/bene-factor-nationalities/bene-factor-nationalities.component';
+import { AdminHeaderComponent } from './Shared/admin-header/admin-header.component';
+import { AdminSideMenuComponent } from './Shared/admin-side-menu/admin-side-menu.component';
+import { AdminFiltersComponent } from './Shared/admin-filters/admin-filters.component';
+import { AdminPaginationComponent } from './Shared/admin-pagination/admin-pagination.component';
+import { AdminHomeComponent } from './Shared/admin-home/admin-home.component';
 
 @NgModule({
   declarations: [

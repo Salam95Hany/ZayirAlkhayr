@@ -217,9 +217,16 @@ namespace ZayirAlkhayr.Service
         public async Task<HandleErrorResponseModel> AddNewBeneFactor(BeneFactors Model)
         {
             try
-            {
-                var Code = _sQLHelper.GenerateCode();
+            {  
                 var Response = new HandleErrorResponseModel();
+                var NameExist = _Context.BeneFactors.FirstOrDefault(i => i.FullName == Model.FullName);
+                if(NameExist != null)
+                {
+                    Response.Done = false;
+                    Response.Message = "هذا الاسم موجود";
+                    return Response;
+                }
+                var Code = _sQLHelper.GenerateCode();
                 var BeneFactorObj = new BeneFactors();
                 BeneFactorObj.Code = Code;
                 BeneFactorObj.FullName = Model.FullName;

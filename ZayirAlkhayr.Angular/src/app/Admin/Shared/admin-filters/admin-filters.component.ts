@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FilterModel } from '../Models/FilterModel';
-import { PagingFilterModel } from '../Models/PagingFilterModel';
+import { FilterModel } from '../../Models/FilterModel';
 
 @Component({
   selector: 'app-admin-filters',

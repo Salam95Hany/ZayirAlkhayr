@@ -6,7 +6,6 @@ import { AdminActivityComponent } from './Components/WebSite/admin-activity/admi
 import { AdminEventComponent } from './Components/WebSite/admin-event/admin-event.component';
 import { AdminPhotoComponent } from './Components/WebSite/admin-photo/admin-photo.component';
 import { AdminUserComponent } from './Components/Settings/admin-user/admin-user.component';
-import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { AuthGuard } from '../Auth/auth.guard';
 import { BeneFactorComponent } from './Components/BeneFactors/bene-factor/bene-factor.component';
 import { BeneFactorDetailsComponent } from './Components/BeneFactors/bene-factor-details/bene-factor-details.component';
@@ -15,6 +14,7 @@ import { BeneFactorNotesComponent } from './Components/BeneFactors/bene-factor-n
 import { AccountImportMonyComponent } from './Components/BeneFactors/account-import-mony/account-import-mony.component';
 import { AccountExportMonyComponent } from './Components/BeneFactors/account-export-mony/account-export-mony.component';
 import { BeneFactorNationalitiesComponent } from './Components/BeneFactors/bene-factor-nationalities/bene-factor-nationalities.component';
+import { AdminHomeComponent } from './Shared/admin-home/admin-home.component';
 
 const routes: Routes = [
   {

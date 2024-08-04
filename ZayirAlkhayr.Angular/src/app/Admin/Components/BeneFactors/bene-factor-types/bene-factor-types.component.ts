@@ -16,7 +16,7 @@ export class BeneFactorTypesComponent implements OnInit {
   PagingFilter: PagingFilterModel = {
     filterList: [],
     currentpage: 1,
-    pagesize: 10
+    pagesize: 20
   };
   isFilter = false;
   showLoader = false;

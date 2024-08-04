@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/Auth/auth.service';
-import { AdminWebsiteService } from '../Services/admin-website.service';
+import { AdminWebsiteService } from '../../Services/admin-website.service';
 
 @Component({
   selector: 'app-admin-header',
