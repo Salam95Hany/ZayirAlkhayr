@@ -4,8 +4,8 @@ import { AdminWebsiteService } from '../../../Services/admin-website.service';
 import { ValidationFormService } from '../../../Services/validation-form.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { FilterModel } from '../../../Models/FilterModel';
 import { PagingFilterModel } from '../../../Models/PagingFilterModel';
+import { FilterModel } from 'src/app/Admin/Models/FilterModel';
 
 @Component({
   selector: 'app-home-slideimage',

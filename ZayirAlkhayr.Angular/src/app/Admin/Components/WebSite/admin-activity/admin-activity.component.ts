@@ -6,7 +6,7 @@ import { ValidationFormService } from '../../../Services/validation-form.service
 import { UploadFileModel } from '../../../Models/FileModel';
 import { ToastrService } from 'ngx-toastr';
 import { PagingFilterModel } from '../../../Models/PagingFilterModel';
-import { FilterModel } from '../../../Models/FilterModel';
+import { FilterModel } from 'src/app/Admin/Models/FilterModel';
 
 @Component({
   selector: 'app-admin-activity',

@@ -5,11 +5,11 @@ import { ValidationFormService } from '../../../Services/validation-form.service
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { PagingFilterModel } from '../../../Models/PagingFilterModel';
-import { FilterModel } from '../../../Models/FilterModel';
 import { BeneFactorDetails } from '../../../Models/BeneFactorModel';
 import { PDFHeaderSelectedModel, PDFModel } from '../../../Models/PDFHeaderSelected';
 import { PdfDownloadService } from '../../../Services/pdf-download.service';
 import { DatePipe } from '@angular/common';
+import { FilterModel } from 'src/app/Admin/Models/FilterModel';
 
 @Component({
   selector: 'app-bene-factor',
