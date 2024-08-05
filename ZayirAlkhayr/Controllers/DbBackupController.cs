@@ -19,17 +19,17 @@ namespace ZayirAlkhayr.Controllers
         }
 
         [HttpGet("SaveDbBackupFile")]
-        public HandleErrorResponseModel SaveDbBackupFile()
+        public IActionResult SaveDbBackupFile()
         {
-            var results = _dbBackupService.SaveDbBackupFile();
-            return results;
+            var FullPath = _dbBackupService.SaveDbBackupFile();
+            return new TempPhysicalFileResult(FullPath, "application/bak");
         }
 
         [HttpGet("DownloadImagesFolder")]
-        public HandleErrorResponseModel DownloadImagesFolder(ImageFiles Folder)
+        public IActionResult DownloadImagesFolder(ImageFiles Folder)
         {
-            var results = _dbBackupService.DownloadImagesFolder(Folder);
-            return results;
+            var FullPath = _dbBackupService.DownloadImagesFolder(Folder);
+            return new TempPhysicalFileResult(FullPath, "application/zip");
         }
     }
 }

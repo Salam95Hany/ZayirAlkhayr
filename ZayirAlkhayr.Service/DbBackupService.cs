@@ -20,21 +20,18 @@ namespace ZayirAlkhayr.Service
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _environment;
         private string ConnectionString;
-        private string BackupFilePath;
-        private string ImageFilePath;
+        private string ApiLocalUrl;
         public DbBackupService(IConfiguration configuration, IWebHostEnvironment environment)
         {
             _configuration = configuration;
             _environment = environment;
             ConnectionString = _configuration.GetConnectionString("DBConnection");
-            BackupFilePath = _configuration["BackupFilePath"];
-            ImageFilePath = _configuration["ImageFilePath"];
+            ApiLocalUrl = _configuration["ApiUrlLocal"];
         }
-        public HandleErrorResponseModel SaveDbBackupFile()
+        public string SaveDbBackupFile()
         {
             try
             {
-                var Response = new HandleErrorResponseModel();
                 using (SqlConnection connection = new SqlConnection(ConnectionString))
                 {
                     connection.Open();
@@ -43,25 +40,19 @@ namespace ZayirAlkhayr.Service
                     SqlCommand command = new SqlCommand(backupQuery, connection);
                     command.ExecuteNonQuery();
                     connection.Close();
-                    Response.Done = true;
-                    Response.Message = "تم أخذ نسخة احتياطية بنجاح";
-                    return Response;
+                    return backupFilePath;
                 }
             }
             catch (Exception)
             {
-                var Response = new HandleErrorResponseModel();
-                Response.Done = false;
-                Response.Message = "لقد حدث خطا";
-                return Response;
+                return string.Empty;
             }
         }
 
-        public HandleErrorResponseModel DownloadImagesFolder(ImageFiles Folder)
+        public string DownloadImagesFolder(ImageFiles Folder)
         {
             try
             {
-                var Response = new HandleErrorResponseModel();
                 string folderPath = Path.Combine(_environment.WebRootPath, Folder.ToString());
                 string zipFilePath = GetBackupImageFilePath(Folder);
                 using (var zipArchive = new ZipArchive(File.Create(zipFilePath), ZipArchiveMode.Create))
@@ -78,62 +69,28 @@ namespace ZayirAlkhayr.Service
                         }
                     }
 
-                    Response.Done = true;
-                    Response.Message = "تم أخذ نسخة احتياطية بنجاح";
-                    return Response;
+                    return zipFilePath;
                 }
             }
             catch (Exception)
             {
-                var Response = new HandleErrorResponseModel();
-                Response.Done = false;
-                Response.Message = "لقد حدث خطا";
-                return Response;
+                return string.Empty;
             }
 
         }
 
         private string GetBackupFilePath()
         {
-            if (!Directory.Exists(BackupFilePath))
-                Directory.CreateDirectory(BackupFilePath);
-
-            var FullPath = Path.Combine(BackupFilePath, "ZADBbk");
-            if (!Directory.Exists(FullPath))
-                Directory.CreateDirectory(FullPath);
-
+            var FullPath = Path.Combine(_environment.WebRootPath, ImageFiles.ExportFiles.ToString());
             var FileName = DateTime.Now.ToString("dd-MM-yyyy") + "_ZAbk.bak";
-
             return Path.Combine(FullPath, FileName);
         }
 
         private string GetBackupImageFilePath(ImageFiles Folder)
         {
-
-            var FolderNames = new List<FolderNames>
-            {
-                new FolderNames { NameEn = "ActivityImages", NameAr = "الأنشطة" },
-                new FolderNames { NameEn = "ActivitySliderImages", NameAr = "تفاصيل الأنشطة" },
-                new FolderNames { NameEn = "BeneFactorDetailsImages", NameAr = "تفاصيل المتبرعين" },
-                new FolderNames { NameEn = "BeneFactorImages", NameAr = "المتبرعين" },
-                new FolderNames { NameEn = "EventSliderImages", NameAr = "الفعاليات" },
-                new FolderNames { NameEn = "PhotoDetailImages", NameAr = "تفاصيل الصور" },
-                new FolderNames { NameEn = "PhotoImages", NameAr = "الصور" },
-                new FolderNames { NameEn = "SliderImages", NameAr = "شريط الصور" }
-            };
-
-
-            if (!Directory.Exists(ImageFilePath))
-                Directory.CreateDirectory(ImageFilePath);
-
-            var FullPath = Path.Combine(ImageFilePath, "ZADBbk");
-            if (!Directory.Exists(FullPath))
-                Directory.CreateDirectory(FullPath);
-
-            var FolderNameAr = FolderNames.FirstOrDefault(i => i.NameEn == Folder.ToString()).NameAr;
-            var FullFolderName = DateTime.Now.ToString("dd-MM-yyyy") + "_" + FolderNameAr + ".zip";
-
-            return Path.Combine(FullPath, FullFolderName);
+            var FullPath = Path.Combine(_environment.WebRootPath, ImageFiles.ExportFiles.ToString());
+            var FileName = DateTime.Now.ToString("dd-MM-yyyy") + "_" + Folder.ToString() + ".zip";
+            return Path.Combine(FullPath, FileName);
         }
     }
 

@@ -10,27 +10,34 @@ import { AdminService } from 'src/app/Admin/Services/admin.service';
 })
 export class AdminBackupComponent {
   showLoader = false;
+  FolderNames = [
+    { nameEn: "ActivityImages", nameAr: "الأنشطة" },
+    { nameEn: "ActivitySliderImages", nameAr: "تفاصيل الأنشطة" },
+    { nameEn: "BeneFactorDetailsImages", nameAr: "تفاصيل المتبرعين" },
+    { nameEn: "BeneFactorImages", nameAr: "المتبرعين" },
+    { nameEn: "EventSliderImages", nameAr: "الفعاليات" },
+    { nameEn: "PhotoDetailImages", nameAr: "تفاصيل الصور" },
+    { nameEn: "PhotoImages", nameAr: "الصور" },
+    { nameEn: "SliderImages", nameAr: "شريط الصور" }
+  ]
 
-  constructor(private adminService: AdminService, private toaster: ToastrService, private datepipe: DatePipe) { }
+  constructor(private adminService: AdminService, private datepipe: DatePipe) { }
 
-  SaveDbBackupFile() {
+  DownloadBackupFile() {
+    let today = this.datepipe.transform(new Date(), 'yyyy-MM-dd');
+    let fileName = 'ZAbk' + '_' + today;
     this.showLoader = true;
-    this.adminService.SaveDbBackupFile().subscribe(data => {
-      if (data.done)
-        this.toaster.success(data.message);
-      else
-        this.toaster.error(data.message);
+    this.adminService.DownloadBackupFile(fileName).subscribe(data => {
       this.showLoader = false;
     });
   }
 
-  DownloadZipFile(folderName: string) {
+  DownloadZipFile(FolderName: string) {
+    let folderName = this.FolderNames.find(i => i.nameEn == FolderName).nameAr;
+    let today = this.datepipe.transform(new Date(), 'yyyy-MM-dd');
+    let fileName = folderName + '_' + today;
     this.showLoader = true;
-    this.adminService.DownloadZipFile(folderName).subscribe(data => {
-      if (data.done)
-        this.toaster.success(data.message);
-      else
-        this.toaster.error(data.message);
+    this.adminService.DownloadZipFile(FolderName, fileName).subscribe(data => {
       this.showLoader = false;
     });
   }

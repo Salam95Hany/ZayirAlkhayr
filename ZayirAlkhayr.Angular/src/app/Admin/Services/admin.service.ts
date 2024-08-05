@@ -44,12 +44,32 @@ export class AdminService {
 
   // ============================= DbBackup ==============================
 
-  SaveDbBackupFile() {
-    return this.http.get<any>(this.apiURL + 'DbBackup/SaveDbBackupFile');
+  DownloadBackupFile(fileName: string) {
+    return this.http.get(this.apiURL + 'DbBackup/SaveDbBackupFile', {
+      responseType: 'blob',
+      observe: 'response'
+    }).pipe(
+      map((response: any) => {
+        const downloadLink = document.createElement('a');
+        downloadLink.href = URL.createObjectURL(new Blob([response.body], { type: response.body.type }));
+        downloadLink.download = fileName + '.bak';
+        downloadLink.click();
+      })
+    );
   }
 
-  DownloadZipFile(Folder: string) {
-    return this.http.get<any>(this.apiURL + 'DbBackup/DownloadImagesFolder?Folder=' + Folder);
+  DownloadZipFile(Folder: string, fileName: string) {
+    return this.http.get(this.apiURL + 'DbBackup/DownloadImagesFolder?Folder=' + Folder, {
+      responseType: 'blob',
+      observe: 'response'
+    }).pipe(
+      map((response: any) => {
+        const downloadLink = document.createElement('a');
+        downloadLink.href = URL.createObjectURL(new Blob([response.body], { type: response.body.type }));
+        downloadLink.download = fileName + '.zip';
+        downloadLink.click();
+      })
+    );
   }
 
 }

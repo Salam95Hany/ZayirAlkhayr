@@ -9,7 +9,7 @@ namespace ZayirAlkhayr.Interface
 {
     public interface IDbBackupService
     {
-        HandleErrorResponseModel SaveDbBackupFile();
-        HandleErrorResponseModel DownloadImagesFolder(ImageFiles Folder);
+        string SaveDbBackupFile();
+        string DownloadImagesFolder(ImageFiles Folder);
     }
 }
