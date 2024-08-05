@@ -9,11 +9,12 @@ import { AdminWebsiteService } from '../../Services/admin-website.service';
 export class AdminHomeComponent implements OnInit {
   UsersData: any[] = [];
   Roles = [
-    { nameEn: 'SupperAdmin', nameAr: 'المدير' },
+    { nameEn: 'SupperAdmin', nameAr: 'مدير' },
     { nameEn: 'WebSite', nameAr: 'موقع زائر الخير' },
-    { nameEn: 'Services', nameAr: 'خدمات اجتماعية' },
-    { nameEn: 'BeneFactors', nameAr: 'المتبرعين' },
-    { nameEn: 'Accounts', nameAr: 'الحسابات' }
+    // { nameEn: 'Services', nameAr: 'خدمات اجتماعية' },
+    { nameEn: 'BeneFactors', nameAr: 'متبرعين' },
+    { nameEn: 'Accounts', nameAr: 'حسابات' },
+    { nameEn: 'Admin', nameAr: 'مشرف' }
   ];
   StatisticsData: any;
   TotalCount = 0;

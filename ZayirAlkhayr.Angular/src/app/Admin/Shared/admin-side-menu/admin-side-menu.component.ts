@@ -15,11 +15,12 @@ export class AdminSideMenuComponent implements OnInit {
   RoleName = '';
   UserModel: any;
   Roles = [
-    { nameEn: 'SupperAdmin', nameAr: 'المدير' },
+    { nameEn: 'SupperAdmin', nameAr: 'مدير' },
     { nameEn: 'WebSite', nameAr: 'موقع زائر الخير' },
     { nameEn: 'Services', nameAr: 'خدمات اجتماعية' },
-    { nameEn: 'BeneFactors', nameAr: 'المتبرعين' },
-    { nameEn: 'Accounts', nameAr: 'الحسابات' }
+    { nameEn: 'BeneFactors', nameAr: 'متبرعين' },
+    { nameEn: 'Accounts', nameAr: 'حسابات' },
+    { nameEn: 'Admin', nameAr: 'مشرف' }
   ];
   WebSite = ['home-slideimage', 'activity', 'event', 'photo'];
   BeneFactor = ['benefactors', 'benefactor-detail', 'benefactor-type',

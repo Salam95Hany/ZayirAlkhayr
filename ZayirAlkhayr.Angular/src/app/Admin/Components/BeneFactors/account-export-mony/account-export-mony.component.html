@@ -115,13 +115,20 @@
                             </button>
                             <div class="min-width-357 py-0 overflow-hidden" ngbDropdownMenu
                                 aria-labelledby="dropdownBasic1">
+                                <div class="p-2 gray-bgcolor border-bottom">
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control form-control-sm"
+                                            [(ngModel)]="BeneFactorSearchText" placeholder="بحث..." [ngModelOptions]="{standalone: true}"/>
+                                        <i class="uil uil-search search-icon-input"></i>
+                                    </div>
+                                </div>
                                 <ul class="dropdown-list-box list-unstyled max-height-200 overflow-auto px-1 py-1 m-0">
                                     <ng-container>
                                         <li class="dropdown-item cursor-pointer rounded"
                                             [ngClass]="{'DropDownSelected': BeneFactorTypeName == 'فاعل خير'}"
                                             (click)="OnChangeBeneFactor({id:0,fullName:'فاعل خير'})">فاعل خير</li>
                                     </ng-container>
-                                    <ng-container *ngFor="let item of BeneFactors">
+                                    <ng-container *ngFor="let item of BeneFactors | searchArry: BeneFactorSearchText:'fullName'">
                                         <li class="dropdown-item cursor-pointer rounded"
                                             [ngClass]="{'DropDownSelected': BeneFactorValueName == item.fullName}"
                                             (click)="OnChangeBeneFactor(item)">{{item.fullName}}</li>
@@ -142,8 +149,15 @@
                             </button>
                             <div class="min-width-357 py-0 overflow-hidden" ngbDropdownMenu
                                 aria-labelledby="dropdownBasic1">
+                                <div class="p-2 gray-bgcolor border-bottom">
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control form-control-sm"
+                                            [(ngModel)]="BeneFactorTypeSearchText" placeholder="بحث..." [ngModelOptions]="{standalone: true}"/>
+                                        <i class="uil uil-search search-icon-input"></i>
+                                    </div>
+                                </div>
                                 <ul class="dropdown-list-box list-unstyled max-height-200 overflow-auto px-1 py-1 m-0">
-                                    <ng-container *ngFor="let item of BeneFactorTypes">
+                                    <ng-container *ngFor="let item of BeneFactorTypes | searchArry: BeneFactorTypeSearchText:'name'">
                                         <li class="dropdown-item cursor-pointer rounded"
                                             [ngClass]="{'DropDownSelected': BeneFactorValueName == item.name}"
                                             (click)="OnChangeBeneFactorType(item)">{{item.name}}</li>

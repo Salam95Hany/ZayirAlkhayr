@@ -22,79 +22,79 @@ const routes: Routes = [
     path: '',
     component: AdminComponent,
     canActivate: [AuthGuard],
-    data: { roles: ["SupperAdmin", "WebSite", "Services", "BeneFactors", "Accounts"] },
+    data: { roles: ["SupperAdmin", "WebSite", "Services", "BeneFactors", "Accounts","Admin"] },
     children: [
       {
         path: 'home',
         component: AdminHomeComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "WebSite", "Services", "BeneFactors", "Accounts"] },
+        data: { roles: ["SupperAdmin", "WebSite", "Services", "BeneFactors", "Accounts","Admin"] },
       },
       {
         path: 'home-slideimage',
         component: HomeSlideimageComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "WebSite"] }
+        data: { roles: ["SupperAdmin", "WebSite","Admin"] }
       },
       {
         path: 'activity',
         component: AdminActivityComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "WebSite"] }
+        data: { roles: ["SupperAdmin", "WebSite","Admin"] }
       },
       {
         path: 'event',
         component: AdminEventComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "WebSite"] }
+        data: { roles: ["SupperAdmin", "WebSite","Admin"] }
       },
       {
         path: 'photo',
         component: AdminPhotoComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "WebSite"] }
+        data: { roles: ["SupperAdmin", "WebSite","Admin"] }
       },
       {
         path: 'benefactors',
         component: BeneFactorComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "BeneFactors"] }
+        data: { roles: ["SupperAdmin", "BeneFactors","Admin"] }
       },
       {
         path: 'benefactor-detail',
         component: BeneFactorDetailsComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "BeneFactors"] }
+        data: { roles: ["SupperAdmin", "BeneFactors","Admin"] }
       },
       {
         path: 'benefactor-type',
         component: BeneFactorTypesComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "BeneFactors"] }
+        data: { roles: ["SupperAdmin", "BeneFactors","Admin"] }
       },
       {
         path: 'benefactor-note',
         component: BeneFactorNotesComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "BeneFactors"] }
+        data: { roles: ["SupperAdmin", "BeneFactors","Admin"] }
       },
       {
         path: 'benefactor-nationality',
         component: BeneFactorNationalitiesComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "BeneFactors"] }
+        data: { roles: ["SupperAdmin", "BeneFactors","Admin"] }
       },
       {
         path: 'account-import-money',
         component: AccountImportMonyComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "Accounts"] }
+        data: { roles: ["SupperAdmin", "Accounts","Admin"] }
       },
       {
         path: 'account-export-money',
         component: AccountExportMonyComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "Accounts"] }
+        data: { roles: ["SupperAdmin", "Accounts","Admin"] }
       },
       {
         path: 'user',

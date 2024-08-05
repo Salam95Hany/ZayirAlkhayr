@@ -1,8 +1,17 @@
 .card-body-h {
-    --card-h: 255px;
-    min-height: calc(100vh - var(--card-h));
-  }
+  --card-h: 255px;
+  min-height: calc(100vh - var(--card-h));
+}
 
-  .w-80{
-    width: 80%;
-  }
+.w-80 {
+  width: 80%;
+}
+
+.DropDownSelected {
+  background: rgba(0, 0, 0, .12);
+  color: #1976d2;
+}
+
+.min-width-357 {
+  min-width: 357px;
+}

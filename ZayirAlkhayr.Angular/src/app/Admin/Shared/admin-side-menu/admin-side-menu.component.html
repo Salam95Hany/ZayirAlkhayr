@@ -30,7 +30,7 @@
           </a>
         </li>
       </ul>
-      <div appRole [roles]="['SupperAdmin','WebSite']">
+      <div appRole [roles]="['SupperAdmin','WebSite','Admin']">
         <hr>
         <div class="side-menu-list-title side-menu-text">موقع زائر الخير</div>
         <ul class="side-menu-list list-unstyled p-0 m-0">
@@ -69,7 +69,7 @@
           </ul>
         </ul>
       </div>
-      <div appRole [roles]="['SupperAdmin','BeneFactors','Accounts']">
+      <div appRole [roles]="['SupperAdmin','BeneFactors','Accounts','Admin']">
         <hr>
         <div class="side-menu-list-title side-menu-text">المتبرعين</div>
         <ul class="side-menu-list list-unstyled p-0 m-0">
@@ -81,43 +81,43 @@
             </a>
           </li>
           <ul class="list-unstyled m-0 menu-list-collapsed" #collapse3="ngbCollapse" [(ngbCollapse)]="isCollapsed_3">
-            <li appRole [roles]="['SupperAdmin','BeneFactors']">
+            <li appRole [roles]="['SupperAdmin','BeneFactors','Admin']">
               <a class="side-menu-list-link sub-link" routerLink="./benefactors" routerLinkActive="active">
                 <i class="uil uil-sliders-v-alt"></i>
                 <span class="side-menu-text">المتبرعين</span>
               </a>
             </li>
-            <li appRole [roles]="['SupperAdmin','BeneFactors']">
+            <li appRole [roles]="['SupperAdmin','BeneFactors','Admin']">
               <a class="side-menu-list-link sub-link" routerLink="./benefactor-detail" routerLinkActive="active">
                 <i class="uil uil-sliders-v-alt"></i>
                 <span class="side-menu-text">تفاصيل المتبرعين</span>
               </a>
             </li>
-            <li appRole [roles]="['SupperAdmin','BeneFactors']">
+            <li appRole [roles]="['SupperAdmin','BeneFactors','Admin']">
               <a class="side-menu-list-link sub-link" routerLink="./benefactor-note" routerLinkActive="active">
                 <i class="uil uil-sliders-v-alt"></i>
                 <span class="side-menu-text">ملاحظات المتبرعين</span>
               </a>
             </li>
-            <li appRole [roles]="['SupperAdmin','BeneFactors']">
+            <li appRole [roles]="['SupperAdmin','BeneFactors','Admin']">
               <a class="side-menu-list-link sub-link" routerLink="./benefactor-nationality" routerLinkActive="active">
                 <i class="uil uil-sliders-v-alt"></i>
                 <span class="side-menu-text">جنسيات المتبرعين</span>
               </a>
             </li>
-            <li appRole [roles]="['SupperAdmin','BeneFactors']">
+            <li appRole [roles]="['SupperAdmin','BeneFactors','Admin']">
               <a class="side-menu-list-link sub-link" routerLink="./benefactor-type" routerLinkActive="active">
                 <i class="uil uil-sliders-v-alt"></i>
                 <span class="side-menu-text">أنواع التبرع</span>
               </a>
             </li>
-            <li appRole [roles]="['SupperAdmin','Accounts']">
+            <li appRole [roles]="['SupperAdmin','Accounts','Admin']">
               <a class="side-menu-list-link sub-link" routerLink="./account-import-money" routerLinkActive="active">
                 <i class="uil uil-sliders-v-alt"></i>
                 <span class="side-menu-text">الايرادات</span>
               </a>
             </li>
-            <li appRole [roles]="['SupperAdmin','Accounts']">
+            <li appRole [roles]="['SupperAdmin','Accounts','Admin']">
               <a class="side-menu-list-link sub-link" routerLink="./account-export-money" routerLinkActive="active">
                 <i class="uil uil-sliders-v-alt"></i>
                 <span class="side-menu-text">الصادرات</span>

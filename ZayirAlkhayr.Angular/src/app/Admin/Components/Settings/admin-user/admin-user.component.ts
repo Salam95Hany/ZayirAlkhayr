@@ -17,11 +17,12 @@ export class AdminUserComponent implements OnInit {
   RoleName: any;
   RoleNameAr = '--الصلاحيات--';
   Roles = [
-    { nameEn: 'SupperAdmin', nameAr: 'المدير' },
+    { nameEn: 'SupperAdmin', nameAr: 'مدير' },
     { nameEn: 'WebSite', nameAr: 'موقع زائر الخير' },
     // { nameEn: 'Services', nameAr: 'خدمات اجتماعية' },
-    { nameEn: 'BeneFactors', nameAr: 'المتبرعين' },
-    { nameEn: 'Accounts', nameAr: 'الحسابات' }
+    { nameEn: 'BeneFactors', nameAr: 'متبرعين' },
+    { nameEn: 'Accounts', nameAr: 'حسابات' },
+    { nameEn: 'Admin', nameAr: 'مشرف' }
   ];
   RoleValidation = false;
   ManagerUserId = '321db4e1-e32b-4aeb-8802-b076f9d7227d';

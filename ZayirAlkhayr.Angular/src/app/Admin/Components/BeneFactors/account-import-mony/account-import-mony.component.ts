@@ -30,6 +30,8 @@ export class AccountImportMonyComponent implements OnInit {
   UserModel: any;
   BeneFactorName = 'متبرع';
   BeneFactorTypeName = 'نوع التبرع';
+  BeneFactorSearchText = '';
+  BeneFactorTypeSearchText = '';
   BeneFactorId: any;
   BeneFactorTypeId: any;
   FilterList: FilterModel[] = [];
