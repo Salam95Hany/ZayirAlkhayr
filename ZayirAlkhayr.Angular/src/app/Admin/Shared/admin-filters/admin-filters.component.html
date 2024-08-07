@@ -9,6 +9,11 @@
             <input type="date" class="form-control width-250" [(ngModel)]="DateFilter" (change)="DateFilterChange()">
         </div>
     </ng-container>
+    <ng-container *ngIf="ApplyMonthFilter">
+        <div>
+            <input type="month" class="form-control width-250" [(ngModel)]="MonthFilter" (change)="MonthFilterChange()">
+        </div>
+    </ng-container>
     <ng-container *ngFor="let item of FilterList">
         <div class="filter-button" ngbDropdown display="dynamic" placement="bottom-end" [autoClose]="'outside'">
             <button class="btn main-filter-button d-flex align-items-center gap-2" ngbDropdownToggle>

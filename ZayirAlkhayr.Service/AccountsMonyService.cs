@@ -28,14 +28,19 @@ namespace ZayirAlkhayr.Service
 
         public DataTable GetAllAccountsExportMonyData(PagingFilterModel PagingFilter)
         {
+            int MonthNum = 0;
             var FilterDt = _sQLHelper.ConvertFilterModelToDataTable(PagingFilter.FilterList);
             var Date = PagingFilter.FilterList.FirstOrDefault(i => i.CategoryName == "Date")?.ItemId;
-            var Params = new SqlParameter[5];
+            var Month = PagingFilter.FilterList.FirstOrDefault(i => i.CategoryName == "Month")?.ItemId;
+            if (!string.IsNullOrEmpty(Month))
+                MonthNum = DateTime.Parse(Month).Month;
+            var Params = new SqlParameter[6];
             Params[0] = new SqlParameter("@FilterList", FilterDt);
             Params[1] = new SqlParameter("@Date", Date);
-            Params[2] = new SqlParameter("@CurrentPage", PagingFilter.Currentpage);
-            Params[3] = new SqlParameter("@PageSize", PagingFilter.Pagesize);
-            Params[4] = new SqlParameter("@IsFilter", false);
+            Params[2] = new SqlParameter("@Month", MonthNum);
+            Params[3] = new SqlParameter("@CurrentPage", PagingFilter.Currentpage);
+            Params[4] = new SqlParameter("@PageSize", PagingFilter.Pagesize);
+            Params[5] = new SqlParameter("@IsFilter", false);
             var dt = _sQLHelper.ExecuteDataTable("admin.SP_GetAllAccountsExportMonyDataWithFilter", Params);
             return dt;
         }
@@ -57,14 +62,19 @@ namespace ZayirAlkhayr.Service
 
         public DataTable GetAllAccountsImportMonyData(PagingFilterModel PagingFilter)
         {
+            int MonthNum = 0;
             var FilterDt = _sQLHelper.ConvertFilterModelToDataTable(PagingFilter.FilterList);
             var Date = PagingFilter.FilterList.FirstOrDefault(i => i.CategoryName == "Date")?.ItemId;
-            var Params = new SqlParameter[5];
+            var Month = PagingFilter.FilterList.FirstOrDefault(i => i.CategoryName == "Month")?.ItemId;
+            if (!string.IsNullOrEmpty(Month))
+                MonthNum = DateTime.Parse(Month).Month;
+            var Params = new SqlParameter[6];
             Params[0] = new SqlParameter("@FilterList", FilterDt);
             Params[1] = new SqlParameter("@Date", Date);
-            Params[2] = new SqlParameter("@CurrentPage", PagingFilter.Currentpage);
-            Params[3] = new SqlParameter("@PageSize", PagingFilter.Pagesize);
-            Params[4] = new SqlParameter("@IsFilter", false);
+            Params[2] = new SqlParameter("@Month", MonthNum);
+            Params[3] = new SqlParameter("@CurrentPage", PagingFilter.Currentpage);
+            Params[4] = new SqlParameter("@PageSize", PagingFilter.Pagesize);
+            Params[5] = new SqlParameter("@IsFilter", false);
             var dt = _sQLHelper.ExecuteDataTable("admin.SP_GetAllAccountsImportMonyDataWithFilter", Params);
             return dt;
         }
@@ -86,33 +96,49 @@ namespace ZayirAlkhayr.Service
 
         public DataTable GetAllImportExportMonyStatistics(PagingFilterModel PagingFilter)
         {
+            int MonthNum = 0;
             var FilterDt = _sQLHelper.ConvertFilterModelToDataTable(PagingFilter.FilterList);
             var Date = PagingFilter.FilterList.FirstOrDefault(i => i.CategoryName == "Date")?.ItemId;
-            var Params = new SqlParameter[2];
+            var Month = PagingFilter.FilterList.FirstOrDefault(i => i.CategoryName == "Month")?.ItemId;
+            if (!string.IsNullOrEmpty(Month))
+                MonthNum = DateTime.Parse(Month).Month;
+            var Params = new SqlParameter[3];
             Params[0] = new SqlParameter("@FilterList", FilterDt);
             Params[1] = new SqlParameter("@Date", Date);
+            Params[2] = new SqlParameter("@Month", MonthNum);
             var dt = _sQLHelper.ExecuteDataTable("admin.SP_GetAllImportExportMonyStatistics", Params);
             return dt;
         }
 
         public DataSet ExportAccountsImportMonyData(PDFModel Model)
         {
+            int MonthNum = 0;
             var FilterDt = _sQLHelper.ConvertFilterModelToDataTable(Model.FilterList);
             var Date = Model.FilterList.FirstOrDefault(i => i.CategoryName == "Date")?.ItemId;
-            var Params = new SqlParameter[2];
+            var Month = Model.FilterList.FirstOrDefault(i => i.CategoryName == "Month")?.ItemId;
+            if (!string.IsNullOrEmpty(Month))
+                MonthNum = DateTime.Parse(Month).Month;
+
+            var Params = new SqlParameter[3];
             Params[0] = new SqlParameter("@FilterList", FilterDt);
             Params[1] = new SqlParameter("@Date", Date);
+            Params[2] = new SqlParameter("@Month", MonthNum);
             var dt = _sQLHelper.ExecuteDataset("admin.SP_ExportAccountsImportMonyData", Params);
             return dt;
         }
 
         public DataSet ExportAccountsExportMonyData(PDFModel Model)
         {
+            int MonthNum = 0;
             var FilterDt = _sQLHelper.ConvertFilterModelToDataTable(Model.FilterList);
             var Date = Model.FilterList.FirstOrDefault(i => i.CategoryName == "Date")?.ItemId;
-            var Params = new SqlParameter[2];
+            var Month = Model.FilterList.FirstOrDefault(i => i.CategoryName == "Month")?.ItemId;
+            if (!string.IsNullOrEmpty(Month))
+                MonthNum = DateTime.Parse(Month).Month;
+            var Params = new SqlParameter[3];
             Params[0] = new SqlParameter("@FilterList", FilterDt);
             Params[1] = new SqlParameter("@Date", Date);
+            Params[2] = new SqlParameter("@Month", MonthNum);
             var dt = _sQLHelper.ExecuteDataset("admin.SP_ExportAccountsExportMonyData", Params);
             return dt;
         }

@@ -24,7 +24,8 @@
                     <div class="min-width-270 py-0 overflow-hidden" ngbDropdownMenu aria-labelledby="dropdownBasic1">
                         <div class="p-2 gray-bgcolor border-bottom">
                             <div class="position-relative">
-                                <input type="text" class="form-control form-control-sm" [(ngModel)]="SearchText" placeholder="بحث..." />
+                                <input type="text" class="form-control form-control-sm" [(ngModel)]="SearchText"
+                                    placeholder="بحث..." />
                                 <i class="uil uil-search search-icon-input"></i>
                             </div>
                         </div>
@@ -142,8 +143,17 @@
                             </button>
                             <div class="width-530 py-0 overflow-hidden" ngbDropdownMenu
                                 aria-labelledby="dropdownBasic1">
+                                <div class="p-2 gray-bgcolor border-bottom">
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control form-control-sm"
+                                            [(ngModel)]="BeneFactorTypeSearchText" placeholder="بحث..."
+                                            [ngModelOptions]="{standalone: true}" />
+                                        <i class="uil uil-search search-icon-input"></i>
+                                    </div>
+                                </div>
                                 <ul class="dropdown-list-box list-unstyled max-height-200 overflow-auto px-1 py-1 m-0">
-                                    <ng-container *ngFor="let item of BeneFactorTypesData">
+                                    <ng-container
+                                        *ngFor="let item of BeneFactorTypesData | searchArry: BeneFactorTypeSearchText:'name'">
                                         <li class="dropdown-item cursor-pointer rounded"
                                             (click)="OnChangeBeneFactorType(item)"
                                             [ngClass]="{'DropDownSelected': BeneFactorTypeName == item.name}">

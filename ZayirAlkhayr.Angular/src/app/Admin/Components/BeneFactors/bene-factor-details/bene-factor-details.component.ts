@@ -30,6 +30,7 @@ export class BeneFactorDetailsComponent implements OnInit {
   UserModel: any;
   Code: any;
   SearchText = '';
+  BeneFactorTypeSearchText = '';
   TotalValue = 0;
   TotalCount = 0;
   BeneFactorTotalValue = 0;
@@ -43,6 +44,12 @@ export class BeneFactorDetailsComponent implements OnInit {
     currentpage: 1,
     pagesize: 10
   }
+  BeneFactorPagingFilter: PagingFilterModel = {
+    filterList: [],
+    currentpage: 1,
+    pagesize: 200
+  }
+
   constructor(private modalService: NgbModal,
     private adminService: AdminWebsiteService, private formService: ValidationFormService
     , private fb: FormBuilder, private toaster: ToastrService) {
@@ -172,7 +179,7 @@ export class BeneFactorDetailsComponent implements OnInit {
   }
 
   GetAllBeneFactorData() {
-    this.adminService.GetAllBeneFactorData(this.PagingFilter).subscribe(data => {
+    this.adminService.GetAllBeneFactorData(this.BeneFactorPagingFilter).subscribe(data => {
       this.BeneFactorData = data.table;
     });
   }
@@ -207,7 +214,7 @@ export class BeneFactorDetailsComponent implements OnInit {
   }
 
   GetAllBeneFactorTypes() {
-    this.adminService.GetAllBeneFactorTypes(this.PagingFilter).subscribe(data => {
+    this.adminService.GetAllBeneFactorTypes(this.BeneFactorPagingFilter).subscribe(data => {
       this.BeneFactorTypesData = data.filter(i => i.id != 1);
     });
   }

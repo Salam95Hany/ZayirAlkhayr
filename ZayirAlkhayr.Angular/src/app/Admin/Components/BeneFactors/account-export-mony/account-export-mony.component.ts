@@ -113,7 +113,7 @@ export class AccountExportMonyComponent implements OnInit {
     if (item)
       this.FillEditForm(item);
     this.modalService.open(content, {
-      size: 'lg',
+      size: 'xl',
       scrollable: true,
       centered: true
     });

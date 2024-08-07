@@ -34,7 +34,7 @@
         </div>
     </div>
     <div class="px-3 py-2 bg-light border-bottom" #collapse="ngbCollapse" [(ngbCollapse)]="isFilter">
-        <app-admin-filters [FilterList]="FilterList" [ApplyDateFilter]="true" [PlaceHolder]="'ب اسم المستخدم'"
+        <app-admin-filters [FilterList]="FilterList" [ApplyDateFilter]="true" [ApplyMonthFilter]="true" [PlaceHolder]="'ب اسم المستخدم'"
             (FilterChecked)="FilterChecked($event)"></app-admin-filters>
     </div>
     <div class="card-body card-body-h">
@@ -122,7 +122,7 @@
                                 id="dropdownBasic1" ngbDropdownToggle>
                                 {{BeneFactorName}}
                             </button>
-                            <div class="min-width-357 py-0 overflow-hidden" ngbDropdownMenu
+                            <div class="width-530 py-0 overflow-hidden" ngbDropdownMenu
                                 aria-labelledby="dropdownBasic1">
                                 <div class="p-2 gray-bgcolor border-bottom">
                                     <div class="position-relative">
@@ -158,7 +158,7 @@
                                 id="dropdownBasic1" ngbDropdownToggle>
                                 {{BeneFactorTypeName}}
                             </button>
-                            <div class="min-width-357 py-0 overflow-hidden" ngbDropdownMenu
+                            <div class="width-530 py-0 overflow-hidden" ngbDropdownMenu
                                 aria-labelledby="dropdownBasic1">
                                 <div class="p-2 gray-bgcolor border-bottom">
                                     <div class="position-relative">

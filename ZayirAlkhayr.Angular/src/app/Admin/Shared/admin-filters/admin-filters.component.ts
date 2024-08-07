@@ -11,11 +11,13 @@ export class AdminFiltersComponent {
   @Input() FilterList: FilterModel[] = [];
   @Input() PlaceHolder: any;
   @Input() ApplyDateFilter = false;
+  @Input() ApplyMonthFilter = false;
   SelectedFilter: FilterModel[] = [];
   isFilterOnly = false;
   FilterSearchText = '';
   SearchText = '';
   DateFilter: any;
+  MonthFilter: any;
 
   constructor() { }
 
@@ -56,6 +58,8 @@ export class AdminFiltersComponent {
       this.SearchText = '';
     if (filter.categoryName == 'Date')
       this.DateFilter = '';
+    if (filter.categoryName == 'Month')
+      this.MonthFilter = '';
     this.FilterChecked.emit(this.SelectedFilter);
   }
 
@@ -63,6 +67,7 @@ export class AdminFiltersComponent {
     this.SelectedFilter = [];
     this.SearchText = '';
     this.DateFilter = '';
+    this.MonthFilter = '';
     this.FilterList.map(item => {
       item.filterItems.map(a => a.isChecked = false);
     });
@@ -77,6 +82,18 @@ export class AdminFiltersComponent {
         categoryNameAr: 'التاريخ',
         itemId: this.DateFilter,
         itemKey: this.DateFilter
+      });
+    this.FilterChecked.emit(this.SelectedFilter);
+  }
+
+  MonthFilterChange(){
+    this.SelectedFilter = this.SelectedFilter.filter(i => i.categoryName != 'Month');
+    if (this.MonthFilter)
+      this.SelectedFilter.push({
+        categoryName: 'Month',
+        categoryNameAr: 'التاريخ',
+        itemId: this.MonthFilter,
+        itemKey: this.MonthFilter
       });
     this.FilterChecked.emit(this.SelectedFilter);
   }
