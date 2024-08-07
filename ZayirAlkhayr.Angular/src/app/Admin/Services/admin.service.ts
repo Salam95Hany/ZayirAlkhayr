@@ -38,8 +38,24 @@ export class AdminService {
     return this.http.post<any>(this.apiURL + 'AccountsMony/AddNewAccountsImportMony', Model);
   }
 
+  UpdateAccountsImportMony(Model: any) {
+    return this.http.post<any>(this.apiURL + 'AccountsMony/UpdateAccountsImportMony', Model);
+  }
+
+  DeleteAccountsImportMony(AccountId: number) {
+    return this.http.get<any>(this.apiURL + 'AccountsMony/DeleteAccountsImportMony?AccountId=' + AccountId);
+  }
+
   AddNewAccountsExportMony(Model: any) {
     return this.http.post<any>(this.apiURL + 'AccountsMony/AddNewAccountsExportMony', Model);
+  }
+
+  UpdateAccountsExportMony(Model: any) {
+    return this.http.post<any>(this.apiURL + 'AccountsMony/UpdateAccountsExportMony', Model);
+  }
+
+  DeleteAccountsExportMony(AccountId: number) {
+    return this.http.get<any>(this.apiURL + 'AccountsMony/DeleteAccountsExportMony?AccountId=' + AccountId);
   }
 
   // ============================= DbBackup ==============================

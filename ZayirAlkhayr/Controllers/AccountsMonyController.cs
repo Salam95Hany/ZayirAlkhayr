@@ -62,10 +62,38 @@ namespace ZayirAlkhayr.Controllers
             return results;
         }
 
+        [HttpPost("UpdateAccountsImportMony")]
+        public HandleErrorResponseModel UpdateAccountsImportMony(AccountsImportMony Model)
+        {
+            var results = _accountsMonyService.UpdateAccountsImportMony(Model);
+            return results;
+        }
+
+        [HttpGet("DeleteAccountsImportMony")]
+        public HandleErrorResponseModel DeleteAccountsImportMony(int AccountId)
+        {
+            var results = _accountsMonyService.DeleteAccountsImportMony(AccountId);
+            return results;
+        }
+
         [HttpPost("AddNewAccountsExportMony")]
         public HandleErrorResponseModel AddNewAccountsExportMony(AccountsExportMony Model)
         {
             var results = _accountsMonyService.AddNewAccountsExportMony(Model);
+            return results;
+        }
+
+        [HttpPost("UpdateAccountsExportMony")]
+        public HandleErrorResponseModel UpdateAccountsExportMony(AccountsExportMony Model)
+        {
+            var results = _accountsMonyService.UpdateAccountsExportMony(Model);
+            return results;
+        }
+
+        [HttpGet("DeleteAccountsExportMony")]
+        public HandleErrorResponseModel DeleteAccountsExportMony(int AccountId)
+        {
+            var results = _accountsMonyService.DeleteAccountsExportMony(AccountId);
             return results;
         }
 

@@ -17,7 +17,11 @@ namespace ZayirAlkhayr.Interface
         List<FilterModel> GetAllAccountsExportMonyFilters(PagingFilterModel PagingFilter);
         DataTable GetAllImportExportMonyStatistics(PagingFilterModel PagingFilter);
         HandleErrorResponseModel AddNewAccountsImportMony(AccountsImportMony Model);
+        HandleErrorResponseModel UpdateAccountsImportMony(AccountsImportMony Model);
+        HandleErrorResponseModel DeleteAccountsImportMony(int AccountId);
         HandleErrorResponseModel AddNewAccountsExportMony(AccountsExportMony Model);
+        HandleErrorResponseModel UpdateAccountsExportMony(AccountsExportMony Model);
+        HandleErrorResponseModel DeleteAccountsExportMony(int AccountId);
         string ExportAccountsImportMonyExcelFile(PDFModel Model, string UserName);
         string ExportAccountsExportMonyExcelFile(PDFModel Model, string UserName);
     }

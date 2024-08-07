@@ -122,7 +122,7 @@ namespace ZayirAlkhayr.Service
                 Event.ToDate = Model.ToDate;
                 Event.Month = Model.Month;
                 Event.IsVisible = Model.IsVisible;
-                Event.UpdateUser = Model.UpdateUser;
+                Event.UpdateUser = Model.InsertUser;
                 Event.UpdateDate = DateTime.Now.AddHours(1);
 
                 _Context.SaveChanges();

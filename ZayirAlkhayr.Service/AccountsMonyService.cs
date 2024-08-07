@@ -174,6 +174,56 @@ namespace ZayirAlkhayr.Service
             }
         }
 
+        public HandleErrorResponseModel UpdateAccountsImportMony(AccountsImportMony Model)
+        {
+            try
+            {
+                var Response = new HandleErrorResponseModel();
+                var ImportObj = _Context.AccountsImportMony.FirstOrDefault(x => x.Id == Model.Id);
+                ImportObj.BeneFactorId = Model.BeneFactorId;
+                ImportObj.BeneFactorTypeId = Model.BeneFactorTypeId;
+                ImportObj.TotalValue = Model.TotalValue;
+                ImportObj.Details = Model.Details;
+                ImportObj.InsertDate = Model.InsertDate;
+                ImportObj.UpdateUser = Model.InsertUser;
+                ImportObj.UpdateDate = DateTime.Now.AddHours(1);
+
+                _Context.SaveChanges();
+
+                Response.Done = true;
+                Response.Message = "تم تعديل الايراد بنجاح";
+                return Response;
+            }
+            catch (Exception)
+            {
+                var Response = new HandleErrorResponseModel();
+                Response.Done = false;
+                Response.Message = "لقد حدث خطا";
+                return Response;
+            }
+        }
+
+        public HandleErrorResponseModel DeleteAccountsImportMony(int AccountId)
+        {
+            try
+            {
+                var Response = new HandleErrorResponseModel();
+                var ImportObj = _Context.AccountsImportMony.FirstOrDefault(i => i.Id == AccountId);
+                _Context.AccountsImportMony.Remove(ImportObj);
+                _Context.SaveChanges();
+                Response.Done = true;
+                Response.Message = "تم حذف الايراد بنجاح";
+                return Response;
+            }
+            catch (Exception)
+            {
+                var Response = new HandleErrorResponseModel();
+                Response.Done = false;
+                Response.Message = "لقد حدث خطا";
+                return Response;
+            }
+        }
+
         public HandleErrorResponseModel AddNewAccountsExportMony(AccountsExportMony Model)
         {
             try
@@ -192,6 +242,56 @@ namespace ZayirAlkhayr.Service
 
                 Response.Done = true;
                 Response.Message = "تم اضافة مبلغ جديد بنجاح";
+                return Response;
+            }
+            catch (Exception)
+            {
+                var Response = new HandleErrorResponseModel();
+                Response.Done = false;
+                Response.Message = "لقد حدث خطا";
+                return Response;
+            }
+        }
+
+        public HandleErrorResponseModel UpdateAccountsExportMony(AccountsExportMony Model)
+        {
+            try
+            {
+                var Response = new HandleErrorResponseModel();
+                var ImportObj = _Context.AccountsExportMony.FirstOrDefault(x => x.Id == Model.Id);
+                ImportObj.BeneFactorId = Model.BeneFactorId;
+                ImportObj.BeneFactorTypeId = Model.BeneFactorTypeId;
+                ImportObj.TotalValue = Model.TotalValue;
+                ImportObj.Details = Model.Details;
+                ImportObj.InsertDate = Model.InsertDate;
+                ImportObj.UpdateUser = Model.InsertUser;
+                ImportObj.UpdateDate = DateTime.Now.AddHours(1);
+
+                _Context.SaveChanges();
+
+                Response.Done = true;
+                Response.Message = "تم تعديل الصادر بنجاح";
+                return Response;
+            }
+            catch (Exception)
+            {
+                var Response = new HandleErrorResponseModel();
+                Response.Done = false;
+                Response.Message = "لقد حدث خطا";
+                return Response;
+            }
+        }
+
+        public HandleErrorResponseModel DeleteAccountsExportMony(int AccountId)
+        {
+            try
+            {
+                var Response = new HandleErrorResponseModel();
+                var ExportObj = _Context.AccountsExportMony.FirstOrDefault(i => i.Id == AccountId);
+                _Context.AccountsExportMony.Remove(ExportObj);
+                _Context.SaveChanges();
+                Response.Done = true;
+                Response.Message = "تم حذف الصادر بنجاح";
                 return Response;
             }
             catch (Exception)

@@ -32,6 +32,7 @@ export class AccountImportMonyComponent implements OnInit {
   BeneFactorTypeName = 'نوع التبرع';
   BeneFactorSearchText = '';
   BeneFactorTypeSearchText = '';
+  AccountId: any;
   BeneFactorId: any;
   BeneFactorTypeId: any;
   FilterList: FilterModel[] = [];
@@ -77,6 +78,23 @@ export class AccountImportMonyComponent implements OnInit {
     });
   }
 
+  FillEditForm(item: any) {
+    debugger;
+    this.BeneFactorName = item?.fullName;
+    this.BeneFactorTypeName = item?.name;
+    this.BeneFactorId = item?.beneFactorId;
+    this.BeneFactorTypeId = item?.beneFactorTypeId;
+    this.ItemForm.setValue({
+      id: item.id,
+      beneFactorId: item?.beneFactorId,
+      beneFactorTypeId: item?.beneFactorTypeId,
+      details: item?.details,
+      totalValue: item?.totalValue,
+      insertUser: this.UserModel?.userId,
+      InsertDate: this.datepipe.transform(item?.insertDate, 'yyyy-MM-dd')
+    });
+  }
+
   ResetForm() {
     this.ItemForm.reset();
     this.BeneFactorTypeValidation = false;
@@ -91,13 +109,24 @@ export class AccountImportMonyComponent implements OnInit {
     this.ItemForm.get('insertUser').setValue(this.UserModel?.userId);
   }
 
-  openAddItemModal(content: any) {
+  openAddItemModal(content: any, item: any) {
     this.ResetForm();
+    if (item)
+      this.FillEditForm(item);
     this.modalService.open(content, {
       size: 'lg',
       scrollable: true,
       centered: true
     });
+  }
+
+  openDeleteItemModal(content: any, item: any) {
+    this.AccountId = item.id;
+    this.modalService.open(content, {
+      size: 'md',
+      scrollable: true,
+      centered: true
+    })
   }
 
   GetAllAccountsImportMonyData() {
@@ -167,7 +196,39 @@ export class AccountImportMonyComponent implements OnInit {
     this.ItemForm.get('beneFactorId').setValue(this.BeneFactorId);
     this.ItemForm.get('beneFactorTypeId').setValue(this.BeneFactorTypeId);
     this.showLoader = true;
-    this.adminService.AddNewAccountsImportMony(this.ItemForm.value).subscribe(data => {
+    if (this.ItemForm.controls['id'].value == 0) {
+      this.adminService.AddNewAccountsImportMony(this.ItemForm.value).subscribe(data => {
+        if (data.done) {
+          this.toaster.success(data.message);
+          this.GetAllAccountsImportMonyData();
+          this.GetAllAccountsImportMonyFilters();
+          this.GetAllImportExportMonyStatistics();
+          this.modalService.dismissAll();
+        }
+        else
+          this.toaster.error(data.message);
+        this.showLoader = false;
+      });
+    } else {
+      this.showLoader = true;
+      this.adminService.UpdateAccountsImportMony(this.ItemForm.value).subscribe(data => {
+        if (data.done) {
+          this.toaster.success(data.message);
+          this.GetAllAccountsImportMonyData();
+          this.GetAllAccountsImportMonyFilters();
+          this.GetAllImportExportMonyStatistics();
+          this.modalService.dismissAll();
+        }
+        else
+          this.toaster.error(data.message);
+        this.showLoader = false;
+      });
+    }
+  }
+
+  DeleteItem() {
+    this.showLoader = true;
+    this.adminService.DeleteAccountsImportMony(this.AccountId).subscribe(data => {
       if (data.done) {
         this.toaster.success(data.message);
         this.GetAllAccountsImportMonyData();

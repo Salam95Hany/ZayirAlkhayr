@@ -1,8 +1,8 @@
 <div class="card">
     <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
         <div class="d-flex align-items-center flex-wrap gap-2">
-            <button appRole [roles]="['SupperAdmin']" class="btn main-button d-flex align-items-center gap-2"
-                (click)="openAddItemModal(OpenItemModal)">
+            <button appRole [roles]="['SupperAdmin','Admin']" class="btn main-button d-flex align-items-center gap-2"
+                (click)="openAddItemModal(OpenItemModal,null)">
                 <i class="uil uil-plus-circle"></i>
                 <span class="navbar-brand m-0">اضافة</span>
             </button>
@@ -48,6 +48,7 @@
                         <th>التفاصيل</th>
                         <th>تمت الاضافة من قبل</th>
                         <th>تاريخ الاضافة</th>
+                        <th appRole [roles]="['SupperAdmin','Admin']">أجراءات</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -58,6 +59,14 @@
                         <td>{{item.details}}</td>
                         <td>{{item.createdBy}}</td>
                         <td>{{item.insertDateStr}}</td>
+                        <td appRole [roles]="['SupperAdmin','Admin']">
+                            <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
+                                <i class="uil uil-edit text-primary icon-table-action shadow-sm"
+                                    (click)="openAddItemModal(OpenItemModal,item)"></i>
+                                <i class="uil uil-times-circle text-danger icon-table-action shadow-sm"
+                                    (click)="openDeleteItemModal(deleteItemModal,item)"></i>
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -118,20 +127,21 @@
                                 <div class="p-2 gray-bgcolor border-bottom">
                                     <div class="position-relative">
                                         <input type="text" class="form-control form-control-sm"
-                                            [(ngModel)]="BeneFactorSearchText" placeholder="بحث..." [ngModelOptions]="{standalone: true}"/>
+                                            [(ngModel)]="BeneFactorSearchText" placeholder="بحث..."
+                                            [ngModelOptions]="{standalone: true}" />
                                         <i class="uil uil-search search-icon-input"></i>
                                     </div>
                                 </div>
                                 <ul class="dropdown-list-box list-unstyled max-height-200 overflow-auto px-1 py-1 m-0">
                                     <ng-container>
                                         <li class="dropdown-item cursor-pointer rounded"
-                                            [ngClass]="{'DropDownSelected': BeneFactorTypeName == 'فاعل خير'}"
+                                            [ngClass]="{'DropDownSelected': BeneFactorName == 'فاعل خير'}"
                                             (click)="OnChangeBeneFactor({id:0,fullName:'فاعل خير'})">فاعل خير</li>
                                     </ng-container>
                                     <ng-container
                                         *ngFor="let item of BeneFactors | searchArry: BeneFactorSearchText:'fullName'">
                                         <li class="dropdown-item cursor-pointer rounded"
-                                            [ngClass]="{'DropDownSelected': BeneFactorValueName == item.fullName}"
+                                            [ngClass]="{'DropDownSelected': BeneFactorName == item.fullName}"
                                             (click)="OnChangeBeneFactor(item)">{{item.fullName}}</li>
                                     </ng-container>
                                 </ul>
@@ -153,7 +163,8 @@
                                 <div class="p-2 gray-bgcolor border-bottom">
                                     <div class="position-relative">
                                         <input type="text" class="form-control form-control-sm"
-                                            [(ngModel)]="BeneFactorTypeSearchText" placeholder="بحث..." [ngModelOptions]="{standalone: true}"/>
+                                            [(ngModel)]="BeneFactorTypeSearchText" placeholder="بحث..."
+                                            [ngModelOptions]="{standalone: true}" />
                                         <i class="uil uil-search search-icon-input"></i>
                                     </div>
                                 </div>
@@ -161,7 +172,7 @@
                                     <ng-container
                                         *ngFor="let item of BeneFactorTypes | searchArry: BeneFactorTypeSearchText:'name'">
                                         <li class="dropdown-item cursor-pointer rounded"
-                                            [ngClass]="{'DropDownSelected': BeneFactorValueName == item.name}"
+                                            [ngClass]="{'DropDownSelected': BeneFactorTypeName == item.name}"
                                             (click)="OnChangeBeneFactorType(item)">{{item.name}}</li>
                                     </ng-container>
                                 </ul>
@@ -196,6 +207,28 @@
         <button class="btn btn-danger rounded-25 d-flex align-items-center gap-2" (click)="modal.close()">
             <i class="uil uil-times-circle"></i>
             <span>الغاء</span>
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #deleteItemModal let-modal>
+    <div class="modal-header main-bgcolor text-white">
+        <div class="display-7 d-flex align-items-center gap-3">
+            <i class="uil uil-trash-alt"></i>
+            <span>حذف ايراد</span>
+        </div>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">هل انت متأكد أنك تريد حذف هذا العنصر</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="DeleteItem()">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">نعم</span>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">لا</span>
         </button>
     </div>
 </ng-template>

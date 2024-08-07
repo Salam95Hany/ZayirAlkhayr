@@ -79,7 +79,7 @@ export class ValidationFormService {
   }
 
   NumbersOnly(key: any): boolean {
-    let patt = /^([0-9\+])$/;
+    let patt = /^([0-9\+.])$/;
     let result = patt.test(key);
     return result;
   }

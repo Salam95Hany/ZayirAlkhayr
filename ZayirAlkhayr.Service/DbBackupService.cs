@@ -36,7 +36,7 @@ namespace ZayirAlkhayr.Service
                 {
                     connection.Open();
                     var backupFilePath = GetBackupFilePath();
-                    string backupQuery = $"BACKUP DATABASE [ZayirAlkhayrDB] TO DISK = '{backupFilePath}'";
+                    string backupQuery = $"BACKUP DATABASE [db6936] TO DISK = '{backupFilePath}'";
                     SqlCommand command = new SqlCommand(backupQuery, connection);
                     command.ExecuteNonQuery();
                     connection.Close();

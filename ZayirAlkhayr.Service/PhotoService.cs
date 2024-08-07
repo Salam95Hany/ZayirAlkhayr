@@ -118,7 +118,7 @@ namespace ZayirAlkhayr.Service
                 PhotoObj.Title = Model.Title;
                 PhotoObj.Description = Model.Description;
                 PhotoObj.IsVisible = Model.IsVisible;
-                PhotoObj.UpdateUser = Model.UpdateUser;
+                PhotoObj.UpdateUser = Model.InsertUser;
                 PhotoObj.UpdateDate = DateTime.Now.AddHours(1);
 
                 if (Model.Files != null)
