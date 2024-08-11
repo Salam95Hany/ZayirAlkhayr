@@ -123,7 +123,7 @@ namespace ZayirAlkhayr.Service
 
                 if (Model.Files != null)
                 {
-                    var FileName = await _manageFileService.UploadFile(Model.Files, Model.OldFileName, ImageFiles.PhotoDetailImages);
+                    var FileName = await _manageFileService.UploadFile(Model.Files, Model.OldFileName, ImageFiles.PhotoImages);
                     if (FileName.Done)
                         PhotoObj.Image = FileName.StringValue;
                     else

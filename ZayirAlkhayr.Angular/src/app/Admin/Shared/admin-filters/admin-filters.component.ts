@@ -13,6 +13,7 @@ export class AdminFiltersComponent {
   @Input() ApplyDateFilter = false;
   @Input() ApplyMonthFilter = false;
   SelectedFilter: FilterModel[] = [];
+  InputFilters = ['SearchText', 'Date', 'Month'];
   isFilterOnly = false;
   FilterSearchText = '';
   SearchText = '';
@@ -34,7 +35,7 @@ export class AdminFiltersComponent {
   }
 
   filterChecked() {
-    this.SelectedFilter = [];
+    this.SelectedFilter = this.SelectedFilter.filter(i => this.InputFilters.includes(i.categoryName));
     this.FilterList.map(item => {
       let checked = item.filterItems.filter(a => a.isChecked && a.isChecked == true);
       if (checked.length > 0) {
@@ -79,19 +80,19 @@ export class AdminFiltersComponent {
     if (this.DateFilter)
       this.SelectedFilter.push({
         categoryName: 'Date',
-        categoryNameAr: 'التاريخ',
+        categoryNameAr: 'اليوم',
         itemId: this.DateFilter,
         itemKey: this.DateFilter
       });
     this.FilterChecked.emit(this.SelectedFilter);
   }
 
-  MonthFilterChange(){
+  MonthFilterChange() {
     this.SelectedFilter = this.SelectedFilter.filter(i => i.categoryName != 'Month');
     if (this.MonthFilter)
       this.SelectedFilter.push({
         categoryName: 'Month',
-        categoryNameAr: 'التاريخ',
+        categoryNameAr: 'الشهر',
         itemId: this.MonthFilter,
         itemKey: this.MonthFilter
       });
