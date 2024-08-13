@@ -18,8 +18,8 @@ import { BeneFactorComponent } from './Components/BeneFactors/bene-factor/bene-f
 import { BeneFactorDetailsComponent } from './Components/BeneFactors/bene-factor-details/bene-factor-details.component';
 import { BeneFactorTypesComponent } from './Components/BeneFactors/bene-factor-types/bene-factor-types.component';
 import { BeneFactorNotesComponent } from './Components/BeneFactors/bene-factor-notes/bene-factor-notes.component';
-import { AccountImportMonyComponent } from './Components/BeneFactors/account-import-mony/account-import-mony.component';
-import { AccountExportMonyComponent } from './Components/BeneFactors/account-export-mony/account-export-mony.component';
+import { AccountImportMonyComponent } from './Components/Tasks/account-import-mony/account-import-mony.component';
+import { AccountExportMonyComponent } from './Components/Tasks/account-export-mony/account-export-mony.component';
 import { BeneFactorNationalitiesComponent } from './Components/BeneFactors/bene-factor-nationalities/bene-factor-nationalities.component';
 import { AdminHeaderComponent } from './Shared/admin-header/admin-header.component';
 import { AdminSideMenuComponent } from './Shared/admin-side-menu/admin-side-menu.component';
@@ -27,6 +27,8 @@ import { AdminFiltersComponent } from './Shared/admin-filters/admin-filters.comp
 import { AdminPaginationComponent } from './Shared/admin-pagination/admin-pagination.component';
 import { AdminHomeComponent } from './Shared/admin-home/admin-home.component';
 import { AdminBackupComponent } from './Components/Settings/admin-backup/admin-backup.component';
+import { GeneralTasksComponent } from './Components/Tasks/general-tasks/general-tasks.component';
+import { DailyTasksComponent } from './Components/Tasks/daily-tasks/daily-tasks.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,9 @@ import { AdminBackupComponent } from './Components/Settings/admin-backup/admin-b
     AccountImportMonyComponent,
     AccountExportMonyComponent,
     BeneFactorNationalitiesComponent,
-    AdminBackupComponent
+    AdminBackupComponent,
+    GeneralTasksComponent,
+    DailyTasksComponent
   ],
   imports: [
     CommonModule,

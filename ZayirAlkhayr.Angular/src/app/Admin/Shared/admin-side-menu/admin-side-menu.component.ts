@@ -12,6 +12,7 @@ export class AdminSideMenuComponent implements OnInit {
   isCollapsed_1 = true;
   isCollapsed_2 = true;
   isCollapsed_3 = true;
+  isCollapsed_4 = true;
   RoleName = '';
   UserModel: any;
   Roles = [
@@ -23,10 +24,8 @@ export class AdminSideMenuComponent implements OnInit {
     { nameEn: 'Admin', nameAr: 'مشرف' }
   ];
   WebSite = ['home-slideimage', 'activity', 'event', 'photo'];
-  BeneFactor = ['benefactors', 'benefactor-detail', 'benefactor-type',
-    'benefactor-note', 'account-import-money', 'account-export-money', 'benefactor-nationality'
-  ];
-
+  BeneFactor = ['benefactors', 'benefactor-detail', 'benefactor-type', 'benefactor-note', 'benefactor-nationality'];
+  Tasks = ['account-export-money', 'account-import-money', 'general-tasks', 'daily-tasks'];
   constructor(private router: Router) { }
 
   ngOnInit(): void {
@@ -37,6 +36,8 @@ export class AdminSideMenuComponent implements OnInit {
       this.isCollapsed_1 = false;
     else if (this.BeneFactor.includes(url))
       this.isCollapsed_3 = false;
+    else if (this.Tasks.includes(url))
+      this.isCollapsed_4 = false;
   }
 
   onCloseSidemenuFromOverlay() {

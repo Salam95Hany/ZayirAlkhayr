@@ -11,90 +11,102 @@ import { BeneFactorComponent } from './Components/BeneFactors/bene-factor/bene-f
 import { BeneFactorDetailsComponent } from './Components/BeneFactors/bene-factor-details/bene-factor-details.component';
 import { BeneFactorTypesComponent } from './Components/BeneFactors/bene-factor-types/bene-factor-types.component';
 import { BeneFactorNotesComponent } from './Components/BeneFactors/bene-factor-notes/bene-factor-notes.component';
-import { AccountImportMonyComponent } from './Components/BeneFactors/account-import-mony/account-import-mony.component';
-import { AccountExportMonyComponent } from './Components/BeneFactors/account-export-mony/account-export-mony.component';
+import { AccountImportMonyComponent } from './Components/Tasks/account-import-mony/account-import-mony.component';
+import { AccountExportMonyComponent } from './Components/Tasks/account-export-mony/account-export-mony.component';
 import { BeneFactorNationalitiesComponent } from './Components/BeneFactors/bene-factor-nationalities/bene-factor-nationalities.component';
 import { AdminHomeComponent } from './Shared/admin-home/admin-home.component';
 import { AdminBackupComponent } from './Components/Settings/admin-backup/admin-backup.component';
+import { GeneralTasksComponent } from './Components/Tasks/general-tasks/general-tasks.component';
+import { DailyTasksComponent } from './Components/Tasks/daily-tasks/daily-tasks.component';
 
 const routes: Routes = [
   {
     path: '',
     component: AdminComponent,
     canActivate: [AuthGuard],
-    data: { roles: ["SupperAdmin", "WebSite", "Services", "BeneFactors", "Accounts","Admin"] },
+    data: { roles: ["SupperAdmin", "WebSite", "Services", "BeneFactors", "Accounts", "Admin"] },
     children: [
       {
         path: 'home',
         component: AdminHomeComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "WebSite", "Services", "BeneFactors", "Accounts","Admin"] },
+        data: { roles: ["SupperAdmin", "WebSite", "Services", "BeneFactors", "Accounts", "Admin"] },
       },
       {
         path: 'home-slideimage',
         component: HomeSlideimageComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "WebSite","Admin"] }
+        data: { roles: ["SupperAdmin", "WebSite", "Admin"] }
       },
       {
         path: 'activity',
         component: AdminActivityComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "WebSite","Admin"] }
+        data: { roles: ["SupperAdmin", "WebSite", "Admin"] }
       },
       {
         path: 'event',
         component: AdminEventComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "WebSite","Admin"] }
+        data: { roles: ["SupperAdmin", "WebSite", "Admin"] }
       },
       {
         path: 'photo',
         component: AdminPhotoComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "WebSite","Admin"] }
+        data: { roles: ["SupperAdmin", "WebSite", "Admin"] }
       },
       {
         path: 'benefactors',
         component: BeneFactorComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "BeneFactors","Admin"] }
+        data: { roles: ["SupperAdmin", "BeneFactors", "Admin"] }
       },
       {
         path: 'benefactor-detail',
         component: BeneFactorDetailsComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "BeneFactors","Admin"] }
+        data: { roles: ["SupperAdmin", "BeneFactors", "Admin"] }
       },
       {
         path: 'benefactor-type',
         component: BeneFactorTypesComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "BeneFactors","Admin"] }
+        data: { roles: ["SupperAdmin", "BeneFactors", "Admin"] }
       },
       {
         path: 'benefactor-note',
         component: BeneFactorNotesComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "BeneFactors","Admin"] }
+        data: { roles: ["SupperAdmin", "BeneFactors", "Admin"] }
       },
       {
         path: 'benefactor-nationality',
         component: BeneFactorNationalitiesComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "BeneFactors","Admin"] }
+        data: { roles: ["SupperAdmin", "BeneFactors", "Admin"] }
       },
       {
         path: 'account-import-money',
         component: AccountImportMonyComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "Accounts","Admin"] }
+        data: { roles: ["SupperAdmin", "Accounts", "Admin"] }
       },
       {
         path: 'account-export-money',
         component: AccountExportMonyComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["SupperAdmin", "Accounts","Admin"] }
+        data: { roles: ["SupperAdmin", "Accounts", "Admin"] }
+      },
+      {
+        path: 'general-tasks',
+        component: GeneralTasksComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ["SupperAdmin", "Admin"] }
+      },
+      {
+        path: 'daily-tasks',
+        component: DailyTasksComponent,
       },
       {
         path: 'user',

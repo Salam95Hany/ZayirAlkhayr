@@ -111,6 +111,33 @@
                 <span class="side-menu-text">أنواع التبرع</span>
               </a>
             </li>
+          </ul>
+        </ul>
+      </div>
+      <div>
+        <hr>
+        <div class="side-menu-list-title side-menu-text">المهام</div>
+        <ul class="side-menu-list list-unstyled p-0 m-0">
+          <li class="side-menu-list-item">
+            <a class="side-menu-list-link with-sub-menu" [class.expanded]="isCollapsed_4" (click)="collapse4.toggle()"
+              [attr.aria-expanded]="!isCollapsed_4">
+              <i class="uil uil-setting"></i>
+              <span class="side-menu-text">إدارة المهام</span>
+            </a>
+          </li>
+          <ul class="list-unstyled m-0 menu-list-collapsed" #collapse4="ngbCollapse" [(ngbCollapse)]="isCollapsed_4">
+            <li appRole [roles]="['SupperAdmin','Admin']">
+              <a class="side-menu-list-link sub-link" routerLink="./general-tasks" routerLinkActive="active">
+                <i class="uil uil-sliders-v-alt"></i>
+                <span class="side-menu-text">المهام العامة</span>
+              </a>
+            </li>
+            <li>
+              <a class="side-menu-list-link sub-link" routerLink="./daily-tasks" routerLinkActive="active">
+                <i class="uil uil-sliders-v-alt"></i>
+                <span class="side-menu-text">المهام اليومية</span>
+              </a>
+            </li>
             <li appRole [roles]="['SupperAdmin','Accounts','Admin']">
               <a class="side-menu-list-link sub-link" routerLink="./account-import-money" routerLinkActive="active">
                 <i class="uil uil-sliders-v-alt"></i>
@@ -126,7 +153,7 @@
           </ul>
         </ul>
       </div>
-      <!-- <div appRole [roles]="['SupperAdmin','Services']">
+      <!-- <div appRole [roles]="['SupperAdmin','Admin','Services']">
         <hr>
         <div class="side-menu-list-title side-menu-text">خدمات اجتماعية</div>
         <ul class="side-menu-list list-unstyled p-0 m-0">
