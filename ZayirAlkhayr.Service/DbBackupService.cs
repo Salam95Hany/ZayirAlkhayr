@@ -35,7 +35,7 @@ namespace ZayirAlkhayr.Service
                 using (SqlConnection connection = new SqlConnection(ConnectionString))
                 {
                     connection.Open();
-                    var backupFilePath = GetBackupFilePath();
+                    var backupFilePath = "";
                     string backupQuery = $"BACKUP DATABASE [db6936] TO DISK = '{backupFilePath}'";
                     SqlCommand command = new SqlCommand(backupQuery, connection);
                     command.ExecuteNonQuery();
@@ -77,13 +77,6 @@ namespace ZayirAlkhayr.Service
                 return string.Empty;
             }
 
-        }
-
-        private string GetBackupFilePath()
-        {
-            var FullPath = $"D:\\Services\\MSSQL\\Backup";
-            var FileName = DateTime.Now.ToString("dd-MM-yyyy") + "_ZAbk.bak";
-            return Path.Combine(FullPath, FileName);
         }
 
         private string GetBackupImageFilePath(ImageFiles Folder)
