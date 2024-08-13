@@ -81,7 +81,7 @@ namespace ZayirAlkhayr.Service
 
         private string GetBackupFilePath()
         {
-            var FullPath = Path.Combine(_environment.WebRootPath, ImageFiles.ExportFiles.ToString());
+            var FullPath = $"D:\\Services\\MSSQL\\Backup";
             var FileName = DateTime.Now.ToString("dd-MM-yyyy") + "_ZAbk.bak";
             return Path.Combine(FullPath, FileName);
         }
