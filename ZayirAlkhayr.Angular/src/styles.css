@@ -312,6 +312,11 @@ body {
   color: #269124;
 }
 
+.badge-warning {
+  background-color: #f5ebcb;
+  color: #d8a408;;
+}
+
 a,
 button,
 .btn,

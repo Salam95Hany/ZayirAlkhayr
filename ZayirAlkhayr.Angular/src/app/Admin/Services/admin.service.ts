@@ -88,4 +88,34 @@ export class AdminService {
     );
   }
 
+  // ============================= GeneralTasks ==============================
+
+  GetAllGeneralTasksData(PagingFilter: PagingFilterModel) {
+    return this.http.post<any[]>(this.apiURL + 'GeneralTasks/GetAllGeneralTasksData', PagingFilter);
+  }
+
+  GetAllGeneralTasksFilter(PagingFilter: PagingFilterModel) {
+    return this.http.post<any[]>(this.apiURL + 'GeneralTasks/GetAllGeneralTasksFilter', PagingFilter);
+  }
+
+  GetAllUserTasks(UserId: string) {
+    return this.http.get<any[]>(this.apiURL + 'GeneralTasks/GetAllUserTasks?UserId=' + UserId);
+  }
+
+  AddNewGeneralTask(Model: any) {
+    return this.http.post<any>(this.apiURL + 'GeneralTasks/AddNewGeneralTask', Model);
+  }
+
+  UpdateGeneralTask(Model: any) {
+    return this.http.post<any>(this.apiURL + 'GeneralTasks/UpdateGeneralTask', Model);
+  }
+
+  DeleteGeneralTask(TaskId: number) {
+    return this.http.get<any>(this.apiURL + 'GeneralTasks/DeleteGeneralTask?TaskId=' + TaskId);
+  }
+
+  ConvertTaskStatus(TaskId: number, StatusId: number) {
+    return this.http.get<any>(this.apiURL + 'GeneralTasks/ConvertTaskStatus?TaskId=' + TaskId + '&StatusId=' + StatusId);
+  }
+
 }

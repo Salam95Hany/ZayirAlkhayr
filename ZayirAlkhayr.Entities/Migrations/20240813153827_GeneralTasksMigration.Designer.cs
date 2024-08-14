@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZayirAlkhayr.Entities.Models;
 
 namespace ZayirAlkhayr.Entities.Migrations
 {
     [DbContext(typeof(ZADbContext))]
-    partial class ZADbContextModelSnapshot : ModelSnapshot
+    [Migration("20240813153827_GeneralTasksMigration")]
+    partial class GeneralTasksMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1083,21 +1085,6 @@ namespace ZayirAlkhayr.Entities.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SliderImages", "web");
-                });
-
-            modelBuilder.Entity("ZayirAlkhayr.Entities.Models.TaskStatus", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TaskStatus", "admin");
                 });
 
             modelBuilder.Entity("ZayirAlkhayr.Entities.Models.WebSiteVisitors", b =>

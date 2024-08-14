@@ -52,6 +52,8 @@ namespace ZayirAlkhayr.Entities.Models
         public DbSet<AccountsExportMony> AccountsExportMony { get; set; }
         public DbSet<BeneFactorNationalities> BeneFactorNationalities { get; set; }
         public DbSet<PagesAutoSearch> PagesAutoSearch { get; set; }
+        public DbSet<GeneralTasks> GeneralTasks { get; set; }
+        public DbSet<TaskStatus> TaskStatus { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -100,6 +100,7 @@ namespace ZayirAlkhayr
             services.AddScoped<IBeneFactorService, BeneFactorService>();
             services.AddScoped<IAccountsMonyService, AccountsMonyService>();
             services.AddScoped<IDbBackupService, DbBackupService>();
+            services.AddScoped<IGeneralTasksService, GeneralTasksService>();
             services.AddScoped<IManageFileService, ManageFileService>();
             services.AddScoped<IExportManagerService, ExportManagerService>();
             services.AddScoped<ICreatePdfFileService, CreatePdfFileService>();
