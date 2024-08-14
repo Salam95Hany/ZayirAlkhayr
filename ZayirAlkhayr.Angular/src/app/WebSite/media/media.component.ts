@@ -62,6 +62,7 @@ export class CarouselComponent implements OnInit {
   @Input() autoplayTime = 5000;
   @Input() isCarousel = false;
   currentSlide = 0;
+  intervalSlides: any;
   // FOR GALLERY Options
   @Input() isGallery = false;
   @Input() currentGallery = 0;
@@ -80,18 +81,25 @@ export class CarouselComponent implements OnInit {
   onPreviousClick() {
     const previous = this.currentSlide - 1;
     this.currentSlide = previous < 0 ? this.slides.length - 1 : previous;
+    clearInterval(this.intervalSlides);
+    this.autoplay();
   }
   onNextClick() {
     const next = this.currentSlide + 1;
     this.currentSlide = next === this.slides.length ? 0 : next;
+    clearInterval(this.intervalSlides);
+    this.autoplay();
   }
   autoplay() {
-    setInterval(() => {
+    this.intervalSlides = setInterval(() => {
       if (this.currentSlide >= 0) {
         this.onNextClick();
       }
     }, this.autoplayTime);
   }
+
+
+
 
   ngOnInit() {
     if (this.autoPlay) {

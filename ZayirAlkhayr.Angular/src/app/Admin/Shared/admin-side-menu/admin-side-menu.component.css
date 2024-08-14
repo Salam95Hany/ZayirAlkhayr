@@ -134,6 +134,9 @@
     padding-right: 25px;
     opacity: 1;
   }
+  #admin-side-menu .side-menu-text {
+    font-size: 14px;
+  }
   #admin-side-menu.collapse-side-menu .side-menu-text {
     text-indent: -999em;
     display: none;

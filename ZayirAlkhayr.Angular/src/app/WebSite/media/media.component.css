@@ -213,6 +213,9 @@
   .wrapper-carousel {
     height: 70vh;
   }
+  .indicators {
+    display: none;
+  }
 }
 
 
