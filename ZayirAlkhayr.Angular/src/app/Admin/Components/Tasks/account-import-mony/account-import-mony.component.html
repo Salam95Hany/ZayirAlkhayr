@@ -122,7 +122,7 @@
                                 id="dropdownBasic1" ngbDropdownToggle>
                                 {{BeneFactorName}}
                             </button>
-                            <div class="width-530 py-0 overflow-hidden" ngbDropdownMenu
+                            <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu
                                 aria-labelledby="dropdownBasic1">
                                 <div class="p-2 gray-bgcolor border-bottom">
                                     <div class="position-relative">
@@ -132,7 +132,7 @@
                                         <i class="uil uil-search search-icon-input"></i>
                                     </div>
                                 </div>
-                                <ul class="dropdown-list-box list-unstyled max-height-200 overflow-auto px-1 py-1 m-0">
+                                <ul class="dropdown-list-box list-unstyled max-height-220 overflow-auto px-1 py-1 m-0">
                                     <ng-container>
                                         <li class="dropdown-item cursor-pointer rounded"
                                             [ngClass]="{'DropDownSelected': BeneFactorName == 'فاعل خير'}"
@@ -158,7 +158,7 @@
                                 id="dropdownBasic1" ngbDropdownToggle>
                                 {{BeneFactorTypeName}}
                             </button>
-                            <div class="width-530 py-0 overflow-hidden" ngbDropdownMenu
+                            <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu
                                 aria-labelledby="dropdownBasic1">
                                 <div class="p-2 gray-bgcolor border-bottom">
                                     <div class="position-relative">
@@ -168,7 +168,7 @@
                                         <i class="uil uil-search search-icon-input"></i>
                                     </div>
                                 </div>
-                                <ul class="dropdown-list-box list-unstyled max-height-200 overflow-auto px-1 py-1 m-0">
+                                <ul class="dropdown-list-box list-unstyled max-height-220 overflow-auto px-1 py-1 m-0">
                                     <ng-container
                                         *ngFor="let item of BeneFactorTypes | searchArry: BeneFactorTypeSearchText:'name'">
                                         <li class="dropdown-item cursor-pointer rounded"

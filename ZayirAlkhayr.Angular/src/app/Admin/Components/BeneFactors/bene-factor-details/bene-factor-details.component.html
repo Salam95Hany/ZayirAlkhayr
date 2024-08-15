@@ -14,8 +14,8 @@
     </div>
     <div class="card-body card-body-h">
         <div class="row mb-3 g-3">
-            <div class="col-lg-4 d-flex align-items-center gap-2">
-                <div ngbDropdown class="dropdown-with-search w-75">
+            <div class="col-lg-3">
+                <div ngbDropdown class="dropdown-with-search w-100">
                     <div
                         class="dropdown-with-search-btn btn border h-58 d-flex align-items-center justify-content-between selector-padding"
                         id="dropdownBasic1" ngbDropdownToggle>
@@ -29,7 +29,7 @@
                                 <i class="uil uil-search search-icon-input"></i>
                             </div>
                         </div>
-                        <ul class="dropdown-list-box list-unstyled max-height-200 overflow-auto px-1 py-1 m-0">
+                        <ul class="dropdown-list-box list-unstyled max-height-220 overflow-auto px-1 py-1 m-0">
                             <ng-container *ngFor="let item of BeneFactorData | searchArry: SearchText:'fullName'">
                                 <li class="dropdown-item cursor-pointer rounded"
                                     [ngClass]="{'DropDownSelected': BeneFactorName == item.fullName}"
@@ -38,27 +38,29 @@
                         </ul>
                     </div>
                 </div>
-                <div class="d-flex align-items-center" *ngIf="BeneFactorId">
-                    <div class="me-2">كاش</div>
-                    <label class="jtoggler-wrapper m-0 mx-0">
-                        <input type="checkbox" class="jtoggler" [(ngModel)]="TypeSwitcher"
-                            (change)="GetBenefactorType($event.target.checked)">
-                        <div class="jtoggler-control">
-                            <div class="jtoggler-handle"></div>
-                        </div>
-                    </label>
-                    <div class="ms-2">الكل</div>
-                </div>
+            </div>
+            <div class="col-lg-1 d-flex align-items-center">
+              <div class="d-flex align-items-center" *ngIf="BeneFactorId">
+                <div class="me-2">كاش</div>
+                <label class="jtoggler-wrapper m-0 mx-0">
+                    <input type="checkbox" class="jtoggler" [(ngModel)]="TypeSwitcher"
+                        (change)="GetBenefactorType($event.target.checked)">
+                    <div class="jtoggler-control">
+                        <div class="jtoggler-handle"></div>
+                    </div>
+                </label>
+                <div class="ms-2">الكل</div>
+            </div>
             </div>
             <div class="col-lg-3" *ngIf="BenefactorType == 'Cash'">
-                <div ngbDropdown class="dropdown-with-search w-75">
+                <div ngbDropdown class="dropdown-with-search w-100">
                     <div
                         class="dropdown-with-search-btn btn border h-58 d-flex align-items-center justify-content-between selector-padding"
                         id="dropdownBasic1" ngbDropdownToggle>
                         {{BeneFactorValueName}}
                     </div>
                     <div class="py-0 w-100" ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                        <ul class="dropdown-list-box list-unstyled max-height-200 overflow-auto px-1 py-1 m-0">
+                        <ul class="dropdown-list-box list-unstyled max-height-220 overflow-auto px-1 py-1 m-0">
                             <ng-container *ngFor="let item of BeneFactorValuesData">
                                 <li class="dropdown-item cursor-pointer rounded"
                                     [ngClass]="{'DropDownSelected': BeneFactorValueName == item.totalValue +'-'+ item.paymentDateStr}"
@@ -69,7 +71,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-2" *ngIf="BenefactorType == 'Cash'">
+            <div class="col-lg-1" *ngIf="BenefactorType == 'Cash'">
                 <div class="form-floating">
                     <input type="text" class="form-control" [value]="TotalValue" id="floatingInput_1" disabled
                         placeholder="new-user">
@@ -141,7 +143,7 @@
                                 id="dropdownBasic1" [disabled]="BenefactorType == 'Cash'" ngbDropdownToggle>
                                 {{BeneFactorTypeName}}
                             </button>
-                            <div class="width-530 py-0 overflow-hidden" ngbDropdownMenu
+                            <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu
                                 aria-labelledby="dropdownBasic1">
                                 <div class="p-2 gray-bgcolor border-bottom">
                                     <div class="position-relative">
@@ -151,7 +153,7 @@
                                         <i class="uil uil-search search-icon-input"></i>
                                     </div>
                                 </div>
-                                <ul class="dropdown-list-box list-unstyled max-height-200 overflow-auto px-1 py-1 m-0">
+                                <ul class="dropdown-list-box list-unstyled max-height-220 overflow-auto px-1 py-1 m-0">
                                     <ng-container
                                         *ngFor="let item of BeneFactorTypesData | searchArry: BeneFactorTypeSearchText:'name'">
                                         <li class="dropdown-item cursor-pointer rounded"
