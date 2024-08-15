@@ -73,7 +73,7 @@
             {{BeneFactorTypeName}}
           </button>
           <div class="width-380 py-0 overflow-hidden" ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <ul class="dropdown-list-box list-unstyled max-height-200 overflow-auto px-1 py-1 m-0">
+            <ul class="dropdown-list-box list-unstyled max-height-220 overflow-auto px-1 py-1 m-0">
               <ng-container>
                 <li class="dropdown-item cursor-pointer rounded"
                   [ngClass]="{'DropDownSelected': BeneFactorTypeName == 'الكل'}"
@@ -203,7 +203,7 @@
       <label for="exampleFormControlInput1" class="form-label">اكتب اقتراحاتك</label>
       <textarea rows="5" class="form-control" placeholder="اكتب اقتراحاتك" [(ngModel)]="Suggestions"></textarea>
     </div>
-   
+
   </div>
   <div class="modal-footer justify-content-start">
     <button type="button" class="btn btn-success" (click)="AddNewBeneFactorNotes()">

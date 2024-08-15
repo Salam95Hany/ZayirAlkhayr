@@ -157,6 +157,10 @@ body {
   max-height: 200px;
 }
 
+.max-height-220 {
+  max-height: 220px;
+}
+
 .max-height-250 {
   max-height: 250px;
 }
@@ -283,6 +287,10 @@ body {
 .dropdown-item:active {
   background-color: var(--bs-dropdown-link-hover-bg);
   color: var(--bs-dropdown-link-hover-color);
+}
+
+.dropdown-item {
+  white-space: normal;
 }
 
 .rounded-25 {
@@ -765,6 +773,37 @@ button:focus,
 @media (max-width: 767px) {
   .tooltip {
     display: none;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+  .dropdown-fitting {
+    width: 360px;
+  }
+}
+@media (min-width: 575px) and (max-width: 991px) {
+  .dropdown-fitting {
+    width: 436px;
+  }
+}
+@media (max-width: 574px) {
+  .dropdown-fitting {
+    width: 420px;
+  }
+}
+@media (max-width: 425px) {
+  .dropdown-fitting {
+    width: 345px;
+  }
+}
+@media (max-width: 375px) {
+  .dropdown-fitting {
+    width: 295px;
+  }
+}
+@media (max-width: 320px) {
+  .dropdown-fitting {
+    width: 240px;
   }
 }
 

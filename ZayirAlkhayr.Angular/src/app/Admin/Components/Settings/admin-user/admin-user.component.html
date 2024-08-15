@@ -155,8 +155,8 @@
                 id="dropdownBasic1" ngbDropdownToggle>
                 {{RoleNameAr}}
               </button>
-              <div class="width-530 py-0 overflow-hidden" ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                <ul class="dropdown-list-box list-unstyled max-height-200 overflow-auto px-1 py-1 m-0">
+              <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                <ul class="dropdown-list-box list-unstyled max-height-220 overflow-auto px-1 py-1 m-0">
                   <ng-container *ngFor="let role of Roles">
                     <li class="dropdown-item cursor-pointer rounded" (click)="RoleChange(role)"
                       [ngClass]="{'DropDownSelected': RoleNameAr == role.nameAr}">{{role.nameAr}}</li>
