@@ -807,6 +807,35 @@ button:focus,
   }
 }
 
+
+::-webkit-datetime-edit {
+  /* background-color: red; */
+
+  -webkit-flex: 1;
+  -webkit-user-modify: read-only !important;
+  display: inline-block;
+  min-width: 0;
+  overflow: hidden;
+}
+::-webkit-datetime-edit-fields-wrapper {
+  /* background-color: green; */
+  /* padding: 1em; */
+  /* border: 1px solid black; */
+}
+::-webkit-datetime-edit-text {
+  /* background-color: red; */
+  margin: 3px;
+}
+
+::-webkit-inner-spin-button {
+  background-color: red;
+}
+::-webkit-calendar-picker-indicator {
+  background-image: url("./assets/calendar.png");
+  cursor: pointer;
+  font-size: 20px;
+}
+
 /* END GLOBAL STYLES */
 
 /* START HUMBORG MENU STYLE */
