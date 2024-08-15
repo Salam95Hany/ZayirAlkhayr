@@ -153,7 +153,7 @@
           </ul>
         </ul>
       </div>
-      <!-- <div appRole [roles]="['SupperAdmin','Admin','Services']">
+      <div appRole [roles]="['SupperAdmin','Admin','Services']">
         <hr>
         <div class="side-menu-list-title side-menu-text">خدمات اجتماعية</div>
         <ul class="side-menu-list list-unstyled p-0 m-0">
@@ -166,7 +166,7 @@
           </li>
           <ul class="list-unstyled m-0 menu-list-collapsed" #collapse2="ngbCollapse" [(ngbCollapse)]="isCollapsed_2">
             <li>
-              <a class="side-menu-list-link sub-link">
+              <a class="side-menu-list-link sub-link" routerLink="./add-family-status" routerLinkActive="active">
                 <i class="uil uil-sliders-v-alt"></i>
                 <span class="side-menu-text">حالات عامة</span>
               </a>
@@ -185,7 +185,7 @@
             </a>
           </li>
         </ul>
-      </div> -->
+      </div>
       <div appRole [roles]="['SupperAdmin']">
         <hr>
         <div class="side-menu-list-title side-menu-text">الاعدادات</div>

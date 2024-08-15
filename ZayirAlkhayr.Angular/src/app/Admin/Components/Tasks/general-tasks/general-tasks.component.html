@@ -101,7 +101,7 @@
                                 placeholder="new-user" required>
                             <label for="floatingInput_1">المهمة</label>
                             <div *ngIf="ItemForm.controls['task']?.invalid && (ItemForm.controls['task']?.dirty || ItemForm.controls['task']?.touched)"
-                                class="alert text-danger">
+                                class="text-danger pt-2">
                                 <div *ngIf="ItemForm.controls['task'].errors?.['required']">
                                     هذا الحقل مطلوب
                                 </div>
@@ -130,7 +130,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="alert text-danger" *ngIf="RoleValidation">
+                        <div class="text-danger pt-2" *ngIf="RoleValidation">
                             هذا الحقل مطلوب
                         </div>
                     </div>

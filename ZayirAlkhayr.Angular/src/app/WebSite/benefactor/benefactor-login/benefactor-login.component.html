@@ -20,7 +20,7 @@
               <i class="fas fa-user main-color"></i>
             </span>
           </div>
-          <div *ngIf="Code.invalid && (Code.dirty || Code.touched || LoginForm.submitted )" class="alert text-danger">
+          <div *ngIf="Code.invalid && (Code.dirty || Code.touched || LoginForm.submitted )" class="text-danger pt-2">
             <div *ngIf="Code.errors?.required">الكود مطلوب</div>
           </div>
         </div>
@@ -29,7 +29,7 @@
             <input type="text" name="Name" #Name="ngModel" [(ngModel)]="BeneFactorLogin.name" placeholder="اسم المستخدم"
               class="form-control bg-transparent border-0 text-black" required />
           </div>
-          <div *ngIf="Name.invalid && (Name.dirty || Name.touched || LoginForm.submitted )" class="alert text-danger">
+          <div *ngIf="Name.invalid && (Name.dirty || Name.touched || LoginForm.submitted )" class="text-danger pt-2">
             <div *ngIf="Name.errors?.required">اسم المستخدم مطلوب</div>
           </div>
         </div>

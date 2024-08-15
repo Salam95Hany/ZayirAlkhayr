@@ -11,7 +11,7 @@ export class AdminHomeComponent implements OnInit {
   Roles = [
     { nameEn: 'SupperAdmin', nameAr: 'مدير' },
     { nameEn: 'WebSite', nameAr: 'موقع زائر الخير' },
-    // { nameEn: 'Services', nameAr: 'خدمات اجتماعية' },
+    { nameEn: 'Services', nameAr: 'خدمات اجتماعية' },
     { nameEn: 'BeneFactors', nameAr: 'متبرعين' },
     { nameEn: 'Accounts', nameAr: 'حسابات' },
     { nameEn: 'Admin', nameAr: 'مشرف' }

@@ -18,6 +18,7 @@ import { AdminHomeComponent } from './Shared/admin-home/admin-home.component';
 import { AdminBackupComponent } from './Components/Settings/admin-backup/admin-backup.component';
 import { GeneralTasksComponent } from './Components/Tasks/general-tasks/general-tasks.component';
 import { DailyTasksComponent } from './Components/Tasks/daily-tasks/daily-tasks.component';
+import { AddFamilyStatusComponent } from './Components/GeneralServices/generalStatus/add-family-status/add-family-status.component';
 
 const routes: Routes = [
   {
@@ -119,6 +120,12 @@ const routes: Routes = [
         component: AdminBackupComponent,
         canActivate: [AuthGuard],
         data: { roles: ["SupperAdmin"] }
+      },
+      {
+        path: 'add-family-status',
+        component: AddFamilyStatusComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ["SupperAdmin","Admin","Services"] }
       },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
     ]

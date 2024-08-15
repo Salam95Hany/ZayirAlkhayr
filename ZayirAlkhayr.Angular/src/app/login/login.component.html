@@ -20,7 +20,7 @@
             </span>
           </div>
           <div *ngIf="UserName.invalid && (UserName.dirty || UserName.touched || LoginForm.submitted )"
-              class="alert text-danger">
+              class="text-danger pt-2">
               <div *ngIf="UserName.errors?.required">اسم المستخدم مطلوب</div>
             </div>
         </div>
@@ -35,7 +35,7 @@
             </span>
           </div>
           <div *ngIf="Password.invalid && (Password.dirty || Password.touched || LoginForm.submitted )"
-          class="alert text-danger">
+          class="text-danger pt-2">
           <div *ngIf="Password.errors?.required">كلمة المرور مطلوبة</div>
           <div *ngIf="Password.errors?.minlength">كلمة المرور لا تقل عن 4 احرف او ارقام</div>
         </div>

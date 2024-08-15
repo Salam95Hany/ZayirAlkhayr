@@ -15,13 +15,13 @@
     <div class="card-body card-body-h">
         <div class="row mb-3 g-3">
             <div class="col-lg-4 d-flex align-items-center gap-2">
-                <div ngbDropdown class="dropdown-with-search overflow-hidden w-100" container="body">
-                    <button
-                        class="dropdown-with-search-btn btn border width-270 h-58 d-flex align-items-center justify-content-between selector-padding"
+                <div ngbDropdown class="dropdown-with-search w-75">
+                    <div
+                        class="dropdown-with-search-btn btn border h-58 d-flex align-items-center justify-content-between selector-padding"
                         id="dropdownBasic1" ngbDropdownToggle>
                         {{BeneFactorName}}
-                    </button>
-                    <div class="min-width-270 py-0 overflow-hidden" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    </div>
+                    <div class="py-0 w-100" ngbDropdownMenu aria-labelledby="dropdownBasic1">
                         <div class="p-2 gray-bgcolor border-bottom">
                             <div class="position-relative">
                                 <input type="text" class="form-control form-control-sm" [(ngModel)]="SearchText"
@@ -51,13 +51,13 @@
                 </div>
             </div>
             <div class="col-lg-3" *ngIf="BenefactorType == 'Cash'">
-                <div ngbDropdown class="dropdown-with-search overflow-hidden w-100" container="body">
-                    <button
-                        class="dropdown-with-search-btn btn border width-270 h-58 d-flex align-items-center justify-content-between selector-padding"
+                <div ngbDropdown class="dropdown-with-search w-75">
+                    <div
+                        class="dropdown-with-search-btn btn border h-58 d-flex align-items-center justify-content-between selector-padding"
                         id="dropdownBasic1" ngbDropdownToggle>
                         {{BeneFactorValueName}}
-                    </button>
-                    <div class="min-width-270 py-0 overflow-hidden" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    </div>
+                    <div class="py-0 w-100" ngbDropdownMenu aria-labelledby="dropdownBasic1">
                         <ul class="dropdown-list-box list-unstyled max-height-200 overflow-auto px-1 py-1 m-0">
                             <ng-container *ngFor="let item of BeneFactorValuesData">
                                 <li class="dropdown-item cursor-pointer rounded"
@@ -69,9 +69,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3" *ngIf="BenefactorType == 'Cash'">
+            <div class="col-lg-2" *ngIf="BenefactorType == 'Cash'">
                 <div class="form-floating">
-                    <input type="text" class="form-control width-270" [value]="TotalValue" id="floatingInput_1" disabled
+                    <input type="text" class="form-control" [value]="TotalValue" id="floatingInput_1" disabled
                         placeholder="new-user">
                     <label for="floatingInput_1">مبلغ التبرع</label>
                 </div>
@@ -163,7 +163,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="alert text-danger" *ngIf="BeneFactorTypeValidation">
+                        <div class="text-danger pt-2" *ngIf="BeneFactorTypeValidation">
                             هذا الحقل مطلوب
                         </div>
                     </div>
@@ -174,7 +174,7 @@
                             <label for="floatingInput_1">تاريخ التبرع</label>
                         </div>
                         <div *ngIf="ItemForm.controls['paymentDate']?.invalid && (ItemForm.controls['paymentDate']?.dirty || ItemForm.controls['paymentDate']?.touched)"
-                            class="alert text-danger">
+                            class="text-danger pt-2">
                             <div *ngIf="ItemForm.controls['paymentDate'].errors?.['required']">
                                 هذا الحقل مطلوب
                             </div>
@@ -188,7 +188,7 @@
                             <label for="floatingInput_1">قيمة التبرع</label>
                         </div>
                         <div *ngIf="ItemForm.controls['totalValue']?.invalid && (ItemForm.controls['totalValue']?.dirty || ItemForm.controls['totalValue']?.touched)"
-                            class="alert text-danger">
+                            class="text-danger pt-2">
                             <div *ngIf="ItemForm.controls['totalValue'].errors?.['required']">
                                 هذا الحقل مطلوب
                             </div>
@@ -199,7 +199,7 @@
                             <input type="text" class="form-control" formControlName="details" id="floatingInput_1"
                                 placeholder="new-user">
                             <label for="floatingInput_1">تفاصيل التبرع</label>
-                            <div *ngIf="ItemForm.controls['details'].errors?.['noSpace']" class="alert text-danger">
+                            <div *ngIf="ItemForm.controls['details'].errors?.['noSpace']" class="text-danger pt-2">
                                 لا يمكن ان يحتوي الحقل على مسافات فقط
                             </div>
                         </div>

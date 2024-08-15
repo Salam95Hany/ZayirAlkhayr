@@ -60,7 +60,7 @@
                                 placeholder="new-user" required>
                             <label for="floatingInput_1">الاسم</label>
                             <div *ngIf="ItemForm.controls['name']?.invalid && (ItemForm.controls['name']?.dirty || ItemForm.controls['name']?.touched)"
-                                class="alert text-danger">
+                                class="text-danger pt-2">
                                 <div *ngIf="ItemForm.controls['name'].errors?.['required']">
                                     هذا الحقل مطلوب
                                 </div>

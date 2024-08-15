@@ -6,7 +6,7 @@
     top: var(--admin-header-height);
     right: 0;
     z-index: 5;
-    background: url("../../../../assets/admin-sidemenu.jpg") no-repeat;
+    /* background: url("../../../../assets/admin-sidemenu.jpg") no-repeat; */
     background-size: cover;
     transition: var(--main-transition);
     -webkit-transition: var(--main-transition);

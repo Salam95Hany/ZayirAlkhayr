@@ -113,7 +113,7 @@
                                 placeholder="new-user" required>
                             <label for="floatingInput_1">اسم المتبرع</label>
                             <div *ngIf="ItemForm.controls['fullName']?.invalid && (ItemForm.controls['fullName']?.dirty || ItemForm.controls['fullName']?.touched)"
-                                class="alert text-danger">
+                                class="text-danger pt-2">
                                 <div *ngIf="ItemForm.controls['fullName'].errors?.['required']">
                                     هذا الحقل مطلوب
                                 </div>
@@ -128,7 +128,7 @@
                             <input type="text" class="form-control"
                                 formControlName="description" id="floatingInput_1" placeholder="new-user">
                             <label for="floatingInput_1">الوصف</label>
-                            <div *ngIf="ItemForm.controls['description'].errors?.['noSpace']" class="alert text-danger">
+                            <div *ngIf="ItemForm.controls['description'].errors?.['noSpace']" class="text-danger pt-2">
                                 لا يمكن ان يحتوي الحقل على مسافات فقط
                             </div>
                         </div>
@@ -139,7 +139,7 @@
                                 formControlName="phone" id="floatingInput_1" placeholder="new-user" required>
                             <label for="floatingInput_1">رقم التلفون</label>
                             <div *ngIf="ItemForm.controls['phone']?.invalid && (ItemForm.controls['phone']?.dirty || ItemForm.controls['phone']?.touched)"
-                                class="alert text-danger">
+                                class="text-danger pt-2">
                                 <div *ngIf="ItemForm.controls['phone'].errors?.['required']">
                                     هذا الحقل مطلوب
                                 </div>
@@ -154,7 +154,7 @@
                             <input type="text" class="form-control" (keypress)="NumbersOnly($event.key)"
                                 formControlName="phone2" id="floatingInput_1" placeholder="new-user">
                             <label for="floatingInput_1">رقم التلفون 2</label>
-                            <div *ngIf="ItemForm.controls['phone2'].errors?.['pattern']" class="alert text-danger">
+                            <div *ngIf="ItemForm.controls['phone2'].errors?.['pattern']" class="text-danger pt-2">
                                 أدخل أرقام فقط
                             </div>
                         </div>
@@ -164,7 +164,7 @@
                             <input type="text" class="form-control" formControlName="address" id="floatingInput_1"
                                 placeholder="new-user">
                             <label for="floatingInput_1">العنوان</label>
-                            <div *ngIf="ItemForm.controls['address'].errors?.['noSpace']" class="alert text-danger">
+                            <div *ngIf="ItemForm.controls['address'].errors?.['noSpace']" class="text-danger pt-2">
                                 لا يمكن ان يحتوي الحقل على مسافات فقط
                             </div>
                         </div>
@@ -174,7 +174,7 @@
                             <input type="text" class="form-control" formControlName="faceBook" id="floatingInput_1"
                                 placeholder="new-user">
                             <label for="floatingInput_1">صفحة الفيس بوك</label>
-                            <div *ngIf="ItemForm.controls['faceBook'].errors?.['noSpace']" class="alert text-danger">
+                            <div *ngIf="ItemForm.controls['faceBook'].errors?.['noSpace']" class="text-danger pt-2">
                                 لا يمكن ان يحتوي الحقل على مسافات فقط
                             </div>
                         </div>
@@ -197,7 +197,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="alert text-danger" *ngIf="NationalityValidation">
+                        <div class="text-danger pt-2" *ngIf="NationalityValidation">
                             هذا الحقل مطلوب
                         </div>
                     </div>
@@ -211,7 +211,7 @@
                             <input type="text" class="form-control"
                                 formControlName="welcomeMessage" id="floatingInput_1" placeholder="new-user">
                             <label for="floatingInput_1">رسالة ترحيبية</label>
-                            <div *ngIf="ItemForm.controls['welcomeMessage'].errors?.['noSpace']" class="alert text-danger">
+                            <div *ngIf="ItemForm.controls['welcomeMessage'].errors?.['noSpace']" class="text-danger pt-2">
                                 لا يمكن ان يحتوي الحقل على مسافات فقط
                             </div>
                         </div>
@@ -404,7 +404,7 @@
                 </div>
             </div>
             <hr>
-            <h3 class="text-danger">تنبيه هام
+            <h3 class="text-danger pt-2">تنبيه هام
                 <i class="fas fa-exclamation-circle"></i>
             </h3>
             <div>

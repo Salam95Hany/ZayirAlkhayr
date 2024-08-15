@@ -89,7 +89,7 @@
             </div>
             <div
               *ngIf="ItemForm.controls['name']?.invalid && (ItemForm.controls['name']?.dirty || ItemForm.controls['name']?.touched)"
-              class="alert text-danger">
+              class="text-danger pt-2">
               <div *ngIf="ItemForm.controls['name'].errors?.['required']">
                 هذا الحقل مطلوب
               </div>
@@ -106,7 +106,7 @@
             </div>
             <div
               *ngIf="ItemForm.controls['description']?.invalid && (ItemForm.controls['description']?.dirty || ItemForm.controls['description']?.touched)"
-              class="alert text-danger">
+              class="text-danger pt-2">
               <div *ngIf="ItemForm.controls['description'].errors?.['required']">
                 هذا الحقل مطلوب
               </div>
@@ -129,7 +129,7 @@
             <div class="choose-file-box position-relative border rounded h-58" (click)="InputFile.click()">
               <div class="choose-file-btn">تحميل صورة</div>
             </div>
-            <div class="alert text-danger" *ngIf="isFileExist">
+            <div class="text-danger pt-2" *ngIf="isFileExist">
               هذا الحقل مطلوب
             </div>
           </div>
@@ -179,7 +179,7 @@
           <div class="choose-file-box position-relative border rounded h-58" (click)="InputMultiFile.click()">
             <div class="choose-file-btn">تحميل صورة</div>
           </div>
-          <div class="alert text-danger" *ngIf="isFileExist">
+          <div class="text-danger pt-2" *ngIf="isFileExist">
             هذا الحقل مطلوب
           </div>
         </div>

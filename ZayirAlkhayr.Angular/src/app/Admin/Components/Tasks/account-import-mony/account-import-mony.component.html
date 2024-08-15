@@ -93,7 +93,7 @@
                             <label for="floatingInput_1">المبلغ</label>
                         </div>
                         <div *ngIf="ItemForm.controls['totalValue']?.invalid && (ItemForm.controls['totalValue']?.dirty || ItemForm.controls['totalValue']?.touched)"
-                            class="alert text-danger">
+                            class="text-danger pt-2">
                             <div *ngIf="ItemForm.controls['totalValue'].errors?.['required']">
                                 هذا الحقل مطلوب
                             </div>
@@ -105,7 +105,7 @@
                                 placeholder="new-user" required>
                             <label for="floatingInput_1">التفاصيل</label>
                             <div *ngIf="ItemForm.controls['details']?.invalid && (ItemForm.controls['details']?.dirty || ItemForm.controls['details']?.touched)"
-                                class="alert text-danger">
+                                class="text-danger pt-2">
                                 <div *ngIf="ItemForm.controls['details'].errors?.['required']">
                                     هذا الحقل مطلوب
                                 </div>
@@ -147,7 +147,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="alert text-danger" *ngIf="BeneFactorValidation">
+                        <div class="text-danger pt-2" *ngIf="BeneFactorValidation">
                             هذا الحقل مطلوب
                         </div>
                     </div>
@@ -178,7 +178,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="alert text-danger" *ngIf="BeneFactorTypeValidation">
+                        <div class="text-danger pt-2" *ngIf="BeneFactorTypeValidation">
                             هذا الحقل مطلوب
                         </div>
                     </div>
@@ -189,7 +189,7 @@
                             <label for="floatingInput_1">تاريخ الاضافة</label>
                         </div>
                         <div *ngIf="ItemForm.controls['InsertDate']?.invalid && (ItemForm.controls['InsertDate']?.dirty || ItemForm.controls['InsertDate']?.touched)"
-                            class="alert text-danger">
+                            class="text-danger pt-2">
                             <div *ngIf="ItemForm.controls['InsertDate'].errors?.['required']">
                                 هذا الحقل مطلوب
                             </div>

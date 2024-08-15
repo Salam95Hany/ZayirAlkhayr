@@ -77,7 +77,7 @@
             </div>
             <div
               *ngIf="ItemForm.controls['userName']?.invalid && (ItemForm.controls['userName']?.dirty || ItemForm.controls['userName']?.touched)"
-              class="alert text-danger">
+              class="text-danger pt-2">
               <div *ngIf="ItemForm.controls['userName'].errors?.['required']">
                 هذا الحقل مطلوب
               </div>
@@ -94,7 +94,7 @@
             </div>
             <div
               *ngIf="ItemForm.controls['email']?.invalid && (ItemForm.controls['email']?.dirty || ItemForm.controls['email']?.touched)"
-              class="alert text-danger">
+              class="text-danger pt-2">
               <div *ngIf="ItemForm.controls['email'].errors?.['required']">
                 هذا الحقل مطلوب
               </div>
@@ -111,7 +111,7 @@
             </div>
             <div
               *ngIf="ItemForm.controls['phoneNumber']?.invalid && (ItemForm.controls['phoneNumber']?.dirty || ItemForm.controls['phoneNumber']?.touched)"
-              class="alert text-danger">
+              class="text-danger pt-2">
               <div *ngIf="ItemForm.controls['phoneNumber'].errors?.['required']">
                 هذا الحقل مطلوب
               </div>
@@ -125,7 +125,7 @@
             </div>
             <div
               *ngIf="ItemForm.controls['password']?.invalid && (ItemForm.controls['password']?.dirty || ItemForm.controls['password']?.touched)"
-              class="alert text-danger">
+              class="text-danger pt-2">
               <div *ngIf="ItemForm.controls['password'].errors?.['required']">
                 هذا الحقل مطلوب
               </div>
@@ -142,7 +142,7 @@
             </div>
             <div
               *ngIf="ItemForm.controls['address']?.invalid && (ItemForm.controls['address']?.dirty || ItemForm.controls['address']?.touched)"
-              class="alert text-danger">
+              class="text-danger pt-2">
               <div *ngIf="ItemForm.controls['address'].errors?.['required']">
                 هذا الحقل مطلوب
               </div>
@@ -164,7 +164,7 @@
                 </ul>
               </div>
             </div>
-            <div class="alert text-danger" *ngIf="RoleValidation">
+            <div class="text-danger pt-2" *ngIf="RoleValidation">
               هذا الحقل مطلوب
             </div>
           </div>
