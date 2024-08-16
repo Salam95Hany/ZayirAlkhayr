@@ -4,19 +4,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using QuestPDF.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using ZayirAlkhayr.Entities.Models;
 using ZayirAlkhayr.Interface.BeneFactor;
 using ZayirAlkhayr.Interface.Common;
@@ -115,6 +109,8 @@ namespace ZayirAlkhayr
             services.AddScoped<IExportManagerService, ExportManagerService>();
             services.AddScoped<ICreatePdfFileService, CreatePdfFileService>();
             services.AddScoped<ISQLHelper, SQLHelper>();
+            services.AddScoped<IFamilyNationalityService, FamilyNationalityService>();
+            services.AddScoped<IFamilyNeedsService, FamilyNeedsService>();
 
             services.AddMvc(options =>
                 {

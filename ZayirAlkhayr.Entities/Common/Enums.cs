@@ -6,14 +6,6 @@ using System.Threading.Tasks;
 
 namespace ZayirAlkhayr.Entities.Common
 {
-    public enum FamilyNeedTypes
-    {
-        Electric = 0, // الاجهزة الكهربائية
-        Furniture = 1, // اثاث
-        HomeMaintenance = 2, // صيانة المنزل
-        Joinary = 3 // نجارة
-    }
-
     public enum ImageFiles
     {
         SliderImages = 0,
