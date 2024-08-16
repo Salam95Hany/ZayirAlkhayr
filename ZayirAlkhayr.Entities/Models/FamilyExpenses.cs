@@ -15,6 +15,7 @@ namespace ZayirAlkhayr.Entities.Models
         public int? Rent_Electricity_Water_Gas_Sewage { get; set; }
         public int? MedicalExamination_Treatment { get; set; } // كشف طبي\علاج
         public int SchoolExpenses { get; set; } // مصاريف مدارس\حضانة\دروس
+        public int? Installment_debts { get; set; } // ديون\اقساط
         public int? PhysiotherapySessions { get; set; } // جلسات علاج طبيعي
         public int? Analysis { get; set; } // تحاليل
         public int? SatisfactoryTransfers { get; set; } // انتقالات مرضية

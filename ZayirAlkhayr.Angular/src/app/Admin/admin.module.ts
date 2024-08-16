@@ -29,13 +29,16 @@ import { AdminHomeComponent } from './Shared/admin-home/admin-home.component';
 import { AdminBackupComponent } from './Components/Settings/admin-backup/admin-backup.component';
 import { GeneralTasksComponent } from './Components/Tasks/general-tasks/general-tasks.component';
 import { DailyTasksComponent } from './Components/Tasks/daily-tasks/daily-tasks.component';
-import { FamilyStatusComponent } from './Components/GeneralServices/generalStatus/family-status/family-status.component';
-import { FamilyDataComponent } from './Components/GeneralServices/generalStatus/family-data/family-data.component';
-import { FamilyIncomeDataComponent } from './Components/GeneralServices/generalStatus/family-income-data/family-income-data.component';
-import { FamilyExpensesDataComponent } from './Components/GeneralServices/generalStatus/family-expenses-data/family-expenses-data.component';
-import { FamilyMedicalComponent } from './Components/GeneralServices/generalStatus/family-medical/family-medical.component';
-import { ReviewersComponent } from './Components/GeneralServices/generalStatus/reviewers/reviewers.component';
-import { AddFamilyStatusComponent } from './Components/GeneralServices/generalStatus/add-family-status/add-family-status.component';
+import { FamilyStatusComponent } from './Components/GeneralServices/generalStatus/addFamilyStatus/family-status/family-status.component';
+import { FamilyDataComponent } from './Components/GeneralServices/generalStatus/addFamilyStatus/family-data/family-data.component';
+import { FamilyIncomeDataComponent } from './Components/GeneralServices/generalStatus/addFamilyStatus/family-income-data/family-income-data.component';
+import { FamilyExpensesDataComponent } from './Components/GeneralServices/generalStatus/addFamilyStatus/family-expenses-data/family-expenses-data.component';
+import { FamilyMedicalComponent } from './Components/GeneralServices/generalStatus/addFamilyStatus/family-medical/family-medical.component';
+import { ReviewersComponent } from './Components/GeneralServices/generalStatus/addFamilyStatus/reviewers/reviewers.component';
+import { AddFamilyStatusComponent } from './Components/GeneralServices/generalStatus/addFamilyStatus/add-family-status.component';
+import { FamilyNeedComponent } from './Components/GeneralServices/generalStatus/addFamilyStatus/family-need/family-need.component';
+import { FamilyNationalityComponent } from './Components/GeneralServices/generalStatus/family-nationality/family-nationality.component';
+import { FamilyNeedsComponent } from './Components/GeneralServices/generalStatus/family-needs/family-needs.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +71,10 @@ import { AddFamilyStatusComponent } from './Components/GeneralServices/generalSt
     FamilyExpensesDataComponent,
     FamilyMedicalComponent,
     ReviewersComponent,
-    AddFamilyStatusComponent
+    AddFamilyStatusComponent,
+    FamilyNeedComponent,
+    FamilyNationalityComponent,
+    FamilyNeedsComponent
   ],
   imports: [
     CommonModule,

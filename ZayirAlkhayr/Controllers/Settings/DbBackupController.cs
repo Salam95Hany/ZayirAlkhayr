@@ -1,0 +1,35 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.Data;
+using ZayirAlkhayr.Entities.Common;
+using ZayirAlkhayr.Interface.Settings;
+using ZayirAlkhayr.Service;
+using ZayirAlkhayr.Service.Common;
+
+namespace ZayirAlkhayr.Controllers.Settings
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class DbBackupController : ControllerBase
+    {
+        private readonly IDbBackupService _dbBackupService;
+        public DbBackupController(IDbBackupService dbBackupService)
+        {
+            _dbBackupService = dbBackupService;
+        }
+
+        [HttpGet("SaveDbBackupFile")]
+        public IActionResult SaveDbBackupFile()
+        {
+            var FullPath = _dbBackupService.SaveDbBackupFile();
+            return new TempPhysicalFileResult(FullPath, "application/bak");
+        }
+
+        [HttpGet("DownloadImagesFolder")]
+        public IActionResult DownloadImagesFolder(ImageFiles Folder)
+        {
+            var FullPath = _dbBackupService.DownloadImagesFolder(Folder);
+            return new TempPhysicalFileResult(FullPath, "application/zip");
+        }
+    }
+}

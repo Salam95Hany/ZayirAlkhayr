@@ -18,10 +18,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZayirAlkhayr.Entities.Models;
-using ZayirAlkhayr.Interface;
+using ZayirAlkhayr.Interface.BeneFactor;
 using ZayirAlkhayr.Interface.Common;
-using ZayirAlkhayr.Service;
+using ZayirAlkhayr.Interface.GeneralServices;
+using ZayirAlkhayr.Interface.Settings;
+using ZayirAlkhayr.Interface.Tasks;
+using ZayirAlkhayr.Interface.WebSite;
+using ZayirAlkhayr.Service.BeneFactor;
 using ZayirAlkhayr.Service.Common;
+using ZayirAlkhayr.Service.GeneralServices;
+using ZayirAlkhayr.Service.Settings;
+using ZayirAlkhayr.Service.Tasks;
+using ZayirAlkhayr.Service.WebSite;
 
 namespace ZayirAlkhayr
 {
@@ -101,6 +109,8 @@ namespace ZayirAlkhayr
             services.AddScoped<IAccountsMonyService, AccountsMonyService>();
             services.AddScoped<IDbBackupService, DbBackupService>();
             services.AddScoped<IGeneralTasksService, GeneralTasksService>();
+            services.AddScoped<IFamilyStatusService, FamilyStatusService>();
+            services.AddScoped<IAddFamilyStatusService, AddFamilyStatusService>();
             services.AddScoped<IManageFileService, ManageFileService>();
             services.AddScoped<IExportManagerService, ExportManagerService>();
             services.AddScoped<ICreatePdfFileService, CreatePdfFileService>();

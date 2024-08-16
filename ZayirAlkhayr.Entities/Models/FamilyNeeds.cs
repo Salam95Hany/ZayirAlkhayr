@@ -11,7 +11,7 @@ namespace ZayirAlkhayr.Entities.Models
     public class FamilyNeeds
     {
         public int Id { get; set; }
-        public int FamilyStatusId { get; set; }
-        public int FamilyNeedTypeId { get; set; }
+        public int StatusId { get; set; }
+        public int NeedTypeId { get; set; }
     }
 }
