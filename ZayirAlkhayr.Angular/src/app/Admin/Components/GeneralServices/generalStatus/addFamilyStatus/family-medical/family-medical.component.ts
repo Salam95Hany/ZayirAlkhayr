@@ -6,5 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./family-medical.component.css']
 })
 export class FamilyMedicalComponent {
-
+  isDate = false;
+  onfocus() {
+    this.isDate = true;
+  }
 }

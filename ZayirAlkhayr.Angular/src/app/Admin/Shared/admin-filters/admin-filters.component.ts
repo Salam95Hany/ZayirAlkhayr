@@ -98,4 +98,13 @@ export class AdminFiltersComponent {
       });
     this.FilterChecked.emit(this.SelectedFilter);
   }
+
+  isDate = false;
+  onfocusDate() {
+    this.isDate = true;
+  }
+  isMonth = false;
+  onfocusMonth() {
+    this.isMonth = true;
+  }
 }

@@ -851,9 +851,19 @@ select {
 }
 
 ::-webkit-calendar-picker-indicator {
-  background-image: url("./assets/calendar.png");
+  background-image: url("./assets/calendar_2.png");
   cursor: pointer;
   font-size: 20px;
+}
+.custom-date-input .date-label {
+  position: absolute;
+  right: calc(100% - 51%);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50%;
+  text-align: left;
+  background-color: #FFF;
+  padding: 0 10px;
 }
 
 /* END GLOBAL STYLES */

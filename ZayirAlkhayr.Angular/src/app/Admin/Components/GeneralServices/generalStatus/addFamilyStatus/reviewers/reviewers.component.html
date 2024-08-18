@@ -33,7 +33,10 @@
       <tr>
         <td class="fvt-td-bg">تاريخ الزيارة</td>
         <td>
-          <input type="date" class="form-control" />
+          <div class="custom-date-input position-relative">
+            <span class="date-label" *ngIf="!isDate">اختر التاريخ</span>
+            <input type="date" class="form-control cursor-pointer" (focus)="onfocus()" />
+          </div>
         </td>
       </tr>
     </tbody>

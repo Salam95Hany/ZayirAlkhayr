@@ -6,5 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./family-status.component.css']
 })
 export class FamilyStatusComponent {
-
+ isDate = false;
+  onfocus() {
+    this.isDate = true;
+  }
 }

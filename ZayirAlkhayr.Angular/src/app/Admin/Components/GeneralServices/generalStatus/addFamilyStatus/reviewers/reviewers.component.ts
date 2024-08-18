@@ -6,5 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./reviewers.component.css']
 })
 export class ReviewersComponent {
-
+  isDate = false;
+  onfocus() {
+    this.isDate = true;
+  }
 }
