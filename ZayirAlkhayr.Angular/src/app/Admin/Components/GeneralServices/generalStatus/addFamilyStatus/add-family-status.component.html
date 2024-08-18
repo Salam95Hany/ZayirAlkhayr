@@ -1,1 +1,110 @@
-<p>all steps in this component</p>
+<div class="steppers-header border bg-white rounded p-3 shadow-sm mb-4">
+  <div class="row g-4">
+    <div class="col-xl-3 d-flex justify-content-center justify-content-xl-start">
+      <div class="d-flex flex-column align-items-center justify-content-center gap-2">
+        <i class="fas fa-user-plus case-icon"></i>
+        <h4 class="m-0">اضافه حالة جديدة</h4>
+      </div>
+    </div>
+    <div class="col-xl-7">
+      <ul class="stepers-list list-unstyled d-flex align-items-xl-start align-items-center justify-content-center p-0 m-0">
+        <li class="steper-item active" [class.active]="activeStep >= 1" (click)="onSteps(1);">
+          <div class="steper-item-content">
+            <div class="steper-item-circle-line">
+              <div class="steper-item-circle">1</div>
+            </div>
+            <div class="steper-item-title">الحالة</div>
+          </div>
+        </li>
+        <li class="steper-item" [class.active]="activeStep >= 2" (click)="onSteps(2);">
+          <div class="steper-item-content">
+            <div class="steper-item-circle-line">
+              <div class="steper-item-circle">2</div>
+            </div>
+            <div class="steper-item-title">بيانات الاسرة</div>
+          </div>
+        </li>
+        <li class="steper-item" [class.active]="activeStep >= 3" (click)="onSteps(3);">
+          <div class="steper-item-content">
+            <div class="steper-item-circle-line">
+              <div class="steper-item-circle">3</div>
+            </div>
+            <div class="steper-item-title">بيانات دخل الاسرة</div>
+          </div>
+        </li>
+        <li class="steper-item" [class.active]="activeStep >= 4" (click)="onSteps(4);">
+          <div class="steper-item-content">
+            <div class="steper-item-circle-line">
+              <div class="steper-item-circle">4</div>
+            </div>
+            <div class="steper-item-title">بيان المصروفات للاسرة</div>
+          </div>
+        </li>
+        <li class="steper-item" [class.active]="activeStep >= 5" (click)="onSteps(5);">
+          <div class="steper-item-content">
+            <div class="steper-item-circle-line">
+              <div class="steper-item-circle">5</div>
+            </div>
+            <div class="steper-item-title">الجانب الطبي لأفراد الاسرة</div>
+          </div>
+        </li>
+        <li class="steper-item" [class.active]="activeStep >= 6" (click)="onSteps(6);">
+          <div class="steper-item-content">
+            <div class="steper-item-circle-line">
+              <div class="steper-item-circle">6</div>
+            </div>
+            <div class="steper-item-title">احتياجات الحالة</div>
+          </div>
+        </li>
+        <li class="steper-item" [class.active]="activeStep >= 7" (click)="onSteps(7);">
+          <div class="steper-item-content">
+            <div class="steper-item-circle-line">
+              <div class="steper-item-circle">7</div>
+            </div>
+            <div class="steper-item-title">المراجعين</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="col-xl-2 d-flex align-items-center justify-content-center justify-content-xl-end">
+      <div class="d-flex align-items-center flex-wrap gap-2">
+        <button class="btn main-button d-flex align-items-center gap-2" *ngIf="activeStep >= 7">
+          <i class="fas fa-plus-circle fa-fw"></i>
+          <span class="navbar-brand m-0">اضافة</span>
+        </button>
+        <button class="btn main-button blue d-flex align-items-center gap-2" *ngIf="activeStep >= 1 && activeStep < 7" (click)="nextStepers()">
+          <span class="navbar-brand m-0">التالى</span>
+          <i class="fas fa-arrow-left fa-fw"></i>
+        </button>
+        <button class="btn main-button orange d-flex align-items-center gap-2" *ngIf="activeStep > 1" (click)="prevStepers()">
+          <i class="fas fa-arrow-right fa-fw"></i>
+          <span class="navbar-brand m-0">السابق</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="steppers-content">
+  <ng-container *ngIf="activeStep === 1">
+    <app-family-status></app-family-status>
+  </ng-container>
+  <ng-container *ngIf="activeStep === 2">
+    <app-family-data></app-family-data>
+  </ng-container>
+  <ng-container *ngIf="activeStep === 3">
+    <app-family-income-data></app-family-income-data>
+  </ng-container>
+  <ng-container *ngIf="activeStep === 4">
+    <app-family-expenses-data></app-family-expenses-data>
+  </ng-container>
+  <ng-container *ngIf="activeStep === 5">
+    <app-family-medical></app-family-medical>
+  </ng-container>
+  <ng-container *ngIf="activeStep === 6">
+    <app-family-need></app-family-need>
+  </ng-container>
+  <ng-container *ngIf="activeStep === 7">
+    <app-reviewers></app-reviewers>
+  </ng-container>
+</div>

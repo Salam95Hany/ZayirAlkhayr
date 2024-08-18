@@ -216,9 +216,9 @@
   .indicators {
     display: none;
   }
-  .carousel .slide {
+  /* .carousel .slide {
     object-fit: cover;
-  }
+  } */
 }
 
 

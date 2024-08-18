@@ -14,7 +14,7 @@
   --background-body: #EEF5FF;
   --background-body: #f3f3f3;
   --white-color: #FFF;
-  --light-gray: #f2f4f5;
+  --light-gray: #f9f9f9;
 
   /* HEIGHTS */
   --header_height: 70px;
@@ -121,12 +121,20 @@ body {
   line-height: 1.2;
 }
 
+.width-150 {
+  width: 150px;
+}
+
 .width-30-per {
   width: 30%;
 }
 
 .width-250 {
   width: 250px;
+}
+
+.width-300 {
+  width: 300px;
 }
 
 .width-530 {
@@ -196,6 +204,23 @@ body {
   border-color: var(--main-color);
 }
 
+.main-button.blue {
+  background-color: #0d6efd;
+}
+.main-button.blue:hover {
+  background-color: #FFF;
+  color: #0d6efd;
+  border-color: #0d6efd;
+}
+.main-button.orange {
+  background-color: #FF9800;
+}
+.main-button.orange:hover {
+  background-color: #FFF;
+  color: #FF9800;
+  border-color: #FF9800;
+}
+
 .main-filter-button {
   border: 1px solid #DDD;
   font-size: 15px;
@@ -220,7 +245,7 @@ body {
 }
 
 .table td {
-  background-color: #FFF !important;
+  background-color: #FFF;
   color: #000 !important;
 }
 
@@ -236,6 +261,11 @@ body {
 
 .table td {
   min-width: 100px;
+}
+
+.fvt-td-bg {
+  background-color: var(--light-gray) !important;
+  min-width: 200px !important;
 }
 
 .card-header {
@@ -549,7 +579,16 @@ button:focus,
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
 }
-
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: transparent;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+  background-repeat: no-repeat;
+  background-position-x: 6px;
+  background-position-y: 9px;
+  background-size: 18px;
+}
 .search-wrapper.active .input-holder .search-dropdown-autocomplete.show {
   opacity: 1;
   display: block;
@@ -807,29 +846,10 @@ button:focus,
   }
 }
 
-
-::-webkit-datetime-edit {
-  /* background-color: red; */
-
-  -webkit-flex: 1;
-  -webkit-user-modify: read-only !important;
-  display: inline-block;
-  min-width: 0;
-  overflow: hidden;
-}
-::-webkit-datetime-edit-fields-wrapper {
-  /* background-color: green; */
-  /* padding: 1em; */
-  /* border: 1px solid black; */
-}
 ::-webkit-datetime-edit-text {
-  /* background-color: red; */
   margin: 3px;
 }
 
-::-webkit-inner-spin-button {
-  background-color: red;
-}
 ::-webkit-calendar-picker-indicator {
   background-image: url("./assets/calendar.png");
   cursor: pointer;
