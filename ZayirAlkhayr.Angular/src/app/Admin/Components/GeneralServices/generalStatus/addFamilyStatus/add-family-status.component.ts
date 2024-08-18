@@ -6,6 +6,17 @@ import { Component } from '@angular/core';
   styleUrls: ['./add-family-status.component.css']
 })
 export class AddFamilyStatusComponent {
+
+  stepsItems = [
+    { number: 1, name: 'الحالة' },
+    { number: 2, name: 'بيانات الاسرة' },
+    { number: 3, name: 'بيانات دخل الاسرة' },
+    { number: 4, name: 'بيان المصروفات للاسرة' },
+    { number: 5, name: 'الجانب الطبي لأفراد الاسرة' },
+    { number: 6, name: 'احتياجات الحالة' },
+    { number: 7, name: 'المراجعين' },
+  ];
+
   activeStep = 1;
   currentStep = 0;
   onSteps(index: number) {
@@ -32,8 +43,6 @@ export class AddFamilyStatusComponent {
       this.currentStep = 7;
     }
   }
-
-
   nextStepers() {
     this.activeStep += 1;
     this.currentStep += 1;

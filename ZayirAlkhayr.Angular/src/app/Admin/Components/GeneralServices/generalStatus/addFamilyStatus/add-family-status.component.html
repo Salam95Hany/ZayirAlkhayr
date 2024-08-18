@@ -8,60 +8,12 @@
     </div>
     <div class="col-xl-7">
       <ul class="stepers-list list-unstyled d-flex align-items-xl-start align-items-center justify-content-center p-0 m-0">
-        <li class="steper-item active" [class.active]="activeStep >= 1" (click)="onSteps(1);">
+        <li *ngFor="let item of stepsItems; index as i" class="steper-item active" [class.active]="activeStep >= i+1" (click)="onSteps(i + 1);">
           <div class="steper-item-content">
             <div class="steper-item-circle-line">
-              <div class="steper-item-circle">1</div>
+              <div class="steper-item-circle">{{ item.number }}</div>
             </div>
-            <div class="steper-item-title">الحالة</div>
-          </div>
-        </li>
-        <li class="steper-item" [class.active]="activeStep >= 2" (click)="onSteps(2);">
-          <div class="steper-item-content">
-            <div class="steper-item-circle-line">
-              <div class="steper-item-circle">2</div>
-            </div>
-            <div class="steper-item-title">بيانات الاسرة</div>
-          </div>
-        </li>
-        <li class="steper-item" [class.active]="activeStep >= 3" (click)="onSteps(3);">
-          <div class="steper-item-content">
-            <div class="steper-item-circle-line">
-              <div class="steper-item-circle">3</div>
-            </div>
-            <div class="steper-item-title">بيانات دخل الاسرة</div>
-          </div>
-        </li>
-        <li class="steper-item" [class.active]="activeStep >= 4" (click)="onSteps(4);">
-          <div class="steper-item-content">
-            <div class="steper-item-circle-line">
-              <div class="steper-item-circle">4</div>
-            </div>
-            <div class="steper-item-title">بيان المصروفات للاسرة</div>
-          </div>
-        </li>
-        <li class="steper-item" [class.active]="activeStep >= 5" (click)="onSteps(5);">
-          <div class="steper-item-content">
-            <div class="steper-item-circle-line">
-              <div class="steper-item-circle">5</div>
-            </div>
-            <div class="steper-item-title">الجانب الطبي لأفراد الاسرة</div>
-          </div>
-        </li>
-        <li class="steper-item" [class.active]="activeStep >= 6" (click)="onSteps(6);">
-          <div class="steper-item-content">
-            <div class="steper-item-circle-line">
-              <div class="steper-item-circle">6</div>
-            </div>
-            <div class="steper-item-title">احتياجات الحالة</div>
-          </div>
-        </li>
-        <li class="steper-item" [class.active]="activeStep >= 7" (click)="onSteps(7);">
-          <div class="steper-item-content">
-            <div class="steper-item-circle-line">
-              <div class="steper-item-circle">7</div>
-            </div>
-            <div class="steper-item-title">المراجعين</div>
+            <div class="steper-item-title">{{ item.name }}</div>
           </div>
         </li>
       </ul>
