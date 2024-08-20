@@ -10,6 +10,7 @@ namespace ZayirAlkhayr.Entities.Common
     public class EventGroupingModel
     {
         public string Month { get; set; }
+        public DateTime ToDate { get; set; }
         public List<Event> Events { get; set; }
     }
 }

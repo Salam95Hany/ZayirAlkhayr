@@ -1,25 +1,21 @@
 <div class="card">
     <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
         <div class="d-flex align-items-center flex-wrap gap-2">
-            <button class="btn main-button d-flex align-items-center gap-2"
-                (click)="openAddItemModal(OpenItemModal,null)">
+            <button class="btn main-button d-flex align-items-center gap-2" (click)="openAddItemModal(OpenItemModal,null)">
                 <i class="uil uil-plus-circle"></i>
                 <span class="navbar-brand m-0">اضافة</span>
             </button>
-            <button class="btn main-button d-flex align-items-center gap-2" (click)="isFilter = !isFilter"
-                [attr.aria-expanded]="!isFilter">
+            <button class="btn main-button d-flex align-items-center gap-2" (click)="isFilter = !isFilter" [attr.aria-expanded]="!isFilter">
                 <i class="uil uil-filter"></i>
                 <span class="navbar-brand m-0">{{ isFilter ? 'عرض' : 'اخفاء' }} الفلاتر</span>
             </button>
         </div>
         <div>
-            <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize"
-                [totalPages]="0" [totalCount]="TotalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
+            <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="0" [totalCount]="TotalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
         </div>
     </div>
     <div class="px-3 py-2 bg-light border-bottom" #collapse="ngbCollapse" [(ngbCollapse)]="isFilter">
-        <app-admin-filters [FilterList]="FilterList" [PlaceHolder]="'ب تعيين ل'"
-            (FilterChecked)="FilterChecked($event)"></app-admin-filters>
+        <app-admin-filters [FilterList]="FilterList" [PlaceHolder]="'ب تعيين ل'" (FilterChecked)="FilterChecked($event)"></app-admin-filters>
     </div>
     <div class="card-body card-body-h">
         <div class="table-responsive">
@@ -29,8 +25,8 @@
                         <th>المهمة</th>
                         <th>تعيين ل</th>
                         <th class="text-center">الحالة</th>
+                        <th>تاريخ المهمة</th>
                         <th>تمت الاضافة من قبل</th>
-                        <th>تاريخ الاضافة</th>
                         <th class="text-center">تغيير الحالة</th>
                         <th class="text-center">أجراءات</th>
                     </tr>
@@ -50,29 +46,22 @@
                                     {{item.taskStatusName}}</div>
                             </div>
                         </td>
+                        <td>{{item.taskDate}}</td>
                         <td>{{item.createdBy}}</td>
-                        <td>{{item.insertDate}}</td>
                         <td>
-                            <div class="d-flex align-items-center justify-content-center fs-5 gap-2"
-                                *ngIf="item.showButtonStatus">
-                                <button class="btn btn-warning d-flex align-items-center gap-2"
-                                    (click)="ConvertTaskStatus(item.id,2)"
-                                    *ngIf="item.statusId != 2 && item.statusId != 3">
+                            <div class="d-flex align-items-center justify-content-center fs-5 gap-2" *ngIf="item.showButtonStatus">
+                                <button class="btn btn-warning d-flex align-items-center gap-2" (click)="ConvertTaskStatus(item.id,2)" *ngIf="item.statusId != 2 && item.statusId != 3">
                                     <span class="navbar-brand m-0">قيد العمل</span>
                                 </button>
-                                <button class="btn btn-danger d-flex align-items-center gap-2"
-                                    (click)="ConvertTaskStatus(item.id,3)" *ngIf="item.statusId != 1"
-                                    [disabled]="item.statusId == 3">
+                                <button class="btn btn-danger d-flex align-items-center gap-2" (click)="ConvertTaskStatus(item.id,3)" *ngIf="item.statusId != 1" [disabled]="item.statusId == 3">
                                     <span class="navbar-brand m-0">تم الانتهاء</span>
                                 </button>
                             </div>
                         </td>
                         <td>
                             <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
-                                <i class="uil uil-edit text-primary icon-table-action shadow-sm"
-                                    (click)="openAddItemModal(OpenItemModal,item)"></i>
-                                <i class="uil uil-times-circle text-danger icon-table-action shadow-sm"
-                                    (click)="openDeleteItemModal(deleteItemModal,item)"></i>
+                                <i class="uil uil-edit text-primary icon-table-action shadow-sm" (click)="openAddItemModal(OpenItemModal,item)"></i>
+                                <i class="uil uil-times-circle text-danger icon-table-action shadow-sm" (click)="openDeleteItemModal(deleteItemModal,item)"></i>
                             </div>
                         </td>
                     </tr>
@@ -97,11 +86,9 @@
                 <div class="row g-3">
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" formControlName="task" id="floatingInput_1"
-                                placeholder="new-user" required>
+                            <input type="text" class="form-control" formControlName="task" id="floatingInput_1" placeholder="new-user" required>
                             <label for="floatingInput_1">المهمة</label>
-                            <div *ngIf="ItemForm.controls['task']?.invalid && (ItemForm.controls['task']?.dirty || ItemForm.controls['task']?.touched)"
-                                class="text-danger pt-2">
+                            <div *ngIf="ItemForm.controls['task']?.invalid && (ItemForm.controls['task']?.dirty || ItemForm.controls['task']?.touched)" class="text-danger pt-2">
                                 <div *ngIf="ItemForm.controls['task'].errors?.['required']">
                                     هذا الحقل مطلوب
                                 </div>
@@ -112,18 +99,25 @@
                         </div>
                     </div>
                     <div class="col-lg-6">
+                        <div class="form-floating">
+                            <input type="date" class="form-control" formControlName="taskAddedDate" id="floatingInput_1" placeholder="new-user22" required>
+                            <label for="floatingInput_1">تاريخ المهمة</label>
+                            <div *ngIf="ItemForm.controls['taskAddedDate']?.invalid && (ItemForm.controls['taskAddedDate']?.dirty || ItemForm.controls['taskAddedDate']?.touched)" class="text-danger pt-2">
+                                <div *ngIf="ItemForm.controls['taskAddedDate'].errors?.['required']">
+                                    هذا الحقل مطلوب
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
                         <div ngbDropdown class="dropdown-with-search overflow-hidden" container="body">
-                            <button
-                                class="dropdown-with-search-btn btn border h-58 w-100 d-flex align-items-center justify-content-between selector-padding"
-                                id="dropdownBasic1" ngbDropdownToggle>
+                            <button class="dropdown-with-search-btn btn border h-58 w-100 d-flex align-items-center justify-content-between selector-padding" id="dropdownBasic1" ngbDropdownToggle>
                                 {{UserName}}
                             </button>
-                            <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu
-                                aria-labelledby="dropdownBasic1">
+                            <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu aria-labelledby="dropdownBasic1">
                                 <ul class="dropdown-list-box list-unstyled max-height-220 overflow-auto px-1 py-1 m-0">
                                     <ng-container *ngFor="let item of UsersData">
-                                        <li class="dropdown-item cursor-pointer rounded" (click)="UserChange(item)"
-                                            [ngClass]="{'DropDownSelected': UserName == item.userName}">
+                                        <li class="dropdown-item cursor-pointer rounded" (click)="UserChange(item)" [ngClass]="{'DropDownSelected': UserName == item.userName}">
                                             {{item.userName}}
                                         </li>
                                     </ng-container>

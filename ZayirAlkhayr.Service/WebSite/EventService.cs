@@ -40,7 +40,8 @@ namespace ZayirAlkhayr.Service.WebSite
             var result = _Context.Events.ToList();
             var Grouping = result.Where(i => i.IsVisible).GroupBy(g => g.Month).Select(group => new EventGroupingModel
             {
-                Month = group.Key.ToString("MMMM yyyy", new CultureInfo("ar-AE")),
+                Month = group.Key,
+                ToDate = group.FirstOrDefault().ToDate.Value,
                 Events = group.Select(i => new Event
                 {
                     Id = i.Id,
@@ -51,7 +52,7 @@ namespace ZayirAlkhayr.Service.WebSite
                     Images = _Context.EventSliderImages.Where(x => x.EventId == i.Id).Select(i => Path.Combine(ApiLocalUrl, ImageFiles.EventSliderImages.ToString(), i.Image)).ToList(),
 
                 }).OrderByDescending(o => o.InsertDate).ToList(),
-            }).OrderBy(o => o.Month).ToList();
+            }).OrderBy(o => o.ToDate).ToList();
 
             return Grouping;
         }
@@ -83,13 +84,18 @@ namespace ZayirAlkhayr.Service.WebSite
         {
             try
             {
+                var MonthFrom = Model.FromDate.Value.Month;
+                var MonthTo = Model.ToDate.Value.Month;
                 var Response = new HandleErrorResponseModel();
                 var Event = new Event();
                 Event.Title = Model.Title;
                 Event.Description = Model.Description;
                 Event.FromDate = Model.FromDate;
                 Event.ToDate = Model.ToDate;
-                Event.Month = Model.Month;
+                if (MonthFrom == MonthTo)
+                    Event.Month = Model.FromDate.Value.ToString("MMMM", new CultureInfo("ar-AE"));
+                else
+                    Event.Month = Model.FromDate.Value.ToString("MMMM", new CultureInfo("ar-AE")) + " إلى " + Model.ToDate.Value.ToString("MMMM", new CultureInfo("ar-AE"));
                 Event.IsVisible = Model.IsVisible;
                 Event.InsertUser = Model.InsertUser;
                 Event.InsertDate = DateTime.Now.AddHours(1);
@@ -114,13 +120,18 @@ namespace ZayirAlkhayr.Service.WebSite
         {
             try
             {
+                var MonthFrom = Model.FromDate.Value.Month;
+                var MonthTo = Model.ToDate.Value.Month;
                 var Response = new HandleErrorResponseModel();
                 var Event = _Context.Events.FirstOrDefault(x => x.Id == Model.Id);
                 Event.Title = Model.Title;
                 Event.Description = Model.Description;
                 Event.FromDate = Model.FromDate;
                 Event.ToDate = Model.ToDate;
-                Event.Month = Model.Month;
+                if (MonthFrom == MonthTo)
+                    Event.Month = Model.FromDate.Value.ToString("MMMM", new CultureInfo("ar-AE"));
+                else
+                    Event.Month = Model.FromDate.Value.ToString("MMMM", new CultureInfo("ar-AE")) + " إلى " + Model.ToDate.Value.ToString("MMMM", new CultureInfo("ar-AE"));
                 Event.IsVisible = Model.IsVisible;
                 Event.UpdateUser = Model.InsertUser;
                 Event.UpdateDate = DateTime.Now.AddHours(1);

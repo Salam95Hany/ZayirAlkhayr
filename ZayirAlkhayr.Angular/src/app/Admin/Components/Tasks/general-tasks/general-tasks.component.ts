@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -32,7 +33,7 @@ export class GeneralTasksComponent implements OnInit {
   };
 
   constructor(private modalService: NgbModal, private adminService: AdminService, private formService: ValidationFormService
-    , private adminWebsiteService: AdminWebsiteService, private fb: FormBuilder, private toaster: ToastrService) { }
+    , private adminWebsiteService: AdminWebsiteService, private fb: FormBuilder, private toaster: ToastrService, private datePipe: DatePipe) { }
 
   ngOnInit(): void {
     this.UserModel = JSON.parse(localStorage.getItem('UserModel'));
@@ -46,19 +47,20 @@ export class GeneralTasksComponent implements OnInit {
     this.ItemForm = this.fb.group({
       id: 0,
       task: ['', [Validators.required, this.formService.noSpaceValidator]],
+      taskAddedDate: ['', Validators.required],
       assignTo: null,
       InsertUser: null
     });
   }
 
   FillEditForm(item: any) {
-    debugger;
     this.UserId = item.assignToId;
     this.UserName = item.assignTo ? item.assignTo : 'تعيين ل';
     this.ItemForm.setValue({
       id: item.id,
       task: item.task,
       assignTo: item?.assignToId,
+      taskAddedDate: this.datePipe.transform(item?.taskAddedDate, 'yyyy-MM-dd'),
       InsertUser: this.UserModel?.userId,
     });
   }

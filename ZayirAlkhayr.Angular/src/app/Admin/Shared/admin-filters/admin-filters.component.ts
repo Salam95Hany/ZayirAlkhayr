@@ -15,6 +15,8 @@ export class AdminFiltersComponent {
   SelectedFilter: FilterModel[] = [];
   InputFilters = ['SearchText', 'Date', 'Month'];
   isFilterOnly = false;
+  isDate = true;
+  isMonth = true;
   FilterSearchText = '';
   SearchText = '';
   DateFilter: any;
@@ -57,10 +59,16 @@ export class AdminFiltersComponent {
     });
     if (filter.categoryName == 'SearchText')
       this.SearchText = '';
-    if (filter.categoryName == 'Date')
+    if (filter.categoryName == 'Date'){
+      this.isDate = true;
       this.DateFilter = '';
-    if (filter.categoryName == 'Month')
+    }
+      
+    if (filter.categoryName == 'Month'){
+      this.isMonth = true;
       this.MonthFilter = '';
+    }
+      
     this.FilterChecked.emit(this.SelectedFilter);
   }
 
@@ -69,6 +77,8 @@ export class AdminFiltersComponent {
     this.SearchText = '';
     this.DateFilter = '';
     this.MonthFilter = '';
+    this.isDate = true;
+    this.isMonth = true;
     this.FilterList.map(item => {
       item.filterItems.map(a => a.isChecked = false);
     });
@@ -76,6 +86,7 @@ export class AdminFiltersComponent {
   }
 
   DateFilterChange() {
+    this.isDate = false;
     this.SelectedFilter = this.SelectedFilter.filter(i => i.categoryName != 'Date');
     if (this.DateFilter)
       this.SelectedFilter.push({
@@ -88,6 +99,7 @@ export class AdminFiltersComponent {
   }
 
   MonthFilterChange() {
+    this.isMonth = false;
     this.SelectedFilter = this.SelectedFilter.filter(i => i.categoryName != 'Month');
     if (this.MonthFilter)
       this.SelectedFilter.push({
@@ -97,14 +109,5 @@ export class AdminFiltersComponent {
         itemKey: this.MonthFilter
       });
     this.FilterChecked.emit(this.SelectedFilter);
-  }
-
-  isDate = false;
-  onfocusDate() {
-    this.isDate = true;
-  }
-  isMonth = false;
-  onfocusMonth() {
-    this.isMonth = true;
   }
 }

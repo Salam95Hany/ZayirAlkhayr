@@ -21,7 +21,7 @@ namespace ZayirAlkhayr.Entities.Models
         public DateTime? UpdateDate { get; set; }
         public DateTime? FromDate { get; set; }
         public DateTime? ToDate { get; set; }
-        public DateTime Month { get; set; }
+        public string Month { get; set; }
         [NotMapped]
         public List<string> Images { get; set; }
         [NotMapped]

@@ -51,9 +51,8 @@ export class AdminEventComponent implements OnInit {
       id: 0,
       title: ['', [Validators.required, this.formService.noSpaceValidator]],
       description: ['', [Validators.required, this.formService.noSpaceValidator]],
-      fromDate: null,
-      toDate: null,
-      month: null,
+      fromDate: ['', Validators.required],
+      toDate: ['', Validators.required],
       isVisible: true,
       insertUser: null
     });
@@ -66,7 +65,6 @@ export class AdminEventComponent implements OnInit {
       description: item?.description,
       fromDate: item?.fromDate,
       toDate: item?.toDate,
-      month: this.datePipe.transform(item?.month, 'yyyy-MM'),
       isVisible: item?.isVisible,
       insertUser: this.UserModel?.userId ?? null
     });

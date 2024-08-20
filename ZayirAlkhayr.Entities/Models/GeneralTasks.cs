@@ -14,6 +14,7 @@ namespace ZayirAlkhayr.Entities.Models
         public int StatusId { get; set; }
         public string Task { get; set; }
         public string AssignTo { get; set; }
+        public DateTime TaskAddedDate { get; set; }
         public string InsertUser { get; set; }
         public DateTime? InsertDate { get; set; }
         public string UpdateUser { get; set; }

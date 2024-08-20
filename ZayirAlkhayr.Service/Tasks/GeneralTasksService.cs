@@ -54,9 +54,8 @@ namespace ZayirAlkhayr.Service.Tasks
         public DataTable GetAllUserTasks(string UserId)
         {
 
-            var Params = new SqlParameter[2];
-            Params[0] = new SqlParameter("@Today", DateTime.Now.AddHours(1));
-            Params[1] = new SqlParameter("@UserId", UserId);
+            var Params = new SqlParameter[1];
+            Params[0] = new SqlParameter("@UserId", UserId);
             var dt = _sQLHelper.ExecuteDataTable("admin.SP_GetAllUserTasks", Params);
             return dt;
         }
@@ -71,6 +70,7 @@ namespace ZayirAlkhayr.Service.Tasks
                 TaskObj.Task = Model.Task;
                 TaskObj.AssignTo = Model.AssignTo == null ? Model.InsertUser : Model.AssignTo;
                 TaskObj.InsertUser = Model.InsertUser;
+                TaskObj.TaskAddedDate = Model.TaskAddedDate;
                 TaskObj.InsertDate = DateTime.Now.AddHours(1);
 
                 _Context.GeneralTasks.Add(TaskObj);
@@ -98,6 +98,7 @@ namespace ZayirAlkhayr.Service.Tasks
                 TaskObj.Task = Model.Task;
                 TaskObj.AssignTo = Model.AssignTo == null ? Model.InsertUser : Model.AssignTo;
                 TaskObj.UpdateUser = Model.InsertUser;
+                TaskObj.TaskAddedDate = Model.TaskAddedDate;
                 TaskObj.UpdateDate = DateTime.Now.AddHours(1);
 
                 _Context.SaveChanges();
