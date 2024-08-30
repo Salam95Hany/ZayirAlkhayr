@@ -6,6 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./reviewers.component.css']
 })
 export class ReviewersComponent {
+
+  GetOutputData() {
+    return {};
+  }
   isDate = false;
   onfocus() {
     this.isDate = true;

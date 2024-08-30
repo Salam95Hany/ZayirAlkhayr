@@ -1,209 +1,215 @@
 <div class="table-responsive">
-  <table class="table table-bordered align-middle">
-    <thead>
-      <tr>
-        <th class="text-white" colspan="2">المراجعين</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="fvt-td-bg">وصف الحالة</td>
-        <td>
-          <textarea class="form-control" rows="3"></textarea>
-        </td>
-      </tr>
-      <tr>
-        <td class="fvt-td-bg">احتياجات المسكن والحالة</td>
-        <td>
-          <textarea class="form-control" rows="3"></textarea>
-        </td>
-      </tr>
-      <tr>
-        <td class="fvt-td-bg">ملاحظات الباحث</td>
-        <td>
-          <textarea class="form-control" rows="3"></textarea>
-        </td>
-      </tr>
-      <tr>
-        <td class="fvt-td-bg">ملاحظات المراجع</td>
-        <td>
-          <textarea class="form-control" rows="3"></textarea>
-        </td>
-      </tr>
-      <tr>
-        <td class="fvt-td-bg">تاريخ الزيارة</td>
-        <td>
-          <div class="custom-date-input position-relative">
-            <span class="date-label" *ngIf="!isDate">اختر التاريخ</span>
-            <input type="date" class="form-control cursor-pointer" (focus)="onfocus()" />
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    <table class="table table-bordered align-middle">
+        <thead>
+            <tr>
+                <th class="text-white" colspan="2">المراجعين</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="fvt-td-bg">وصف الحالة</td>
+                <td>
+                    <textarea class="form-control" rows="3"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td class="fvt-td-bg">احتياجات المسكن والحالة</td>
+                <td>
+                    <textarea class="form-control" rows="3"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td class="fvt-td-bg">ملاحظات الباحث</td>
+                <td>
+                    <textarea class="form-control" rows="3"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td class="fvt-td-bg">ملاحظات المراجع</td>
+                <td>
+                    <textarea class="form-control" rows="3"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td class="fvt-td-bg">تاريخ الزيارة</td>
+                <td>
+                    <div class="custom-date-input position-relative">
+                        <span class="date-label" *ngIf="!isDate">اختر التاريخ</span>
+                        <input type="date" class="form-control cursor-pointer" (focus)="onfocus()" />
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 <hr class="opacity-100 border-top" />
 <div class="table-responsive">
-  <table class="table table-bordered align-middle">
-    <thead>
-      <tr>
-        <th class="text-white" colspan="2">الأوراق الشخصية</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="fvt-td-bg">صور بطاقات الرقم القومي لأفراد الاسرة (جواز سفر لغير المصري)</td>
-        <td>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="check_1">
-            <label class="form-check-label" for="check_1">
+    <table class="table table-bordered align-middle">
+        <thead>
+            <tr>
+                <th class="text-white" colspan="2">الأوراق الشخصية</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="fvt-td-bg">صور بطاقات الرقم القومي لأفراد الاسرة (جواز سفر لغير المصري)</td>
+                <td>
+                    <div class="d-flex">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="check_111">
+                            <label class="form-check-label" for="check_111">
+                نعم
+              </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="check_222">
+                            <label class="form-check-label" for="check_222">
+                لا
+              </label>
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+            <tr>
+                <td class="fvt-td-bg">صور شهادات الميلاد للقصر</td>
+                <td>
+                    <div class="d-flex">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="check_333">
+                            <label class="form-check-label" for="check_333">
+            نعم
+          </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="check_444">
+                            <label class="form-check-label" for="check_444">
+            لا
+          </label>
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+            <tr>
+                <td class="fvt-td-bg">صورة من عقد الشقة (ايجار - تمليك)</td>
+                <td>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="check_5">
+                        <label class="form-check-label" for="check_5">
               نعم
             </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="check_11">
-            <label class="form-check-label" for="check_11">
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="check_6">
+                        <label class="form-check-label" for="check_6">
               لا
             </label>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="fvt-td-bg">صور شهادات الميلاد للقصر</td>
-        <td>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="check_2">
-            <label class="form-check-label" for="check_2">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="fvt-td-bg">صورة من قسيمة الزواج</td>
+                <td>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="check_7">
+                        <label class="form-check-label" for="check_7">
               نعم
             </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="check_22">
-            <label class="form-check-label" for="check_22">
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="check_8">
+                        <label class="form-check-label" for="check_8">
               لا
             </label>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="fvt-td-bg">صورة من عقد الشقة (ايجار - تمليك)</td>
-        <td>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="check_3">
-            <label class="form-check-label" for="check_3">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="fvt-td-bg">صورة من الشهادات (الوفاة - الطلاق)</td>
+                <td>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="check_9">
+                        <label class="form-check-label" for="check_9">
               نعم
             </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="check_33">
-            <label class="form-check-label" for="check_33">
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="check_10">
+                        <label class="form-check-label" for="check_10">
               لا
             </label>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="fvt-td-bg">صورة من قسيمة الزواج</td>
-        <td>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="check_4">
-            <label class="form-check-label" for="check_4">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="fvt-td-bg">صور الروشتات والتقارير الطبية</td>
+                <td>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="check_11">
+                        <label class="form-check-label" for="check_11">
               نعم
             </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="check_44">
-            <label class="form-check-label" for="check_44">
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="check_12">
+                        <label class="form-check-label" for="check_12">
               لا
             </label>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="fvt-td-bg">صورة من الشهادات (الوفاة - الطلاق)</td>
-        <td>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="check_5">
-            <label class="form-check-label" for="check_5">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="fvt-td-bg">ايصالات (مياه - كهرباء - غاز)</td>
+                <td>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="check_13">
+                        <label class="form-check-label" for="check_13">
               نعم
             </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="check_55">
-            <label class="form-check-label" for="check_55">
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="check_14">
+                        <label class="form-check-label" for="check_14">
               لا
             </label>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="fvt-td-bg">صور الروشتات والتقارير الطبية</td>
-        <td>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="check_6">
-            <label class="form-check-label" for="check_6">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="fvt-td-bg">صورة من (التأمينات - الشؤون)</td>
+                <td>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="check_15">
+                        <label class="form-check-label" for="check_15">
               نعم
             </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="check_66">
-            <label class="form-check-label" for="check_66">
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="check_16">
+                        <label class="form-check-label" for="check_16">
               لا
             </label>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="fvt-td-bg">ايصالات (مياه - كهرباء - غاز)</td>
-        <td>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="check_7">
-            <label class="form-check-label" for="check_7">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="fvt-td-bg">بيان طالب للاولاد بالمدرسة او الحضانة</td>
+                <td>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="check_17">
+                        <label class="form-check-label" for="check_17">
               نعم
             </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="check_77">
-            <label class="form-check-label" for="check_77">
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="check_18">
+                        <label class="form-check-label" for="check_18">
               لا
             </label>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="fvt-td-bg">صورة من (التأمينات - الشؤون)</td>
-        <td>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="check_8">
-            <label class="form-check-label" for="check_8">
-              نعم
-            </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="check_88">
-            <label class="form-check-label" for="check_88">
-              لا
-            </label>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="fvt-td-bg">بيان طالب للاولاد بالمدرسة او الحضانة</td>
-        <td>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="check_9">
-            <label class="form-check-label" for="check_9">
-              نعم
-            </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="check_99">
-            <label class="form-check-label" for="check_99">
-              لا
-            </label>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>

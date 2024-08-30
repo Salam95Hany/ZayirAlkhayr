@@ -150,51 +150,56 @@
                     </ul>
                 </ul>
             </div>
-            <!-- <div appRole [roles]="['SupperAdmin','Admin','Services']">
-        <hr>
-        <div class="side-menu-list-title side-menu-text">خدمات اجتماعية</div>
-        <ul class="side-menu-list list-unstyled p-0 m-0">
-          <li class="side-menu-list-item">
-            <a class="side-menu-list-link with-sub-menu" [class.expanded]="isCollapsed_2" (click)="collapse2.toggle()"
-              [attr.aria-expanded]="!isCollapsed_2">
-              <i class="uil uil-setting"></i>
-              <span class="side-menu-text">الحالات</span>
-            </a>
-          </li>
-          <ul class="list-unstyled m-0 menu-list-collapsed" #collapse2="ngbCollapse" [(ngbCollapse)]="isCollapsed_2">
-            <li>
-              <a class="side-menu-list-link sub-link" routerLink="./add-family-status" routerLinkActive="active">
-                <i class="uil uil-sliders-v-alt"></i>
-                <span class="side-menu-text">حالات عامة</span>
-              </a>
-            </li>
-            <li>
-              <a class="side-menu-list-link sub-link" routerLink="./family-nationality" routerLinkActive="active">
-                <i class="uil uil-sliders-v-alt"></i>
-                <span class="side-menu-text">جنسية الحالة</span>
-              </a>
-            </li>
-            <li>
-              <a class="side-menu-list-link sub-link" routerLink="./family-needs" routerLinkActive="active">
-                <i class="uil uil-sliders-v-alt"></i>
-                <span class="side-menu-text">احتياجات الحالة</span>
-              </a>
-            </li>
-            <li>
-              <a class="side-menu-list-link sub-link">
-                <i class="uil uil-sliders-v-alt"></i>
-                <span class="side-menu-text">أيتام</span>
-              </a>
-            </li>
-          </ul>
-          <li>
-            <a class="side-menu-list-link sub-link">
-              <i class="uil uil-sliders-v-alt"></i>
-              <span class="side-menu-text">دار المغتربين</span>
-            </a>
-          </li>
-        </ul>
-      </div> -->
+            <div appRole [roles]="['SupperAdmin','Admin','Services']">
+                <hr>
+                <div class="side-menu-list-title side-menu-text">خدمات اجتماعية</div>
+                <ul class="side-menu-list list-unstyled p-0 m-0">
+                    <li class="side-menu-list-item">
+                        <a class="side-menu-list-link with-sub-menu" [class.expanded]="isCollapsed_2" (click)="collapse2.toggle()" [attr.aria-expanded]="!isCollapsed_2">
+                            <i class="uil uil-setting"></i>
+                            <span class="side-menu-text">الحالات</span>
+                        </a>
+                    </li>
+                    <ul class="list-unstyled m-0 menu-list-collapsed" #collapse2="ngbCollapse" [(ngbCollapse)]="isCollapsed_2">
+                        <li>
+                            <a class="side-menu-list-link sub-link" routerLink="./add-family-status" routerLinkActive="active">
+                                <i class="uil uil-sliders-v-alt"></i>
+                                <span class="side-menu-text">حالات عامة</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="side-menu-list-link sub-link" routerLink="./family-nationality" routerLinkActive="active">
+                                <i class="uil uil-sliders-v-alt"></i>
+                                <span class="side-menu-text">جنسية الحالة</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="side-menu-list-link sub-link" routerLink="./family-needs" routerLinkActive="active">
+                                <i class="uil uil-sliders-v-alt"></i>
+                                <span class="side-menu-text">احتياجات الحالة</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="side-menu-list-link sub-link" routerLink="./family-categories" routerLinkActive="active">
+                                <i class="uil uil-sliders-v-alt"></i>
+                                <span class="side-menu-text">فئات الحالة</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="side-menu-list-link sub-link">
+                                <i class="uil uil-sliders-v-alt"></i>
+                                <span class="side-menu-text">أيتام</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <li>
+                        <a class="side-menu-list-link sub-link">
+                            <i class="uil uil-sliders-v-alt"></i>
+                            <span class="side-menu-text">دار المغتربين</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
             <div appRole [roles]="['SupperAdmin']">
                 <hr>
                 <div class="side-menu-list-title side-menu-text">الاعدادات</div>

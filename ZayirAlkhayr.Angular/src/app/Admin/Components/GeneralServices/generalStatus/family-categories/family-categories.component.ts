@@ -8,11 +8,11 @@ import { GeneralStatusService } from 'src/app/Admin/Services/general-status.serv
 import { ValidationFormService } from 'src/app/Admin/Services/validation-form.service';
 
 @Component({
-  selector: 'app-family-nationality',
-  templateUrl: './family-nationality.component.html',
-  styleUrls: ['./family-nationality.component.css']
+  selector: 'app-family-categories',
+  templateUrl: './family-categories.component.html',
+  styleUrls: ['./family-categories.component.css']
 })
-export class FamilyNationalityComponent implements OnInit {
+export class FamilyCategoriesComponent implements OnInit {
   FamilyNationalityData: any[] = [];
   FilterList: FilterModel[] = [];
   showLoader = false;
@@ -33,8 +33,8 @@ export class FamilyNationalityComponent implements OnInit {
   ngOnInit(): void {
     this.UserModel = JSON.parse(localStorage.getItem('UserModel'));
     this.FormInit();
-    this.GetAllFamilyNationalitiesData();
-    this.GetAllFamilyNationalitiesFilter();
+    this.GetAllFamilyCategoryData();
+    this.GetAllFamilyCategoryFilter();
   }
 
   FormInit() {
@@ -79,15 +79,15 @@ export class FamilyNationalityComponent implements OnInit {
     });
   }
 
-  GetAllFamilyNationalitiesData() {
-    this.generalStatusService.GetAllFamilyNationalitiesData(this.PagingFilter).subscribe(data => {
+  GetAllFamilyCategoryData() {
+    this.generalStatusService.GetAllFamilyCategoryData(this.PagingFilter).subscribe(data => {
       this.FamilyNationalityData = data;
       this.TotalCount = this.FamilyNationalityData && this.FamilyNationalityData.length > 0 ? this.FamilyNationalityData[0].totalCount : 0;
     });
   }
 
-  GetAllFamilyNationalitiesFilter() {
-    this.generalStatusService.GetAllFamilyNationalitiesFilter(this.PagingFilter).subscribe(data => {
+  GetAllFamilyCategoryFilter() {
+    this.generalStatusService.GetAllFamilyCategoryFilter(this.PagingFilter).subscribe(data => {
       this.FilterList = data;
     });
   }
@@ -98,7 +98,7 @@ export class FamilyNationalityComponent implements OnInit {
 
   FilterChecked(filterList: FilterModel[]) {
     this.PagingFilter.filterList = filterList;
-    this.GetAllFamilyNationalitiesData();
+    this.GetAllFamilyCategoryData();
   }
 
   AddNewItem() {
@@ -113,11 +113,11 @@ export class FamilyNationalityComponent implements OnInit {
 
     this.showLoader = true;
     if (this.ItemForm.controls['id'].value == 0) {
-      this.generalStatusService.AddNewFamilyNationality(this.ItemForm.value).subscribe(data => {
+      this.generalStatusService.AddNewFamilyCategory(this.ItemForm.value).subscribe(data => {
         if (data.done) {
           this.toaster.success(data.message);
-          this.GetAllFamilyNationalitiesData();
-          this.GetAllFamilyNationalitiesFilter();
+          this.GetAllFamilyCategoryData();
+          this.GetAllFamilyCategoryFilter();
           this.modalService.dismissAll();
         }
         else
@@ -125,11 +125,11 @@ export class FamilyNationalityComponent implements OnInit {
         this.showLoader = false;
       });
     } else {
-      this.generalStatusService.UpdateFamilyNationality(this.ItemForm.value).subscribe(data => {
+      this.generalStatusService.UpdateFamilyCategory(this.ItemForm.value).subscribe(data => {
         if (data.done) {
           this.toaster.success(data.message);
-          this.GetAllFamilyNationalitiesData();
-          this.GetAllFamilyNationalitiesFilter();
+          this.GetAllFamilyCategoryData();
+          this.GetAllFamilyCategoryFilter();
           this.modalService.dismissAll();
         }
         else
@@ -141,11 +141,11 @@ export class FamilyNationalityComponent implements OnInit {
 
   DeleteItem() {
     this.showLoader = true;
-    this.generalStatusService.DeleteFamilyNationality(this.NationalityId).subscribe(data => {
+    this.generalStatusService.DeleteFamilyCategory(this.NationalityId).subscribe(data => {
       if (data.done) {
         this.toaster.success(data.message);
-        this.GetAllFamilyNationalitiesData();
-        this.GetAllFamilyNationalitiesFilter();
+        this.GetAllFamilyCategoryData();
+        this.GetAllFamilyCategoryFilter();
         this.modalService.dismissAll();
       }
       else

@@ -39,6 +39,7 @@ import { AddFamilyStatusComponent } from './Components/GeneralServices/generalSt
 import { FamilyNeedComponent } from './Components/GeneralServices/generalStatus/addFamilyStatus/family-need/family-need.component';
 import { FamilyNationalityComponent } from './Components/GeneralServices/generalStatus/family-nationality/family-nationality.component';
 import { FamilyNeedsComponent } from './Components/GeneralServices/generalStatus/family-needs/family-needs.component';
+import { FamilyCategoriesComponent } from './Components/GeneralServices/generalStatus/family-categories/family-categories.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import { FamilyNeedsComponent } from './Components/GeneralServices/generalStatus
     AddFamilyStatusComponent,
     FamilyNeedComponent,
     FamilyNationalityComponent,
-    FamilyNeedsComponent
+    FamilyNeedsComponent,
+    FamilyCategoriesComponent
   ],
   imports: [
     CommonModule,

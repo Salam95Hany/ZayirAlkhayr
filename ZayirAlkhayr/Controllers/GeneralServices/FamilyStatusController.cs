@@ -17,6 +17,13 @@ namespace ZayirAlkhayr.Controllers.GeneralServices
             _familyStatusService = familyStatusService;
         }
 
+        [HttpGet("GetFamilyStatusLookups")]
+        public FamilyStatusLookups GetFamilyStatusLookups()
+        {
+            var results = _familyStatusService.GetFamilyStatusLookups();
+            return results;
+        }
+
         [HttpPost("AddNewFamilyStatus")]
         public HandleErrorResponseModel AddNewFamilyStatus(AddFamilyStatusModel Model)
         {

@@ -21,6 +21,7 @@ import { DailyTasksComponent } from './Components/Tasks/daily-tasks/daily-tasks.
 import { AddFamilyStatusComponent } from './Components/GeneralServices/generalStatus/addFamilyStatus/add-family-status.component';
 import { FamilyNationalityComponent } from './Components/GeneralServices/generalStatus/family-nationality/family-nationality.component';
 import { FamilyNeedsComponent } from './Components/GeneralServices/generalStatus/family-needs/family-needs.component';
+import { FamilyCategoriesComponent } from './Components/GeneralServices/generalStatus/family-categories/family-categories.component';
 
 const routes: Routes = [
   {
@@ -138,6 +139,12 @@ const routes: Routes = [
       {
         path: 'family-needs',
         component: FamilyNeedsComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ["SupperAdmin", "Admin", "Services"] }
+      },
+      {
+        path: 'family-categories',
+        component: FamilyCategoriesComponent,
         canActivate: [AuthGuard],
         data: { roles: ["SupperAdmin", "Admin", "Services"] }
       },

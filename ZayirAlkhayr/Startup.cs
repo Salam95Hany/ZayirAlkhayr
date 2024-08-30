@@ -111,6 +111,7 @@ namespace ZayirAlkhayr
             services.AddScoped<ISQLHelper, SQLHelper>();
             services.AddScoped<IFamilyNationalityService, FamilyNationalityService>();
             services.AddScoped<IFamilyNeedsService, FamilyNeedsService>();
+            services.AddScoped<IFamilyCategoryService, FamilyCategoryService>();
 
             services.AddMvc(options =>
                 {

@@ -1,45 +1,124 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FamilyStatusLookups } from 'src/app/Admin/Models/GeneralStatus/FamilyStatusLookups';
+import { GeneralStatusService } from 'src/app/Admin/Services/general-status.service';
+import { FamilyStatusComponent } from './family-status/family-status.component';
+import { FamilyDataComponent } from './family-data/family-data.component';
+import { FamilyIncomeDataComponent } from './family-income-data/family-income-data.component';
+import { FamilyExpensesDataComponent } from './family-expenses-data/family-expenses-data.component';
+import { FamilyMedicalComponent } from './family-medical/family-medical.component';
+import { FamilyNeedComponent } from './family-need/family-need.component';
+import { ReviewersComponent } from './reviewers/reviewers.component';
+import { AddFamilyStatusModel } from 'src/app/Admin/Models/GeneralStatus/AddFamilyStatusModel';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-family-status',
   templateUrl: './add-family-status.component.html',
   styleUrls: ['./add-family-status.component.css']
 })
-export class AddFamilyStatusComponent {
-
-  stepsItems = [
-    { number: 1, name: 'الحالة' },
-    { number: 2, name: 'بيانات الاسرة' },
-    { number: 3, name: 'بيانات دخل الاسرة' },
-    { number: 4, name: 'بيان المصروفات للاسرة' },
-    { number: 5, name: 'الجانب الطبي لأفراد الاسرة' },
-    { number: 6, name: 'احتياجات الحالة' },
-    { number: 7, name: 'المراجعين' },
-  ];
-
+export class AddFamilyStatusComponent implements OnInit {
+  @ViewChild('FamilyStatus') FamilyStatus: FamilyStatusComponent;
+  @ViewChild('FamilyData') FamilyData: FamilyDataComponent;
+  @ViewChild('FamilyIncome') FamilyIncome: FamilyIncomeDataComponent;
+  @ViewChild('FamilyExpenses') FamilyExpenses: FamilyExpensesDataComponent;
+  @ViewChild('FamilyMedical') FamilyMedical: FamilyMedicalComponent;
+  @ViewChild('FamilyNeed') FamilyNeed: FamilyNeedComponent;
+  @ViewChild('Reviewers') Reviewers: ReviewersComponent;
+  FamilyLookups: FamilyStatusLookups = {} as FamilyStatusLookups;
+  AddFamilyStatusModel: AddFamilyStatusModel = {} as AddFamilyStatusModel;
+  showLoader = false;
+  StepName: string;
   activeStep = 1;
-  onSteps(index: number) {
-    if (index === 1) {
-      this.activeStep = 1;
-    } else if (index === 2) {
-      this.activeStep = 2;
-    } else if (index === 3) {
-      this.activeStep = 3;
-    } else if (index === 4) {
-      this.activeStep = 4;
-    } else if (index === 5) {
-      this.activeStep = 5;
-    } else if (index === 6) {
-      this.activeStep = 6;
-    } else if (index === 7) {
-      this.activeStep = 7;
+  Counter = 0;
+  viewChilds = [];
+  Steps: any[] = [];
+  StepList: any[] = [
+    { stepName: 'الحالة', stepId: 'familyStatus', number: 1 },
+    { stepName: 'بيانات الاسرة', stepId: 'familyDetails', number: 2 },
+    { stepName: 'بيانات دخل الاسرة', stepId: 'familyIncome', number: 3 },
+    { stepName: 'بيان المصروفات للاسرة', stepId: 'familyExpenses', number: 4 },
+    { stepName: 'الجانب الطبي لأفراد الاسرة', stepId: 'familyPatient', number: 5 },
+    { stepName: 'احتياجات الحالة', stepId: 'familyNeeds', number: 6 },
+    { stepName: 'المراجعين', stepId: 'familyExtraDetails', number: 7 }
+  ]
+
+  constructor(private generalStatusService: GeneralStatusService, private toaster: ToastrService) {
+    this.Steps = this.StepList.map(a => a.stepId);
+    this.StepName = this.Steps[0];
+  }
+
+  ngOnInit(): void {
+    this.GetFamilyStatusLookups();
+  }
+
+  GetFamilyStatusLookups() {
+    this.showLoader = true;
+    this.generalStatusService.GetFamilyStatusLookups().subscribe(data => {
+      this.showLoader = false;
+      this.FamilyLookups = data;
+      this.FamilyLookups.familyNeeds.forEach(i => i.selectedNeeds = []);
+    });
+  }
+
+  NextStep() {
+    debugger;
+    this.viewChilds = [this.FamilyStatus, this.FamilyData, this.FamilyIncome, this.FamilyExpenses, this.FamilyMedical, this.FamilyNeed, this.Reviewers]
+    let data = this.viewChilds[this.Counter].GetOutputData();
+    if (this.Counter == 0) {
+      if (data == null)
+        return;
+      this.showLoader = true;
+      //this.customerService.CheckCustomerIsExist(data?.customerName).subscribe(res => {
+      this.showLoader = false;
+      // if (!res) {
+      this.AddFamilyStatusModel[this.StepName] = data;
+      this.Counter++;
+      this.activeStep++;
+      this.StepName = this.Steps[this.Counter];
+      this.AddFamilyStatusModel = { ...this.AddFamilyStatusModel };
+      if (this.viewChilds[this.Counter]?.InetialData)
+        this.viewChilds[this.Counter].InetialData(data);
+      // } else
+      //   this.toaster.error(`The Customer ${data?.customerName} Is Exist`);
+      //});
+    } else {
+      if (data !== null) {
+        this.AddFamilyStatusModel[this.StepName] = data;
+        this.Counter++;
+        this.activeStep++;
+        this.StepName = this.Steps[this.Counter];
+        this.AddFamilyStatusModel = { ...this.AddFamilyStatusModel };
+        if (this.viewChilds[this.Counter]?.InetialData)
+          this.viewChilds[this.Counter].InetialData(data);
+      }
     }
   }
-  nextStepers() {
-    this.activeStep += 1;
+
+  PreviousSteps() {
+    if (this.Counter == 0) {
+      return;
+    } else {
+      this.Counter--;
+      this.activeStep--;
+      this.StepName = this.Steps[this.Counter];
+    }
   }
-  prevStepers() {
-    this.activeStep -= 1;
+
+
+  AddNewFamilyStatus() {
+    console.log(this.AddFamilyStatusModel);
+    
+    // this.showLoader = true;
+    // this.customerService.AddNewCustomer(this.AddFamilyStatusModel).subscribe(data => {
+    //   if (data.done) {
+    //     this.toaster.success('Add New Customer Successfully');
+    //     this.router.navigateByUrl('/z2admin/Customers');
+    //   } else {
+    //     data.errors.forEach(err => {
+    //       this.toaster.error(err);
+    //     });
+    //   }
+    // });
   }
 }
 

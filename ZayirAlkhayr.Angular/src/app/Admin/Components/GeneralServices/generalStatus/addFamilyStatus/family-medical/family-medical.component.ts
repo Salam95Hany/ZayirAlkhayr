@@ -6,6 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./family-medical.component.css']
 })
 export class FamilyMedicalComponent {
+
+  GetOutputData() {
+    return {};
+  }
   isDate = false;
   onfocus() {
     this.isDate = true;

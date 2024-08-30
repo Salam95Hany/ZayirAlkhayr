@@ -1,94 +1,106 @@
 <div class="table-responsive">
-    <table class="table table-bordered align-middle">
-        <thead>
-            <tr>
-                <th class="text-white" colspan="2">الحالة</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="fvt-td-bg">اسم الحالة</td>
-                <td>
-                    <input type="text" class="form-control" />
-                </td>
-            </tr>
-            <tr>
-                <td class="fvt-td-bg">رقم الهاتف 1</td>
-                <td>
-                    <input type="text" class="form-control" />
-                </td>
-            </tr>
-            <tr>
-                <td class="fvt-td-bg">رقم الهاتف 2</td>
-                <td class="fvt-td-bg">
-                    <input type="text" class="form-control" />
-                </td>
-            </tr>
-            <tr>
-                <td class="fvt-td-bg">الشهرة</td>
-                <td>
-                    <input type="text" class="form-control" />
-                </td>
-            </tr>
-            <tr>
-                <td class="fvt-td-bg">العنوان</td>
-                <td>
-                    <input type="text" class="form-control" />
-                </td>
-            </tr>
-            <tr>
-                <td class="fvt-td-bg">الجنسية</td>
-                <td>
-                    <select class="form-control">
-            <option value="0" disabled selected>--اختار الجنسيه--</option>
-            <option value="1">الجنسية 1</option>
-            <option value="2">الجنسية 2</option>
-          </select>
-                </td>
-            </tr>
-            <tr>
-                <td class="fvt-td-bg">القرية</td>
-                <td>
-                    <input type="text" class="form-control" />
-                </td>
-            </tr>
-            <tr>
-                <td class="fvt-td-bg">المركز</td>
-                <td>
-                    <input type="text" class="form-control" />
-                </td>
-            </tr>
-            <tr>
-                <td class="fvt-td-bg">المحافظة</td>
-                <td>
-                    <input type="text" class="form-control" />
-                </td>
-            </tr>
-            <tr>
-                <td class="fvt-td-bg">تاريخ الاضافة</td>
-                <td>
-                    <div class="custom-date-input position-relative">
-                        <span class="date-label" *ngIf="!isDate">اختر التاريخ</span>
-                        <input type="date" class="form-control cursor-pointer" (focus)="onfocus()" />
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="fvt-td-bg">الفئة</td>
-                <td>
-                    <select class="form-control">
-            <option value="0" disabled selected>--اختار الفئة--</option>
-            <option value="1">الفئة 1</option>
-            <option value="2">الفئة 2</option>
-          </select>
-                </td>
-            </tr>
-            <!-- <tr>
-        <td class="fvt-td-bg">الكود</td>
-        <td>
-          <input type="text" disabled value="10578" class="form-control" />
-        </td>
-      </tr> -->
-        </tbody>
-    </table>
+    <form #FamilyForm="ngForm">
+        <table class="table table-bordered align-middle">
+            <thead>
+                <tr>
+                    <th class="text-white" colspan="2">الحالة</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="fvt-td-bg">اسم الحالة</td>
+                    <td>
+                        <input type="text" class="form-control" name="StatusName" #StatusName="ngModel" [(ngModel)]="FamilyStatus.name" required/>
+                        <div class="text-danger pt-2" *ngIf="StatusName.invalid && (StatusName.dirty || StatusName.touched || FamilyForm.submitted )">
+                            <div *ngIf="StatusName.errors?.required">هذا الحقل مطلوب</div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fvt-td-bg">الشهرة</td>
+                    <td>
+                        <input type="text" class="form-control" name="Fname" #Fname="ngModel" [(ngModel)]="FamilyStatus.fname" required/>
+                        <div class="text-danger pt-2" *ngIf="Fname.invalid && (Fname.dirty || Fname.touched || FamilyForm.submitted )">
+                            <div *ngIf="Fname.errors?.required">هذا الحقل مطلوب</div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fvt-td-bg">رقم الهاتف 1</td>
+                    <td>
+                        <input type="text" class="form-control" name="Phone" #Phone="ngModel" [(ngModel)]="FamilyStatus.phone" required/>
+                        <div class="text-danger pt-2" *ngIf="Phone.invalid && (Phone.dirty || Phone.touched || FamilyForm.submitted )">
+                            <div *ngIf="Phone.errors?.required">هذا الحقل مطلوب</div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fvt-td-bg">رقم الهاتف 2</td>
+                    <td class="fvt-td-bg">
+                        <input type="text" class="form-control" name="Phone1" [(ngModel)]="FamilyStatus.phone1" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fvt-td-bg">العنوان</td>
+                    <td>
+                        <input type="text" class="form-control" name="Address" [(ngModel)]="FamilyStatus.address" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fvt-td-bg">القرية</td>
+                    <td>
+                        <input type="text" class="form-control" name="Village" [(ngModel)]="FamilyStatus.village" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fvt-td-bg">المركز</td>
+                    <td>
+                        <input type="text" class="form-control" name="Center" [(ngModel)]="FamilyStatus.center" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fvt-td-bg">المحافظة</td>
+                    <td>
+                        <input type="text" class="form-control" name="Governorate" [(ngModel)]="FamilyStatus.governorate" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fvt-td-bg">الجنسية</td>
+                    <td>
+                        <select class="form-control" name="NationalityId" #NationalityId="ngModel" [(ngModel)]="FamilyStatus.nationalityId" required>
+                            <option [defaultSelected]="true" [value]="null" disabled>--اختر الجنسيه--</option>
+                            <option [value]="item.id" *ngFor="let item of Nationalities">{{item.name}}</option>
+                       </select>
+                        <div class="text-danger pt-2" *ngIf="NationalityId.invalid && (NationalityId.dirty || NationalityId.touched || FamilyForm.submitted )">
+                            <div *ngIf="NationalityId.errors?.required">هذا الحقل مطلوب</div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fvt-td-bg">الفئة</td>
+                    <td>
+                        <select class="form-control" name="CategoryId" #CategoryId="ngModel" [(ngModel)]="FamilyStatus.categoryId" required>
+                            <option [defaultSelected]="true" [value]="null" disabled>--اختر الفئة--</option>
+                            <option [value]="item.id" *ngFor="let item of Categories">{{item.name}}</option>
+                        </select>
+                        <div class="text-danger pt-2" *ngIf="CategoryId.invalid && (CategoryId.dirty || CategoryId.touched || FamilyForm.submitted )">
+                            <div *ngIf="CategoryId.errors?.required">هذا الحقل مطلوب</div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fvt-td-bg">تاريخ الاضافة</td>
+                    <td>
+                        <div class="custom-date-input position-relative">
+                            <span class="date-label" *ngIf="!isDate">اختر التاريخ</span>
+                            <input type="date" class="form-control cursor-pointer" (focus)="onfocus()" name="InsertDate" #InsertDate="ngModel" [(ngModel)]="FamilyStatus.insertDate" required/>
+                            <div class="text-danger pt-2" *ngIf="InsertDate.invalid && (InsertDate.dirty || InsertDate.touched || FamilyForm.submitted )">
+                                <div *ngIf="InsertDate.errors?.required">هذا الحقل مطلوب</div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
 </div>

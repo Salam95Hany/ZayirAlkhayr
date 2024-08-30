@@ -196,7 +196,6 @@ export class FamilyNeedsComponent implements OnInit {
   }
 
   CategoryFilterChecked(filterList: FilterModel[]) {
-    debugger
     this.CategoriesPagingFilter.filterList = filterList;
     this.GetAllFamilyNeedCategoriesData();
   }
