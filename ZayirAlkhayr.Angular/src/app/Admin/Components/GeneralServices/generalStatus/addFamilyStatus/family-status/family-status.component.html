@@ -36,7 +36,7 @@
                 </tr>
                 <tr>
                     <td class="fvt-td-bg">رقم الهاتف 2</td>
-                    <td class="fvt-td-bg">
+                    <td>
                         <input type="text" class="form-control" name="Phone1" [(ngModel)]="FamilyStatus.phone1" />
                     </td>
                 </tr>
@@ -94,9 +94,9 @@
                         <div class="custom-date-input position-relative">
                             <span class="date-label" *ngIf="!isDate">اختر التاريخ</span>
                             <input type="date" class="form-control cursor-pointer" (focus)="onfocus()" name="InsertDate" #InsertDate="ngModel" [(ngModel)]="FamilyStatus.insertDate" required/>
-                            <div class="text-danger pt-2" *ngIf="InsertDate.invalid && (InsertDate.dirty || InsertDate.touched || FamilyForm.submitted )">
-                                <div *ngIf="InsertDate.errors?.required">هذا الحقل مطلوب</div>
-                            </div>
+                        </div>
+                        <div class="text-danger pt-2" *ngIf="InsertDate.invalid && (InsertDate.dirty || InsertDate.touched || FamilyForm.submitted )">
+                            <div *ngIf="InsertDate.errors?.required">هذا الحقل مطلوب</div>
                         </div>
                     </td>
                 </tr>

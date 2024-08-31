@@ -61,7 +61,6 @@ export class AddFamilyStatusComponent implements OnInit {
   }
 
   NextStep() {
-    debugger;
     this.viewChilds = [this.FamilyStatus, this.FamilyData, this.FamilyIncome, this.FamilyExpenses, this.FamilyMedical, this.FamilyNeed, this.Reviewers]
     let data = this.viewChilds[this.Counter].GetOutputData();
     if (this.Counter == 0) {
@@ -104,10 +103,19 @@ export class AddFamilyStatusComponent implements OnInit {
     }
   }
 
+  OnStepClick(stepName: string, counter: number) {
+    const stepData = this.AddFamilyStatusModel[stepName];
+    if (stepData) {
+      this.StepName = stepName;
+      this.Counter = counter;
+      this.activeStep = counter + 1;
+    }
+  }
+
 
   AddNewFamilyStatus() {
     console.log(this.AddFamilyStatusModel);
-    
+
     // this.showLoader = true;
     // this.customerService.AddNewCustomer(this.AddFamilyStatusModel).subscribe(data => {
     //   if (data.done) {

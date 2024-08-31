@@ -51,162 +51,18 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td class="fvt-td-bg">صور بطاقات الرقم القومي لأفراد الاسرة (جواز سفر لغير المصري)</td>
+            <tr *ngFor="let item of PersonalPearpers">
+                <td class="fvt-td-bg">{{item.name}}</td>
                 <td>
-                    <div class="d-flex">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="check_111">
-                            <label class="form-check-label" for="check_111">
-                نعم
-              </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="check_222">
-                            <label class="form-check-label" for="check_222">
-                لا
-              </label>
-                        </div>
-                    </div>
-
-                </td>
-            </tr>
-            <tr>
-                <td class="fvt-td-bg">صور شهادات الميلاد للقصر</td>
-                <td>
-                    <div class="d-flex">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="check_333">
-                            <label class="form-check-label" for="check_333">
-            نعم
-          </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="check_444">
-                            <label class="form-check-label" for="check_444">
-            لا
-          </label>
-                        </div>
-                    </div>
-
-                </td>
-            </tr>
-            <tr>
-                <td class="fvt-td-bg">صورة من عقد الشقة (ايجار - تمليك)</td>
-                <td>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="check_5">
-                        <label class="form-check-label" for="check_5">
-              نعم
-            </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="check_6">
-                        <label class="form-check-label" for="check_6">
-              لا
-            </label>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="fvt-td-bg">صورة من قسيمة الزواج</td>
-                <td>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="check_7">
-                        <label class="form-check-label" for="check_7">
-              نعم
-            </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="check_8">
-                        <label class="form-check-label" for="check_8">
-              لا
-            </label>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="fvt-td-bg">صورة من الشهادات (الوفاة - الطلاق)</td>
-                <td>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="check_9">
-                        <label class="form-check-label" for="check_9">
-              نعم
-            </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="check_10">
-                        <label class="form-check-label" for="check_10">
-              لا
-            </label>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="fvt-td-bg">صور الروشتات والتقارير الطبية</td>
-                <td>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="check_11">
-                        <label class="form-check-label" for="check_11">
-              نعم
-            </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="check_12">
-                        <label class="form-check-label" for="check_12">
-              لا
-            </label>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="fvt-td-bg">ايصالات (مياه - كهرباء - غاز)</td>
-                <td>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="check_13">
-                        <label class="form-check-label" for="check_13">
-              نعم
-            </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="check_14">
-                        <label class="form-check-label" for="check_14">
-              لا
-            </label>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="fvt-td-bg">صورة من (التأمينات - الشؤون)</td>
-                <td>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="check_15">
-                        <label class="form-check-label" for="check_15">
-              نعم
-            </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="check_16">
-                        <label class="form-check-label" for="check_16">
-              لا
-            </label>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="fvt-td-bg">بيان طالب للاولاد بالمدرسة او الحضانة</td>
-                <td>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="check_17">
-                        <label class="form-check-label" for="check_17">
-              نعم
-            </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="check_18">
-                        <label class="form-check-label" for="check_18">
-              لا
-            </label>
+                    <div class="d-flex d-flex align-items-center" a-ngfor>
+                        <div class="me-2">نعم</div>
+                        <label class="jtoggler-wrapper m-0 mx-0">
+                              <input type="checkbox" class="jtoggler" [(ngModel)]="item.isSelected">
+                              <div class="jtoggler-control">
+                                <div class="jtoggler-handle"></div>
+                              </div>
+                            </label>
+                        <div class="ms-2">لا</div>
                     </div>
                 </td>
             </tr>
