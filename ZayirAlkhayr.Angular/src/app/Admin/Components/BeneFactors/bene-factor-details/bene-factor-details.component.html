@@ -1,71 +1,60 @@
 <div class="card">
     <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
         <div class="d-flex align-items-center flex-wrap gap-2">
-            <button class="btn main-button d-flex align-items-center gap-2"
-                (click)="openAddItemModal(OpenItemModal,null)">
+            <button class="btn main-button d-flex align-items-center gap-2" (click)="openAddItemModal(OpenItemModal,null)">
                 <i class="uil uil-plus-circle"></i>
                 <span class="navbar-brand m-0">اضافة</span>
             </button>
         </div>
         <div>
-            <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize"
-                [totalPages]="0" [totalCount]="TotalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
+            <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="0" [totalCount]="TotalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
         </div>
     </div>
     <div class="card-body card-body-h">
         <div class="row mb-3 g-3">
             <div class="col-lg-3">
                 <div ngbDropdown class="dropdown-with-search w-100">
-                    <div
-                        class="dropdown-with-search-btn btn border h-58 d-flex align-items-center justify-content-between selector-padding"
-                        id="dropdownBasic1" ngbDropdownToggle>
+                    <div class="dropdown-with-search-btn btn border h-58 d-flex align-items-center justify-content-between selector-padding" id="dropdownBasic1" ngbDropdownToggle>
                         {{BeneFactorName}}
                     </div>
                     <div class="py-0 w-100" ngbDropdownMenu aria-labelledby="dropdownBasic1">
                         <div class="p-2 gray-bgcolor border-bottom">
                             <div class="position-relative">
-                                <input type="text" class="form-control form-control-sm" [(ngModel)]="SearchText"
-                                    placeholder="بحث..." />
+                                <input type="text" class="form-control form-control-sm" [(ngModel)]="SearchText" placeholder="بحث..." />
                                 <i class="uil uil-search search-icon-input"></i>
                             </div>
                         </div>
                         <ul class="dropdown-list-box list-unstyled max-height-220 overflow-auto px-1 py-1 m-0">
                             <ng-container *ngFor="let item of BeneFactorData | searchArry: SearchText:'fullName'">
-                                <li class="dropdown-item cursor-pointer rounded"
-                                    [ngClass]="{'DropDownSelected': BeneFactorName == item.fullName}"
-                                    (click)="OnChangeBeneFactor(item)">{{item.fullName}}</li>
+                                <li class="dropdown-item cursor-pointer rounded" [ngClass]="{'DropDownSelected': BeneFactorName == item.fullName}" (click)="OnChangeBeneFactor(item)">{{item.fullName}}</li>
                             </ng-container>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="col-lg-1 d-flex align-items-center">
-              <div class="d-flex align-items-center" *ngIf="BeneFactorId">
-                <div class="me-2">كاش</div>
-                <label class="jtoggler-wrapper m-0 mx-0">
+                <div class="d-flex align-items-center" *ngIf="BeneFactorId">
+                    <div class="me-2">كاش</div>
+                    <label class="jtoggler-wrapper m-0 mx-0">
                     <input type="checkbox" class="jtoggler" [(ngModel)]="TypeSwitcher"
                         (change)="GetBenefactorType($event.target.checked)">
                     <div class="jtoggler-control">
                         <div class="jtoggler-handle"></div>
                     </div>
                 </label>
-                <div class="ms-2">الكل</div>
-            </div>
+                    <div class="ms-2">الكل</div>
+                </div>
             </div>
             <div class="col-lg-3" *ngIf="BenefactorType == 'Cash'">
                 <div ngbDropdown class="dropdown-with-search w-100">
-                    <div
-                        class="dropdown-with-search-btn btn border h-58 d-flex align-items-center justify-content-between selector-padding"
-                        id="dropdownBasic1" ngbDropdownToggle>
+                    <div class="dropdown-with-search-btn btn border h-58 d-flex align-items-center justify-content-between selector-padding" id="dropdownBasic1" ngbDropdownToggle>
                         {{BeneFactorValueName}}
                     </div>
                     <div class="py-0 w-100" ngbDropdownMenu aria-labelledby="dropdownBasic1">
                         <ul class="dropdown-list-box list-unstyled max-height-220 overflow-auto px-1 py-1 m-0">
                             <ng-container *ngFor="let item of BeneFactorValuesData">
-                                <li class="dropdown-item cursor-pointer rounded"
-                                    [ngClass]="{'DropDownSelected': BeneFactorValueName == item.totalValue +'-'+ item.paymentDateStr}"
-                                    (click)="OnChangeBeneFactorValue(item)">{{item.totalValue}} -
-                                    {{item.paymentDateStr}}</li>
+                                <li class="dropdown-item cursor-pointer rounded" [ngClass]="{'DropDownSelected': BeneFactorValueName == item.totalValue +'-'+ item.paymentDateStr}" (click)="OnChangeBeneFactorValue(item)">{{item.totalValue}} - {{item.paymentDateStr}}
+                                </li>
                             </ng-container>
                         </ul>
                     </div>
@@ -73,13 +62,12 @@
             </div>
             <div class="col-lg-1" *ngIf="BenefactorType == 'Cash'">
                 <div class="form-floating">
-                    <input type="text" class="form-control" [value]="TotalValue" id="floatingInput_1" disabled
-                        placeholder="new-user">
+                    <input type="text" class="form-control" [value]="TotalValue" id="floatingInput_1" disabled placeholder="new-user">
                     <label for="floatingInput_1">مبلغ التبرع</label>
                 </div>
             </div>
         </div>
-        <div class="table-responsive">
+        <div class="table-responsive mb-2">
             <table class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
                 <thead>
                     <tr>
@@ -109,6 +97,9 @@
                 </tbody>
             </table>
         </div>
+        <div>
+            <app-admin-pagination (pageChanged)="PagingFilter.currentpage = $event.page" [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="0" [totalCount]="TotalCount"></app-admin-pagination>
+        </div>
     </div>
 </div>
 
@@ -131,34 +122,25 @@
                 <div class="row g-3">
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" [value]="Code" id="floatingInput_1"
-                                placeholder="new-user" disabled>
+                            <input type="text" class="form-control" [value]="Code" id="floatingInput_1" placeholder="new-user" disabled>
                             <label for="floatingInput_1">الكود</label>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div ngbDropdown class="dropdown-with-search overflow-hidden" container="body">
-                            <button
-                                class="dropdown-with-search-btn btn border h-58 w-100 d-flex align-items-center justify-content-between selector-padding"
-                                id="dropdownBasic1" [disabled]="BenefactorType == 'Cash'" ngbDropdownToggle>
+                            <button class="dropdown-with-search-btn btn border h-58 w-100 d-flex align-items-center justify-content-between selector-padding" id="dropdownBasic1" [disabled]="BenefactorType == 'Cash'" ngbDropdownToggle>
                                 {{BeneFactorTypeName}}
                             </button>
-                            <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu
-                                aria-labelledby="dropdownBasic1">
+                            <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu aria-labelledby="dropdownBasic1">
                                 <div class="p-2 gray-bgcolor border-bottom">
                                     <div class="position-relative">
-                                        <input type="text" class="form-control form-control-sm"
-                                            [(ngModel)]="BeneFactorTypeSearchText" placeholder="بحث..."
-                                            [ngModelOptions]="{standalone: true}" />
+                                        <input type="text" class="form-control form-control-sm" [(ngModel)]="BeneFactorTypeSearchText" placeholder="بحث..." [ngModelOptions]="{standalone: true}" />
                                         <i class="uil uil-search search-icon-input"></i>
                                     </div>
                                 </div>
                                 <ul class="dropdown-list-box list-unstyled max-height-220 overflow-auto px-1 py-1 m-0">
-                                    <ng-container
-                                        *ngFor="let item of BeneFactorTypesData | searchArry: BeneFactorTypeSearchText:'name'">
-                                        <li class="dropdown-item cursor-pointer rounded"
-                                            (click)="OnChangeBeneFactorType(item)"
-                                            [ngClass]="{'DropDownSelected': BeneFactorTypeName == item.name}">
+                                    <ng-container *ngFor="let item of BeneFactorTypesData | searchArry: BeneFactorTypeSearchText:'name'">
+                                        <li class="dropdown-item cursor-pointer rounded" (click)="OnChangeBeneFactorType(item)" [ngClass]="{'DropDownSelected': BeneFactorTypeName == item.name}">
                                             {{item.name}}
                                         </li>
                                     </ng-container>
@@ -171,12 +153,10 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="date" class="form-control" formControlName="paymentDate" value="1000"
-                                id="floatingInput_1" placeholder="new-user" required>
+                            <input type="date" class="form-control" formControlName="paymentDate" value="1000" id="floatingInput_1" placeholder="new-user" required>
                             <label for="floatingInput_1">تاريخ التبرع</label>
                         </div>
-                        <div *ngIf="ItemForm.controls['paymentDate']?.invalid && (ItemForm.controls['paymentDate']?.dirty || ItemForm.controls['paymentDate']?.touched)"
-                            class="text-danger pt-2">
+                        <div *ngIf="ItemForm.controls['paymentDate']?.invalid && (ItemForm.controls['paymentDate']?.dirty || ItemForm.controls['paymentDate']?.touched)" class="text-danger pt-2">
                             <div *ngIf="ItemForm.controls['paymentDate'].errors?.['required']">
                                 هذا الحقل مطلوب
                             </div>
@@ -184,13 +164,10 @@
                     </div>
                     <div class="col-lg-6" *ngIf="BenefactorType == 'Cash'">
                         <div class="form-floating">
-                            <input type="text" class="form-control" (copy)="false" (paste)="false" (cut)="false"
-                                (keypress)="NumbersOnly($event.key)" formControlName="totalValue" id="floatingInput_1"
-                                placeholder="new-user" autocomplete="off" required>
+                            <input type="text" class="form-control" (copy)="false" (paste)="false" (cut)="false" (keypress)="NumbersOnly($event.key)" formControlName="totalValue" id="floatingInput_1" placeholder="new-user" autocomplete="off" required>
                             <label for="floatingInput_1">قيمة التبرع</label>
                         </div>
-                        <div *ngIf="ItemForm.controls['totalValue']?.invalid && (ItemForm.controls['totalValue']?.dirty || ItemForm.controls['totalValue']?.touched)"
-                            class="text-danger pt-2">
+                        <div *ngIf="ItemForm.controls['totalValue']?.invalid && (ItemForm.controls['totalValue']?.dirty || ItemForm.controls['totalValue']?.touched)" class="text-danger pt-2">
                             <div *ngIf="ItemForm.controls['totalValue'].errors?.['required']">
                                 هذا الحقل مطلوب
                             </div>
@@ -198,8 +175,7 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" formControlName="details" id="floatingInput_1"
-                                placeholder="new-user">
+                            <input type="text" class="form-control" formControlName="details" id="floatingInput_1" placeholder="new-user">
                             <label for="floatingInput_1">تفاصيل التبرع</label>
                             <div *ngIf="ItemForm.controls['details'].errors?.['noSpace']" class="text-danger pt-2">
                                 لا يمكن ان يحتوي الحقل على مسافات فقط

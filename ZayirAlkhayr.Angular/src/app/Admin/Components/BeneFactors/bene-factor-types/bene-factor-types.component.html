@@ -5,22 +5,20 @@
                 <i class="uil uil-plus-circle"></i>
                 <span class="navbar-brand m-0">اضافة</span>
             </button>
-            <button class="btn main-button d-flex align-items-center gap-2" (click)="isFilter = !isFilter"
-                [attr.aria-expanded]="!isFilter">
+            <button class="btn main-button d-flex align-items-center gap-2" (click)="isFilter = !isFilter" [attr.aria-expanded]="!isFilter">
                 <i class="uil uil-filter"></i>
                 <span class="navbar-brand m-0">{{ isFilter ? 'عرض' : 'اخفاء' }} الفلاتر</span>
             </button>
         </div>
         <div>
-            <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize"
-                [totalPages]="0" [totalCount]="TotalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
+            <app-admin-pagination (pageChanged)="pageChanged($event)" [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="0" [totalCount]="TotalCount"></app-admin-pagination>
         </div>
     </div>
     <div class="px-3 py-2 bg-light border-bottom" #collapse="ngbCollapse" [(ngbCollapse)]="isFilter">
         <app-admin-filters [PlaceHolder]="'بالاسم'" (FilterChecked)="FilterChecked($event)"></app-admin-filters>
     </div>
     <div class="card-body card-body-h">
-        <div class="table-responsive">
+        <div class="table-responsive mb-2">
             <table class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
                 <thead>
                     <tr>
@@ -37,6 +35,9 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div>
+            <app-admin-pagination (pageChanged)="PagingFilter.currentpage = $event.page" [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="0" [totalCount]="TotalCount"></app-admin-pagination>
         </div>
     </div>
 </div>
@@ -56,11 +57,9 @@
                 <div class="row g-3">
                     <div class="col-lg-12">
                         <div class="form-floating">
-                            <input type="text" class="form-control" formControlName="name" id="floatingInput_1"
-                                placeholder="new-user" required>
+                            <input type="text" class="form-control" formControlName="name" id="floatingInput_1" placeholder="new-user" required>
                             <label for="floatingInput_1">الاسم</label>
-                            <div *ngIf="ItemForm.controls['name']?.invalid && (ItemForm.controls['name']?.dirty || ItemForm.controls['name']?.touched)"
-                                class="text-danger pt-2">
+                            <div *ngIf="ItemForm.controls['name']?.invalid && (ItemForm.controls['name']?.dirty || ItemForm.controls['name']?.touched)" class="text-danger pt-2">
                                 <div *ngIf="ItemForm.controls['name'].errors?.['required']">
                                     هذا الحقل مطلوب
                                 </div>

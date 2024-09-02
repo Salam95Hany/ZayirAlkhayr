@@ -18,7 +18,7 @@
         <app-admin-filters [FilterList]="FilterList" [PlaceHolder]="'بالعنوان'" (FilterChecked)="FilterChecked($event)"></app-admin-filters>
     </div>
     <div class="card-body card-body-h">
-        <div class="table-responsive">
+        <div class="table-responsive mb-2">
             <table class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
                 <thead>
                     <tr>
@@ -60,6 +60,9 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div>
+            <app-admin-pagination (pageChanged)="PagingFilter.currentpage = $event.page" [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="0" [totalCount]="TotalCount"></app-admin-pagination>
         </div>
     </div>
 </div>

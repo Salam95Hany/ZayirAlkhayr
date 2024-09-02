@@ -1,26 +1,27 @@
-.card-body-h {
-  --card-h: 255px;
-  min-height: calc(100vh - var(--card-h));
+.DropDownSelected {
+    background: rgba(0, 0, 0, .12);
+    color: #1976d2;
 }
 
-.DropDownSelected {
-  background: rgba(0, 0, 0, .12);
-  color: #1976d2;
-}
 
 /* Table Collapse And Expand Style */
+
 .td-collapser .uil-plus-circle {
-  font-size: 19px;
+    font-size: 19px;
 }
+
 .td-collapser[aria-expanded="false"] .uil-plus-circle {
-  color: #198754;
+    color: #198754;
 }
+
 .td-collapser[aria-expanded="true"] .uil-plus-circle {
-  color: #dc3545;
+    color: #dc3545;
 }
+
 .td-collapser[aria-expanded="true"] .uil-plus-circle::before {
-  content: '\e994';
+    content: '\e994';
 }
-.collapsed-tr > td:first-child {
-  padding-right: 32px;
+
+.collapsed-tr>td:first-child {
+    padding-right: 32px;
 }

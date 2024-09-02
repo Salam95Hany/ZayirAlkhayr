@@ -4,8 +4,7 @@
     <span class="CrossRef_2_InfoTotal">{{totalCount}}</span>
     </span>
     <div class="pull-right NewPaging">
-        <pagination [boundaryLinks]="true" [totalItems]="totalCount" [maxSize]="maxSize" (pageChanged)="pageChangeEvevnt($event)" [itemsPerPage]="pageSize" previousText="السابق" nextText="التالي" firstText="الأول"
-            lastText="الأخير">
+        <pagination [(ngModel)]="currentPage" [boundaryLinks]="true" [totalItems]="totalCount" [maxSize]="maxSize" (pageChanged)="pageChangeEvevnt($event)" [itemsPerPage]="pageSize" previousText="السابق" nextText="التالي" firstText="الأول" lastText="الأخير">
         </pagination>
     </div>
 </div>

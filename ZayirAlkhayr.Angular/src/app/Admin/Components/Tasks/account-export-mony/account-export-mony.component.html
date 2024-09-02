@@ -1,8 +1,7 @@
 <div class="card">
     <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
         <div class="d-flex align-items-center flex-wrap gap-2">
-            <button appRole [roles]="['SupperAdmin','Admin']" class="btn main-button d-flex align-items-center gap-2"
-                (click)="openAddItemModal(OpenItemModal,null)">
+            <button appRole [roles]="['SupperAdmin','Admin']" class="btn main-button d-flex align-items-center gap-2" (click)="openAddItemModal(OpenItemModal,null)">
                 <i class="uil uil-plus-circle"></i>
                 <span class="navbar-brand m-0">اضافة</span>
             </button>
@@ -18,8 +17,7 @@
                     </a>
                 </div>
             </div>
-            <button class="btn main-button d-flex align-items-center gap-2" (click)="isFilter = !isFilter"
-                [attr.aria-expanded]="!isFilter">
+            <button class="btn main-button d-flex align-items-center gap-2" (click)="isFilter = !isFilter" [attr.aria-expanded]="!isFilter">
                 <i class="uil uil-filter"></i>
                 <span class="navbar-brand m-0">{{ isFilter ? 'عرض' : 'اخفاء' }} الفلاتر</span>
             </button>
@@ -29,16 +27,14 @@
             </div>
         </div>
         <div>
-            <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize"
-                [totalPages]="0" [totalCount]="TotalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
+            <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="0" [totalCount]="TotalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
         </div>
     </div>
     <div class="px-3 py-2 bg-light border-bottom" #collapse="ngbCollapse" [(ngbCollapse)]="isFilter">
-        <app-admin-filters [FilterList]="FilterList" [ApplyDateFilter]="true" [ApplyMonthFilter]="true" [PlaceHolder]="'ب اسم المستخدم'"
-            (FilterChecked)="FilterChecked($event)"></app-admin-filters>
+        <app-admin-filters [FilterList]="FilterList" [ApplyDateFilter]="true" [ApplyMonthFilter]="true" [PlaceHolder]="'ب اسم المستخدم'" (FilterChecked)="FilterChecked($event)"></app-admin-filters>
     </div>
     <div class="card-body card-body-h">
-        <div class="table-responsive">
+        <div class="table-responsive mb-2">
             <table class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
                 <thead>
                     <tr>
@@ -61,15 +57,16 @@
                         <td>{{item.insertDateStr}}</td>
                         <td appRole [roles]="['SupperAdmin','Admin']">
                             <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
-                                <i class="uil uil-edit text-primary icon-table-action shadow-sm"
-                                    (click)="openAddItemModal(OpenItemModal,item)"></i>
-                                <i class="uil uil-times-circle text-danger icon-table-action shadow-sm"
-                                    (click)="openDeleteItemModal(deleteItemModal,item)"></i>
+                                <i class="uil uil-edit text-primary icon-table-action shadow-sm" (click)="openAddItemModal(OpenItemModal,item)"></i>
+                                <i class="uil uil-times-circle text-danger icon-table-action shadow-sm" (click)="openDeleteItemModal(deleteItemModal,item)"></i>
                             </div>
                         </td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div>
+            <app-admin-pagination (pageChanged)="PagingFilter.currentpage = $event.page" [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="0" [totalCount]="TotalCount"></app-admin-pagination>
         </div>
     </div>
 </div>
@@ -87,13 +84,10 @@
                 <div class="row g-3">
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" (paste)="false" (keypress)="NumbersOnly($event.key)"
-                                formControlName="totalValue" id="floatingInput_1" placeholder="new-user"
-                                autocomplete="off" required>
+                            <input type="text" class="form-control" (paste)="false" (keypress)="NumbersOnly($event.key)" formControlName="totalValue" id="floatingInput_1" placeholder="new-user" autocomplete="off" required>
                             <label for="floatingInput_1">المبلغ</label>
                         </div>
-                        <div *ngIf="ItemForm.controls['totalValue']?.invalid && (ItemForm.controls['totalValue']?.dirty || ItemForm.controls['totalValue']?.touched)"
-                            class="text-danger pt-2">
+                        <div *ngIf="ItemForm.controls['totalValue']?.invalid && (ItemForm.controls['totalValue']?.dirty || ItemForm.controls['totalValue']?.touched)" class="text-danger pt-2">
                             <div *ngIf="ItemForm.controls['totalValue'].errors?.['required']">
                                 هذا الحقل مطلوب
                             </div>
@@ -101,11 +95,9 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" formControlName="details" id="floatingInput_1"
-                                placeholder="new-user" required>
+                            <input type="text" class="form-control" formControlName="details" id="floatingInput_1" placeholder="new-user" required>
                             <label for="floatingInput_1">التفاصيل</label>
-                            <div *ngIf="ItemForm.controls['details']?.invalid && (ItemForm.controls['details']?.dirty || ItemForm.controls['details']?.touched)"
-                                class="text-danger pt-2">
+                            <div *ngIf="ItemForm.controls['details']?.invalid && (ItemForm.controls['details']?.dirty || ItemForm.controls['details']?.touched)" class="text-danger pt-2">
                                 <div *ngIf="ItemForm.controls['details'].errors?.['required']">
                                     هذا الحقل مطلوب
                                 </div>
@@ -117,32 +109,22 @@
                     </div>
                     <div class="col-lg-6">
                         <div ngbDropdown class="dropdown-with-search overflow-hidden w-100" container="body">
-                            <button
-                                class="dropdown-with-search-btn btn border w-100 h-58 d-flex align-items-center justify-content-between selector-padding"
-                                id="dropdownBasic1" ngbDropdownToggle>
+                            <button class="dropdown-with-search-btn btn border w-100 h-58 d-flex align-items-center justify-content-between selector-padding" id="dropdownBasic1" ngbDropdownToggle>
                                 {{BeneFactorName}}
                             </button>
-                            <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu
-                                aria-labelledby="dropdownBasic1">
+                            <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu aria-labelledby="dropdownBasic1">
                                 <div class="p-2 gray-bgcolor border-bottom">
                                     <div class="position-relative">
-                                        <input type="text" class="form-control form-control-sm"
-                                            [(ngModel)]="BeneFactorSearchText" placeholder="بحث..."
-                                            [ngModelOptions]="{standalone: true}" />
+                                        <input type="text" class="form-control form-control-sm" [(ngModel)]="BeneFactorSearchText" placeholder="بحث..." [ngModelOptions]="{standalone: true}" />
                                         <i class="uil uil-search search-icon-input"></i>
                                     </div>
                                 </div>
                                 <ul class="dropdown-list-box list-unstyled max-height-220 overflow-auto px-1 py-1 m-0">
                                     <ng-container>
-                                        <li class="dropdown-item cursor-pointer rounded"
-                                            [ngClass]="{'DropDownSelected': BeneFactorName == 'فاعل خير'}"
-                                            (click)="OnChangeBeneFactor({id:0,fullName:'فاعل خير'})">فاعل خير</li>
+                                        <li class="dropdown-item cursor-pointer rounded" [ngClass]="{'DropDownSelected': BeneFactorName == 'فاعل خير'}" (click)="OnChangeBeneFactor({id:0,fullName:'فاعل خير'})">فاعل خير</li>
                                     </ng-container>
-                                    <ng-container
-                                        *ngFor="let item of BeneFactors | searchArry: BeneFactorSearchText:'fullName'">
-                                        <li class="dropdown-item cursor-pointer rounded"
-                                            [ngClass]="{'DropDownSelected': BeneFactorName == item.fullName}"
-                                            (click)="OnChangeBeneFactor(item)">{{item.fullName}}</li>
+                                    <ng-container *ngFor="let item of BeneFactors | searchArry: BeneFactorSearchText:'fullName'">
+                                        <li class="dropdown-item cursor-pointer rounded" [ngClass]="{'DropDownSelected': BeneFactorName == item.fullName}" (click)="OnChangeBeneFactor(item)">{{item.fullName}}</li>
                                     </ng-container>
                                 </ul>
                             </div>
@@ -153,27 +135,19 @@
                     </div>
                     <div class="col-lg-6">
                         <div ngbDropdown class="dropdown-with-search overflow-hidden w-100" container="body">
-                            <button
-                                class="dropdown-with-search-btn btn border w-100 h-58 d-flex align-items-center justify-content-between selector-padding"
-                                id="dropdownBasic1" ngbDropdownToggle>
+                            <button class="dropdown-with-search-btn btn border w-100 h-58 d-flex align-items-center justify-content-between selector-padding" id="dropdownBasic1" ngbDropdownToggle>
                                 {{BeneFactorTypeName}}
                             </button>
-                            <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu
-                                aria-labelledby="dropdownBasic1">
+                            <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu aria-labelledby="dropdownBasic1">
                                 <div class="p-2 gray-bgcolor border-bottom">
                                     <div class="position-relative">
-                                        <input type="text" class="form-control form-control-sm"
-                                            [(ngModel)]="BeneFactorTypeSearchText" placeholder="بحث..."
-                                            [ngModelOptions]="{standalone: true}" />
+                                        <input type="text" class="form-control form-control-sm" [(ngModel)]="BeneFactorTypeSearchText" placeholder="بحث..." [ngModelOptions]="{standalone: true}" />
                                         <i class="uil uil-search search-icon-input"></i>
                                     </div>
                                 </div>
                                 <ul class="dropdown-list-box list-unstyled max-height-220 overflow-auto px-1 py-1 m-0">
-                                    <ng-container
-                                        *ngFor="let item of BeneFactorTypes | searchArry: BeneFactorTypeSearchText:'name'">
-                                        <li class="dropdown-item cursor-pointer rounded"
-                                            [ngClass]="{'DropDownSelected': BeneFactorTypeName == item.name}"
-                                            (click)="OnChangeBeneFactorType(item)">{{item.name}}</li>
+                                    <ng-container *ngFor="let item of BeneFactorTypes | searchArry: BeneFactorTypeSearchText:'name'">
+                                        <li class="dropdown-item cursor-pointer rounded" [ngClass]="{'DropDownSelected': BeneFactorTypeName == item.name}" (click)="OnChangeBeneFactorType(item)">{{item.name}}</li>
                                     </ng-container>
                                 </ul>
                             </div>
@@ -184,12 +158,10 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="date" class="form-control" formControlName="InsertDate" id="floatingInput_1"
-                                placeholder="new-user" autocomplete="off" required>
+                            <input type="date" class="form-control" formControlName="InsertDate" id="floatingInput_1" placeholder="new-user" autocomplete="off" required>
                             <label for="floatingInput_1">تاريخ الاضافة</label>
                         </div>
-                        <div *ngIf="ItemForm.controls['InsertDate']?.invalid && (ItemForm.controls['InsertDate']?.dirty || ItemForm.controls['InsertDate']?.touched)"
-                            class="text-danger pt-2">
+                        <div *ngIf="ItemForm.controls['InsertDate']?.invalid && (ItemForm.controls['InsertDate']?.dirty || ItemForm.controls['InsertDate']?.touched)" class="text-danger pt-2">
                             <div *ngIf="ItemForm.controls['InsertDate'].errors?.['required']">
                                 هذا الحقل مطلوب
                             </div>

@@ -1,8 +1,7 @@
 <div class="card">
     <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
         <div class="d-flex align-items-center flex-wrap gap-2">
-            <button class="btn main-button d-flex align-items-center gap-2"
-                (click)="openAddItemModal(OpenItemModal,null)">
+            <button class="btn main-button d-flex align-items-center gap-2" (click)="openAddItemModal(OpenItemModal,null)">
                 <i class="uil uil-plus-circle"></i>
                 <span class="navbar-brand m-0">اضافة</span>
             </button>
@@ -12,8 +11,7 @@
                     <span class="navbar-brand m-0">تنزيل</span>
                 </button>
                 <div ngbDropdownMenu class="dropdown-menu border shadow-sm animate__animated animate__fadeInUp">
-                    <a class="cursor-pointer" ngbDropdownItem
-                        (click)="$event.preventDefault();OpenPdfFileItemModal(PDFFileItemModal)">
+                    <a class="cursor-pointer" ngbDropdownItem (click)="$event.preventDefault();OpenPdfFileItemModal(PDFFileItemModal)">
                         <i class="far fa-file-pdf"></i>
                         <span class="ms-2">PDF</span>
                     </a>
@@ -23,23 +21,20 @@
                     </a>
                 </div>
             </div>
-            <button class="btn main-button d-flex align-items-center gap-2" (click)="isFilter = !isFilter"
-                [attr.aria-expanded]="!isFilter">
+            <button class="btn main-button d-flex align-items-center gap-2" (click)="isFilter = !isFilter" [attr.aria-expanded]="!isFilter">
                 <i class="uil uil-filter"></i>
                 <span class="navbar-brand m-0">{{ isFilter ? 'عرض' : 'اخفاء' }} الفلاتر</span>
             </button>
         </div>
         <div>
-            <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize"
-                [totalPages]="0" [totalCount]="TotalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
+            <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="0" [totalCount]="TotalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
         </div>
     </div>
     <div class="px-3 py-2 bg-light border-bottom" #collapse="ngbCollapse" [(ngbCollapse)]="isFilter">
-        <app-admin-filters [FilterList]="FilterList" [PlaceHolder]="'بالكود, الاسم'"
-            (FilterChecked)="FilterChecked($event)"></app-admin-filters>
+        <app-admin-filters [FilterList]="FilterList" [PlaceHolder]="'بالكود, الاسم'" (FilterChecked)="FilterChecked($event)"></app-admin-filters>
     </div>
     <div class="card-body card-body-h">
-        <div class="table-responsive">
+        <div class="table-responsive mb-2">
             <table class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
                 <thead>
                     <tr>
@@ -71,25 +66,24 @@
                         <td>{{item.address}}</td>
                         <td>{{item.nationality}}</td>
                         <td>
-                            <a *ngIf="item.faceBook" style="text-decoration: none;" href="{{item.faceBook}}"
-                                target="_blank">فيسبوك</a>
+                            <a *ngIf="item.faceBook" style="text-decoration: none;" href="{{item.faceBook}}" target="_blank">فيسبوك</a>
                         </td>
                         <td>{{item.welcomeMessage}}</td>
                         <td>{{item.createdBy}}</td>
                         <td>{{item.insertDate}}</td>
                         <td>
                             <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
-                                <i class="uil uil-edit text-primary icon-table-action shadow-sm"
-                                    (click)="openAddItemModal(OpenItemModal,item)"></i>
-                                <i class="uil uil-times-circle text-danger icon-table-action shadow-sm" appRole
-                                    [roles]="['SupperAdmin']" (click)="openDeleteItemModal(deleteItemModal,item)"></i>
-                                <i class="uil uil-document-info text-success icon-table-action shadow-sm"
-                                    (click)="openCashSidePanel(CashSidePanel,item)"></i>
+                                <i class="uil uil-edit text-primary icon-table-action shadow-sm" (click)="openAddItemModal(OpenItemModal,item)"></i>
+                                <i class="uil uil-times-circle text-danger icon-table-action shadow-sm" appRole [roles]="['SupperAdmin']" (click)="openDeleteItemModal(deleteItemModal,item)"></i>
+                                <i class="uil uil-document-info text-success icon-table-action shadow-sm" (click)="openCashSidePanel(CashSidePanel,item)"></i>
                             </div>
                         </td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div>
+            <app-admin-pagination (pageChanged)="PagingFilter.currentpage = $event.page" [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="0" [totalCount]="TotalCount"></app-admin-pagination>
         </div>
     </div>
 </div>
@@ -109,11 +103,9 @@
                 <div class="row g-3">
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" formControlName="fullName" id="floatingInput_1"
-                                placeholder="new-user" required>
+                            <input type="text" class="form-control" formControlName="fullName" id="floatingInput_1" placeholder="new-user" required>
                             <label for="floatingInput_1">اسم المتبرع</label>
-                            <div *ngIf="ItemForm.controls['fullName']?.invalid && (ItemForm.controls['fullName']?.dirty || ItemForm.controls['fullName']?.touched)"
-                                class="text-danger pt-2">
+                            <div *ngIf="ItemForm.controls['fullName']?.invalid && (ItemForm.controls['fullName']?.dirty || ItemForm.controls['fullName']?.touched)" class="text-danger pt-2">
                                 <div *ngIf="ItemForm.controls['fullName'].errors?.['required']">
                                     هذا الحقل مطلوب
                                 </div>
@@ -125,8 +117,7 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control"
-                                formControlName="description" id="floatingInput_1" placeholder="new-user">
+                            <input type="text" class="form-control" formControlName="description" id="floatingInput_1" placeholder="new-user">
                             <label for="floatingInput_1">الوصف</label>
                             <div *ngIf="ItemForm.controls['description'].errors?.['noSpace']" class="text-danger pt-2">
                                 لا يمكن ان يحتوي الحقل على مسافات فقط
@@ -135,11 +126,9 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" (keypress)="NumbersOnly($event.key)"
-                                formControlName="phone" id="floatingInput_1" placeholder="new-user" required>
+                            <input type="text" class="form-control" (keypress)="NumbersOnly($event.key)" formControlName="phone" id="floatingInput_1" placeholder="new-user" required>
                             <label for="floatingInput_1">رقم التلفون</label>
-                            <div *ngIf="ItemForm.controls['phone']?.invalid && (ItemForm.controls['phone']?.dirty || ItemForm.controls['phone']?.touched)"
-                                class="text-danger pt-2">
+                            <div *ngIf="ItemForm.controls['phone']?.invalid && (ItemForm.controls['phone']?.dirty || ItemForm.controls['phone']?.touched)" class="text-danger pt-2">
                                 <div *ngIf="ItemForm.controls['phone'].errors?.['required']">
                                     هذا الحقل مطلوب
                                 </div>
@@ -151,8 +140,7 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" (keypress)="NumbersOnly($event.key)"
-                                formControlName="phone2" id="floatingInput_1" placeholder="new-user">
+                            <input type="text" class="form-control" (keypress)="NumbersOnly($event.key)" formControlName="phone2" id="floatingInput_1" placeholder="new-user">
                             <label for="floatingInput_1">رقم التلفون 2</label>
                             <div *ngIf="ItemForm.controls['phone2'].errors?.['pattern']" class="text-danger pt-2">
                                 أدخل أرقام فقط
@@ -161,8 +149,7 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" formControlName="address" id="floatingInput_1"
-                                placeholder="new-user">
+                            <input type="text" class="form-control" formControlName="address" id="floatingInput_1" placeholder="new-user">
                             <label for="floatingInput_1">العنوان</label>
                             <div *ngIf="ItemForm.controls['address'].errors?.['noSpace']" class="text-danger pt-2">
                                 لا يمكن ان يحتوي الحقل على مسافات فقط
@@ -171,8 +158,7 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" formControlName="faceBook" id="floatingInput_1"
-                                placeholder="new-user">
+                            <input type="text" class="form-control" formControlName="faceBook" id="floatingInput_1" placeholder="new-user">
                             <label for="floatingInput_1">صفحة الفيس بوك</label>
                             <div *ngIf="ItemForm.controls['faceBook'].errors?.['noSpace']" class="text-danger pt-2">
                                 لا يمكن ان يحتوي الحقل على مسافات فقط
@@ -181,18 +167,13 @@
                     </div>
                     <div class="col-lg-6">
                         <div ngbDropdown class="dropdown-with-search overflow-hidden" container="body">
-                            <button
-                                class="dropdown-with-search-btn btn border h-58 w-100 d-flex align-items-center justify-content-between selector-padding"
-                                id="dropdownBasic1" ngbDropdownToggle>
+                            <button class="dropdown-with-search-btn btn border h-58 w-100 d-flex align-items-center justify-content-between selector-padding" id="dropdownBasic1" ngbDropdownToggle>
                                 {{NationalityName}}
                             </button>
-                            <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu
-                                aria-labelledby="dropdownBasic1">
+                            <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu aria-labelledby="dropdownBasic1">
                                 <ul class="dropdown-list-box list-unstyled max-height-220 overflow-auto px-1 py-1 m-0">
                                     <ng-container *ngFor="let item of NationalityList">
-                                        <li class="dropdown-item cursor-pointer rounded"
-                                            (click)="OnChangeNationality(item)"
-                                            [ngClass]="{'DropDownSelected': NationalityName == item.name}">{{item.name}}</li>
+                                        <li class="dropdown-item cursor-pointer rounded" (click)="OnChangeNationality(item)" [ngClass]="{'DropDownSelected': NationalityName == item.name}">{{item.name}}</li>
                                     </ng-container>
                                 </ul>
                             </div>
@@ -208,8 +189,7 @@
                     </div>
                     <div class="col-lg-12">
                         <div class="form-floating">
-                            <input type="text" class="form-control"
-                                formControlName="welcomeMessage" id="floatingInput_1" placeholder="new-user">
+                            <input type="text" class="form-control" formControlName="welcomeMessage" id="floatingInput_1" placeholder="new-user">
                             <label for="floatingInput_1">رسالة ترحيبية</label>
                             <div *ngIf="ItemForm.controls['welcomeMessage'].errors?.['noSpace']" class="text-danger pt-2">
                                 لا يمكن ان يحتوي الحقل على مسافات فقط
@@ -221,8 +201,7 @@
                         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6 g-2">
                             <div class="col" *ngFor="let url of fileURL">
                                 <div class="choosed-img img-thumbnail shadow-sm">
-                                    <img src="{{url.image}}" (error)="$event.target.src = DefaultImage" loading="lazy"
-                                        alt="" />
+                                    <img src="{{url.image}}" (error)="$event.target.src = DefaultImage" loading="lazy" alt="" />
                                     <div class="choosed-img-delete" (click)="DeleteSelectedFile()">
                                         <i class="far fa-times-circle"></i>
                                     </div>
@@ -271,9 +250,7 @@
 <ng-template #CashSidePanel let-offcanvas>
     <div class="offcanvas-header pb-0 d-flex align-items-center justify-content-between">
         <div>
-            <h4 class="offcanvas-title m-0 d-flex align-items-center w-100"><i
-                    class="uil uil-document-info text-success"></i> {{BeneFactorValues.fullName}} -
-                {{BeneFactorValues.code}}
+            <h4 class="offcanvas-title m-0 d-flex align-items-center w-100"><i class="uil uil-document-info text-success"></i> {{BeneFactorValues.fullName}} - {{BeneFactorValues.code}}
             </h4>
         </div>
         <button type="button" class="btn bg-danger text-white rounded" aria-label="Close" (click)="offcanvas.dismiss()">
@@ -286,16 +263,13 @@
             <div class="row g-3">
                 <div class="col-lg-5">
                     <div class="form-floating">
-                        <input type="text" class="form-control" (keypress)="NumbersOnly($event.key)" (paste)="false"
-                            (copy)="false" (cut)="false" [(ngModel)]="BeneFactorValues.totalValue" id="floatingInput_1"
-                            placeholder="new-user" autocomplete="off">
+                        <input type="text" class="form-control" (keypress)="NumbersOnly($event.key)" (paste)="false" (copy)="false" (cut)="false" [(ngModel)]="BeneFactorValues.totalValue" id="floatingInput_1" placeholder="new-user" autocomplete="off">
                         <label for="floatingInput_1">مبلغ التبرع</label>
                     </div>
                 </div>
                 <div class="col-lg-5">
                     <div class="form-floating">
-                        <input type="date" class="form-control" [(ngModel)]="BeneFactorValues.paymentDate"
-                            id="floatingInput_1" placeholder="new-user">
+                        <input type="date" class="form-control" [(ngModel)]="BeneFactorValues.paymentDate" id="floatingInput_1" placeholder="new-user">
                         <label for="floatingInput_1">تاريخ التبرع</label>
                     </div>
                 </div>
@@ -309,8 +283,7 @@
             <div class="card">
                 <div class="card-body card-body-h overflow-auto">
                     <div class="table-responsive">
-                        <table
-                            class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
+                        <table class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
                             <thead>
                                 <tr>
                                     <th class="width-30-per">مبلغ التبرع</th>
@@ -321,9 +294,7 @@
                             <ng-container *ngFor="let item of BeneFactorValuesData">
                                 <tbody>
                                     <tr>
-                                        <td class="td-collapser cursor-pointer"
-                                            (click)="BeneFactorValueCollapseClick(item)"
-                                            [attr.aria-expanded]="item.isCollapsed">
+                                        <td class="td-collapser cursor-pointer" (click)="BeneFactorValueCollapseClick(item)" [attr.aria-expanded]="item.isCollapsed">
                                             <div class="d-flex align-items-center gap-2">
                                                 <i class="uil uil-plus-circle"></i>
                                                 <span>{{item.totalValue}}</span>
@@ -374,15 +345,13 @@
         <div class="bg-white p-3 rounded shadow-sm mb-3">
             <div class="row g-3 mb-2" *ngFor="let item of PDFHeaderModel;let x = index">
                 <div class="col-lg-5">
-                    <input class="form-check-input me-2" type="checkbox" [(ngModel)]="item.isSelected"
-                        id="{{item.nameEn}}_{{x}}">
+                    <input class="form-check-input me-2" type="checkbox" [(ngModel)]="item.isSelected" id="{{item.nameEn}}_{{x}}">
                     <label class="form-check-label cursor-pointer filter-content" for="{{item.nameEn}}_{{x}}">
                         <span>{{item.nameAr}}</span>
                     </label>
                 </div>
                 <div class="col-lg-2">
-                    <input type="text" class="form-control" (keypress)="NumbersOnly($event.key)" (paste)="false"
-                        (copy)="false" (cut)="false" [(ngModel)]="item.displayOrder" placeholder="الترتيب">
+                    <input type="text" class="form-control" (keypress)="NumbersOnly($event.key)" (paste)="false" (copy)="false" (cut)="false" [(ngModel)]="item.displayOrder" placeholder="الترتيب">
                 </div>
                 <div class="col-lg-5 d-flex align-items-center" *ngIf="item.valueType == 'Number'">
                     <div class="me-2">جمع قيم العامود</div>
@@ -397,8 +366,7 @@
             <div class="row g-3 mb-2">
                 <div class="col-lg-12">
                     <div class="form-floating">
-                        <input type="text" class="form-control" (keypress)="NumbersOnly($event.key)" (paste)="false"
-                            (copy)="false" (cut)="false" [(ngModel)]="RowCount" id="floatingInput_1">
+                        <input type="text" class="form-control" (keypress)="NumbersOnly($event.key)" (paste)="false" (copy)="false" (cut)="false" [(ngModel)]="RowCount" id="floatingInput_1">
                         <label for="floatingInput_1">عدد الاسطر في الصفحة الواحدة</label>
                     </div>
                 </div>

@@ -62,7 +62,8 @@ export class BeneFactorTypesComponent implements OnInit {
     });
   }
 
-  PageChange(obj: any) {
+  pageChanged(obj: any) {
+    debugger;
     this.PagingFilter.currentpage = obj.page;
     this.GetAllBeneFactorTypes();
   }
