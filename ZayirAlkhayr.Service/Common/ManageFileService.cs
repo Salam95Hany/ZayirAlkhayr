@@ -35,7 +35,7 @@ namespace ZayirAlkhayr.Service.Common
             var FileName = Guid.NewGuid().ToString() + "_" + File.FileName;
 
             string extension = Path.GetExtension(File.FileName);
-            var supportedTypes = new[] { ".jpg", ".png", ".PNG", ".bmp", ".jpeg", ".jfif", ".webp" };
+            var supportedTypes = new[] { ".jpg", ".JPG", ".png", ".PNG", ".bmp", ".jpeg", ".JPEG", ".jfif", ".webp" };
             if (!supportedTypes.Contains(extension))
             {
                 Response.Done = false;
@@ -78,7 +78,7 @@ namespace ZayirAlkhayr.Service.Common
                     Response.Done = false;
                     Response.Message = "لقد حدث خطا لا يمكن حذف هذه الصورة";
                 }
-                
+
             }
 
             Response.Done = true;

@@ -34,6 +34,12 @@ export class ValidationFormService {
     }
   }
 
+  getFileSize(file: any): number {
+    const fileSizeInKB = file.size / 1024;
+    const fileSizeInMB = Math.round(fileSizeInKB / 1024);
+    return fileSizeInMB;
+  }
+
   onSelectedFile(file: any): Promise<any[]> {
     if (file) {
       const promises = [];
@@ -91,7 +97,7 @@ export class ValidationFormService {
         ItemForm.get(key).setValue(ItemForm.value[key].replace(/\s+/g, ' '))
       }
     });
-    
+
     return ItemForm;
   }
 

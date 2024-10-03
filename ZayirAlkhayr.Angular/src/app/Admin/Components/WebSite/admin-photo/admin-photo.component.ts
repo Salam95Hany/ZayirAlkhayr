@@ -149,6 +149,12 @@ export class AdminPhotoComponent implements OnInit {
   }
 
   onFileChange(event: any) {
+    let fileSize = this.formService.getFileSize(event.target.files[0]);
+    if (fileSize > 1) {
+      this.toaster.warning(`هذا الملف ${event.target.files[0].name} حجمه أكبر من 1 ميجا`);
+      return;
+    }
+
     this.fileURL = [];
     this.ImageFile = null;
     this.formService.onSelectedFile(event.target.files).then(data => {
@@ -159,6 +165,19 @@ export class AdminPhotoComponent implements OnInit {
   }
 
   onMultiFileChange(event: any) {
+    let fileSizeValidate = false;
+    [...event.target.files].forEach(element => {
+      let fileSize = this.formService.getFileSize(element);
+      if (fileSize > 1) {
+        this.toaster.warning(`هذا الملف ${element.name} حجمه أكبر من 1 ميجا`);
+        fileSizeValidate = true;
+      }
+    });
+
+    if (fileSizeValidate)
+      return;
+
+    
     this.formService.onSelectedMultiFile([...event.target.files]).then(data => {
       this.multiFileURL.push(...data?.urls);
       this.multiImagesFile.push(...data?.fileContents);

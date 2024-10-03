@@ -122,6 +122,12 @@ export class HomeSlideimageComponent implements OnInit {
   }
 
   onFileChange(event: any) {
+    let fileSize = this.formService.getFileSize(event.target.files[0]);
+    if (fileSize > 1) {
+      this.toaster.warning(`هذا الملف ${event.target.files[0].name} حجمه أكبر من 1 ميجا`);
+      return;
+    }
+    
     this.fileURL = [];
     this.ImageFile = null;
     this.formService.onSelectedFile(event.target.files).then(data => {
