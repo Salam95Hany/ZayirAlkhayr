@@ -12,6 +12,7 @@ namespace ZayirAlkhayr.Entities.Common
         public List<FamilyCategories> Categories { get; set; }
         public List<FamilyNationalities> Nationalities { get; set; }
         public List<FamilyNeedCategoryGroups> FamilyNeeds { get; set; }
+        public List<FamilyStatusTypes> StatusTypes { get; set; }
     }
 
     public class FamilyNeedCategoryGroups

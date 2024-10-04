@@ -40,7 +40,7 @@
 
 <div class="steppers-content" *ngIf="FamilyLookups">
     <div [hidden]="activeStep != 1">
-        <app-family-status #FamilyStatus [Categories]="FamilyLookups.categories" [Nationalities]="FamilyLookups.nationalities"></app-family-status>
+        <app-family-status #FamilyStatus [Categories]="FamilyLookups.categories" [Nationalities]="FamilyLookups.nationalities" [StatusTypes]="FamilyLookups.statusTypes"></app-family-status>
     </div>
     <div [hidden]="activeStep != 2">
         <app-family-data #FamilyData></app-family-data>
@@ -49,10 +49,10 @@
         <app-family-income-data #FamilyIncome></app-family-income-data>
     </div>
     <div [hidden]="activeStep != 4">
-        <app-family-expenses-data #FamilyExpenses></app-family-expenses-data>
+        <app-family-expenses-data #FamilyExpenses [FamilyMembersCount]="AddFamilyStatusModel?.familyDetails?.length"></app-family-expenses-data>
     </div>
     <div [hidden]="activeStep != 5">
-        <app-family-medical #FamilyMedical></app-family-medical>
+        <app-family-medical #FamilyMedical [FamilyDetails]="AddFamilyStatusModel?.familyDetails" [FamilyStatusName]="AddFamilyStatusModel?.familyStatus?.name"></app-family-medical>
     </div>
     <div [hidden]="activeStep != 6">
         <app-family-need #FamilyNeed [FamilyNeeds]="FamilyLookups.familyNeeds"></app-family-need>

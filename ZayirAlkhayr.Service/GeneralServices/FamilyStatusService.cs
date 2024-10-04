@@ -27,12 +27,14 @@ namespace ZayirAlkhayr.Service.GeneralServices
             var Categories = GetFamilyCategories().GetAwaiter().GetResult();
             var Nationalities = GetFamilyNationalities().GetAwaiter().GetResult();
             var NeedGroups = GetFamilyNeedCategoryGroups().GetAwaiter().GetResult();
+            var FamilyStatusTypes = GetFamilyStatusTypes().GetAwaiter().GetResult();
 
             var Model = new FamilyStatusLookups
             {
                 Categories = Categories,
                 Nationalities = Nationalities,
-                FamilyNeeds = NeedGroups
+                FamilyNeeds = NeedGroups,
+                StatusTypes = FamilyStatusTypes
             };
 
             return Model;
@@ -47,6 +49,12 @@ namespace ZayirAlkhayr.Service.GeneralServices
         Task<List<FamilyNationalities>> GetFamilyNationalities()
         {
             var results = _Context.FamilyNationalities.ToListAsync();
+            return results;
+        }
+
+        Task<List<FamilyStatusTypes>> GetFamilyStatusTypes()
+        {
+            var results = _Context.FamilyStatusTypes.ToListAsync();
             return results;
         }
 

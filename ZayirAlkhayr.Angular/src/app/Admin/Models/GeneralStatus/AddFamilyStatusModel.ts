@@ -28,11 +28,12 @@ export interface FamilyStatus {
     insertDate: string | null;
     updateUser: string;
     updateDate: string | null;
+    addedDate:string;
 }
 
 export interface FamilyIncome {
-    id: number;
-    familyStatusId: number;
+    id?: number;
+    familyStatusId?: number;
     fatherJop: number | null;
     motherJop: number | null;
     childernsJop: number | null;
@@ -42,13 +43,13 @@ export interface FamilyIncome {
     organization_ZakatCommittee: number | null;
     insurancePension: number | null;
     comments: string;
-    other: string;
+    other: number;
     totalFamilyIncome: number | null;
 }
 
 export interface FamilyExpenses {
-    id: number;
-    familyStatusId: number;
+    id?: number;
+    familyStatusId?: number;
     rent_Electricity_Water_Gas_Sewage: number | null;
     medicalExamination_Treatment: number | null;
     schoolExpenses: number;
@@ -62,7 +63,6 @@ export interface FamilyExpenses {
     totalFamilyExpenses: number | null;
     netFamilyIncome: number | null;
     familyCount: number | null;
-    avgPersonIncome: number | null;
 }
 
 export interface FamilyExtraDetails {
@@ -77,8 +77,8 @@ export interface FamilyExtraDetails {
 }
 
 export interface FamilyDetails {
-    id: number;
-    familyStatusId: number;
+    id?: number;
+    familyStatusId?: number;
     name: string;
     relevance: string;
     age: number | null;
@@ -86,8 +86,8 @@ export interface FamilyDetails {
     education: string;
     jop: string;
     nationalId: string;
-    childernsCount: number | null;
-    familyMembersCount: number | null;
+    childernsCount?: number | null;
+    familyMembersCount?: number | null;
 }
 
 export interface FamilyPatient {

@@ -1,77 +1,77 @@
 <div class="table-responsive">
-  <table class="table table-bordered align-middle">
-    <thead>
-      <tr>
-        <th class="text-white" colspan="2">بيانات دخل الاسرة</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="fvt-td-bg">عمل الأب (الزوج)</td>
-        <td>
-          <input type="text" class="form-control" />
-        </td>
-      </tr>
-      <tr>
-        <td class="fvt-td-bg">عمل الأم (الزوجة)</td>
-        <td>
-          <input type="text" class="form-control" />
-        </td>
-      </tr>
-      <tr>
-        <td class="fvt-td-bg">عمل الأبناء</td>
-        <td>
-          <input type="text" class="form-control" />
-        </td>
-      </tr>
-      <tr>
-        <td class="fvt-td-bg">معاش شئون \ تضامن اجتماعي</td>
-        <td>
-          <input type="text" class="form-control" />
-        </td>
-      </tr>
-      <tr>
-        <td class="fvt-td-bg">مشروع</td>
-        <td>
-          <input type="text" class="form-control" />
-        </td>
-      </tr>
-      <tr>
-        <td class="fvt-td-bg">مواشي \ أراضي</td>
-        <td>
-          <input type="text" class="form-control" />
-        </td>
-      </tr>
-      <tr>
-        <td class="fvt-td-bg">جمعية خيرية \ جمعية شرعية \ لجنة زكاة</td>
-        <td>
-          <input type="text" class="form-control" />
-        </td>
-      </tr>
-      <tr>
-        <td class="fvt-td-bg">معاش تأمينات</td>
-        <td>
-          <input type="text" class="form-control" />
-        </td>
-      </tr>
-      <tr>
-        <td class="fvt-td-bg">إجمالي دخل الاسرة</td>
-        <td>
-          <input type="text" class="form-control" />
-        </td>
-      </tr>
-      <tr>
-        <td class="fvt-td-bg">أخرى</td>
-        <td>
-          <input type="text" class="form-control" />
-        </td>
-      </tr>
-      <tr>
-        <td class="fvt-td-bg">ملاحظات</td>
-        <td>
-          <textarea class="form-control" rows="3"></textarea>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    <table class="table table-bordered align-middle">
+        <thead>
+            <tr>
+                <th class="text-white" colspan="2">بيانات دخل الاسرة</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="fvt-td-bg">عمل الأب (الزوج)</td>
+                <td>
+                    <input type="text" class="form-control" [(ngModel)]="FamilyIncome.fatherJop" (ngModelChange)="onInputChange($event, 'fatherJop')" />
+                </td>
+            </tr>
+            <tr>
+                <td class="fvt-td-bg">عمل الأم (الزوجة)</td>
+                <td>
+                    <input type="text" class="form-control" [(ngModel)]="FamilyIncome.motherJop" (ngModelChange)="onInputChange($event, 'motherJop')" />
+                </td>
+            </tr>
+            <tr>
+                <td class="fvt-td-bg">عمل الأبناء</td>
+                <td>
+                    <input type="text" class="form-control" [(ngModel)]="FamilyIncome.childernsJop" (ngModelChange)="onInputChange($event, 'childernsJop')" />
+                </td>
+            </tr>
+            <tr>
+                <td class="fvt-td-bg">معاش شئون \ تضامن اجتماعي</td>
+                <td>
+                    <input type="text" class="form-control" [(ngModel)]="FamilyIncome.affairSpension_SocialSolidarity" (ngModelChange)="onInputChange($event, 'affairSpension_SocialSolidarity')" />
+                </td>
+            </tr>
+            <tr>
+                <td class="fvt-td-bg">مشروع</td>
+                <td>
+                    <input type="text" class="form-control" [(ngModel)]="FamilyIncome.project" (ngModelChange)="onInputChange($event, 'project')" />
+                </td>
+            </tr>
+            <tr>
+                <td class="fvt-td-bg">مواشي \ أراضي</td>
+                <td>
+                    <input type="text" class="form-control" [(ngModel)]="FamilyIncome.liveStock_Lands" (ngModelChange)="onInputChange($event, 'liveStock_Lands')" />
+                </td>
+            </tr>
+            <tr>
+                <td class="fvt-td-bg">جمعية خيرية \ جمعية شرعية \ لجنة زكاة</td>
+                <td>
+                    <input type="text" class="form-control" [(ngModel)]="FamilyIncome.organization_ZakatCommittee" (ngModelChange)="onInputChange($event, 'organization_ZakatCommittee')" />
+                </td>
+            </tr>
+            <tr>
+                <td class="fvt-td-bg">معاش تأمينات</td>
+                <td>
+                    <input type="text" class="form-control" [(ngModel)]="FamilyIncome.insurancePension" (ngModelChange)="onInputChange($event, 'insurancePension')" />
+                </td>
+            </tr>
+            <tr>
+                <td class="fvt-td-bg">أخرى</td>
+                <td>
+                    <input type="text" class="form-control" [(ngModel)]="FamilyIncome.other" (ngModelChange)="onInputChange($event, 'other')" />
+                </td>
+            </tr>
+            <tr>
+                <td class="fvt-td-bg">إجمالي دخل الاسرة</td>
+                <td>
+                    <input type="text" class="form-control" [value]="FamilyIncome.totalFamilyIncome" disabled/>
+                </td>
+            </tr>
+            <tr>
+                <td class="fvt-td-bg">ملاحظات</td>
+                <td>
+                    <textarea class="form-control" rows="3" [(ngModel)]="FamilyIncome.comments"></textarea>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>

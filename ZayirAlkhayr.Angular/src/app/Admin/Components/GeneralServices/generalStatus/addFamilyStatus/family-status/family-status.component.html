@@ -65,6 +65,18 @@
                     </td>
                 </tr>
                 <tr>
+                    <td class="fvt-td-bg">النوع</td>
+                    <td>
+                        <select class="form-control" name="StatusTypeId" #StatusTypeId="ngModel" [(ngModel)]="FamilyStatus.statusTypeId" required>
+                            <option [defaultSelected]="true" [value]="null" disabled>--اختر النوع--</option>
+                            <option [value]="item.id" *ngFor="let item of StatusTypes">{{item.name}}</option>
+                        </select>
+                        <div class="text-danger pt-2" *ngIf="StatusTypeId.invalid && (StatusTypeId.dirty || StatusTypeId.touched || FamilyForm.submitted )">
+                            <div *ngIf="StatusTypeId.errors?.required">هذا الحقل مطلوب</div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
                     <td class="fvt-td-bg">الجنسية</td>
                     <td>
                         <select class="form-control" name="NationalityId" #NationalityId="ngModel" [(ngModel)]="FamilyStatus.nationalityId" required>
@@ -93,10 +105,10 @@
                     <td>
                         <div class="custom-date-input position-relative">
                             <span class="date-label" *ngIf="!isDate">اختر التاريخ</span>
-                            <input type="date" class="form-control cursor-pointer" (focus)="onfocus()" name="InsertDate" #InsertDate="ngModel" [(ngModel)]="FamilyStatus.insertDate" required/>
+                            <input type="date" class="form-control cursor-pointer" (focus)="onfocus()" name="AddedDate" #AddedDate="ngModel" [(ngModel)]="FamilyStatus.addedDate" required/>
                         </div>
-                        <div class="text-danger pt-2" *ngIf="InsertDate.invalid && (InsertDate.dirty || InsertDate.touched || FamilyForm.submitted )">
-                            <div *ngIf="InsertDate.errors?.required">هذا الحقل مطلوب</div>
+                        <div class="text-danger pt-2" *ngIf="AddedDate.invalid && (AddedDate.dirty || AddedDate.touched || FamilyForm.submitted )">
+                            <div *ngIf="AddedDate.errors?.required">هذا الحقل مطلوب</div>
                         </div>
                     </td>
                 </tr>

@@ -43,6 +43,7 @@ namespace ZayirAlkhayr.Service.GeneralServices
                 FamilyObj.ReasonOfRefuse = Model.FamilyStatus.ReasonOfRefuse;
                 FamilyObj.InsertUser = Model.FamilyStatus.InsertUser;
                 FamilyObj.InsertDate = DateTime.Now.AddHours(1);
+                FamilyObj.AddedDate = Model.FamilyStatus.AddedDate;
 
                 _Context.FamilyStatus.Add(FamilyObj);
                 _Context.SaveChanges();

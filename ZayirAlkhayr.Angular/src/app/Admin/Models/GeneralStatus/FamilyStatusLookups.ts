@@ -30,6 +30,11 @@ export interface FamilyNationalities {
     updateDate: string | null;
 }
 
+export interface FamilyStatusTypes {
+    id: number;
+    name: string;
+}
+
 export interface FamilyNeedTypes {
     id: number;
     categoryId: number;
