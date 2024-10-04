@@ -112,6 +112,7 @@ namespace ZayirAlkhayr
             services.AddScoped<IFamilyNationalityService, FamilyNationalityService>();
             services.AddScoped<IFamilyNeedsService, FamilyNeedsService>();
             services.AddScoped<IFamilyCategoryService, FamilyCategoryService>();
+            services.AddScoped<IFamilyPatientService, FamilyPatientService>();
 
             services.AddMvc(options =>
                 {

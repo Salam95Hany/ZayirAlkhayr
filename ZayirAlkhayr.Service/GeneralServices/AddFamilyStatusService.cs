@@ -147,7 +147,7 @@ namespace ZayirAlkhayr.Service.GeneralServices
                 var FamilyPatientObj = new FamilyPatient();
                 FamilyPatientObj.FamilyStatusId = FamilyStatusId;
                 FamilyPatientObj.Name = FamilyPatient.Name;
-                FamilyPatientObj.PatientType = FamilyPatient.PatientType;
+                FamilyPatientObj.PatientTypeId = FamilyPatient.PatientTypeId;
                 FamilyPatientObj.PatientDate = FamilyPatient.PatientDate;
                 FamilyPatientObj.Specialization = FamilyPatient.Specialization;
                 FamilyPatientObj.IsMedicalReport = FamilyPatient.IsMedicalReport;

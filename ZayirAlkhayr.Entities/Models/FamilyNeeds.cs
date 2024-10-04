@@ -13,5 +13,7 @@ namespace ZayirAlkhayr.Entities.Models
         public int Id { get; set; }
         public int StatusId { get; set; }
         public int NeedTypeId { get; set; }
+        public bool IsWaiting { get; set; }
+        public DateTime? DeliveryDate { get; set; }
     }
 }

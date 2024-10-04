@@ -28,7 +28,7 @@ export interface FamilyStatus {
     insertDate: string | null;
     updateUser: string;
     updateDate: string | null;
-    addedDate:string;
+    addedDate: string;
 }
 
 export interface FamilyIncome {
@@ -91,13 +91,15 @@ export interface FamilyDetails {
 }
 
 export interface FamilyPatient {
-    id: number;
-    familyStatusId: number;
+    id?: number;
+    familyStatusId?: number;
     name: string;
-    patientType: string;
+    patientTypeId: string;
+    patientTypeName?: string;
     patientDate: string | null;
     specialization: string;
     isMedicalReport: boolean | null;
+    isNeedProcess: boolean;
 }
 
 export interface FamilyNeeds {
@@ -105,4 +107,6 @@ export interface FamilyNeeds {
     statusId?: number;
     needTypeId: number;
     name?: string;
+    isWaiting?: boolean;
+    deliveryDate?: string | null;
 }

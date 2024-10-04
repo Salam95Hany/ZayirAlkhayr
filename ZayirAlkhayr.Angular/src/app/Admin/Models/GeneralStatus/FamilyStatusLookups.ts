@@ -4,12 +4,17 @@ export interface FamilyStatusLookups {
     categories: FamilyCategories[];
     nationalities: FamilyNationalities[];
     familyNeeds: FamilyNeedCategoryGroups[];
+    statusTypes: FamilyStatusTypes[],
+    patientTypes: FamilyPatientTypes[]
+
 }
 
 export interface FamilyNeedCategoryGroups {
     categoryName: string;
     needs: FamilyNeedTypes[];
     selectedNeeds: FamilyNeeds[];
+    isWaiting?: boolean;
+    deliveryDate?: string | null;
 }
 
 export interface FamilyCategories {
@@ -38,6 +43,15 @@ export interface FamilyStatusTypes {
 export interface FamilyNeedTypes {
     id: number;
     categoryId: number;
+    name: string;
+    insertUser: string;
+    insertDate: string | null;
+    updateUser: string;
+    updateDate: string | null;
+}
+
+export interface FamilyPatientTypes {
+    id: number;
     name: string;
     insertUser: string;
     insertDate: string | null;

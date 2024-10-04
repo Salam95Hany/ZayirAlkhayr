@@ -30,12 +30,12 @@ export class FamilyStatusComponent implements OnInit {
   }
 
   GetOutputData() {
-    this.FamilyForm.onSubmit();
+    // this.FamilyForm.onSubmit();
 
-    const isValid = this.FamilyForm.form.valid;
-    if (!isValid)
-      return null;
-    else
+    // const isValid = this.FamilyForm.form.valid;
+    // if (!isValid)
+    //   return null;
+    // else
       return this.FamilyStatus;
 
   }

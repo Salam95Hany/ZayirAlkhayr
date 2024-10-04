@@ -55,14 +55,14 @@ export class FamilyExpensesDataComponent {
   }
 
   GetOutputData() {
-    let arry = Object.entries(this.FamilyExpenses).filter(([key, value]) => typeof value === 'number'
-      && key != 'totalFamilyExpenses' && key != 'netFamilyIncome' && key != 'familyCount').map(([key, value]) => value)
-    let checked = arry.some(value => value > 0);
+    // let arry = Object.entries(this.FamilyExpenses).filter(([key, value]) => typeof value === 'number'
+    //   && key != 'totalFamilyExpenses' && key != 'netFamilyIncome' && key != 'familyCount').map(([key, value]) => value)
+    // let checked = arry.some(value => value > 0);
 
-    if (!checked) {
-      this.toaster.warning('برجاء ادخال قيمة واحدة على الأقل');
-      return null;
-    } else
+    // if (!checked) {
+    //   this.toaster.warning('برجاء ادخال قيمة واحدة على الأقل');
+    //   return null;
+    // } else
       return this.FamilyExpenses;
   }
 

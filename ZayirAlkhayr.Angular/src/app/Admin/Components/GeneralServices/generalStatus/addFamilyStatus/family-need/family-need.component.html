@@ -2,7 +2,7 @@
     <table class="table table-bordered align-middle">
         <thead>
             <tr>
-                <th class="text-white" colspan="2">احتياجات الحالة</th>
+                <th class="text-white" colspan="3">احتياجات الحالة</th>
             </tr>
         </thead>
         <tbody>
@@ -12,8 +12,8 @@
                     <div class="d-flex align-items-center gap-3">
                         <div ngbDropdown class="dropdown-with-search width-150" container="body" placement="bottom-end">
                             <button class="dropdown-with-search-btn btn border w-100 d-flex align-items-center justify-content-between selector-padding" id="dropdownBasic1" ngbDropdownToggle>
-                اختر نوع
-              </button>
+                                اختر نوع
+                            </button>
                             <div class="width-300 dropdown-fitting" ngbDropdownMenu aria-labelledby="dropdownBasic1">
                                 <div class="p-2 gray-bgcolor border-bottom">
                                     <div class="position-relative">
@@ -31,6 +31,23 @@
                                 <span class="me-1">{{item.name}}</span>
                                 <i class="fas fa-times-circle font-small-3 px-02 cursor-pointer" (click)="RemoveSelectedNeed(type,i)"></i>
                             </div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="d-flex">
+                        <div class="d-flex d-flex align-items-center me-3">
+                            <div class="me-2">تم التسليم</div>
+                            <label class="jtoggler-wrapper m-0 mx-0">
+                              <input type="checkbox" class="jtoggler" [(ngModel)]="type.isWaiting">
+                              <div class="jtoggler-control">
+                                <div class="jtoggler-handle"></div>
+                              </div>
+                            </label>
+                            <div class="ms-2">قيد الانتظار</div>
+                        </div>
+                        <div class="flex-grow-1" *ngIf="type.isWaiting">
+                            <input type="date" class="form-control cursor-pointer w-100" (focus)="onfocus()" />
                         </div>
                     </div>
                 </td>

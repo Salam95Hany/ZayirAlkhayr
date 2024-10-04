@@ -43,6 +43,7 @@ namespace ZayirAlkhayr.Entities.Models
         public DbSet<FamilyNeeds> FamilyNeeds { get; set; }
         public DbSet<FamilyNeedTypes> FamilyNeedTypes { get; set; }
         public DbSet<FamilyPatient> FamilyPatient { get; set; }
+        public DbSet<FamilyPatientTypes> FamilyPatientTypes { get; set; }
         public DbSet<FamilyNationalities> FamilyNationalities { get; set; }
         public DbSet<FamilyNeedCategories> FamilyNeedCategories { get; set; }
         public DbSet<WebSiteVisitors> WebSiteVisitors { get; set; }

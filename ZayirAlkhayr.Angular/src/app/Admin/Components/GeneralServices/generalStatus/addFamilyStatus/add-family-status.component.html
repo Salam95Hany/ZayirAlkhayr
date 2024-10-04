@@ -52,7 +52,7 @@
         <app-family-expenses-data #FamilyExpenses [FamilyMembersCount]="AddFamilyStatusModel?.familyDetails?.length"></app-family-expenses-data>
     </div>
     <div [hidden]="activeStep != 5">
-        <app-family-medical #FamilyMedical [FamilyDetails]="AddFamilyStatusModel?.familyDetails" [FamilyStatusName]="AddFamilyStatusModel?.familyStatus?.name"></app-family-medical>
+        <app-family-medical #FamilyMedical [FamilyDetails]="AddFamilyStatusModel?.familyDetails" [FamilyStatusName]="AddFamilyStatusModel?.familyStatus?.name" [PatientTypes]="FamilyLookups.patientTypes"></app-family-medical>
     </div>
     <div [hidden]="activeStep != 6">
         <app-family-need #FamilyNeed [FamilyNeeds]="FamilyLookups.familyNeeds"></app-family-need>

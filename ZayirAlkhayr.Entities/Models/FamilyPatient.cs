@@ -13,9 +13,10 @@ namespace ZayirAlkhayr.Entities.Models
         public int Id { get; set; }
         public int FamilyStatusId { get; set; }
         public string Name { get; set; }
-        public string PatientType { get; set; }
+        public int PatientTypeId { get; set; }
         public DateTime? PatientDate { get; set; }
         public string Specialization { get; set; } // التخصص
         public bool? IsMedicalReport { get; set; } // هل يوجد تقرير طبي
+        public bool? IsNeedProcess { get; set; } // هل محتاج لعملية
     }
 }

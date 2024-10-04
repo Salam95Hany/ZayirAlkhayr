@@ -107,4 +107,26 @@ export class GeneralStatusService {
   DeleteFamilyCategory(CategoryId: number) {
     return this.http.get<any>(this.apiURL + 'FamilyCategory/DeleteFamilyCategory?CategoryId=' + CategoryId);
   }
+
+   // ============================= FamilyPatient ==============================
+
+   GetAllFamilyPatientData(PagingFilter: PagingFilterModel) {
+    return this.http.post<any[]>(this.apiURL + 'FamilyPatient/GetAllFamilyPatientData', PagingFilter);
+  }
+
+  GetAllFamilyPatientFilter(PagingFilter: PagingFilterModel) {
+    return this.http.post<any[]>(this.apiURL + 'FamilyPatient/GetAllFamilyPatientFilter', PagingFilter);
+  }
+
+  AddNewFamilyPatient(Model: any) {
+    return this.http.post<any>(this.apiURL + 'FamilyPatient/AddNewFamilyPatient', Model);
+  }
+
+  UpdateFamilyPatient(Model: any) {
+    return this.http.post<any>(this.apiURL + 'FamilyPatient/UpdateFamilyPatient', Model);
+  }
+
+  DeleteFamilyPatient(PatientId: number) {
+    return this.http.get<any>(this.apiURL + 'FamilyPatient/DeleteFamilyPatient?PatientId=' + PatientId);
+  }
 }

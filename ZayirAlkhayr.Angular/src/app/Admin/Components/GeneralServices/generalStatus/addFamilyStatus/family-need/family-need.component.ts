@@ -10,26 +10,24 @@ import { FamilyNeedCategoryGroups, FamilyNeedTypes } from 'src/app/Admin/Models/
 export class FamilyNeedComponent implements OnInit {
   @Input() FamilyNeeds: FamilyNeedCategoryGroups[] = [];
   SelectedNeeds: FamilyNeeds[] = [];
+  isDate = false;
 
   constructor() { }
 
   ngOnInit(): void { }
 
   AddFamilyNeed(type: FamilyNeedCategoryGroups, item: FamilyNeedTypes) {
-    debugger;
     let obj = type.selectedNeeds.find(i => i.needTypeId == item.id);
     if (!obj)
       type.selectedNeeds.push({ needTypeId: item.id, name: item.name });
   }
 
   RemoveSelectedNeed(type: FamilyNeedCategoryGroups, index: number) {
-    debugger;
     type.selectedNeeds.splice(index, 1);
   }
 
 
   GetOutputData() {
-    debugger;
     this.SelectedNeeds = [];
     this.FamilyNeeds.forEach(item => {
       item.selectedNeeds.forEach(need => {
@@ -37,6 +35,10 @@ export class FamilyNeedComponent implements OnInit {
       });
     });
     return this.SelectedNeeds;
+  }
+
+  onfocus() {
+    this.isDate = true;
   }
 
 }
