@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { FamilyDetails, FamilyPatient } from 'src/app/Admin/Models/GeneralStatus/AddFamilyStatusModel';
 import { FamilyPatientTypes } from 'src/app/Admin/Models/GeneralStatus/FamilyStatusLookups';
 import { ValidationFormService } from 'src/app/Admin/Services/validation-form.service';
@@ -25,13 +26,20 @@ export class FamilyMedicalComponent {
   FamilyPatientId: any;
   addMode = true;
 
-  constructor(private modalService: NgbModal, private fb: FormBuilder, private formService: ValidationFormService) { }
+  constructor(private modalService: NgbModal, private fb: FormBuilder, private formService: ValidationFormService,
+    private toaster: ToastrService
+  ) { }
 
   ngOnInit(): void {
     this.FormInit();
   }
 
   InetialData() {
+    if (this.FamilyDetails.length == 0) {
+      const objectToKeep = this.FamilyPatients.find(i => i.name == this.FamilyStatusName);
+      this.FamilyPatients = objectToKeep ? [objectToKeep] : [];
+    }
+
     this.FamilyNames = [];
     this.FamilyNames.push(this.FamilyStatusName);
     if (this.FamilyDetails && this.FamilyDetails.length > 0)
@@ -117,6 +125,12 @@ export class FamilyMedicalComponent {
       return;
     }
 
+    let checked = this.FamilyPatients.find(i => i.name == this.FamilyName);
+    if(checked){
+      this.toaster.warning('هذا العنصر موجود');
+      return;
+    }
+
     const formData = this.ItemForm.value;
     let arryNum = this.FamilyPatients.map(i => i.id);
     let id = arryNum.length > 0 ? Math.max(...arryNum) : 0;
@@ -153,9 +167,6 @@ export class FamilyMedicalComponent {
   }
 
   GetOutputData() {
-    if (this.FamilyPatients.length > 0)
-      return this.FamilyDetails;
-    else
-      return {};
+    return this.FamilyPatients;
   }
 }

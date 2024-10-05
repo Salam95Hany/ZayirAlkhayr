@@ -9,25 +9,25 @@
             <tr>
                 <td class="fvt-td-bg">وصف الحالة</td>
                 <td>
-                    <textarea class="form-control" rows="3"></textarea>
+                    <textarea class="form-control" rows="3" [(ngModel)]="ExtraDetails.statusDescription"></textarea>
                 </td>
             </tr>
             <tr>
                 <td class="fvt-td-bg">احتياجات المسكن والحالة</td>
                 <td>
-                    <textarea class="form-control" rows="3"></textarea>
+                    <textarea class="form-control" rows="3" [(ngModel)]="ExtraDetails.housingNeedsAndStatus"></textarea>
                 </td>
             </tr>
             <tr>
                 <td class="fvt-td-bg">ملاحظات الباحث</td>
                 <td>
-                    <textarea class="form-control" rows="3"></textarea>
+                    <textarea class="form-control" rows="3" [(ngModel)]="ExtraDetails.researcherNotes"></textarea>
                 </td>
             </tr>
             <tr>
                 <td class="fvt-td-bg">ملاحظات المراجع</td>
                 <td>
-                    <textarea class="form-control" rows="3"></textarea>
+                    <textarea class="form-control" rows="3" [(ngModel)]="ExtraDetails.referencesNotes"></textarea>
                 </td>
             </tr>
             <tr>
@@ -35,7 +35,7 @@
                 <td>
                     <div class="custom-date-input position-relative">
                         <span class="date-label" *ngIf="!isDate">اختر التاريخ</span>
-                        <input type="date" class="form-control cursor-pointer" (focus)="onfocus()" />
+                        <input type="date" class="form-control cursor-pointer" (focus)="onfocus()" [(ngModel)]="ExtraDetails.lastVisitDate" />
                     </div>
                 </td>
             </tr>

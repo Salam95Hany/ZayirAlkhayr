@@ -56,7 +56,6 @@ export class AddFamilyStatusComponent implements OnInit {
     this.generalStatusService.GetFamilyStatusLookups().subscribe(data => {
       this.showLoader = false;
       this.FamilyLookups = data;
-      this.FamilyLookups.familyNeeds.forEach(i => i.selectedNeeds = []);
     });
   }
 
@@ -114,19 +113,17 @@ export class AddFamilyStatusComponent implements OnInit {
 
 
   AddNewFamilyStatus() {
-    console.log(this.AddFamilyStatusModel);
-
-    // this.showLoader = true;
-    // this.customerService.AddNewCustomer(this.AddFamilyStatusModel).subscribe(data => {
-    //   if (data.done) {
-    //     this.toaster.success('Add New Customer Successfully');
-    //     this.router.navigateByUrl('/z2admin/Customers');
-    //   } else {
-    //     data.errors.forEach(err => {
-    //       this.toaster.error(err);
-    //     });
-    //   }
-    // });
+    let data = this.viewChilds[this.Counter].GetOutputData();
+    this.AddFamilyStatusModel[this.StepName] = data;
+    this.showLoader = true;
+    this.generalStatusService.AddNewFamilyStatus(this.AddFamilyStatusModel).subscribe(data => {
+      this.showLoader = false;
+      if (data.done) {
+        this.toaster.success(data.message);
+        // this.router.navigateByUrl('/z2admin/Customers');
+      } else
+        this.toaster.error(data.message);
+    });
   }
 }
 

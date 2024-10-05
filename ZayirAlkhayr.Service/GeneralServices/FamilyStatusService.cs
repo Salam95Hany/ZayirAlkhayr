@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,11 +24,37 @@ namespace ZayirAlkhayr.Service.GeneralServices
             _sQLHelper = sQLHelper;
         }
 
+        public DataTable GetAllFamilyStatusData(PagingFilterModel PagingFilter)
+        {
+            var FilterDt = _sQLHelper.ConvertFilterModelToDataTable(PagingFilter.FilterList);
+            var Params = new SqlParameter[4];
+            Params[0] = new SqlParameter("@FilterList", FilterDt);
+            Params[1] = new SqlParameter("@CurrentPage", PagingFilter.Currentpage);
+            Params[2] = new SqlParameter("@PageSize", PagingFilter.Pagesize);
+            Params[3] = new SqlParameter("@IsFilter", false);
+            var dt = _sQLHelper.ExecuteDataTable("admin.SP_GetAllFamilyStatusDataWithFilters", Params);
+            return dt;
+        }
+
+        public List<FilterModel> GetAllFamilyStatusFilter(PagingFilterModel PagingFilter)
+        {
+            var FilterDt = _sQLHelper.ConvertFilterModelToDataTable(PagingFilter.FilterList);
+            var Params = new SqlParameter[4];
+            Params[0] = new SqlParameter("@FilterList", FilterDt);
+            Params[1] = new SqlParameter("@CurrentPage", PagingFilter.Currentpage);
+            Params[2] = new SqlParameter("@PageSize", PagingFilter.Pagesize);
+            Params[3] = new SqlParameter("@IsFilter", true);
+            var dt = _sQLHelper.ExecuteDataTable("admin.SP_GetAllFamilyStatusDataWithFilters", Params);
+            var Filters = _sQLHelper.GroupingFilters(dt);
+            return Filters;
+        }
+
         public FamilyStatusLookups GetFamilyStatusLookups()
         {
             var Categories = GetFamilyCategories().GetAwaiter().GetResult();
             var Nationalities = GetFamilyNationalities().GetAwaiter().GetResult();
-            var NeedGroups = GetFamilyNeedCategoryGroups().GetAwaiter().GetResult();
+            var Needs = GetFamilyNeedTypes().GetAwaiter().GetResult();
+            var NeedCategories = GetFamilyNeedCategories().GetAwaiter().GetResult();
             var FamilyStatusTypes = GetFamilyStatusTypes().GetAwaiter().GetResult();
             var PatientTypes = GetFamilyPatientTypes().GetAwaiter().GetResult();
 
@@ -34,7 +62,8 @@ namespace ZayirAlkhayr.Service.GeneralServices
             {
                 Categories = Categories,
                 Nationalities = Nationalities,
-                FamilyNeeds = NeedGroups,
+                FamilyNeeds = Needs,
+                FamilyNeedCategories = NeedCategories,
                 StatusTypes = FamilyStatusTypes,
                 PatientTypes = PatientTypes
             };
@@ -66,16 +95,15 @@ namespace ZayirAlkhayr.Service.GeneralServices
             return results;
         }
 
-        async Task<List<FamilyNeedCategoryGroups>> GetFamilyNeedCategoryGroups()
+        Task<List<FamilyNeedTypes>> GetFamilyNeedTypes()
         {
-            var Categories = await _Context.FamilyNeedCategories.ToListAsync();
-            var Needs = await  _Context.FamilyNeedTypes.ToListAsync();
-            var results = Needs.GroupBy(i => i.CategoryId).Select(x => new FamilyNeedCategoryGroups
-            {
-                CategoryName = Categories.FirstOrDefault(i => i.Id == x.Key).Name,
-                Needs = x.ToList()
-            }).ToList();
+            var results = _Context.FamilyNeedTypes.ToListAsync();
+            return results;
+        }
 
+        Task<List<FamilyNeedCategories>> GetFamilyNeedCategories()
+        {
+            var results = _Context.FamilyNeedCategories.ToListAsync();
             return results;
         }
     }

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { PagingFilterModel } from '../Models/PagingFilterModel';
 import { FamilyStatusLookups } from '../Models/GeneralStatus/FamilyStatusLookups';
+import { AddFamilyStatusModel } from '../Models/GeneralStatus/AddFamilyStatusModel';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,20 @@ export class GeneralStatusService {
 
   // ============================= FamilyStatus ==============================
 
+  GetAllFamilyStatusData(PagingFilter: PagingFilterModel) {
+    return this.http.post<any[]>(this.apiURL + 'FamilyStatus/GetAllFamilyStatusData', PagingFilter);
+  }
+
+  GetAllFamilyStatusFilter(PagingFilter: PagingFilterModel) {
+    return this.http.post<any[]>(this.apiURL + 'FamilyStatus/GetAllFamilyStatusFilter', PagingFilter);
+  }
+
   GetFamilyStatusLookups() {
     return this.http.get<FamilyStatusLookups>(this.apiURL + 'FamilyStatus/GetFamilyStatusLookups');
+  }
+
+  AddNewFamilyStatus(Model: AddFamilyStatusModel) {
+    return this.http.post<any>(this.apiURL + 'FamilyStatus/AddNewFamilyStatus', Model);
   }
 
   // ============================= FamilyNeeds ==============================
@@ -108,9 +121,9 @@ export class GeneralStatusService {
     return this.http.get<any>(this.apiURL + 'FamilyCategory/DeleteFamilyCategory?CategoryId=' + CategoryId);
   }
 
-   // ============================= FamilyPatient ==============================
+  // ============================= FamilyPatient ==============================
 
-   GetAllFamilyPatientData(PagingFilter: PagingFilterModel) {
+  GetAllFamilyPatientData(PagingFilter: PagingFilterModel) {
     return this.http.post<any[]>(this.apiURL + 'FamilyPatient/GetAllFamilyPatientData', PagingFilter);
   }
 

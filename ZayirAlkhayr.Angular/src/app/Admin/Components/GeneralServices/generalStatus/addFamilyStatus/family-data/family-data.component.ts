@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { FamilyDetails } from 'src/app/Admin/Models/GeneralStatus/AddFamilyStatusModel';
 import { ValidationFormService } from 'src/app/Admin/Services/validation-form.service';
 
@@ -23,7 +24,9 @@ export class FamilyDataComponent implements OnInit {
     { id: 1, name: 'أرمل' }
   ];
 
-  constructor(private modalService: NgbModal, private fb: FormBuilder, private formService: ValidationFormService) { }
+  constructor(private modalService: NgbModal, private fb: FormBuilder, private formService: ValidationFormService,
+    private toaster:ToastrService
+  ) { }
 
   ngOnInit(): void {
     this.FormInit();
@@ -102,6 +105,12 @@ export class FamilyDataComponent implements OnInit {
       return;
     }
 
+    let checked = this.FamilyDetails.find(i => i.name == this.ItemForm.value.name);
+    if(checked){
+      this.toaster.warning('هذا العنصر موجود');
+      return;
+    }
+
     this.ItemForm.patchValue({ maritalStatus: this.MaritalStatusName });
     const formData = this.ItemForm.value;
     let arryNum = this.FamilyDetails.map(i => i.id);
@@ -147,7 +156,7 @@ export class FamilyDataComponent implements OnInit {
 
       return this.FamilyDetails;
     } else
-      return {};
+      return [];
   }
 
 }

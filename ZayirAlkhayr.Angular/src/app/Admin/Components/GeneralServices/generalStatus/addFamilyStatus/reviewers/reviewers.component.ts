@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FamilyExtraDetails } from 'src/app/Admin/Models/GeneralStatus/AddFamilyStatusModel';
 
 @Component({
   selector: 'app-reviewers',
@@ -6,6 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./reviewers.component.css']
 })
 export class ReviewersComponent {
+  ExtraDetails: FamilyExtraDetails = {} as FamilyExtraDetails;
   isDate = false;
   PersonalPearpers: any[] = [
     { id: 1, name: 'صور بطاقات الرقم القومي لأفراد الاسرة (جواز سفر لغير المصري)', isSelected: false },
@@ -20,10 +22,15 @@ export class ReviewersComponent {
   ];
 
   GetOutputData() {
-    return {};
+    this.ExtraDetails.personalPapers = this.PersonalPearpers.filter(i => i.isSelected).map(i => i.id).join(';;;');
+    let isObjEmpty = Object.keys(this.ExtraDetails).every(key => !this.ExtraDetails[key]);
+    if (isObjEmpty)
+      return {};
+    else
+      return this.ExtraDetails;
   }
 
-  
+
   onfocus() {
     this.isDate = true;
   }

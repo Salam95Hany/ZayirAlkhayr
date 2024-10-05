@@ -3,18 +3,11 @@ import { FamilyNeeds } from "./AddFamilyStatusModel";
 export interface FamilyStatusLookups {
     categories: FamilyCategories[];
     nationalities: FamilyNationalities[];
-    familyNeeds: FamilyNeedCategoryGroups[];
+    familyNeeds: FamilyNeedTypes[];
+    familyNeedCategories:FamilyCategories[];
     statusTypes: FamilyStatusTypes[],
     patientTypes: FamilyPatientTypes[]
 
-}
-
-export interface FamilyNeedCategoryGroups {
-    categoryName: string;
-    needs: FamilyNeedTypes[];
-    selectedNeeds: FamilyNeeds[];
-    isWaiting?: boolean;
-    deliveryDate?: string | null;
 }
 
 export interface FamilyCategories {

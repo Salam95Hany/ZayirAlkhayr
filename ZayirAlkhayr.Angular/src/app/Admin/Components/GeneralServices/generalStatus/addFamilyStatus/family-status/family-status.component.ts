@@ -13,6 +13,7 @@ export class FamilyStatusComponent implements OnInit {
   @Input() Nationalities: FamilyNationalities[] = [];
   @Input() StatusTypes: FamilyStatusTypes[] = [];
   FamilyStatus: FamilyStatus = {} as FamilyStatus;
+  UserModel: any;
   isDate = false;
 
   constructor() {
@@ -20,9 +21,11 @@ export class FamilyStatusComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.UserModel = JSON.parse(localStorage.getItem('UserModel'));
     this.FamilyStatus.nationalityId = null;
     this.FamilyStatus.categoryId = null;
     this.FamilyStatus.statusTypeId = null;
+    this.FamilyStatus.insertUser = this.UserModel?.userId;
   }
 
   onfocus() {
@@ -30,13 +33,12 @@ export class FamilyStatusComponent implements OnInit {
   }
 
   GetOutputData() {
-    // this.FamilyForm.onSubmit();
+    this.FamilyForm.onSubmit();
 
-    // const isValid = this.FamilyForm.form.valid;
-    // if (!isValid)
-    //   return null;
-    // else
+    const isValid = this.FamilyForm.form.valid;
+    if (!isValid)
+      return null;
+    else
       return this.FamilyStatus;
-
   }
 }

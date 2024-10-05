@@ -41,6 +41,7 @@ import { FamilyNationalityComponent } from './Components/GeneralServices/general
 import { FamilyNeedsComponent } from './Components/GeneralServices/generalStatus/family-needs/family-needs.component';
 import { FamilyCategoriesComponent } from './Components/GeneralServices/generalStatus/family-categories/family-categories.component';
 import { FamilyPatienttypesComponent } from './Components/GeneralServices/generalStatus/family-patienttypes/family-patienttypes.component';
+import { AllFamilyStatusComponent } from './Components/GeneralServices/generalStatus/all-family-status/all-family-status.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import { FamilyPatienttypesComponent } from './Components/GeneralServices/genera
     FamilyNationalityComponent,
     FamilyNeedsComponent,
     FamilyCategoriesComponent,
-    FamilyPatienttypesComponent
+    FamilyPatienttypesComponent,
+    AllFamilyStatusComponent
   ],
   imports: [
     CommonModule,

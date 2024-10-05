@@ -106,7 +106,9 @@ export interface FamilyNeeds {
     id?: number;
     statusId?: number;
     needTypeId: number;
-    name?: string;
-    isWaiting?: boolean;
-    deliveryDate?: string | null;
+    categoryName: string;
+    categoryId: number;
+    name: string;
+    isWaiting: boolean;
+    deliveryDate: string | null;
 }

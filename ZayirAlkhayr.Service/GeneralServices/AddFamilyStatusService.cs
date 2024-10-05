@@ -26,7 +26,7 @@ namespace ZayirAlkhayr.Service.GeneralServices
             {
                 var Response = new HandleErrorResponseModel();
                 var FamilyObj = new FamilyStatus();
-                var Code = _Context.FamilyStatus.Max(i => i.Id);
+                var Code = _Context.FamilyStatus.Any() ? _Context.FamilyStatus.Max(i => i.Id) : 0;
                 FamilyObj.StatusTypeId = Model.FamilyStatus.StatusTypeId;
                 FamilyObj.CategoryId = Model.FamilyStatus.CategoryId;
                 FamilyObj.NationalityId = Model.FamilyStatus.NationalityId;
@@ -99,8 +99,8 @@ namespace ZayirAlkhayr.Service.GeneralServices
             ExpensesObj.Analysis = Model.Analysis;
             ExpensesObj.SatisfactoryTransfers = Model.SatisfactoryTransfers;
             ExpensesObj.MedicalXRays = Model.MedicalXRays;
-            ExpensesObj.IsMinisterialSupply = Model.IsMinisterialSupply;
-            ExpensesObj.IsFoodBank = Model.IsFoodBank;
+            ExpensesObj.IsMinisterialSupply = Model.IsMinisterialSupply.GetValueOrDefault(false);
+            ExpensesObj.IsFoodBank = Model.IsFoodBank.GetValueOrDefault(false);
             ExpensesObj.TotalFamilyExpenses = Model.TotalFamilyExpenses;
             ExpensesObj.NetFamilyIncome = Model.NetFamilyIncome;
             ExpensesObj.FamilyCount = Model.FamilyCount;
@@ -110,19 +110,25 @@ namespace ZayirAlkhayr.Service.GeneralServices
 
         private void AddNewFamilyExtraDetails(FamilyExtraDetails Model, int FamilyStatusId)
         {
-            var ExtraDetailsObj = new FamilyExtraDetails();
-            ExtraDetailsObj.FamilyStatusId = FamilyStatusId;
-            ExtraDetailsObj.StatusDescription = Model.StatusDescription;
-            ExtraDetailsObj.HousingNeedsAndStatus = Model.HousingNeedsAndStatus;
-            ExtraDetailsObj.ResearcherNotes = Model.ResearcherNotes;
-            ExtraDetailsObj.ReferencesNotes = Model.ReferencesNotes;
-            ExtraDetailsObj.LastVisitDate = Model.LastVisitDate;
-            ExtraDetailsObj.PersonalPapers = Model.PersonalPapers;
-            _Context.FamilyExtraDetails.Add(ExtraDetailsObj);
+            bool isEmpty = Model.AreAllPropertiesDefault();
+            if (!isEmpty)
+            {
+                var ExtraDetailsObj = new FamilyExtraDetails();
+                ExtraDetailsObj.FamilyStatusId = FamilyStatusId;
+                ExtraDetailsObj.StatusDescription = Model.StatusDescription;
+                ExtraDetailsObj.HousingNeedsAndStatus = Model.HousingNeedsAndStatus;
+                ExtraDetailsObj.ResearcherNotes = Model.ResearcherNotes;
+                ExtraDetailsObj.ReferencesNotes = Model.ReferencesNotes;
+                ExtraDetailsObj.LastVisitDate = Model.LastVisitDate;
+                ExtraDetailsObj.PersonalPapers = Model.PersonalPapers;
+                _Context.FamilyExtraDetails.Add(ExtraDetailsObj);
+            }
         }
 
         private void AddNewFamilyDetails(List<FamilyDetails> Model, int FamilyStatusId)
         {
+            if (Model.Count == 0) { return; }
+
             foreach (var FamilyDetails in Model)
             {
                 var FamilyDetailsObj = new FamilyDetails();
@@ -142,6 +148,8 @@ namespace ZayirAlkhayr.Service.GeneralServices
 
         private void AddNewFamilyPatient(List<FamilyPatient> Model, int FamilyStatusId)
         {
+            if (Model.Count == 0) { return; }
+
             foreach (var FamilyPatient in Model)
             {
                 var FamilyPatientObj = new FamilyPatient();
@@ -150,18 +158,23 @@ namespace ZayirAlkhayr.Service.GeneralServices
                 FamilyPatientObj.PatientTypeId = FamilyPatient.PatientTypeId;
                 FamilyPatientObj.PatientDate = FamilyPatient.PatientDate;
                 FamilyPatientObj.Specialization = FamilyPatient.Specialization;
-                FamilyPatientObj.IsMedicalReport = FamilyPatient.IsMedicalReport;
+                FamilyPatientObj.IsMedicalReport = FamilyPatient.IsMedicalReport.GetValueOrDefault(false);
+                FamilyPatientObj.IsNeedProcess = FamilyPatient.IsNeedProcess.GetValueOrDefault(false);
                 _Context.FamilyPatient.Add(FamilyPatientObj);
             }
         }
 
         private void AddNewFamilyNeeds(List<FamilyNeeds> Model, int FamilyStatusId)
         {
+            if(Model.Count == 0) { return; }
+
             foreach (var FamilyNeed in Model)
             {
                 var FamilyNeedsObj = new FamilyNeeds();
                 FamilyNeedsObj.StatusId = FamilyStatusId;
                 FamilyNeedsObj.NeedTypeId = FamilyNeed.NeedTypeId;
+                FamilyNeedsObj.IsWaiting = FamilyNeed.IsWaiting;
+                FamilyNeedsObj.DeliveryDate = FamilyNeed.DeliveryDate;
                 _Context.FamilyNeeds.Add(FamilyNeedsObj);
             }
         }

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Data;
 using ZayirAlkhayr.Entities.Common;
 using ZayirAlkhayr.Interface.GeneralServices;
 
@@ -15,6 +17,20 @@ namespace ZayirAlkhayr.Controllers.GeneralServices
         {
             _addFamilyStatusService = addFamilyStatusService;
             _familyStatusService = familyStatusService;
+        }
+
+        [HttpPost("GetAllFamilyStatusData")]
+        public DataTable GetAllFamilyStatusData(PagingFilterModel PagingFilter)
+        {
+            var results = _familyStatusService.GetAllFamilyStatusData(PagingFilter);
+            return results;
+        }
+
+        [HttpPost("GetAllFamilyStatusFilter")]
+        public List<FilterModel> GetAllFamilyStatusFilter(PagingFilterModel PagingFilter)
+        {
+            var results = _familyStatusService.GetAllFamilyStatusFilter(PagingFilter);
+            return results;
         }
 
         [HttpGet("GetFamilyStatusLookups")]
