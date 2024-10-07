@@ -10,27 +10,25 @@ using ZayirAlkhayr.Interface.GeneralServices;
 
 namespace ZayirAlkhayr.Service.GeneralServices
 {
-    public class AddFamilyStatusService : IAddFamilyStatusService
+    public class UpdateFamilyStatusService : IUpdateFamilyStatusService
     {
         private readonly ZADbContext _Context;
         private readonly ISQLHelper _sQLHelper;
-        public AddFamilyStatusService(ZADbContext context, ISQLHelper sQLHelper)
+        public UpdateFamilyStatusService(ZADbContext context, ISQLHelper sQLHelper)
         {
             _Context = context;
             _sQLHelper = sQLHelper;
         }
 
-        public HandleErrorResponseModel AddNewFamilyStatus(AddFamilyStatusModel Model)
+        public HandleErrorResponseModel UpdateFamilyStatus(AddFamilyStatusModel Model)
         {
             try
             {
                 var Response = new HandleErrorResponseModel();
-                var FamilyObj = new FamilyStatus();
-                var Code = _Context.FamilyStatus.Any() ? _Context.FamilyStatus.Max(i => i.Id) : 0;
+                var FamilyObj = _Context.FamilyStatus.FirstOrDefault(i => i.Id == Model.FamilyStatus.Id);
                 FamilyObj.StatusTypeId = Model.FamilyStatus.StatusTypeId;
                 FamilyObj.CategoryId = Model.FamilyStatus.CategoryId;
                 FamilyObj.NationalityId = Model.FamilyStatus.NationalityId;
-                FamilyObj.Code = Code + 1;
                 FamilyObj.Name = Model.FamilyStatus.Name;
                 FamilyObj.Fname = Model.FamilyStatus.Fname;
                 FamilyObj.Address = Model.FamilyStatus.Address;
@@ -42,23 +40,18 @@ namespace ZayirAlkhayr.Service.GeneralServices
                 FamilyObj.Phone1 = Model.FamilyStatus.Phone1;
                 FamilyObj.SupportingParty = Model.FamilyStatus.SupportingParty;
                 FamilyObj.ReasonOfRefuse = Model.FamilyStatus.ReasonOfRefuse;
-                FamilyObj.InsertUser = Model.FamilyStatus.InsertUser;
-                FamilyObj.InsertDate = DateTime.Now.AddHours(1);
-                FamilyObj.AddedDate = Model.FamilyStatus.AddedDate;
+                FamilyObj.UpdateUser = Model.FamilyStatus.InsertUser;
+                FamilyObj.UpdateDate = DateTime.Now.AddHours(1);
 
-                _Context.FamilyStatus.Add(FamilyObj);
-                _Context.SaveChanges();
-
-
-                AddNewFamilyIncome(Model.FamilyIncome, FamilyObj.Id);
-                AddNewFamilyExpenses(Model.FamilyExpenses, FamilyObj.Id);
-                AddNewFamilyExtraDetails(Model.FamilyExtraDetails, FamilyObj.Id);
-                AddNewFamilyDetails(Model.FamilyDetails, FamilyObj.Id);
-                AddNewFamilyPatient(Model.FamilyPatient, FamilyObj.Id);
-                AddNewFamilyNeeds(Model.FamilyNeeds, FamilyObj.Id);
+                UpdateFamilyIncome(Model.FamilyIncome, Model.FamilyStatus.Id);
+                UpdateFamilyExpenses(Model.FamilyExpenses, Model.FamilyStatus.Id);
+                UpdateFamilyExtraDetails(Model.FamilyExtraDetails, Model.FamilyStatus.Id);
+                UpdateFamilyDetails(Model.FamilyDetails, Model.FamilyStatus.Id);
+                UpdateFamilyPatient(Model.FamilyPatient, Model.FamilyStatus.Id);
+                UpdateFamilyNeeds(Model.FamilyNeeds, Model.FamilyStatus.Id);
                 _Context.SaveChanges();
                 Response.Done = true;
-                Response.Message = "تم اضافة حالة جديدة بنجاح";
+                Response.Message = "تم تعديل الحالة بنجاح";
                 return Response;
             }
             catch (Exception)
@@ -70,10 +63,9 @@ namespace ZayirAlkhayr.Service.GeneralServices
             }
         }
 
-        private void AddNewFamilyIncome(FamilyIncome Model, int FamilyStatusId)
+        private void UpdateFamilyIncome(FamilyIncome Model, int FamilyStatusId)
         {
-            var IncomeObj = new FamilyIncome();
-            IncomeObj.FamilyStatusId = FamilyStatusId;
+            var IncomeObj = _Context.FamilyIncome.FirstOrDefault(i => i.FamilyStatusId == FamilyStatusId);
             IncomeObj.FatherJop = Model.FatherJop;
             IncomeObj.MotherJop = Model.MotherJop;
             IncomeObj.ChildernsJop = Model.ChildernsJop;
@@ -85,13 +77,11 @@ namespace ZayirAlkhayr.Service.GeneralServices
             IncomeObj.Comments = Model.Comments;
             IncomeObj.Other = Model.Other;
             IncomeObj.TotalFamilyIncome = Model.TotalFamilyIncome;
-            _Context.FamilyIncome.Add(IncomeObj);
         }
 
-        private void AddNewFamilyExpenses(FamilyExpenses Model, int FamilyStatusId)
+        private void UpdateFamilyExpenses(FamilyExpenses Model, int FamilyStatusId)
         {
-            var ExpensesObj = new FamilyExpenses();
-            ExpensesObj.FamilyStatusId = FamilyStatusId;
+            var ExpensesObj = _Context.FamilyExpenses.FirstOrDefault(i => i.FamilyStatusId == FamilyStatusId);
             ExpensesObj.Rent_Electricity_Water_Gas_Sewage = Model.Rent_Electricity_Water_Gas_Sewage;
             ExpensesObj.MedicalExamination_Treatment = Model.MedicalExamination_Treatment;
             ExpensesObj.SchoolExpenses = Model.SchoolExpenses;
@@ -106,12 +96,15 @@ namespace ZayirAlkhayr.Service.GeneralServices
             ExpensesObj.NetFamilyIncome = Model.NetFamilyIncome;
             ExpensesObj.FamilyCount = Model.FamilyCount;
             ExpensesObj.AvgPersonIncome = Model.AvgPersonIncome;
-            _Context.FamilyExpenses.Add(ExpensesObj);
         }
 
-        private void AddNewFamilyExtraDetails(FamilyExtraDetails Model, int FamilyStatusId)
+        private void UpdateFamilyExtraDetails(FamilyExtraDetails Model, int FamilyStatusId)
         {
             bool isEmpty = Model.AreAllPropertiesDefault();
+            var ExtraDetails = _Context.FamilyExtraDetails.FirstOrDefault(i => i.FamilyStatusId == FamilyStatusId);
+            if (ExtraDetails != null)
+                _Context.FamilyExtraDetails.Remove(ExtraDetails);
+
             if (!isEmpty)
             {
                 var ExtraDetailsObj = new FamilyExtraDetails();
@@ -124,11 +117,14 @@ namespace ZayirAlkhayr.Service.GeneralServices
                 ExtraDetailsObj.PersonalPapers = Model.PersonalPapers;
                 _Context.FamilyExtraDetails.Add(ExtraDetailsObj);
             }
+
         }
 
-        private void AddNewFamilyDetails(List<FamilyDetails> Model, int FamilyStatusId)
+        private void UpdateFamilyDetails(List<FamilyDetails> Model, int FamilyStatusId)
         {
-            if (Model.Count == 0) { return; }
+            var FamilyDetailsDb = _Context.FamilyDetails.Where(I => I.FamilyStatusId == FamilyStatusId).ToList();
+            if (FamilyDetailsDb.Count > 0)
+                _Context.FamilyDetails.RemoveRange(FamilyDetailsDb);
 
             foreach (var FamilyDetails in Model)
             {
@@ -147,9 +143,11 @@ namespace ZayirAlkhayr.Service.GeneralServices
             }
         }
 
-        private void AddNewFamilyPatient(List<FamilyPatient> Model, int FamilyStatusId)
+        private void UpdateFamilyPatient(List<FamilyPatient> Model, int FamilyStatusId)
         {
-            if (Model.Count == 0) { return; }
+            var FamilyPatients = _Context.FamilyPatient.Where(I => I.FamilyStatusId == FamilyStatusId).ToList();
+            if (FamilyPatients.Count > 0)
+                _Context.FamilyPatient.RemoveRange(FamilyPatients);
 
             foreach (var FamilyPatient in Model)
             {
@@ -165,9 +163,11 @@ namespace ZayirAlkhayr.Service.GeneralServices
             }
         }
 
-        private void AddNewFamilyNeeds(List<FamilyNeeds> Model, int FamilyStatusId)
+        private void UpdateFamilyNeeds(List<FamilyNeeds> Model, int FamilyStatusId)
         {
-            if(Model.Count == 0) { return; }
+            var FamilyNeeds = _Context.FamilyNeeds.Where(I => I.StatusId == FamilyStatusId).ToList();
+            if (FamilyNeeds.Count > 0)
+                _Context.FamilyNeeds.RemoveRange(FamilyNeeds);
 
             foreach (var FamilyNeed in Model)
             {

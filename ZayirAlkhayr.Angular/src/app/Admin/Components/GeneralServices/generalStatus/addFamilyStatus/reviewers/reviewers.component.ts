@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FamilyExtraDetails } from 'src/app/Admin/Models/GeneralStatus/AddFamilyStatusModel';
 
 @Component({
@@ -6,8 +7,10 @@ import { FamilyExtraDetails } from 'src/app/Admin/Models/GeneralStatus/AddFamily
   templateUrl: './reviewers.component.html',
   styleUrls: ['./reviewers.component.css']
 })
-export class ReviewersComponent {
-  ExtraDetails: FamilyExtraDetails = {} as FamilyExtraDetails;
+export class ReviewersComponent implements OnInit, OnChanges {
+  @Input() ExtraDetails: FamilyExtraDetails = {} as FamilyExtraDetails;
+  @Input() UpdateMode = false;
+  @Input() DetailsMode = false;
   isDate = false;
   PersonalPearpers: any[] = [
     { id: 1, name: 'صور بطاقات الرقم القومي لأفراد الاسرة (جواز سفر لغير المصري)', isSelected: false },
@@ -20,6 +23,30 @@ export class ReviewersComponent {
     { id: 8, name: 'صورة من (التأمينات - الشؤون)', isSelected: false },
     { id: 9, name: 'بيان طالب للاولاد بالمدرسة او الحضانة', isSelected: false },
   ];
+
+  constructor(private datePipe: DatePipe) {
+
+  }
+
+  ngOnInit(): void { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if ((this.UpdateMode && this.ExtraDetails) || (this.DetailsMode && this.ExtraDetails)) {
+      if (this.ExtraDetails.lastVisitDate) {
+        this.isDate = true;
+        this.ExtraDetails.lastVisitDate = this.datePipe.transform(this.ExtraDetails.lastVisitDate, 'yyyy-MM-dd');
+      }
+      this.ExtraDetails.personalPapers?.split(';;;').forEach(item => {
+        let obj = this.PersonalPearpers.find(i => i.id == item);
+        if (obj)
+          obj.isSelected = true;
+      });
+    } else {
+      this.ExtraDetails = {} as FamilyExtraDetails;
+      this.isDate = false;
+      this.PersonalPearpers.forEach(i => i.isSelected = false);
+    }
+  }
 
   GetOutputData() {
     this.ExtraDetails.personalPapers = this.PersonalPearpers.filter(i => i.isSelected).map(i => i.id).join(';;;');

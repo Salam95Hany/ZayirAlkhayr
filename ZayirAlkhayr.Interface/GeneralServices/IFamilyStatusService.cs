@@ -11,6 +11,7 @@ namespace ZayirAlkhayr.Interface.GeneralServices
     public interface IFamilyStatusService
     {
         FamilyStatusLookups GetFamilyStatusLookups();
+        UpdateFamilyStatusLookups GetUpdateFamilyStatusLookups(int FamilyStatusId);
         DataTable GetAllFamilyStatusData(PagingFilterModel PagingFilter);
         List<FilterModel> GetAllFamilyStatusFilter(PagingFilterModel PagingFilter);
     }

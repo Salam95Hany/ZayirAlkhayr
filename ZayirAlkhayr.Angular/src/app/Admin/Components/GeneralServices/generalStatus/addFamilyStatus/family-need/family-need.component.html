@@ -1,4 +1,4 @@
-<div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
+<div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3" *ngIf="!DetailsMode">
     <div class="d-flex align-items-center flex-wrap gap-2">
         <button class="btn main-button d-flex align-items-center gap-2" (click)="openAddItemModal(OpenItemModal,null)">
             <i class="uil uil-plus-circle"></i>
@@ -15,7 +15,7 @@
                 <th>الاسم</th>
                 <th>الحالة</th>
                 <th>تاريخ التسليم</th>
-                <th class="text-center">أجراءات</th>
+                <th class="text-center" *ngIf="!DetailsMode">أجراءات</th>
             </tr>
         </thead>
         <tbody>
@@ -35,7 +35,7 @@
                     </div>
                 </td>
                 <td>{{item.deliveryDate}}</td>
-                <td>
+                <td *ngIf="!DetailsMode">
                     <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
                         <i class="uil uil-edit text-primary icon-table-action shadow-sm" (click)="openAddItemModal(OpenItemModal,item)"></i>
                         <i class="uil uil-times-circle text-danger icon-table-action shadow-sm" (click)="openDeleteItemModal(deleteItemModal,item.id)"></i>
@@ -107,12 +107,14 @@
                         </div>
                     </div>
                     <div class="col-lg-6" *ngIf="!isWaiting">
-                        <div class="form-floating">
-                            <input type="date" class="form-control" formControlName="deliveryDate" id="floatingInput_1" placeholder="new-user" required>
-                            <label for="floatingInput_1">تاريخ التسليم</label>
-                            <div *ngIf="ItemForm.controls['deliveryDate']?.invalid && (ItemForm.controls['deliveryDate']?.dirty || ItemForm.controls['deliveryDate']?.touched)" class="text-danger pt-2">
-                                <div *ngIf="ItemForm.controls['deliveryDate'].errors?.['required']">
-                                    هذا الحقل مطلوب
+                        <div class="d-flex align-items-center">
+                            <div class="form-floating w-100 me-2">
+                                <input type="month" class="form-control" formControlName="deliveryDate" id="floatingInput_1" placeholder="new-user" required>
+                                <label for="floatingInput_1">تاريخ التسليم</label>
+                                <div *ngIf="ItemForm.controls['deliveryDate']?.invalid && (ItemForm.controls['deliveryDate']?.dirty || ItemForm.controls['deliveryDate']?.touched)" class="text-danger pt-2">
+                                    <div *ngIf="ItemForm.controls['deliveryDate'].errors?.['required']">
+                                        هذا الحقل مطلوب
+                                    </div>
                                 </div>
                             </div>
                         </div>

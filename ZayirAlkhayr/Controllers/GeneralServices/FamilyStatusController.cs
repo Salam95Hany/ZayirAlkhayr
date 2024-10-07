@@ -12,11 +12,13 @@ namespace ZayirAlkhayr.Controllers.GeneralServices
     public class FamilyStatusController : ControllerBase
     {
         private readonly IAddFamilyStatusService _addFamilyStatusService;
+        private readonly IUpdateFamilyStatusService _updateFamilyStatusService;
         private readonly IFamilyStatusService _familyStatusService;
-        public FamilyStatusController(IAddFamilyStatusService addFamilyStatusService, IFamilyStatusService familyStatusService)
+        public FamilyStatusController(IAddFamilyStatusService addFamilyStatusService, IFamilyStatusService familyStatusService, IUpdateFamilyStatusService updateFamilyStatusService)
         {
             _addFamilyStatusService = addFamilyStatusService;
             _familyStatusService = familyStatusService;
+            _updateFamilyStatusService = updateFamilyStatusService;
         }
 
         [HttpPost("GetAllFamilyStatusData")]
@@ -40,10 +42,24 @@ namespace ZayirAlkhayr.Controllers.GeneralServices
             return results;
         }
 
+        [HttpGet("GetUpdateFamilyStatusLookups")]
+        public UpdateFamilyStatusLookups GetUpdateFamilyStatusLookups(int FamilyStatusId)
+        {
+            var results = _familyStatusService.GetUpdateFamilyStatusLookups(FamilyStatusId);
+            return results;
+        }
+
         [HttpPost("AddNewFamilyStatus")]
         public HandleErrorResponseModel AddNewFamilyStatus(AddFamilyStatusModel Model)
         {
             var results = _addFamilyStatusService.AddNewFamilyStatus(Model);
+            return results;
+        }
+
+        [HttpPost("UpdateFamilyStatus")]
+        public HandleErrorResponseModel UpdateFamilyStatus(AddFamilyStatusModel Model)
+        {
+            var results = _updateFamilyStatusService.UpdateFamilyStatus(Model);
             return results;
         }
     }

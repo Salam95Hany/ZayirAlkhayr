@@ -18,9 +18,15 @@ namespace ZayirAlkhayr.Entities.Common
 
     }
 
-    public class FamilyNeedCategoryGroups
+    public class UpdateFamilyStatusLookups
     {
-        public string CategoryName { get; set; }
-        public List<FamilyNeedTypes> Needs { get; set; }
+        public FamilyStatusLookups Lookups { get; set; }
+        public FamilyStatus FamilyStatus { get; set; }
+        public FamilyIncome FamilyIncome { get; set; }
+        public FamilyExpenses FamilyExpenses { get; set; }
+        public FamilyExtraDetails FamilyExtraDetails { get; set; }
+        public List<FamilyDetails> FamilyDetails { get; set; }
+        public List<FamilyPatient> FamilyPatient { get; set; }
+        public List<FamilyNeeds> FamilyNeeds { get; set; }
     }
 }

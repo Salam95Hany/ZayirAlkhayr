@@ -63,9 +63,9 @@
                         <td>{{item.insertDateStr}}</td>
                         <td>
                             <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
-                                <i class="uil uil-edit text-primary icon-table-action shadow-sm" (click)="openAddItemModal(OpenItemModal,item)"></i>
-                                <i class="uil uil-times-circle text-danger icon-table-action shadow-sm" appRole [roles]="['SupperAdmin']" (click)="openDeleteItemModal(deleteItemModal,item)"></i>
-                                <i class="uil uil-document-info text-success icon-table-action shadow-sm" (click)="openCashSidePanel(CashSidePanel,item)"></i>
+                                <i class="uil uil-edit text-primary icon-table-action shadow-sm" (click)="openUpdateFamilyStatusSidePanel(item,true,false)"></i>
+                                <!-- <i class="uil uil-times-circle text-danger icon-table-action shadow-sm" appRole [roles]="['SupperAdmin']" (click)="openDeleteItemModal(deleteItemModal,item)"></i> -->
+                                <i class="uil uil-document-info text-success icon-table-action shadow-sm" (click)="openUpdateFamilyStatusSidePanel(item,false,true)"></i>
                             </div>
                         </td>
                     </tr>
@@ -97,92 +97,6 @@
             <i class="fas fa-times"></i>
             <span class="ms-2">لا</span>
         </button>
-    </div>
-</ng-template>
-
-<ng-template #CashSidePanel let-offcanvas>
-    <div class="offcanvas-header pb-0 d-flex align-items-center justify-content-between">
-        <div>
-            <h4 class="offcanvas-title m-0 d-flex align-items-center w-100"><i class="uil uil-document-info text-success"></i> {{BeneFactorValues.fullName}} - {{BeneFactorValues.code}}
-            </h4>
-        </div>
-        <button type="button" class="btn bg-danger text-white rounded" aria-label="Close" (click)="offcanvas.dismiss()">
-            <i class="fas fa-times"></i>
-        </button>
-    </div>
-    <div class="offcanvas-body pt-0">
-        <hr>
-        <div class="mb-3">
-            <div class="row g-3">
-                <div class="col-lg-5">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" (keypress)="NumbersOnly($event.key)" (paste)="false" (copy)="false" (cut)="false" [(ngModel)]="BeneFactorValues.totalValue" id="floatingInput_1" placeholder="new-user" autocomplete="off">
-                        <label for="floatingInput_1">مبلغ التبرع</label>
-                    </div>
-                </div>
-                <div class="col-lg-5">
-                    <div class="form-floating">
-                        <input type="date" class="form-control" [(ngModel)]="BeneFactorValues.paymentDate" id="floatingInput_1" placeholder="new-user">
-                        <label for="floatingInput_1">تاريخ التبرع</label>
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <button class="btn btn-success mt-3" (click)="AddNewBeneFactorValues()">اضافة</button>
-                </div>
-            </div>
-        </div>
-        <hr>
-        <div class="container pt-3">
-            <div class="card">
-                <div class="card-body card-body-h overflow-auto">
-                    <div class="table-responsive">
-                        <table class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
-                            <thead>
-                                <tr>
-                                    <th class="width-30-per">مبلغ التبرع</th>
-                                    <th class="width-30-per">تاريخ التبرع</th>
-                                    <th class="width-30-per text-center">تم صرف المبلغ بالكامل</th>
-                                </tr>
-                            </thead>
-                            <ng-container *ngFor="let item of BeneFactorValuesData">
-                                <tbody>
-                                    <tr>
-                                        <td class="td-collapser cursor-pointer" (click)="BeneFactorValueCollapseClick(item)" [attr.aria-expanded]="item.isCollapsed">
-                                            <div class="d-flex align-items-center gap-2">
-                                                <i class="uil uil-plus-circle"></i>
-                                                <span>{{item.totalValue}}</span>
-                                            </div>
-                                        </td>
-                                        <td>{{item.paymentDateStr}}</td>
-                                        <td class="text-center">
-                                            <label class="jtoggler-wrapper">
-                                                <input type="checkbox" [(ngModel)]="item.isActive"
-                                                    class="jtoggler jqtoggler-inited" disabled>
-                                                <span class="jtoggler-control">
-                                                    <span class="jtoggler-handle"></span>
-                                                </span>
-                                            </label>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                <tbody *ngIf="item.isCollapsed && item.values && item.values.length > 0">
-                                    <tr class="collapsed-tr" *ngFor="let value of item.values">
-                                        <td>{{value.totalValue}}</td>
-                                        <td>{{value.paymentDate}}</td>
-                                        <td>{{value.details}}</td>
-                                    </tr>
-                                </tbody>
-                                <tbody *ngIf="item.isCollapsed && item.values && item.values.length == 0">
-                                    <tr class="collapsed-tr">
-                                        <td colspan="3" class="text-center">لم يتم صرف اي مبلغ</td>
-                                    </tr>
-                                </tbody>
-                            </ng-container>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </ng-template>
 
@@ -249,5 +163,6 @@
         </button>
     </div>
 </ng-template>
+
 
 <ngx-loading [show]="showLoader"></ngx-loading>

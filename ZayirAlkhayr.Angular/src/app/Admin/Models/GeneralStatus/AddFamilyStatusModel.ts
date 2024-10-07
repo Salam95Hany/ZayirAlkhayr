@@ -22,6 +22,7 @@ export interface FamilyStatus {
     governorate: string;
     phone: string;
     phone1: string;
+    nationalId: string;
     supportingParty: string;
     reasonOfRefuse: string;
     insertUser: string;
@@ -85,6 +86,7 @@ export interface FamilyDetails {
     maritalStatus: string;
     education: string;
     jop: string;
+    oldName: string;
     nationalId: string;
     childernsCount?: number | null;
     familyMembersCount?: number | null;
@@ -94,7 +96,7 @@ export interface FamilyPatient {
     id?: number;
     familyStatusId?: number;
     name: string;
-    patientTypeId: string;
+    patientTypeId: number;
     patientTypeName?: string;
     patientDate: string | null;
     specialization: string;

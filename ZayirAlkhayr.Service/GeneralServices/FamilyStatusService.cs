@@ -106,5 +106,74 @@ namespace ZayirAlkhayr.Service.GeneralServices
             var results = _Context.FamilyNeedCategories.ToListAsync();
             return results;
         }
+
+        public UpdateFamilyStatusLookups GetUpdateFamilyStatusLookups(int FamilyStatusId)
+        {
+            var Lookups = GetFamilyStatusLookups();
+            var FamilyStatus = GetFamilyStatus(FamilyStatusId);
+            var FamilyIncome = GetFamilyIncome(FamilyStatusId);
+            var FamilyExpenses = GetFamilyExpenses(FamilyStatusId);
+            var FamilyExtraDetails = GetFamilyExtraDetails(FamilyStatusId);
+            var FamilyDetails = GetFamilyDetails(FamilyStatusId);
+            var FamilyPatient = GetFamilyPatient(FamilyStatusId);
+            var FamilyNeeds = GetFamilyNeeds(FamilyStatusId);
+
+            var Model = new UpdateFamilyStatusLookups
+            {
+                Lookups = Lookups,
+                FamilyStatus = FamilyStatus,
+                FamilyIncome = FamilyIncome,
+                FamilyExpenses= FamilyExpenses,
+                FamilyExtraDetails = FamilyExtraDetails,
+                FamilyDetails = FamilyDetails,
+                FamilyPatient = FamilyPatient,
+                FamilyNeeds = FamilyNeeds
+
+            };
+
+            return Model;
+        }
+
+        public FamilyStatus GetFamilyStatus(int FamilyStatusId)
+        {
+            var results = _Context.FamilyStatus.FirstOrDefault(i => i.Id == FamilyStatusId);
+            return results;
+        }
+
+        public FamilyIncome GetFamilyIncome(int FamilyStatusId)
+        {
+            var results = _Context.FamilyIncome.FirstOrDefault(i => i.FamilyStatusId == FamilyStatusId);
+            return results;
+        }
+
+        public FamilyExpenses GetFamilyExpenses(int FamilyStatusId)
+        {
+            var results = _Context.FamilyExpenses.FirstOrDefault(i => i.FamilyStatusId == FamilyStatusId);
+            return results;
+        }
+
+        public FamilyExtraDetails GetFamilyExtraDetails(int FamilyStatusId)
+        {
+            var results = _Context.FamilyExtraDetails.FirstOrDefault(i => i.FamilyStatusId == FamilyStatusId);
+            return results;
+        }
+
+        public List<FamilyDetails> GetFamilyDetails(int FamilyStatusId)
+        {
+            var results = _Context.FamilyDetails.Where(i => i.FamilyStatusId == FamilyStatusId).ToList();
+            return results;
+        }
+
+        public List<FamilyPatient> GetFamilyPatient(int FamilyStatusId)
+        {
+            var results = _Context.FamilyPatient.Where(i => i.FamilyStatusId == FamilyStatusId).ToList();
+            return results;
+        }
+
+        public List<FamilyNeeds> GetFamilyNeeds(int FamilyStatusId)
+        {
+            var results = _Context.FamilyNeeds.Where(i => i.StatusId == FamilyStatusId).ToList();
+            return results;
+        }
     }
 }

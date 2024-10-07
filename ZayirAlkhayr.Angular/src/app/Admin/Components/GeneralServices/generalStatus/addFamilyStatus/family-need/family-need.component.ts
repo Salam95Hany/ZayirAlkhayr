@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -11,10 +12,12 @@ import { ValidationFormService } from 'src/app/Admin/Services/validation-form.se
   templateUrl: './family-need.component.html',
   styleUrls: ['./family-need.component.css']
 })
-export class FamilyNeedComponent implements OnInit {
+export class FamilyNeedComponent implements OnInit, OnChanges {
   @Input() FamilyNeeds: FamilyNeedTypes[] = [];
   @Input() FamilyCategories: FamilyCategories[] = [];
-  SelectedNeeds: FamilyNeeds[] = [];
+  @Input() SelectedNeeds: FamilyNeeds[] = [];
+  @Input() UpdateMode = false;
+  @Input() DetailsMode = false;
   FamilyNeedsByCategory: FamilyNeedTypes[] = [];
   ItemForm: FormGroup;
   CategoryName = 'الفئات';
@@ -28,11 +31,33 @@ export class FamilyNeedComponent implements OnInit {
   isWaiting = true;
 
   constructor(private modalService: NgbModal, private fb: FormBuilder, private formService: ValidationFormService,
-    private toaster:ToastrService
+    private toaster: ToastrService, private datePipe: DatePipe
   ) { }
 
   ngOnInit(): void {
     this.FormInit();
+    if ((this.UpdateMode && this.SelectedNeeds.length > 0) || this.DetailsMode)
+      this.mergeFamilyNeedUpdateMode();
+  }
+
+  ngOnChanges(): void {
+    if (this.UpdateMode && this.SelectedNeeds.length > 0)
+      this.mergeFamilyNeedUpdateMode();
+  }
+
+  mergeFamilyNeedUpdateMode() {
+    let category = '';
+    this.SelectedNeeds.forEach(item => {
+      let need = this.FamilyNeeds.find(i => i.id == item.needTypeId);
+      if (need)
+        category = this.FamilyCategories.find(i => i.id == need.categoryId)?.name;
+      if (need && category) {
+        item.categoryName = category;
+        item.name = need.name;
+      }
+     if(item.deliveryDate)
+      item.deliveryDate = this.datePipe.transform(item.deliveryDate,'yyyy-MM')
+    });
   }
 
   FormInit() {
@@ -133,10 +158,12 @@ export class FamilyNeedComponent implements OnInit {
       return;
     }
 
-    let checked = this.SelectedNeeds.find(i => i.needTypeId == this.FamilyNeedId);
-    if(checked){
-      this.toaster.warning('هذا العنصر موجود');
-      return;
+    if (this.addMode) {
+      let checked = this.SelectedNeeds.find(i => i.needTypeId == this.FamilyNeedId);
+      if (checked) {
+        this.toaster.warning('هذا العنصر موجود');
+        return;
+      }
     }
 
     const formData = this.ItemForm.value;

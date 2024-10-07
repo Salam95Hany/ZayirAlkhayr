@@ -9,25 +9,25 @@
             <tr>
                 <td class="fvt-td-bg">وصف الحالة</td>
                 <td>
-                    <textarea class="form-control" rows="3" [(ngModel)]="ExtraDetails.statusDescription"></textarea>
+                    <textarea class="form-control" rows="3" [disabled]="DetailsMode" [(ngModel)]="ExtraDetails.statusDescription"></textarea>
                 </td>
             </tr>
             <tr>
                 <td class="fvt-td-bg">احتياجات المسكن والحالة</td>
                 <td>
-                    <textarea class="form-control" rows="3" [(ngModel)]="ExtraDetails.housingNeedsAndStatus"></textarea>
+                    <textarea class="form-control" rows="3" [disabled]="DetailsMode" [(ngModel)]="ExtraDetails.housingNeedsAndStatus"></textarea>
                 </td>
             </tr>
             <tr>
                 <td class="fvt-td-bg">ملاحظات الباحث</td>
                 <td>
-                    <textarea class="form-control" rows="3" [(ngModel)]="ExtraDetails.researcherNotes"></textarea>
+                    <textarea class="form-control" rows="3" [disabled]="DetailsMode" [(ngModel)]="ExtraDetails.researcherNotes"></textarea>
                 </td>
             </tr>
             <tr>
                 <td class="fvt-td-bg">ملاحظات المراجع</td>
                 <td>
-                    <textarea class="form-control" rows="3" [(ngModel)]="ExtraDetails.referencesNotes"></textarea>
+                    <textarea class="form-control" rows="3" [disabled]="DetailsMode" [(ngModel)]="ExtraDetails.referencesNotes"></textarea>
                 </td>
             </tr>
             <tr>
@@ -35,7 +35,7 @@
                 <td>
                     <div class="custom-date-input position-relative">
                         <span class="date-label" *ngIf="!isDate">اختر التاريخ</span>
-                        <input type="date" class="form-control cursor-pointer" (focus)="onfocus()" [(ngModel)]="ExtraDetails.lastVisitDate" />
+                        <input type="date" class="form-control cursor-pointer" (focus)="onfocus()" [disabled]="DetailsMode" [(ngModel)]="ExtraDetails.lastVisitDate" />
                     </div>
                 </td>
             </tr>
@@ -57,7 +57,7 @@
                     <div class="d-flex d-flex align-items-center">
                         <div class="me-2">نعم</div>
                         <label class="jtoggler-wrapper m-0 mx-0">
-                              <input type="checkbox" class="jtoggler" [(ngModel)]="item.isSelected">
+                              <input type="checkbox" class="jtoggler" [disabled]="DetailsMode" [(ngModel)]="item.isSelected">
                               <div class="jtoggler-control">
                                 <div class="jtoggler-handle"></div>
                               </div>

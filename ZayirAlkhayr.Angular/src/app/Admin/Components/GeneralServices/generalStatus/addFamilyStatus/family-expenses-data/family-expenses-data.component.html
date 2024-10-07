@@ -9,49 +9,49 @@
             <tr>
                 <td class="fvt-td-bg">إيجار\كهرباء\مياه\غاز\صرف</td>
                 <td>
-                    <input type="text" class="form-control" [(ngModel)]="FamilyExpenses.rent_Electricity_Water_Gas_Sewage" (ngModelChange)="onInputChange($event, 'rent_Electricity_Water_Gas_Sewage')" />
+                    <input type="text" class="form-control" [disabled]="DetailsMode" [(ngModel)]="FamilyExpenses.rent_Electricity_Water_Gas_Sewage" (ngModelChange)="onInputChange($event, 'rent_Electricity_Water_Gas_Sewage')" />
                 </td>
             </tr>
             <tr>
                 <td class="fvt-td-bg">كشف طبي\علاج</td>
                 <td>
-                    <input type="text" class="form-control" [(ngModel)]="FamilyExpenses.medicalExamination_Treatment" (ngModelChange)="onInputChange($event, 'medicalExamination_Treatment')" />
+                    <input type="text" class="form-control" [disabled]="DetailsMode" [(ngModel)]="FamilyExpenses.medicalExamination_Treatment" (ngModelChange)="onInputChange($event, 'medicalExamination_Treatment')" />
                 </td>
             </tr>
             <tr>
                 <td class="fvt-td-bg">ديون\أقساط</td>
                 <td>
-                    <input type="text" class="form-control" [(ngModel)]="FamilyExpenses.installment_debts" (ngModelChange)="onInputChange($event, 'installment_debts')" />
+                    <input type="text" class="form-control" [disabled]="DetailsMode" [(ngModel)]="FamilyExpenses.installment_debts" (ngModelChange)="onInputChange($event, 'installment_debts')" />
                 </td>
             </tr>
             <tr>
                 <td class="fvt-td-bg">مصاريف مدارس\حضانة\دروس</td>
                 <td>
-                    <input type="text" class="form-control" [(ngModel)]="FamilyExpenses.schoolExpenses" (ngModelChange)="onInputChange($event, 'schoolExpenses')" />
+                    <input type="text" class="form-control" [disabled]="DetailsMode" [(ngModel)]="FamilyExpenses.schoolExpenses" (ngModelChange)="onInputChange($event, 'schoolExpenses')" />
                 </td>
             </tr>
             <tr>
                 <td class="fvt-td-bg">جلسات علاج طبيعي</td>
                 <td>
-                    <input type="text" class="form-control" [(ngModel)]="FamilyExpenses.physiotherapySessions" (ngModelChange)="onInputChange($event, 'physiotherapySessions')" />
+                    <input type="text" class="form-control" [disabled]="DetailsMode" [(ngModel)]="FamilyExpenses.physiotherapySessions" (ngModelChange)="onInputChange($event, 'physiotherapySessions')" />
                 </td>
             </tr>
             <tr>
                 <td class="fvt-td-bg">تحاليل</td>
                 <td>
-                    <input type="text" class="form-control" [(ngModel)]="FamilyExpenses.analysis" (ngModelChange)="onInputChange($event, 'analysis')" />
+                    <input type="text" class="form-control" [disabled]="DetailsMode" [(ngModel)]="FamilyExpenses.analysis" (ngModelChange)="onInputChange($event, 'analysis')" />
                 </td>
             </tr>
             <tr>
                 <td class="fvt-td-bg">انتقالات مرضية</td>
                 <td>
-                    <input type="text" class="form-control" [(ngModel)]="FamilyExpenses.satisfactoryTransfers" (ngModelChange)="onInputChange($event, 'satisfactoryTransfers')" />
+                    <input type="text" class="form-control" [disabled]="DetailsMode" [(ngModel)]="FamilyExpenses.satisfactoryTransfers" (ngModelChange)="onInputChange($event, 'satisfactoryTransfers')" />
                 </td>
             </tr>
             <tr>
                 <td class="fvt-td-bg">أشعة طبية</td>
                 <td>
-                    <input type="text" class="form-control" [(ngModel)]="FamilyExpenses.medicalXRays" (ngModelChange)="onInputChange($event, 'medicalXRays')" />
+                    <input type="text" class="form-control" [disabled]="DetailsMode" [(ngModel)]="FamilyExpenses.medicalXRays" (ngModelChange)="onInputChange($event, 'medicalXRays')" />
                 </td>
             </tr>
             <tr>
@@ -60,7 +60,7 @@
                     <div class="d-flex d-flex align-items-center">
                         <div class="me-2">نعم</div>
                         <label class="jtoggler-wrapper m-0 mx-0">
-                          <input type="checkbox" class="jtoggler" [(ngModel)]="FamilyExpenses.isMinisterialSupply">
+                          <input type="checkbox" class="jtoggler" [disabled]="DetailsMode" [(ngModel)]="FamilyExpenses.isMinisterialSupply">
                           <div class="jtoggler-control">
                             <div class="jtoggler-handle"></div>
                           </div>
@@ -75,7 +75,7 @@
                     <div class="d-flex d-flex align-items-center">
                         <div class="me-2">نعم</div>
                         <label class="jtoggler-wrapper m-0 mx-0">
-                          <input type="checkbox" class="jtoggler" [(ngModel)]="FamilyExpenses.isFoodBank">
+                          <input type="checkbox" class="jtoggler" [disabled]="DetailsMode" [(ngModel)]="FamilyExpenses.isFoodBank">
                           <div class="jtoggler-control">
                             <div class="jtoggler-handle"></div>
                           </div>
@@ -94,12 +94,6 @@
                 <td class="fvt-td-bg">صافي دخل الاسرة</td>
                 <td>
                     <input type="text" class="form-control" [value]="FamilyExpenses.netFamilyIncome" disabled/>
-                </td>
-            </tr>
-            <tr>
-                <td class="fvt-td-bg">عدد الافراد</td>
-                <td>
-                    <input type="text" class="form-control" [value]="FamilyExpenses.familyCount" disabled/>
                 </td>
             </tr>
         </tbody>

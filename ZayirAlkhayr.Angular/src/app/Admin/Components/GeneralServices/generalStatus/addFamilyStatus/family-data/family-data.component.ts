@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -11,7 +11,10 @@ import { ValidationFormService } from 'src/app/Admin/Services/validation-form.se
   styleUrls: ['./family-data.component.css']
 })
 export class FamilyDataComponent implements OnInit {
-  FamilyDetails: FamilyDetails[] = [];
+  @Output() FamilyDetailsChange = new EventEmitter<FamilyDetails[]>();
+  @Input() FamilyDetails: FamilyDetails[] = [];
+  @Input() UpdateMode = false;
+  @Input() DetailsMode = false;
   ItemForm: FormGroup;
   FamilyDetailsId: any;
   MaritalStatusName = 'الحالة الاجتماعية';
@@ -25,7 +28,7 @@ export class FamilyDataComponent implements OnInit {
   ];
 
   constructor(private modalService: NgbModal, private fb: FormBuilder, private formService: ValidationFormService,
-    private toaster:ToastrService
+    private toaster: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -38,10 +41,9 @@ export class FamilyDataComponent implements OnInit {
       name: ['', [Validators.required, this.formService.noSpaceValidator]],
       relevance: ['', [Validators.required, this.formService.noSpaceValidator]],
       age: ['', [Validators.required, this.formService.noSpaceValidator, Validators.pattern("[0-9]+")]],
-      maritalStatus: null,
       education: ['', [Validators.required, this.formService.noSpaceValidator]],
       jop: ['', [Validators.required, this.formService.noSpaceValidator]],
-      nationalId: ['', [Validators.required, this.formService.noSpaceValidator, Validators.pattern("[0-9]+")]],
+      nationalId: ['', [this.formService.noSpaceValidator, Validators.pattern("[0-9]+")]],
     });
   }
 
@@ -52,10 +54,9 @@ export class FamilyDataComponent implements OnInit {
       name: item.name,
       relevance: item.relevance,
       age: item.age,
-      maritalStatus: item.maritalStatus,
       education: item.education,
       jop: item.jop,
-      nationalId: item.nationalId,
+      nationalId: item?.nationalId,
     });
   }
 
@@ -105,23 +106,25 @@ export class FamilyDataComponent implements OnInit {
       return;
     }
 
-    let checked = this.FamilyDetails.find(i => i.name == this.ItemForm.value.name);
-    if(checked){
-      this.toaster.warning('هذا العنصر موجود');
-      return;
+    if (this.addMode) {
+      let checked = this.FamilyDetails.find(i => i.name == this.ItemForm.value.name);
+      if (checked) {
+        this.toaster.warning('هذا العنصر موجود');
+        return;
+      }
     }
 
-    this.ItemForm.patchValue({ maritalStatus: this.MaritalStatusName });
     const formData = this.ItemForm.value;
     let arryNum = this.FamilyDetails.map(i => i.id);
     let id = arryNum.length > 0 ? Math.max(...arryNum) : 0;
     if (this.addMode) {
       this.FamilyDetails.push({
         id: id + 1,
+        oldName: formData.name,
         name: formData.name,
         relevance: formData.relevance,
         age: formData.age,
-        maritalStatus: formData.maritalStatus,
+        maritalStatus: this.MaritalStatusName,
         education: formData.education,
         jop: formData.jop,
         nationalId: formData.nationalId
@@ -129,21 +132,25 @@ export class FamilyDataComponent implements OnInit {
     } else {
       let obj = this.FamilyDetails.find(i => i.id == formData.id);
       if (obj) {
+        obj.oldName = obj.name;
         obj.name = formData.name;
         obj.relevance = formData.relevance;
         obj.age = formData.age;
-        obj.maritalStatus = formData.maritalStatus;
+        obj.maritalStatus = this.MaritalStatusName;
         obj.education = formData.education;
         obj.jop = formData.jop;
         obj.nationalId = formData.nationalId;
       }
     }
-
+    if (this.UpdateMode)
+      this.FamilyDetailsChange.emit(this.FamilyDetails);
     this.modalService.dismissAll();
   }
 
   DeleteItem() {
     this.FamilyDetails = this.FamilyDetails.filter(i => i.id != this.FamilyDetailsId);
+    if (this.UpdateMode)
+      this.FamilyDetailsChange.emit(this.FamilyDetails);
     this.modalService.dismissAll();
   }
 

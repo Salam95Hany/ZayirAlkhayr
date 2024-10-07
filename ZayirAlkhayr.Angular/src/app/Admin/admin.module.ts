@@ -42,6 +42,7 @@ import { FamilyNeedsComponent } from './Components/GeneralServices/generalStatus
 import { FamilyCategoriesComponent } from './Components/GeneralServices/generalStatus/family-categories/family-categories.component';
 import { FamilyPatienttypesComponent } from './Components/GeneralServices/generalStatus/family-patienttypes/family-patienttypes.component';
 import { AllFamilyStatusComponent } from './Components/GeneralServices/generalStatus/all-family-status/all-family-status.component';
+import { FamilyStatusSidepanelComponent } from './Components/GeneralServices/generalStatus/family-status-sidepanel/family-status-sidepanel.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { AllFamilyStatusComponent } from './Components/GeneralServices/generalSt
     FamilyNeedsComponent,
     FamilyCategoriesComponent,
     FamilyPatienttypesComponent,
-    AllFamilyStatusComponent
+    AllFamilyStatusComponent,
+    FamilyStatusSidepanelComponent
   ],
   imports: [
     CommonModule,

@@ -10,6 +10,7 @@ import { FamilyNeedComponent } from './family-need/family-need.component';
 import { ReviewersComponent } from './reviewers/reviewers.component';
 import { AddFamilyStatusModel } from 'src/app/Admin/Models/GeneralStatus/AddFamilyStatusModel';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-family-status',
@@ -42,7 +43,9 @@ export class AddFamilyStatusComponent implements OnInit {
     { stepName: 'المراجعين', stepId: 'familyExtraDetails', number: 7 }
   ]
 
-  constructor(private generalStatusService: GeneralStatusService, private toaster: ToastrService) {
+  constructor(private generalStatusService: GeneralStatusService, private toaster: ToastrService,
+    private router:Router
+  ) {
     this.Steps = this.StepList.map(a => a.stepId);
     this.StepName = this.Steps[0];
   }
@@ -120,7 +123,7 @@ export class AddFamilyStatusComponent implements OnInit {
       this.showLoader = false;
       if (data.done) {
         this.toaster.success(data.message);
-        // this.router.navigateByUrl('/z2admin/Customers');
+        this.router.navigateByUrl('/admin/family-status');
       } else
         this.toaster.error(data.message);
     });

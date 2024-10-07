@@ -23,6 +23,7 @@ import { ngxLoadingAnimationTypes, NgxLoadingModule } from "ngx-loading";
 import { NotAuthorizedComponent } from './Auth/not-authorized/not-authorized.component';
 import { BenefactorLoginComponent } from './WebSite/benefactor/benefactor-login/benefactor-login.component';
 import { BenefactorWebDetailsComponent } from './WebSite/benefactor/benefactor-web-details/benefactor-web-details.component';
+import { CommonModule, DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { BenefactorWebDetailsComponent } from './WebSite/benefactor/benefactor-w
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
@@ -62,7 +64,7 @@ import { BenefactorWebDetailsComponent } from './WebSite/benefactor/benefactor-w
     ReactiveFormsModule,
     FormsModule
   ],
-  providers: [],
+  providers:[DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -11,11 +11,13 @@ import { ValidationFormService } from 'src/app/Admin/Services/validation-form.se
   templateUrl: './family-medical.component.html',
   styleUrls: ['./family-medical.component.css']
 })
-export class FamilyMedicalComponent {
+export class FamilyMedicalComponent implements OnInit, OnChanges {
   @Input() PatientTypes: FamilyPatientTypes[] = [];
   @Input() FamilyDetails: FamilyDetails[] = [];
   @Input() FamilyStatusName: string;
-  FamilyPatients: FamilyPatient[] = [];
+  @Input() UpdateMode = false;
+  @Input() DetailsMode = false;
+  @Input() FamilyPatients: FamilyPatient[] = [];
   FamilyNames: string[] = [];
   ItemForm: FormGroup;
   FamilyName = 'اسم الفرد';
@@ -32,12 +34,57 @@ export class FamilyMedicalComponent {
 
   ngOnInit(): void {
     this.FormInit();
+    if (this.UpdateMode && this.FamilyPatients.length > 0) {
+      this.InetialData();
+      this.mergeFamilyPatientUpdateMode();
+    }
+
+    if (this.DetailsMode)
+      this.mergeFamilyPatientUpdateMode();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    let name = changes['FamilyStatusName'];
+    let familyDetails = changes['FamilyDetails']
+    if (this.UpdateMode) {
+      if (name) {
+        if (name.previousValue) {
+          let obj = this.FamilyPatients.find(i => i.name == name.previousValue);
+          if (obj)
+            obj.name = name.currentValue;
+        }
+        this.InetialData();
+      }
+
+      if (familyDetails) {
+        this.InetialData();
+      }
+    }
+  }
+
+  mergeFamilyPatientUpdateMode() {
+    this.FamilyPatients.forEach(item => {
+      let obj = this.PatientTypes.find(i => i.id == item.patientTypeId);
+      if (obj)
+        item.patientTypeName = obj.name;
+    });
   }
 
   InetialData() {
     if (this.FamilyDetails.length == 0) {
       const objectToKeep = this.FamilyPatients.find(i => i.name == this.FamilyStatusName);
       this.FamilyPatients = objectToKeep ? [objectToKeep] : [];
+    } else {
+      this.FamilyDetails.forEach(item => {
+        let obj = this.FamilyPatients.find(i => i.name == item.oldName);
+        if (obj)
+          obj.name = item.name;
+      });
+      this.FamilyPatients.forEach((item, index) => {
+        let obj = this.FamilyDetails.find(i => i.name == item.name);
+        if (!obj)
+          this.FamilyPatients.splice(index, 1);
+      });
     }
 
     this.FamilyNames = [];
@@ -125,10 +172,12 @@ export class FamilyMedicalComponent {
       return;
     }
 
-    let checked = this.FamilyPatients.find(i => i.name == this.FamilyName);
-    if(checked){
-      this.toaster.warning('هذا العنصر موجود');
-      return;
+    if (this.addMode) {
+      let checked = this.FamilyPatients.find(i => i.name == this.FamilyName);
+      if (checked) {
+        this.toaster.warning('هذا العنصر موجود');
+        return;
+      }
     }
 
     const formData = this.ItemForm.value;

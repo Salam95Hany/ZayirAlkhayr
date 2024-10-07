@@ -10,7 +10,7 @@
                 <tr>
                     <td class="fvt-td-bg">اسم الحالة</td>
                     <td>
-                        <input type="text" class="form-control" name="StatusName" #StatusName="ngModel" [(ngModel)]="FamilyStatus.name" required/>
+                        <input type="text" class="form-control" [disabled]="DetailsMode || UpdateMode" (input)="FamilyStatusNameChange()" name="StatusName" #StatusName="ngModel" [(ngModel)]="FamilyStatus.name" required/>
                         <div class="text-danger pt-2" *ngIf="StatusName.invalid && (StatusName.dirty || StatusName.touched || FamilyForm.submitted )">
                             <div *ngIf="StatusName.errors?.required">هذا الحقل مطلوب</div>
                         </div>
@@ -19,7 +19,7 @@
                 <tr>
                     <td class="fvt-td-bg">الشهرة</td>
                     <td>
-                        <input type="text" class="form-control" name="Fname" #Fname="ngModel" [(ngModel)]="FamilyStatus.fname" required/>
+                        <input type="text" class="form-control" [disabled]="DetailsMode || UpdateMode" name="Fname" #Fname="ngModel" [(ngModel)]="FamilyStatus.fname" required/>
                         <div class="text-danger pt-2" *ngIf="Fname.invalid && (Fname.dirty || Fname.touched || FamilyForm.submitted )">
                             <div *ngIf="Fname.errors?.required">هذا الحقل مطلوب</div>
                         </div>
@@ -28,46 +28,62 @@
                 <tr>
                     <td class="fvt-td-bg">رقم الهاتف 1</td>
                     <td>
-                        <input type="text" class="form-control" name="Phone" #Phone="ngModel" [(ngModel)]="FamilyStatus.phone" required/>
+                        <input type="text" class="form-control" [disabled]="DetailsMode" name="Phone" #Phone="ngModel" [(ngModel)]="FamilyStatus.phone" pattern="[0-9]+" required/>
                         <div class="text-danger pt-2" *ngIf="Phone.invalid && (Phone.dirty || Phone.touched || FamilyForm.submitted )">
                             <div *ngIf="Phone.errors?.required">هذا الحقل مطلوب</div>
+                            <div *ngIf="Phone.errors?.pattern">أدخل أرقام فقط</div>
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <td class="fvt-td-bg">رقم الهاتف 2</td>
                     <td>
-                        <input type="text" class="form-control" name="Phone1" [(ngModel)]="FamilyStatus.phone1" />
+                        <input type="text" class="form-control" [disabled]="DetailsMode" name="Phone1" #Phone1="ngModel" [(ngModel)]="FamilyStatus.phone1" pattern="[0-9]+" />
+                        <div class="text-danger pt-2">
+                            <div *ngIf="Phone1.errors?.pattern">أدخل أرقام فقط</div>
+                        </div>
                     </td>
                 </tr>
                 <tr>
                     <td class="fvt-td-bg">العنوان</td>
                     <td>
-                        <input type="text" class="form-control" name="Address" [(ngModel)]="FamilyStatus.address" />
+                        <input type="text" class="form-control" [disabled]="DetailsMode" name="Address" #Address="ngModel" [(ngModel)]="FamilyStatus.address" required/>
+                        <div class="text-danger pt-2" *ngIf="Address.invalid && (Address.dirty || Address.touched || FamilyForm.submitted )">
+                            <div *ngIf="Address.errors?.required">هذا الحقل مطلوب</div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fvt-td-bg">الرقم القومي</td>
+                    <td>
+                        <input type="text" class="form-control" [disabled]="DetailsMode" name="NationalId" #NationalId="ngModel" [(ngModel)]="FamilyStatus.nationalId" pattern="[0-9]+" />
+                        <div class="text-danger pt-2">
+                            <div *ngIf="NationalId.errors?.pattern">أدخل أرقام فقط</div>
+                        </div>
                     </td>
                 </tr>
                 <tr>
                     <td class="fvt-td-bg">القرية</td>
                     <td>
-                        <input type="text" class="form-control" name="Village" [(ngModel)]="FamilyStatus.village" />
+                        <input type="text" class="form-control" [disabled]="DetailsMode" name="Village" [(ngModel)]="FamilyStatus.village" />
                     </td>
                 </tr>
                 <tr>
                     <td class="fvt-td-bg">المركز</td>
                     <td>
-                        <input type="text" class="form-control" name="Center" [(ngModel)]="FamilyStatus.center" />
+                        <input type="text" class="form-control" [disabled]="DetailsMode" name="Center" [(ngModel)]="FamilyStatus.center" />
                     </td>
                 </tr>
                 <tr>
                     <td class="fvt-td-bg">المحافظة</td>
                     <td>
-                        <input type="text" class="form-control" name="Governorate" [(ngModel)]="FamilyStatus.governorate" />
+                        <input type="text" class="form-control" [disabled]="DetailsMode" name="Governorate" [(ngModel)]="FamilyStatus.governorate" />
                     </td>
                 </tr>
                 <tr>
                     <td class="fvt-td-bg">النوع</td>
                     <td>
-                        <select class="form-control" name="StatusTypeId" #StatusTypeId="ngModel" [(ngModel)]="FamilyStatus.statusTypeId" required>
+                        <select class="form-control" name="StatusTypeId" [disabled]="DetailsMode" #StatusTypeId="ngModel" [(ngModel)]="FamilyStatus.statusTypeId" required>
                             <option [defaultSelected]="true" [value]="null" disabled>--اختر النوع--</option>
                             <option [value]="item.id" *ngFor="let item of StatusTypes">{{item.name}}</option>
                         </select>
@@ -79,7 +95,7 @@
                 <tr>
                     <td class="fvt-td-bg">الجنسية</td>
                     <td>
-                        <select class="form-control" name="NationalityId" #NationalityId="ngModel" [(ngModel)]="FamilyStatus.nationalityId" required>
+                        <select class="form-control" name="NationalityId" [disabled]="DetailsMode" #NationalityId="ngModel" [(ngModel)]="FamilyStatus.nationalityId" required>
                             <option [defaultSelected]="true" [value]="null" disabled>--اختر الجنسيه--</option>
                             <option [value]="item.id" *ngFor="let item of Nationalities">{{item.name}}</option>
                        </select>
@@ -91,7 +107,7 @@
                 <tr>
                     <td class="fvt-td-bg">الفئة</td>
                     <td>
-                        <select class="form-control" name="CategoryId" #CategoryId="ngModel" [(ngModel)]="FamilyStatus.categoryId" required>
+                        <select class="form-control" name="CategoryId" [disabled]="DetailsMode" #CategoryId="ngModel" [(ngModel)]="FamilyStatus.categoryId" required>
                             <option [defaultSelected]="true" [value]="null" disabled>--اختر الفئة--</option>
                             <option [value]="item.id" *ngFor="let item of Categories">{{item.name}}</option>
                         </select>
@@ -105,7 +121,7 @@
                     <td>
                         <div class="custom-date-input position-relative">
                             <span class="date-label" *ngIf="!isDate">اختر التاريخ</span>
-                            <input type="date" class="form-control cursor-pointer" (focus)="onfocus()" name="AddedDate" #AddedDate="ngModel" [(ngModel)]="FamilyStatus.addedDate" required/>
+                            <input type="date" class="form-control cursor-pointer" [disabled]="DetailsMode || UpdateMode" (focus)="onfocus()" name="AddedDate" #AddedDate="ngModel" [(ngModel)]="FamilyStatus.addedDate" required/>
                         </div>
                         <div class="text-danger pt-2" *ngIf="AddedDate.invalid && (AddedDate.dirty || AddedDate.touched || FamilyForm.submitted )">
                             <div *ngIf="AddedDate.errors?.required">هذا الحقل مطلوب</div>

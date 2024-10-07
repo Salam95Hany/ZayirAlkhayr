@@ -102,8 +102,15 @@ export class ValidationFormService {
   }
 
   noSpaceValidator(control: FormControl) {
-    if (control.value?.trim()?.length === 0 && control.value) {
-      return { noSpace: true };
+    if (control.value) {
+      let value = control.value;
+      if (typeof value === 'number') {
+        value = value.toString();
+      }
+  
+      if (value.trim().length === 0) {
+        return { noSpace: true };
+      }
     }
 
     if (!control.value) {

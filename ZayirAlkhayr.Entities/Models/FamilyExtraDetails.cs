@@ -22,8 +22,13 @@ namespace ZayirAlkhayr.Entities.Models
 
         public bool AreAllPropertiesDefault()
         {
+            var excludedProperties = new List<string> { "Id", "FamilyStatusId" };
+
             foreach (var property in this.GetType().GetProperties())
             {
+                if (excludedProperties.Contains(property.Name))
+                    continue;
+
                 var value = property.GetValue(this);
                 if (property.PropertyType == typeof(int))
                 {

@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { PagingFilterModel } from '../Models/PagingFilterModel';
 import { FamilyStatusLookups } from '../Models/GeneralStatus/FamilyStatusLookups';
 import { AddFamilyStatusModel } from '../Models/GeneralStatus/AddFamilyStatusModel';
+import { UpdateFamilyStatusLookups } from '../Models/GeneralStatus/UpdateFamilyStatusLookups';
 
 @Injectable({
   providedIn: 'root'
@@ -27,8 +28,16 @@ export class GeneralStatusService {
     return this.http.get<FamilyStatusLookups>(this.apiURL + 'FamilyStatus/GetFamilyStatusLookups');
   }
 
+  GetUpdateFamilyStatusLookups(FamilyStatusId: number) {
+    return this.http.get<UpdateFamilyStatusLookups>(this.apiURL + 'FamilyStatus/GetUpdateFamilyStatusLookups?FamilyStatusId=' + FamilyStatusId);
+  }
+
   AddNewFamilyStatus(Model: AddFamilyStatusModel) {
     return this.http.post<any>(this.apiURL + 'FamilyStatus/AddNewFamilyStatus', Model);
+  }
+
+  UpdateFamilyStatus(Model: AddFamilyStatusModel) {
+    return this.http.post<any>(this.apiURL + 'FamilyStatus/UpdateFamilyStatus', Model);
   }
 
   // ============================= FamilyNeeds ==============================

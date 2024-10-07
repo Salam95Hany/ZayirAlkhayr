@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { FamilyIncome } from 'src/app/Admin/Models/GeneralStatus/AddFamilyStatusModel';
 
@@ -8,7 +8,10 @@ import { FamilyIncome } from 'src/app/Admin/Models/GeneralStatus/AddFamilyStatus
   styleUrls: ['./family-income-data.component.css']
 })
 export class FamilyIncomeDataComponent {
-  FamilyIncome: FamilyIncome = {
+  @Output() FamilyIncomeChange = new EventEmitter<any>();
+  @Input() UpdateMode = false;
+  @Input() DetailsMode = false;
+  @Input() FamilyIncome: FamilyIncome = {
     fatherJop: 0,
     motherJop: 0,
     childernsJop: 0,
@@ -27,17 +30,22 @@ export class FamilyIncomeDataComponent {
   onInputChange(value: string, key: any) {
     if (!value)
       return;
-    
+
     this.FamilyIncome.totalFamilyIncome = 0;
     this.FamilyIncome[key] = value ? Number(value) : 0;
     if (Number(value) > 0)
-      Object.entries(this.FamilyIncome).filter(([key, value]) => typeof value === 'number').forEach(([key, value]) => {
-        this.FamilyIncome.totalFamilyIncome += value;
-      });
+      Object.entries(this.FamilyIncome).filter(([key, value]) => typeof value === 'number'
+        && key != 'id' && key != 'familyStatusId').forEach(([key, value]) => {
+          this.FamilyIncome.totalFamilyIncome += value;
+        });
+
+    if (this.UpdateMode)
+      this.FamilyIncomeChange.emit(this.FamilyIncome.totalFamilyIncome);
   }
 
   GetOutputData() {
-    let arry = Object.entries(this.FamilyIncome).filter(([key, value]) => typeof value === 'number').map(([key, value]) => value)
+    let arry = Object.entries(this.FamilyIncome).filter(([key, value]) => typeof value === 'number'
+      && key != 'id' && key != 'familyStatusId').map(([key, value]) => value)
     let checked = arry.some(value => value > 0);
 
     if (!checked) {
