@@ -81,11 +81,11 @@ export class AccountExportMonyComponent implements OnInit {
   FillEditForm(item: any) {
     this.BeneFactorName = item?.fullName;
     this.BeneFactorTypeName = item?.name;
-    this.BeneFactorId = item?.beneFactorId;
+    this.BeneFactorId = item?.beneFactorId ?? 0;
     this.BeneFactorTypeId = item?.beneFactorTypeId;
     this.ItemForm.setValue({
       id: item.id,
-      beneFactorId: item?.beneFactorId,
+      beneFactorId: item?.beneFactorId ?? 0,
       beneFactorTypeId: item?.beneFactorTypeId,
       details: item?.details,
       totalValue: item?.totalValue,
