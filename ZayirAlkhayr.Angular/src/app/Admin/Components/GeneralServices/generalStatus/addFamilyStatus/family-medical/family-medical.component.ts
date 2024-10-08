@@ -21,7 +21,7 @@ export class FamilyMedicalComponent implements OnInit, OnChanges {
   FamilyNames: string[] = [];
   ItemForm: FormGroup;
   FamilyName = 'اسم الفرد';
-  PatientTypeName = 'نوع المرض';
+  PatientTypeName = 'التخصص';
   FamilyNameValidation = false;
   PatientTypeNameValidation = false;
   PatientTypeId: any;
@@ -119,7 +119,7 @@ export class FamilyMedicalComponent implements OnInit, OnChanges {
   ResetForm() {
     this.ItemForm.reset();
     this.FamilyName = 'اسم الفرد';
-    this.PatientTypeName = 'نوع المرض';
+    this.PatientTypeName = 'التخصص';
     this.PatientTypeId = '';
     this.FamilyNameValidation = false;
     this.PatientTypeNameValidation = false;
@@ -166,7 +166,7 @@ export class FamilyMedicalComponent implements OnInit, OnChanges {
     let isValid = this.ItemForm.valid;
 
     this.FamilyNameValidation = this.FamilyName == 'اسم الفرد';
-    this.PatientTypeNameValidation = this.PatientTypeName == 'نوع المرض';
+    this.PatientTypeNameValidation = this.PatientTypeName == 'التخصص';
     if (!isValid || this.FamilyNameValidation || this.PatientTypeNameValidation) {
       this.formService.validateAllFormFields(this.ItemForm);
       return;

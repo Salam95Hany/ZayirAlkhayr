@@ -12,7 +12,9 @@ namespace ZayirAlkhayr.Interface.GeneralServices
     {
         FamilyStatusLookups GetFamilyStatusLookups();
         UpdateFamilyStatusLookups GetUpdateFamilyStatusLookups(int FamilyStatusId);
-        DataTable GetAllFamilyStatusData(PagingFilterModel PagingFilter);
+        DataSet GetAllFamilyStatusData(PagingFilterModel PagingFilter);
         List<FilterModel> GetAllFamilyStatusFilter(PagingFilterModel PagingFilter);
+        string ExportFamilyStatusDataPDFFile(PDFModel Model, int RowCount);
+        string ExportFamilyStatusDataExcelFile(PDFModel Model, string UserName);
     }
 }

@@ -8,7 +8,7 @@
         </div>
         <div class="col-xl-7">
             <ul class="stepers-list list-unstyled d-flex align-items-xl-start align-items-center justify-content-center p-0 m-0">
-                <li *ngFor="let item of StepList; index as i" class="steper-item active" [class.active]="activeStep >= i+1" (click)="OnStepClick(item.stepId,i)">
+                <li *ngFor="let item of StepList; index as i" class="steper-item active" [class.active]="activeStep >= i+1">
                     <div class="steper-item-content">
                         <div class="steper-item-circle-line">
                             <div class="steper-item-circle">{{ item.number }}</div>

@@ -7,6 +7,7 @@ using ZayirAlkhayr.Entities.Common;
 using ZayirAlkhayr.Entities.Models;
 using ZayirAlkhayr.Interface.Common;
 using ZayirAlkhayr.Interface.GeneralServices;
+using ZayirAlkhayr.Service.Common;
 
 namespace ZayirAlkhayr.Service.GeneralServices
 {
@@ -167,7 +168,7 @@ namespace ZayirAlkhayr.Service.GeneralServices
 
         private void AddNewFamilyNeeds(List<FamilyNeeds> Model, int FamilyStatusId)
         {
-            if(Model.Count == 0) { return; }
+            if (Model.Count == 0) { return; }
 
             foreach (var FamilyNeed in Model)
             {
@@ -178,6 +179,65 @@ namespace ZayirAlkhayr.Service.GeneralServices
                 FamilyNeedsObj.DeliveryDate = FamilyNeed.DeliveryDate;
                 _Context.FamilyNeeds.Add(FamilyNeedsObj);
             }
+        }
+
+        public HandleErrorResponseModel DeleteFamilyStatus(int FamilyStatusId)
+        {
+            var response = new HandleErrorResponseModel();
+
+            using (var transaction = _Context.Database.BeginTransaction())
+            {
+                try
+                {
+                    var familyStatus = _Context.FamilyStatus.FirstOrDefault(i => i.Id == FamilyStatusId);
+                    if (familyStatus == null)
+                    {
+                        response.Done = false;
+                        response.Message = "هذه الحالة ليست موجودة";
+                        return response;
+                    }
+
+                    var familyIncome = _Context.FamilyIncome.FirstOrDefault(i => i.FamilyStatusId == FamilyStatusId);
+                    if (familyIncome != null)
+                        _Context.FamilyIncome.Remove(familyIncome);
+
+                    var familyExpenses = _Context.FamilyExpenses.FirstOrDefault(i => i.FamilyStatusId == FamilyStatusId);
+                    if (familyExpenses != null)
+                        _Context.FamilyExpenses.Remove(familyExpenses);
+
+                    var familyExtraDetails = _Context.FamilyExtraDetails.FirstOrDefault(i => i.FamilyStatusId == FamilyStatusId);
+                    if (familyExtraDetails != null)
+                        _Context.FamilyExtraDetails.Remove(familyExtraDetails);
+
+                    var familyDetails = _Context.FamilyDetails.Where(i => i.FamilyStatusId == FamilyStatusId).ToList();
+                    if (familyDetails.Count > 0)
+                        _Context.FamilyDetails.RemoveRange(familyDetails);
+
+                    var familyPatients = _Context.FamilyPatient.Where(i => i.FamilyStatusId == FamilyStatusId).ToList();
+                    if (familyPatients.Count > 0)
+                        _Context.FamilyPatient.RemoveRange(familyPatients);
+
+                    var familyNeeds = _Context.FamilyNeeds.Where(i => i.StatusId == FamilyStatusId).ToList();
+                    if (familyNeeds.Count > 0)
+                        _Context.FamilyNeeds.RemoveRange(familyNeeds);
+
+                    _Context.FamilyStatus.Remove(familyStatus);
+
+                    _Context.SaveChanges();
+                    transaction.Commit();
+
+                    response.Done = true;
+                    response.Message = "تم حذف الحالة بنجاح";
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    response.Done = false;
+                    response.Message = "لقد حدث خطأ";
+                }
+            }
+
+            return response;
         }
     }
 }

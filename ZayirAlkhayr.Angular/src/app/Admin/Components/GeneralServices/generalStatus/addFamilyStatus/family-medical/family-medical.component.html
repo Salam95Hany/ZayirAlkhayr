@@ -23,9 +23,9 @@
         <tbody>
             <tr *ngFor="let item of FamilyPatients">
                 <td>{{item.name}}</td>
-                <td>{{item.patientTypeName}}</td>
-                <td>{{item.patientDate}}</td>
                 <td>{{item.specialization}}</td>
+                <td>{{item.patientDate}}</td>
+                <td>{{item.patientTypeName}}</td>
                 <td>
                     <div class="d-flex d-flex align-items-center">
                         <div class="me-2">نعم</div>
@@ -112,7 +112,7 @@
                     <div class="col-lg-6">
                         <div class="form-floating">
                             <input type="text" class="form-control" formControlName="specialization" id="floatingInput_1" placeholder="new-user" required>
-                            <label for="floatingInput_1">التخصص</label>
+                            <label for="floatingInput_1">نوع المرض</label>
                             <div *ngIf="ItemForm.controls['specialization']?.invalid && (ItemForm.controls['specialization']?.dirty || ItemForm.controls['specialization']?.touched)" class="text-danger pt-2">
                                 <div *ngIf="ItemForm.controls['specialization'].errors?.['required']">
                                     هذا الحقل مطلوب

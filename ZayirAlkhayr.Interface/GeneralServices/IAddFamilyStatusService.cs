@@ -10,5 +10,6 @@ namespace ZayirAlkhayr.Interface.GeneralServices
     public interface IAddFamilyStatusService
     {
         HandleErrorResponseModel AddNewFamilyStatus(AddFamilyStatusModel Model);
+        HandleErrorResponseModel DeleteFamilyStatus(int FamilyStatusId);
     }
 }

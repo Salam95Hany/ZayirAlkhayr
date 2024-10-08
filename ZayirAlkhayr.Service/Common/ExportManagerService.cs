@@ -33,6 +33,8 @@ namespace ZayirAlkhayr.Service.Common
             int startrow = 5;
             try
             {
+                var columnsToRemove = data.Columns.Cast<DataColumn>().Where(col => !exportTemplateBase.Header.ListHeaders.Select(x => x.NameEn).Contains(col.ColumnName)).ToList();
+                columnsToRemove.ForEach(col => data.Columns.Remove(col));
                 var temp = new FileInfo(Path.Combine(hostingEnvironment.WebRootPath, @"Template\", "ZAStyle.xlsx"));
                 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
                 using (var package = new ExcelPackage(new FileInfo(fullPath), temp))

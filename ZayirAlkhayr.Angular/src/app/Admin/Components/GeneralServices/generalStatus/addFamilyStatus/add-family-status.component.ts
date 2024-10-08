@@ -105,16 +105,6 @@ export class AddFamilyStatusComponent implements OnInit {
     }
   }
 
-  OnStepClick(stepName: string, counter: number) {
-    const stepData = this.AddFamilyStatusModel[stepName];
-    if (stepData) {
-      this.StepName = stepName;
-      this.Counter = counter;
-      this.activeStep = counter + 1;
-    }
-  }
-
-
   AddNewFamilyStatus() {
     let data = this.viewChilds[this.Counter].GetOutputData();
     this.AddFamilyStatusModel[this.StepName] = data;

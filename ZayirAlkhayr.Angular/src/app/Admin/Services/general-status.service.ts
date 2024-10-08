@@ -17,7 +17,7 @@ export class GeneralStatusService {
   // ============================= FamilyStatus ==============================
 
   GetAllFamilyStatusData(PagingFilter: PagingFilterModel) {
-    return this.http.post<any[]>(this.apiURL + 'FamilyStatus/GetAllFamilyStatusData', PagingFilter);
+    return this.http.post<any>(this.apiURL + 'FamilyStatus/GetAllFamilyStatusData', PagingFilter);
   }
 
   GetAllFamilyStatusFilter(PagingFilter: PagingFilterModel) {
@@ -38,6 +38,10 @@ export class GeneralStatusService {
 
   UpdateFamilyStatus(Model: AddFamilyStatusModel) {
     return this.http.post<any>(this.apiURL + 'FamilyStatus/UpdateFamilyStatus', Model);
+  }
+
+  DeleteFamilyStatus(FamilyStatusId: number) {
+    return this.http.get<any>(this.apiURL + 'FamilyStatus/DeleteFamilyStatus?FamilyStatusId=' + FamilyStatusId);
   }
 
   // ============================= FamilyNeeds ==============================

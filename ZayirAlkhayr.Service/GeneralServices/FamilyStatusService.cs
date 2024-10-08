@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using PosSystem.Entities.Common;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -18,13 +19,17 @@ namespace ZayirAlkhayr.Service.GeneralServices
     {
         private readonly ZADbContext _Context;
         private readonly ISQLHelper _sQLHelper;
-        public FamilyStatusService(ZADbContext context, ISQLHelper sQLHelper)
+        private readonly ICreatePdfFileService _createPdfFileService;
+        private readonly IExportManagerService _exportManagerService;
+        public FamilyStatusService(ZADbContext context, ISQLHelper sQLHelper, ICreatePdfFileService createPdfFileService, IExportManagerService exportManagerService)
         {
             _Context = context;
             _sQLHelper = sQLHelper;
+            _createPdfFileService = createPdfFileService;
+            _exportManagerService = exportManagerService;
         }
 
-        public DataTable GetAllFamilyStatusData(PagingFilterModel PagingFilter)
+        public DataSet GetAllFamilyStatusData(PagingFilterModel PagingFilter)
         {
             var FilterDt = _sQLHelper.ConvertFilterModelToDataTable(PagingFilter.FilterList);
             var Params = new SqlParameter[4];
@@ -32,7 +37,7 @@ namespace ZayirAlkhayr.Service.GeneralServices
             Params[1] = new SqlParameter("@CurrentPage", PagingFilter.Currentpage);
             Params[2] = new SqlParameter("@PageSize", PagingFilter.Pagesize);
             Params[3] = new SqlParameter("@IsFilter", false);
-            var dt = _sQLHelper.ExecuteDataTable("admin.SP_GetAllFamilyStatusDataWithFilters", Params);
+            var dt = _sQLHelper.ExecuteDataset("admin.SP_GetAllFamilyStatusDataWithFilters", Params);
             return dt;
         }
 
@@ -47,6 +52,32 @@ namespace ZayirAlkhayr.Service.GeneralServices
             var dt = _sQLHelper.ExecuteDataTable("admin.SP_GetAllFamilyStatusDataWithFilters", Params);
             var Filters = _sQLHelper.GroupingFilters(dt);
             return Filters;
+        }
+
+        public DataTable ExportFamilyStatusData(PDFModel Model)
+        {
+            var FilterDt = _sQLHelper.ConvertFilterModelToDataTable(Model.FilterList);
+            var Params = new SqlParameter[1];
+            Params[0] = new SqlParameter("@FilterList", FilterDt);
+            var dt = _sQLHelper.ExecuteDataTable("admin.SP_ExportFamilyStatusData", Params);
+            return dt;
+        }
+
+        public string ExportFamilyStatusDataPDFFile(PDFModel Model, int RowCount)
+        {
+            var Dt = ExportFamilyStatusData(Model);
+            var DtBatches = Dt.ToDataTableBatches(RowCount);
+            Model.Headers = Model.Headers.OrderBy(i => i.DisplayOrder).ToList();
+            var File = _createPdfFileService.CreatePdfFile(DtBatches, Model.Headers, ImageFiles.ExportFiles.ToString(), "الحالات");
+            return File;
+        }
+
+        public string ExportFamilyStatusDataExcelFile(PDFModel Model, string UserName)
+        {
+            var Dt = ExportFamilyStatusData(Model);
+            var ExportTemplate = new ExportTemplateBase { Name = "الحالات", SheetName = "الحالات", TemplateName = "الحالات", UserName = UserName, Header = new ExportHeaders { ListHeaders = Model.Headers } };
+            var File = _exportManagerService.Export(ExportTemplate, Dt);
+            return File;
         }
 
         public FamilyStatusLookups GetFamilyStatusLookups()

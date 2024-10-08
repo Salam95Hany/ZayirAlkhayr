@@ -363,7 +363,7 @@ export class BeneFactorComponent implements OnInit {
     }
 
     if (this.RowCount > 25) {
-      this.toaster.warning('عدد الاسطر لا يتجاوز 20 سطر');
+      this.toaster.warning('عدد الاسطر لا يتجاوز 25 سطر');
       return;
     }
     let today = this.datepipe.transform(new Date(), 'yyyy-MM-dd');

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using ZayirAlkhayr.Entities.Common;
 using ZayirAlkhayr.Interface.GeneralServices;
+using ZayirAlkhayr.Service.Common;
 
 namespace ZayirAlkhayr.Controllers.GeneralServices
 {
@@ -22,7 +23,7 @@ namespace ZayirAlkhayr.Controllers.GeneralServices
         }
 
         [HttpPost("GetAllFamilyStatusData")]
-        public DataTable GetAllFamilyStatusData(PagingFilterModel PagingFilter)
+        public DataSet GetAllFamilyStatusData(PagingFilterModel PagingFilter)
         {
             var results = _familyStatusService.GetAllFamilyStatusData(PagingFilter);
             return results;
@@ -61,6 +62,27 @@ namespace ZayirAlkhayr.Controllers.GeneralServices
         {
             var results = _updateFamilyStatusService.UpdateFamilyStatus(Model);
             return results;
+        }
+
+        [HttpGet("DeleteFamilyStatus")]
+        public HandleErrorResponseModel DeleteFamilyStatus(int FamilyStatusId)
+        {
+            var results = _addFamilyStatusService.DeleteFamilyStatus(FamilyStatusId);
+            return results;
+        }
+
+        [HttpPost("ExportFamilyStatusDataPDFFile")]
+        public IActionResult ExportFamilyStatusDataPDFFile(PDFModel Model, int RowCount)
+        {
+            var FullPath = _familyStatusService.ExportFamilyStatusDataPDFFile(Model, RowCount);
+            return new TempPhysicalFileResult(FullPath, "application/pdf");
+        }
+
+        [HttpPost("ExportFamilyStatusDataExcelFile")]
+        public IActionResult ExportFamilyStatusDataExcelFile(PDFModel Model, string UserName)
+        {
+            var FullPath = _familyStatusService.ExportFamilyStatusDataExcelFile(Model, UserName);
+            return new TempPhysicalFileResult(FullPath, "application/xlsx");
         }
     }
 }

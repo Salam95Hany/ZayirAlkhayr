@@ -11,11 +11,11 @@
                     <span class="navbar-brand m-0">تنزيل</span>
                 </button>
                 <div ngbDropdownMenu class="dropdown-menu border shadow-sm animate__animated animate__fadeInUp">
-                    <a class="cursor-pointer" ngbDropdownItem (click)="$event.preventDefault()">
+                    <a class="cursor-pointer" ngbDropdownItem (click)="$event.preventDefault();OpenPdfFileItemModal(PDFFileItemModal)">
                         <i class="far fa-file-pdf"></i>
                         <span class="ms-2">PDF</span>
                     </a>
-                    <a class="cursor-pointer" ngbDropdownItem (click)="$event.preventDefault()">
+                    <a class="cursor-pointer" ngbDropdownItem (click)="$event.preventDefault();DownloadExcelFile()">
                         <i class="far fa-file-excel"></i>
                         <span class="ms-2">Excel</span>
                     </a>
@@ -64,7 +64,7 @@
                         <td>
                             <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
                                 <i class="uil uil-edit text-primary icon-table-action shadow-sm" (click)="openUpdateFamilyStatusSidePanel(item,true,false)"></i>
-                                <!-- <i class="uil uil-times-circle text-danger icon-table-action shadow-sm" appRole [roles]="['SupperAdmin']" (click)="openDeleteItemModal(deleteItemModal,item)"></i> -->
+                                <i class="uil uil-times-circle text-danger icon-table-action shadow-sm" (click)="openDeleteItemModal(deleteItemModal,item.id)"></i>
                                 <i class="uil uil-document-info text-success icon-table-action shadow-sm" (click)="openUpdateFamilyStatusSidePanel(item,false,true)"></i>
                             </div>
                         </td>
@@ -82,7 +82,7 @@
     <div class="modal-header main-bgcolor text-white">
         <div class="display-7 d-flex align-items-center gap-3">
             <i class="uil uil-trash-alt"></i>
-            <span>حذف متبرع</span>
+            <span>حذف حالة</span>
         </div>
     </div>
     <div class="modal-body">
