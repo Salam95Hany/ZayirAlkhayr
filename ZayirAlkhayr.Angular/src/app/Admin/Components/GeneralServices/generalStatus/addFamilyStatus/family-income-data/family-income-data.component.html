@@ -1,5 +1,5 @@
 <div class="table-responsive">
-    <table class="table table-bordered align-middle">
+    <table class="table table-bordered align-middle table-hover">
         <thead>
             <tr>
                 <th class="text-white" colspan="2">بيانات دخل الاسرة</th>
@@ -9,55 +9,55 @@
             <tr>
                 <td class="fvt-td-bg">عمل الأب (الزوج)</td>
                 <td>
-                    <input type="text" class="form-control" [disabled]="DetailsMode" [(ngModel)]="FamilyIncome.fatherJop" (ngModelChange)="onInputChange($event, 'fatherJop')" />
+                    <input type="number" class="form-control right-input" [disabled]="DetailsMode" [(ngModel)]="FamilyIncome.fatherJop" (ngModelChange)="onInputChange($event, 'fatherJop')" />
                 </td>
             </tr>
             <tr>
                 <td class="fvt-td-bg">عمل الأم (الزوجة)</td>
                 <td>
-                    <input type="text" class="form-control" [disabled]="DetailsMode" [(ngModel)]="FamilyIncome.motherJop" (ngModelChange)="onInputChange($event, 'motherJop')" />
+                    <input type="number" class="form-control right-input" [disabled]="DetailsMode" [(ngModel)]="FamilyIncome.motherJop" (ngModelChange)="onInputChange($event, 'motherJop')" />
                 </td>
             </tr>
             <tr>
                 <td class="fvt-td-bg">عمل الأبناء</td>
                 <td>
-                    <input type="text" class="form-control" [disabled]="DetailsMode" [(ngModel)]="FamilyIncome.childernsJop" (ngModelChange)="onInputChange($event, 'childernsJop')" />
+                    <input type="number" class="form-control right-input" [disabled]="DetailsMode" [(ngModel)]="FamilyIncome.childernsJop" (ngModelChange)="onInputChange($event, 'childernsJop')" />
                 </td>
             </tr>
             <tr>
                 <td class="fvt-td-bg">معاش شئون \ تضامن اجتماعي</td>
                 <td>
-                    <input type="text" class="form-control" [disabled]="DetailsMode" [(ngModel)]="FamilyIncome.affairSpension_SocialSolidarity" (ngModelChange)="onInputChange($event, 'affairSpension_SocialSolidarity')" />
+                    <input type="number" class="form-control right-input" [disabled]="DetailsMode" [(ngModel)]="FamilyIncome.affairSpension_SocialSolidarity" (ngModelChange)="onInputChange($event, 'affairSpension_SocialSolidarity')" />
                 </td>
             </tr>
             <tr>
                 <td class="fvt-td-bg">مشروع</td>
                 <td>
-                    <input type="text" class="form-control" [disabled]="DetailsMode" [(ngModel)]="FamilyIncome.project" (ngModelChange)="onInputChange($event, 'project')" />
+                    <input type="number" class="form-control right-input" [disabled]="DetailsMode" [(ngModel)]="FamilyIncome.project" (ngModelChange)="onInputChange($event, 'project')" />
                 </td>
             </tr>
             <tr>
                 <td class="fvt-td-bg">مواشي \ أراضي</td>
                 <td>
-                    <input type="text" class="form-control" [disabled]="DetailsMode" [(ngModel)]="FamilyIncome.liveStock_Lands" (ngModelChange)="onInputChange($event, 'liveStock_Lands')" />
+                    <input type="number" class="form-control right-input" [disabled]="DetailsMode" [(ngModel)]="FamilyIncome.liveStock_Lands" (ngModelChange)="onInputChange($event, 'liveStock_Lands')" />
                 </td>
             </tr>
             <tr>
                 <td class="fvt-td-bg">جمعية خيرية \ جمعية شرعية \ لجنة زكاة</td>
                 <td>
-                    <input type="text" class="form-control" [disabled]="DetailsMode" [(ngModel)]="FamilyIncome.organization_ZakatCommittee" (ngModelChange)="onInputChange($event, 'organization_ZakatCommittee')" />
+                    <input type="number" class="form-control right-input" [disabled]="DetailsMode" [(ngModel)]="FamilyIncome.organization_ZakatCommittee" (ngModelChange)="onInputChange($event, 'organization_ZakatCommittee')" />
                 </td>
             </tr>
             <tr>
                 <td class="fvt-td-bg">معاش تأمينات</td>
                 <td>
-                    <input type="text" class="form-control" [disabled]="DetailsMode" [(ngModel)]="FamilyIncome.insurancePension" (ngModelChange)="onInputChange($event, 'insurancePension')" />
+                    <input type="number" class="form-control right-input" [disabled]="DetailsMode" [(ngModel)]="FamilyIncome.insurancePension" (ngModelChange)="onInputChange($event, 'insurancePension')" />
                 </td>
             </tr>
             <tr>
                 <td class="fvt-td-bg">أخرى</td>
                 <td>
-                    <input type="text" class="form-control" [disabled]="DetailsMode" [(ngModel)]="FamilyIncome.other" (ngModelChange)="onInputChange($event, 'other')" />
+                    <input type="number" class="form-control right-input" [disabled]="DetailsMode" [(ngModel)]="FamilyIncome.other" (ngModelChange)="onInputChange($event, 'other')" />
                 </td>
             </tr>
             <tr>

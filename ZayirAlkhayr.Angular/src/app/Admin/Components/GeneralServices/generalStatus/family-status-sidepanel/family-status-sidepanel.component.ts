@@ -44,10 +44,7 @@ export class FamilyStatusSidepanelComponent implements OnInit {
   ]
 
   constructor(private generalService: GeneralStatusService, private offcanvasService: NgbOffcanvas, private injector: Injector
-    , private toaster: ToastrService
-  ) {
-
-  }
+    , private toaster: ToastrService) { }
 
   ngOnInit(): void {
     this.FamilyStatusId = this.injector.get('FamilyStatusId');

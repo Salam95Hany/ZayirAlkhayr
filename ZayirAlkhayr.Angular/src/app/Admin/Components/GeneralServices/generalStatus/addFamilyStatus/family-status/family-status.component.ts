@@ -23,7 +23,6 @@ export class FamilyStatusComponent implements OnInit {
   constructor(private datePipe: DatePipe) { }
 
   ngOnInit(): void {
-    debugger
     this.UserModel = JSON.parse(localStorage.getItem('UserModel'));
     if (!this.UpdateMode && !this.DetailsMode) {
       this.FamilyStatus.nationalityId = null;

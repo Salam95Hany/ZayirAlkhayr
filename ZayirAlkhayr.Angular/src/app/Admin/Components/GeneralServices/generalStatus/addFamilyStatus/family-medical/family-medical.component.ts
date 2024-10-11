@@ -27,12 +27,25 @@ export class FamilyMedicalComponent implements OnInit, OnChanges {
   PatientTypeId: any;
   FamilyPatientId: any;
   addMode = true;
+  showMore = false;
+  showMorelist: any[] = [];
+  list: any[] = [];
+  textlist = [
+    { id: 1, name: 'x' },
+    { id: 1, name: 'xx' },
+    { id: 1, name: 'xxx' },
+    { id: 1, name: 'xxxx' },
+    { id: 1, name: 'xxxxx' },
+    { id: 1, name: 'xxxxxx' }
+  ];
 
   constructor(private modalService: NgbModal, private fb: FormBuilder, private formService: ValidationFormService,
     private toaster: ToastrService
   ) { }
 
   ngOnInit(): void {
+    this.list =  this.textlist.slice(0,2);
+    this.showMorelist = this.textlist.slice(2);
     this.FormInit();
     if (this.UpdateMode && this.FamilyPatients.length > 0) {
       this.InetialData();

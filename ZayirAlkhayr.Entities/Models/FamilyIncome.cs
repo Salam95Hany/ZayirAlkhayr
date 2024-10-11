@@ -20,8 +20,8 @@ namespace ZayirAlkhayr.Entities.Models
         public int? LiveStock_Lands { get; set; } // اراضي\مواشي
         public int? Organization_ZakatCommittee { get; set; } // جمعية خيرية\جمعية شرعية\لجنة زكاة
         public int? InsurancePension { get; set; } // معاش التامينات
+        public int Other { get; set; }
         public string Comments { get; set; }
-        public string Other { get; set; }
         public int? TotalFamilyIncome { get; set; }
     }
 }

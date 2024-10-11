@@ -25,7 +25,23 @@
                 <td>{{item.name}}</td>
                 <td>{{item.specialization}}</td>
                 <td>{{item.patientDate}}</td>
-                <td>{{item.patientTypeName}}</td>
+                <td>
+                    <div *ngFor="let txt of list" textcolorstatus [txtStatus]="txt" [type]="type">
+                        <span>{{txt.name}}</span>
+                    </div>
+                    <span class="cursor-pointer text-bold-500 font-small-2" placement="auto" [autoClose]="'outside'" [ngbPopover]="SetMoreContent" [popoverTitle]="SetMoreTitle" container="body" *ngIf="textlist.length > 2" (click)="showMore = !showMore">
+                      {{ '+'+(textlist.length-2)  }}
+                       <span>المزيد</span>
+                    </span>
+                    <ng-template #SetMoreTitle></ng-template>
+                    <ng-template #SetMoreContent>
+                        <div class="width-250 p-05 black">
+                            <span class="d-flex" *ngFor="let txt of showMorelist">
+                             <span>{{txt.name}}</span>
+                            </span>
+                        </div>
+                    </ng-template>
+                </td>
                 <td>
                     <div class="d-flex d-flex align-items-center">
                         <div class="me-2">نعم</div>

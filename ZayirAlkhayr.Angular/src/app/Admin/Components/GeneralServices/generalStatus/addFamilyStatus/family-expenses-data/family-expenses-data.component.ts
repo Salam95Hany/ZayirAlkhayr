@@ -35,6 +35,7 @@ export class FamilyExpensesDataComponent implements OnInit, OnChanges {
   ngOnInit(): void { }
 
   ngOnChanges(changes: SimpleChanges): void {
+    debugger;
     if (this.UpdateMode) {
       this.InetialData(this.FamilyIncome);
       Object.entries(this.FamilyExpenses).filter(([key, value]) => typeof value === 'number'
@@ -47,7 +48,6 @@ export class FamilyExpensesDataComponent implements OnInit, OnChanges {
   }
 
   InetialData(data: FamilyIncome) {
-    debugger;
     if (this.UpdateMode)
       this.FamilyExpenses.totalFamilyExpenses = 0;
     this.FamilyExpenses.netFamilyIncome = 0;

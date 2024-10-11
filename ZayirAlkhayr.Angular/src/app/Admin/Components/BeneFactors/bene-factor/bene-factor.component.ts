@@ -43,7 +43,7 @@ export class BeneFactorComponent implements OnInit {
   UserModel: any;
   BeneFactorId: any;
   TotalCount = 0;
-  RowCount = 25;
+  RowCount = 20;
   NationalityName = 'الجنسية';
   DefaultImage = '../../../../assets/logo-2.png';
   NationalityValidation = false;
@@ -326,7 +326,7 @@ export class BeneFactorComponent implements OnInit {
 
   OpenPdfFileItemModal(content: any) {
     this.PDFHeaderModel = this.pdfService.ConverHeaderToPDFModel(this.BeneFactorHeaders);
-    this.RowCount = 25;
+    this.RowCount = 20;
     this.modalService.open(content, {
       size: 'md',
       scrollable: true,
@@ -362,8 +362,8 @@ export class BeneFactorComponent implements OnInit {
       return;
     }
 
-    if (this.RowCount > 25) {
-      this.toaster.warning('عدد الاسطر لا يتجاوز 25 سطر');
+    if (this.RowCount > 20) {
+      this.toaster.warning('عدد الاسطر لا يتجاوز 20 سطر');
       return;
     }
     let today = this.datepipe.transform(new Date(), 'yyyy-MM-dd');

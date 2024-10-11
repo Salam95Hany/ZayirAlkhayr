@@ -191,7 +191,7 @@ export class AllFamilyStatusComponent implements OnInit {
 
     let userName = this.UserModel?.userName;
     let today = this.datepipe.transform(new Date(), 'yyyy-MM-dd');
-    let fileName = 'المتبرعين' + '_' + today;
+    let fileName = 'الحالات' + '_' + today;
     this.PDFModel.headers = this.pdfService.ConverHeaderToPDFModel(this.FamilyStatusHeaders);
     this.showLoader = true;
     this.pdfService.DownloadFile(this.PDFModel, fileName + '.xlsx', 'FamilyStatus/ExportFamilyStatusDataExcelFile?UserName=' + userName).subscribe(data => {
