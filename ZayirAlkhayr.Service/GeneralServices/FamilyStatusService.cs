@@ -195,10 +195,21 @@ namespace ZayirAlkhayr.Service.GeneralServices
             return results;
         }
 
-        public List<FamilyPatient> GetFamilyPatient(int FamilyStatusId)
+        public List<FamilyPatientGroup> GetFamilyPatient(int FamilyStatusId)
         {
             var results = _Context.FamilyPatient.Where(i => i.FamilyStatusId == FamilyStatusId).ToList();
-            return results;
+            var Grouped = results.GroupBy(i => i.Name).Select(item => new FamilyPatientGroup
+            {
+                Id = item.FirstOrDefault().Id,
+                FamilyStatusId = item.FirstOrDefault().FamilyStatusId,
+                Name = item.Key,
+                Specialization = item.FirstOrDefault().Specialization,
+                PatientDate = item.FirstOrDefault().PatientDate,
+                PatientTypeIds = item.Select(i => i.PatientTypeId).ToList(),
+                IsMedicalReport = item.FirstOrDefault().IsMedicalReport,
+                IsNeedProcess = item.FirstOrDefault().IsNeedProcess
+            }).ToList();
+            return Grouped;
         }
 
         public List<FamilyNeeds> GetFamilyNeeds(int FamilyStatusId)

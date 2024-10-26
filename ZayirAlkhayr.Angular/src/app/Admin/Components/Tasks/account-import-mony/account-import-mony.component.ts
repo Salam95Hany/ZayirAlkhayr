@@ -79,7 +79,6 @@ export class AccountImportMonyComponent implements OnInit {
   }
 
   FillEditForm(item: any) {
-    debugger;
     this.BeneFactorName = item?.fullName;
     this.BeneFactorTypeName = item?.name;
     this.BeneFactorId = item?.beneFactorId ?? 0;
@@ -184,7 +183,6 @@ export class AccountImportMonyComponent implements OnInit {
   }
 
   AddNewItem() {
-    debugger;
     this.ItemForm = this.formService.TrimFormInputValue(this.ItemForm);
     let isValid = this.ItemForm.valid;
     this.BeneFactorValidation = this.BeneFactorName.startsWith('متبرع');

@@ -172,7 +172,6 @@ export class FamilyNeedsComponent implements OnInit {
   }
 
   NeedFilterChecked(filterList: FilterModel[]) {
-    debugger;
     this.NeedsPagingFilter.filterList = filterList;
     this.GetAllFamilyNeedTypesData();
   }

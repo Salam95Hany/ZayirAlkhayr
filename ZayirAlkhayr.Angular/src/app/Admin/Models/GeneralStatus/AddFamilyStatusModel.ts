@@ -1,10 +1,12 @@
+import { FamilyPatientGroup } from "./UpdateFamilyStatusLookups";
+
 export interface AddFamilyStatusModel {
     familyStatus: FamilyStatus;
     familyIncome: FamilyIncome;
     familyExpenses: FamilyExpenses;
     familyExtraDetails: FamilyExtraDetails;
     familyDetails: FamilyDetails[];
-    familyPatient: FamilyPatient[];
+    familyPatient: FamilyPatientGroup[];
     familyNeeds: FamilyNeeds[];
 }
 
@@ -22,16 +24,20 @@ export interface FamilyStatus {
     governorate: string;
     phone: string;
     phone1: string;
-    nationalId: string;
     supportingParty: string;
+    nationalId: string;
+    relevance: string;
+    age: number | null;
+    maritalStatus: string;
+    education: string;
+    jop: string;
     reasonOfRefuse: string;
+    addedDate: string;
     insertUser: string;
     insertDate: string | null;
     updateUser: string;
     updateDate: string | null;
-    addedDate: string;
 }
-
 export interface FamilyIncome {
     id?: number;
     familyStatusId?: number;

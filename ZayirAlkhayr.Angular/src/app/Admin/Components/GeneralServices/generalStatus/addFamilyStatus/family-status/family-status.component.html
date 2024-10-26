@@ -54,6 +54,33 @@
                     </td>
                 </tr>
                 <tr>
+                    <td class="fvt-td-bg">الصلة</td>
+                    <td>
+                        <input type="text" class="form-control" [disabled]="DetailsMode" name="Relevance" [(ngModel)]="FamilyStatus.relevance" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fvt-td-bg">التعليم</td>
+                    <td>
+                        <input type="text" class="form-control" [disabled]="DetailsMode" name="Education" [(ngModel)]="FamilyStatus.education" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fvt-td-bg">المهنة</td>
+                    <td>
+                        <input type="text" class="form-control" [disabled]="DetailsMode" name="Jop" [(ngModel)]="FamilyStatus.jop" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fvt-td-bg">السن</td>
+                    <td>
+                        <input type="text" class="form-control" [disabled]="DetailsMode" name="Age" #Age="ngModel" [(ngModel)]="FamilyStatus.age" pattern="[0-9]+" />
+                        <div class="text-danger pt-2">
+                            <div *ngIf="Age.errors?.pattern">أدخل أرقام فقط</div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
                     <td class="fvt-td-bg">الرقم القومي</td>
                     <td>
                         <input type="text" class="form-control" [disabled]="DetailsMode" name="NationalId" #NationalId="ngModel" [(ngModel)]="FamilyStatus.nationalId" pattern="[0-9]+" />
@@ -78,6 +105,15 @@
                     <td class="fvt-td-bg">المحافظة</td>
                     <td>
                         <input type="text" class="form-control" [disabled]="DetailsMode" name="Governorate" [(ngModel)]="FamilyStatus.governorate" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fvt-td-bg">الحالة الاجتماعية</td>
+                    <td>
+                        <select class="form-control" name="MaritalStatus" [disabled]="DetailsMode" [(ngModel)]="FamilyStatus.maritalStatus">
+                            <option [defaultSelected]="true" [value]="null" disabled>--اختر الحالة--</option>
+                            <option [value]="item.name" *ngFor="let item of MaritalStatus">{{item.name}}</option>
+                        </select>
                     </td>
                 </tr>
                 <tr>

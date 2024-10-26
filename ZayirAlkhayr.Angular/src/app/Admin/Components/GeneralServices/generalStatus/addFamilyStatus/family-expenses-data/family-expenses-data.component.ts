@@ -35,7 +35,6 @@ export class FamilyExpensesDataComponent implements OnInit, OnChanges {
   ngOnInit(): void { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    debugger;
     if (this.UpdateMode) {
       this.InetialData(this.FamilyIncome);
       Object.entries(this.FamilyExpenses).filter(([key, value]) => typeof value === 'number'

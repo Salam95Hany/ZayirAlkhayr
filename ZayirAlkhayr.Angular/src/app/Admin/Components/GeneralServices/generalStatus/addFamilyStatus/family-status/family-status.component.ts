@@ -19,15 +19,23 @@ export class FamilyStatusComponent implements OnInit {
   @Input() DetailsMode = false;
   UserModel: any;
   isDate = false;
+  MaritalStatus: any[] = [
+    { id: 1, name: 'أعزب' },
+    { id: 1, name: 'متزوج' },
+    { id: 1, name: 'مطلقة' },
+    { id: 1, name: 'أرمل' }
+  ];
 
   constructor(private datePipe: DatePipe) { }
 
   ngOnInit(): void {
+    debugger;
     this.UserModel = JSON.parse(localStorage.getItem('UserModel'));
     if (!this.UpdateMode && !this.DetailsMode) {
       this.FamilyStatus.nationalityId = null;
       this.FamilyStatus.categoryId = null;
       this.FamilyStatus.statusTypeId = null;
+      this.FamilyStatus.maritalStatus = null;
     } else {
       this.isDate = this.FamilyStatus.addedDate ? true : false;
       this.FamilyStatus.addedDate = this.datePipe.transform(this.FamilyStatus.addedDate, 'yyyy-MM-dd');

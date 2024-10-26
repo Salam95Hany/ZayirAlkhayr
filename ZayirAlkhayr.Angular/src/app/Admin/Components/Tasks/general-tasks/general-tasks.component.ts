@@ -126,7 +126,6 @@ export class GeneralTasksComponent implements OnInit {
   }
 
   UserChange(item: any) {
-    debugger;
     this.UserId = item.userId;
     this.UserName = item.userName;
   }

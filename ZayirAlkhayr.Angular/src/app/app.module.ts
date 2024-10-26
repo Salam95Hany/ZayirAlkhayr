@@ -24,6 +24,7 @@ import { NotAuthorizedComponent } from './Auth/not-authorized/not-authorized.com
 import { BenefactorLoginComponent } from './WebSite/benefactor/benefactor-login/benefactor-login.component';
 import { BenefactorWebDetailsComponent } from './WebSite/benefactor/benefactor-web-details/benefactor-web-details.component';
 import { CommonModule, DatePipe } from '@angular/common';
+import { BenefactorEventsComponent } from './WebSite/benefactor/benefactor-events/benefactor-events.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { CommonModule, DatePipe } from '@angular/common';
     NotAuthorizedComponent,
     BenefactorLoginComponent,
     BenefactorWebDetailsComponent,
+    BenefactorEventsComponent,
   ],
   imports: [
     BrowserModule,

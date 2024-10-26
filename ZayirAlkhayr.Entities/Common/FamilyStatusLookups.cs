@@ -26,7 +26,7 @@ namespace ZayirAlkhayr.Entities.Common
         public FamilyExpenses FamilyExpenses { get; set; }
         public FamilyExtraDetails FamilyExtraDetails { get; set; }
         public List<FamilyDetails> FamilyDetails { get; set; }
-        public List<FamilyPatient> FamilyPatient { get; set; }
+        public List<FamilyPatientGroup> FamilyPatient { get; set; }
         public List<FamilyNeeds> FamilyNeeds { get; set; }
     }
 }

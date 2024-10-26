@@ -2,8 +2,9 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { FamilyDetails, FamilyPatient } from 'src/app/Admin/Models/GeneralStatus/AddFamilyStatusModel';
+import { FamilyDetails } from 'src/app/Admin/Models/GeneralStatus/AddFamilyStatusModel';
 import { FamilyPatientTypes } from 'src/app/Admin/Models/GeneralStatus/FamilyStatusLookups';
+import { FamilyPatientGroup, FamilyPatientTypeNames } from 'src/app/Admin/Models/GeneralStatus/UpdateFamilyStatusLookups';
 import { ValidationFormService } from 'src/app/Admin/Services/validation-form.service';
 
 @Component({
@@ -17,35 +18,23 @@ export class FamilyMedicalComponent implements OnInit, OnChanges {
   @Input() FamilyStatusName: string;
   @Input() UpdateMode = false;
   @Input() DetailsMode = false;
-  @Input() FamilyPatients: FamilyPatient[] = [];
+  @Input() FamilyPatients: FamilyPatientGroup[] = [];
   FamilyNames: string[] = [];
   ItemForm: FormGroup;
   FamilyName = 'اسم الفرد';
-  PatientTypeName = 'التخصص';
   FamilyNameValidation = false;
   PatientTypeNameValidation = false;
-  PatientTypeId: any;
   FamilyPatientId: any;
   addMode = true;
   showMore = false;
-  showMorelist: any[] = [];
-  list: any[] = [];
-  textlist = [
-    { id: 1, name: 'x' },
-    { id: 1, name: 'xx' },
-    { id: 1, name: 'xxx' },
-    { id: 1, name: 'xxxx' },
-    { id: 1, name: 'xxxxx' },
-    { id: 1, name: 'xxxxxx' }
-  ];
+  SelectedPatientTypes: FamilyPatientTypeNames[] = [];
+
 
   constructor(private modalService: NgbModal, private fb: FormBuilder, private formService: ValidationFormService,
     private toaster: ToastrService
   ) { }
 
   ngOnInit(): void {
-    this.list =  this.textlist.slice(0,2);
-    this.showMorelist = this.textlist.slice(2);
     this.FormInit();
     if (this.UpdateMode && this.FamilyPatients.length > 0) {
       this.InetialData();
@@ -77,9 +66,11 @@ export class FamilyMedicalComponent implements OnInit, OnChanges {
 
   mergeFamilyPatientUpdateMode() {
     this.FamilyPatients.forEach(item => {
-      let obj = this.PatientTypes.find(i => i.id == item.patientTypeId);
-      if (obj)
-        item.patientTypeName = obj.name;
+      let arry = this.PatientTypes.filter(i => item.patientTypeIds.includes(i.id));
+      if (arry.length > 0) {
+        item.patientTypeNames = arry.map(i => i.name).join(' ,');
+        item.patientTypeList = arry.map<FamilyPatientTypeNames>(i => { return { id: i.id, name: i.name } });
+      }
     });
   }
 
@@ -118,8 +109,7 @@ export class FamilyMedicalComponent implements OnInit, OnChanges {
 
   FillEditForm(item: any) {
     this.FamilyName = item.name;
-    this.PatientTypeName = item.patientTypeName;
-    this.PatientTypeId = item.patientTypeId;
+    this.SelectedPatientTypes = item.patientTypeList;
     this.ItemForm.setValue({
       id: item.id,
       patientDate: item.patientDate,
@@ -132,8 +122,7 @@ export class FamilyMedicalComponent implements OnInit, OnChanges {
   ResetForm() {
     this.ItemForm.reset();
     this.FamilyName = 'اسم الفرد';
-    this.PatientTypeName = 'التخصص';
-    this.PatientTypeId = '';
+    this.SelectedPatientTypes = [];
     this.FamilyNameValidation = false;
     this.PatientTypeNameValidation = false;
     this.ItemForm.get('id').setValue(0);
@@ -169,9 +158,14 @@ export class FamilyMedicalComponent implements OnInit, OnChanges {
   }
 
   OnChangePatientTypesName(item: any) {
-    this.PatientTypeId = item.id;
-    this.PatientTypeName = item.name;
+    let obj = this.SelectedPatientTypes.find(i => i.id == item.id);
+    if (!obj)
+      this.SelectedPatientTypes.push({ id: item.id, name: item.name });
     this.PatientTypeNameValidation = false;
+  }
+
+  RemoveSelectedPatientTypes(id: any) {
+    this.SelectedPatientTypes = this.SelectedPatientTypes.filter(i => i.id != id);
   }
 
   AddNewItem() {
@@ -179,7 +173,7 @@ export class FamilyMedicalComponent implements OnInit, OnChanges {
     let isValid = this.ItemForm.valid;
 
     this.FamilyNameValidation = this.FamilyName == 'اسم الفرد';
-    this.PatientTypeNameValidation = this.PatientTypeName == 'التخصص';
+    this.PatientTypeNameValidation = this.SelectedPatientTypes.length == 0;
     if (!isValid || this.FamilyNameValidation || this.PatientTypeNameValidation) {
       this.formService.validateAllFormFields(this.ItemForm);
       return;
@@ -200,8 +194,9 @@ export class FamilyMedicalComponent implements OnInit, OnChanges {
       this.FamilyPatients.push({
         id: id + 1,
         name: this.FamilyName,
-        patientTypeId: this.PatientTypeId,
-        patientTypeName: this.PatientTypeName,
+        patientTypeIds: this.SelectedPatientTypes.map(i => i.id),
+        patientTypeNames: this.SelectedPatientTypes.map(i => i.name).join(' ,'),
+        patientTypeList: this.SelectedPatientTypes,
         patientDate: formData.patientDate,
         specialization: formData.specialization,
         isMedicalReport: formData.isMedicalReport,
@@ -211,8 +206,9 @@ export class FamilyMedicalComponent implements OnInit, OnChanges {
       let obj = this.FamilyPatients.find(i => i.id == formData.id);
       if (obj) {
         obj.name = this.FamilyName;
-        obj.patientTypeId = this.PatientTypeId;
-        obj.patientTypeName = this.PatientTypeName;
+        obj.patientTypeIds = this.SelectedPatientTypes.map(i => i.id);
+        obj.patientTypeNames = this.SelectedPatientTypes.map(i => i.name).join(' ,');
+        obj.patientTypeList = this.SelectedPatientTypes;
         obj.patientDate = formData.patientDate;
         obj.specialization = formData.specialization;
         obj.isMedicalReport = formData.isMedicalReport;

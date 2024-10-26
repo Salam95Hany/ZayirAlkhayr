@@ -63,7 +63,6 @@ export class BeneFactorTypesComponent implements OnInit {
   }
 
   pageChanged(obj: any) {
-    debugger;
     this.PagingFilter.currentpage = obj.page;
     this.GetAllBeneFactorTypes();
   }

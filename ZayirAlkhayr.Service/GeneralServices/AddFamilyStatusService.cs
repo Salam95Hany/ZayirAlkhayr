@@ -43,6 +43,11 @@ namespace ZayirAlkhayr.Service.GeneralServices
                 FamilyObj.Phone1 = Model.FamilyStatus.Phone1;
                 FamilyObj.SupportingParty = Model.FamilyStatus.SupportingParty;
                 FamilyObj.ReasonOfRefuse = Model.FamilyStatus.ReasonOfRefuse;
+                FamilyObj.Relevance = Model.FamilyStatus.Relevance;
+                FamilyObj.Age = Model.FamilyStatus.Age;
+                FamilyObj.MaritalStatus = Model.FamilyStatus.MaritalStatus;
+                FamilyObj.Education = Model.FamilyStatus.Education;
+                FamilyObj.Jop = Model.FamilyStatus.Jop;
                 FamilyObj.InsertUser = Model.FamilyStatus.InsertUser;
                 FamilyObj.InsertDate = DateTime.Now.AddHours(1);
                 FamilyObj.AddedDate = Model.FamilyStatus.AddedDate;
@@ -148,21 +153,24 @@ namespace ZayirAlkhayr.Service.GeneralServices
             }
         }
 
-        private void AddNewFamilyPatient(List<FamilyPatient> Model, int FamilyStatusId)
+        private void AddNewFamilyPatient(List<FamilyPatientGroup> Model, int FamilyStatusId)
         {
             if (Model.Count == 0) { return; }
 
             foreach (var FamilyPatient in Model)
             {
-                var FamilyPatientObj = new FamilyPatient();
-                FamilyPatientObj.FamilyStatusId = FamilyStatusId;
-                FamilyPatientObj.Name = FamilyPatient.Name;
-                FamilyPatientObj.PatientTypeId = FamilyPatient.PatientTypeId;
-                FamilyPatientObj.PatientDate = FamilyPatient.PatientDate;
-                FamilyPatientObj.Specialization = FamilyPatient.Specialization;
-                FamilyPatientObj.IsMedicalReport = FamilyPatient.IsMedicalReport.GetValueOrDefault(false);
-                FamilyPatientObj.IsNeedProcess = FamilyPatient.IsNeedProcess.GetValueOrDefault(false);
-                _Context.FamilyPatient.Add(FamilyPatientObj);
+                foreach (var typeId in FamilyPatient.PatientTypeIds)
+                {
+                    var FamilyPatientObj = new FamilyPatient();
+                    FamilyPatientObj.FamilyStatusId = FamilyStatusId;
+                    FamilyPatientObj.Name = FamilyPatient.Name;
+                    FamilyPatientObj.PatientTypeId = typeId;
+                    FamilyPatientObj.PatientDate = FamilyPatient.PatientDate;
+                    FamilyPatientObj.Specialization = FamilyPatient.Specialization;
+                    FamilyPatientObj.IsMedicalReport = FamilyPatient.IsMedicalReport.GetValueOrDefault(false);
+                    FamilyPatientObj.IsNeedProcess = FamilyPatient.IsNeedProcess.GetValueOrDefault(false);
+                    _Context.FamilyPatient.Add(FamilyPatientObj);
+                }
             }
         }
 

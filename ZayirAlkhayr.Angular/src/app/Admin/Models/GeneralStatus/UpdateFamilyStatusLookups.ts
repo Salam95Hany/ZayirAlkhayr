@@ -8,6 +8,26 @@ export interface UpdateFamilyStatusLookups {
     familyExpenses: FamilyExpenses;
     familyExtraDetails: FamilyExtraDetails;
     familyDetails: FamilyDetails[];
-    familyPatient: FamilyPatient[];
+    familyPatient: FamilyPatientGroup[];
     familyNeeds: FamilyNeeds[];
+}
+
+
+export interface FamilyPatientGroup {
+    id?: number;
+    familyStatusId?: number;
+    name?: string;
+    patientTypeIds?: number[];
+    patientTypeNames?: string;
+    patientTypeList?: FamilyPatientTypeNames[];
+    patientDate?: string;
+    specialization?: string;
+    isMedicalReport?: boolean | null;
+    isNeedProcess?: boolean | null;
+}
+
+
+export interface FamilyPatientTypeNames {
+    id: number;
+    name: string;
 }

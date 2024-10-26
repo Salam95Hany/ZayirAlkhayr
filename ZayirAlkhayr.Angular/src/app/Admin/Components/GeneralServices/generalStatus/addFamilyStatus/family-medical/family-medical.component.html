@@ -25,23 +25,7 @@
                 <td>{{item.name}}</td>
                 <td>{{item.specialization}}</td>
                 <td>{{item.patientDate}}</td>
-                <td>
-                    <div *ngFor="let txt of list" textcolorstatus [txtStatus]="txt" [type]="type">
-                        <span>{{txt.name}}</span>
-                    </div>
-                    <span class="cursor-pointer text-bold-500 font-small-2" placement="auto" [autoClose]="'outside'" [ngbPopover]="SetMoreContent" [popoverTitle]="SetMoreTitle" container="body" *ngIf="textlist.length > 2" (click)="showMore = !showMore">
-                      {{ '+'+(textlist.length-2)  }}
-                       <span>المزيد</span>
-                    </span>
-                    <ng-template #SetMoreTitle></ng-template>
-                    <ng-template #SetMoreContent>
-                        <div class="width-250 p-05 black">
-                            <span class="d-flex" *ngFor="let txt of showMorelist">
-                             <span>{{txt.name}}</span>
-                            </span>
-                        </div>
-                    </ng-template>
-                </td>
+                <td>{{item.patientTypeNames}}</td>
                 <td>
                     <div class="d-flex d-flex align-items-center">
                         <div class="me-2">نعم</div>
@@ -109,9 +93,9 @@
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        <div ngbDropdown class="dropdown-with-search overflow-hidden" container="body">
+                        <div ngbDropdown class="dropdown-with-search overflow-hidden mb-3" container="body">
                             <button class="dropdown-with-search-btn btn border h-58 w-100 d-flex align-items-center justify-content-between selector-padding" id="dropdownBasic1" ngbDropdownToggle>
-                                {{PatientTypeName}}
+                                التخصص
                             </button>
                             <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu aria-labelledby="dropdownBasic1">
                                 <ul class="dropdown-list-box list-unstyled max-height-220 overflow-auto px-1 py-1 m-0">
@@ -119,6 +103,12 @@
                                         <li class="dropdown-item cursor-pointer rounded" (click)="OnChangePatientTypesName(item)" [ngClass]="{'DropDownSelected': PatientTypeName == item.name}">{{item.name}}</li>
                                     </ng-container>
                                 </ul>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center flex-wrap gap-2">
+                            <div class="badge badge-success round fs-15" *ngFor="let selected of SelectedPatientTypes;let i = index">
+                                <span class="me-1 fs-6">{{selected.name}}</span>
+                                <i class="fas fa-times-circle font-small-3 px-02 cursor-pointer" (click)="RemoveSelectedPatientTypes(selected.id)"></i>
                             </div>
                         </div>
                         <div class="text-danger pt-2" *ngIf="PatientTypeNameValidation">

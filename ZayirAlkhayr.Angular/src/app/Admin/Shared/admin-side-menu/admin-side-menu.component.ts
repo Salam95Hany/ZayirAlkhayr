@@ -26,7 +26,7 @@ export class AdminSideMenuComponent implements OnInit {
   WebSite = ['home-slideimage', 'activity', 'event', 'photo'];
   BeneFactor = ['benefactors', 'benefactor-detail', 'benefactor-type', 'benefactor-note', 'benefactor-nationality'];
   Tasks = ['account-export-money', 'account-import-money', 'general-tasks', 'daily-tasks'];
-  Services = ['add-family-status'];
+  Services = ['family-status', 'family-nationality', 'family-needs', 'family-categories', 'family-patientTypes'];
   constructor(private router: Router) { }
 
   ngOnInit(): void {
@@ -39,7 +39,7 @@ export class AdminSideMenuComponent implements OnInit {
       this.isCollapsed_3 = false;
     else if (this.Tasks.includes(url))
       this.isCollapsed_4 = false;
-    else
+    else if (this.Services.includes(url))
       this.isCollapsed_2 = false;
   }
 
