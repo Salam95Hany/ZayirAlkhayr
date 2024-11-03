@@ -86,7 +86,7 @@ export class FamilyMedicalComponent implements OnInit, OnChanges {
       });
       this.FamilyPatients.forEach((item, index) => {
         let obj = this.FamilyDetails.find(i => i.name == item.name);
-        if (!obj)
+        if (!obj && item.name != this.FamilyStatusName)
           this.FamilyPatients.splice(index, 1);
       });
     }
