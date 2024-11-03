@@ -30,6 +30,7 @@
     <Folder Include="wwwroot\EventSliderImages\" />
     <Folder Include="wwwroot\BeneFactorImages\" />
     <Folder Include="wwwroot\BeneFactorDetailsImages\" />
+    <Folder Include="wwwroot\ProjectSliderImages\" />
     <Folder Include="wwwroot\PhotoDetailImages\" />
     <Folder Include="wwwroot\PhotoImages\" />
     <Folder Include="wwwroot\SliderImages\" />

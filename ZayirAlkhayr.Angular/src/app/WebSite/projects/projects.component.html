@@ -1,0 +1,148 @@
+<header id="admin-header" class="fixed-top">
+    <nav class="navbar navbar-expand-md navbar-light py-0">
+        <div class="container-fluid">
+            <div class="logo-menu-area py-1">
+                <header class="login-logo d-flex align-items-center gap-3 cursor-pointer">
+                    <div class="img-logo-box">
+                        <img src="../../../assets/logo-2.png" class="logo-img" loading="lazy" alt="" />
+                    </div>
+                    <div class="d-flex align-items-center gap-2 text-white fs-6" routerLink="/activity">
+                        <span>زيارة الموقع</span>
+                        <i class="uil uil-sign-in-alt fs-5"></i>
+                    </div>
+                </header>
+            </div>
+            <button class="navbar-toggler hamburger hamburger--elastic rounded-1 my-2" [class.is-active]="!collapsed" type="button" aria-controls="navbar-content" [attr.aria-expanded]="!collapsed" aria-label="Toggle navigation" (click)="collapsed = !collapsed">
+          <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+          </span>
+        </button>
+            <div class="navbar-collapse pt-3 pt-md-0 " [class.collapse]="collapsed" id="navbar-content">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center gap-2">
+                            <i class="uil uil-user"></i>
+                            <span class="navbar-brand m-0">مرحبا بك</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div class="container-fluid section-wtih-fixed-header">
+    <div class="bg-white border rounded fs-5">
+        <div class="border-bottom p-3">شراء شاليه</div>
+        <div class="bg-thin-light p-3">
+            <div class="benfactory-slider border p-2 rounded shadow-sm mb-4">
+                <swiper [initialSlide]="1" [slidesPerView]="3" [spaceBetween]="30" [navigation]="true" [loop]="true" [lang]="'rtl'" [breakpoints]="{
+                  '0': {
+                    slidesPerView: 1
+                  },
+                  '575': {
+                    slidesPerView: 1
+                  },
+                  '767': {
+                    slidesPerView: 1
+                  },
+                  '1024': {
+                    slidesPerView: 1
+                  },
+                  '1200': {
+                    slidesPerView: 1
+                  }
+                }">
+                    <ng-template swiperSlide>
+                        <div class="benfactory-box">
+                            <div class="benfactory-img">
+                                <img src="../../../../assets/ch-1.jpg" loading="lazy" alt="benfactory-images" />
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template swiperSlide>
+                        <div class="benfactory-box">
+                            <div class="benfactory-img">
+                                <img src="../../../../assets/ch-2.jpg" loading="lazy" alt="benfactory-images" />
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template swiperSlide>
+                        <div class="benfactory-box">
+                            <div class="benfactory-img">
+                                <img src="../../../../assets/ch-3.jpg" loading="lazy" alt="benfactory-images" />
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template swiperSlide>
+                        <div class="benfactory-box">
+                            <div class="benfactory-img">
+                                <img src="../../../../assets/ch-4.jpg" loading="lazy" alt="benfactory-images" />
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template swiperSlide>
+                        <div class="benfactory-box">
+                            <div class="benfactory-img">
+                                <img src="../../../../assets/ch-5.jpg" loading="lazy" alt="benfactory-images" />
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template swiperSlide>
+                        <div class="benfactory-box">
+                            <div class="benfactory-img">
+                                <img src="../../../../assets/ch-6.jpg" loading="lazy" alt="benfactory-images" />
+                            </div>
+                        </div>
+                    </ng-template>
+                </swiper>
+            </div>
+            <div class="d-flex gap-2 max-width-60-per fs-6">
+                <span>&#8226;</span>
+                <span>
+            نريد أن نقوم بشراء دار لتحفيظ القرآن الكريم للأطفال والنساء، نبحث عن متبرعين لشراء هذا الدار في أقرب وقت، حيث
+          لدينا أعداد كبيرة من النساء السودانيات يريدون تعلم وحفظ القرآن كاملا، ونحن نريد مساعدتهم في ذلك...شارك معانا
+          فهذا باب من أبواب الصدقات الجارية
+          </span>
+            </div>
+            <hr class="border-top border-secondary my-4">
+            <div class="row">
+                <div class="col-md-4 col-box"></div>
+                <div class="col-md-2 col-box">
+                    <div class="details__card shadow-sm">
+                        <div class="card__body">
+                            <div class="card__icon">
+                                <i class="uil uil-receipt fs-1"></i>
+                            </div>
+                            <p class="card__title">اجمالى التبرع</p>
+                            <p class="card__paragraph m-0 fs-4">
+                                3000
+                            </p>
+                            <p class="card__title fw-bold main-color mb-0">عدد المتبرعيين</p>
+                        </div>
+                        <div class="card__ribbon">
+                            <label class="card__ribbon-label">100</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-box">
+                    <div class="details__card shadow-sm">
+                        <div class="card__body">
+                            <div class="card__icon">
+                                <i class="uil uil-receipt fs-1"></i>
+                            </div>
+                            <p class="card__title">اجمالى التبرع</p>
+                            <p class="card__paragraph m-0 fs-4">
+                                3000
+                            </p>
+                            <p class="card__title fw-bold main-color mb-0">عدد المتبرعيين</p>
+                        </div>
+                        <div class="card__ribbon">
+                            <label class="card__ribbon-label">100</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

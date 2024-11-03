@@ -57,6 +57,9 @@ namespace ZayirAlkhayr.Entities.Models
         public DbSet<PagesAutoSearch> PagesAutoSearch { get; set; }
         public DbSet<GeneralTasks> GeneralTasks { get; set; }
         public DbSet<TaskStatus> TaskStatus { get; set; }
+        public DbSet<Orphans> Orphans { get; set; }
+        public DbSet<Projects> Projects { get; set; }
+        public DbSet<ProjectDetails> ProjectDetails { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

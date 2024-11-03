@@ -16,7 +16,8 @@ namespace ZayirAlkhayr.Entities.Common
         PhotoDetailImages = 5,
         EventSliderImages = 6,
         BeneFactorImages = 7,
-        BeneFactorDetailsImages = 8
+        BeneFactorDetailsImages = 8,
+        ProjectSliderImages = 9
     }
 
     public enum FamilyStatusTabs

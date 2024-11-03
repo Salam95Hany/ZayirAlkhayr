@@ -1,20 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
-  selector: 'app-benefactor-events',
-  templateUrl: './benefactor-events.component.html',
-  styleUrls: ['./benefactor-events.component.css'],
-  animations: [
-    trigger('slideUp', [
-      state('void', style({ transform: 'translateY(100%)', opacity: 0 })),
-      transition(':enter', [
-        animate('0.5s ease-out', style({ transform: 'translateY(0)', opacity: 1 }))
-      ])
-    ])
-  ]
+  selector: 'app-projects',
+  templateUrl: './projects.component.html',
+  styleUrls: ['./projects.component.css']
 })
-export class BenefactorEventsComponent implements OnInit {
+export class ProjectsComponent implements OnInit {
+  collapsed = true;
   leftCounter: string = '0';
   beneFactorCounter: string = '0';
   numberToDisplay: string = '300000';
