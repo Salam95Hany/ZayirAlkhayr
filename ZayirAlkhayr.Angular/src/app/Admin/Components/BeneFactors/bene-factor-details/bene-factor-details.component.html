@@ -79,6 +79,7 @@
                         <th>تفاصيل التبرع</th>
                         <th>تمت الاضافة من قبل</th>
                         <th>تاريخ الاضافة</th>
+                        <th class="text-center">أجراءات</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -93,6 +94,11 @@
                         <td>{{item.details}}</td>
                         <td>{{item.insertUser}}</td>
                         <td>{{item.insertDate}}</td>
+                        <td>
+                            <div class="d-flex align-items-center justify-content-center fs-5 gap-2" *ngIf="item.beneFactorTypeId != 1 || (BeneFactorValueId && BenefactorType == 'Cash')">
+                                <i class="uil uil-times-circle text-danger icon-table-action shadow-sm" (click)="openDeleteItemModal(deleteItemModal,item.id)"></i>
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -212,6 +218,28 @@
         <button class="btn btn-danger rounded-25 d-flex align-items-center gap-2" (click)="modal.close()">
             <i class="uil uil-times-circle"></i>
             <span>الغاء</span>
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #deleteItemModal let-modal>
+    <div class="modal-header main-bgcolor text-white">
+        <div class="display-7 d-flex align-items-center gap-3">
+            <i class="uil uil-trash-alt"></i>
+            <span>حذف عنصر</span>
+        </div>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">هل انت متأكد أنك تريد حذف هذا العنصر</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="DeleteItem()">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">نعم</span>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">لا</span>
         </button>
     </div>
 </ng-template>

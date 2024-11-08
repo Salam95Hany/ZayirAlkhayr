@@ -53,9 +53,10 @@ namespace ZayirAlkhayr.Service.WebSite
             {
                 Id = i.Id,
                 ActivityId = i.ActivityId,
-                Image = Path.Combine(ApiLocalUrl, ImageFiles.ActivitySliderImages.ToString(), i.Image)
+                Image = Path.Combine(ApiLocalUrl, ImageFiles.ActivitySliderImages.ToString(), i.Image),
+                DisplayOrder = i.DisplayOrder
             }).ToList();
-            return results;
+            return results.OrderBy(i => i.DisplayOrder).ToList();
         }
 
         public ActivityModel GetActivityWithSliderImagesById(int ActivityId)
@@ -69,7 +70,7 @@ namespace ZayirAlkhayr.Service.WebSite
                 Id = Activity.Id,
                 Name = Activity.Name,
                 Description = Activity.Description,
-                SliderImages = ActivitySliderImage.Select(i => Path.Combine(ApiLocalUrl, ImageFiles.ActivitySliderImages.ToString(), i.Image)).ToList()
+                SliderImages = ActivitySliderImage.OrderBy(i => i.DisplayOrder).Select(i => Path.Combine(ApiLocalUrl, ImageFiles.ActivitySliderImages.ToString(), i.Image)).ToList()
             };
             return ActivityModel;
         }
@@ -245,6 +246,34 @@ namespace ZayirAlkhayr.Service.WebSite
                 {
                     Files.ForEach(i => File.Delete(i));
                 }
+            }
+        }
+
+        public HandleErrorResponseModel ApplyFilesSorting(List<FileSortingModel> Model, int ActivityId)
+        {
+            try
+            {
+                var Response = new HandleErrorResponseModel();
+                var SliderImages = _Context.ActivitiesSliderImage.Where(i => i.ActivityId == ActivityId).ToList();
+                foreach (var image in SliderImages)
+                {
+                    var Row = Model.FirstOrDefault(i => i.FileId == image.Id);
+                    if (Row != null)
+                        image.DisplayOrder = Row.DisplayOrder;
+                }
+
+                _Context.SaveChanges();
+                Response.Done = true;
+                Response.Message = "تم تطبيق الترتيب بنجاح";
+                return Response;
+
+            }
+            catch (Exception)
+            {
+                var Response = new HandleErrorResponseModel();
+                Response.Done = false;
+                Response.Message = "لقد حدث خطا";
+                return Response;
             }
         }
     }

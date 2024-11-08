@@ -4,7 +4,7 @@ import { AdminWebsiteService } from '../../../Services/admin-website.service';
 import { ValidationFormService } from '../../../Services/validation-form.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { UploadFileModel } from '../../../Models/FileModel';
+import { FileSortingModel, UploadFileModel } from '../../../Models/FileModel';
 import { PagingFilterModel } from '../../../Models/PagingFilterModel';
 import { FilterModel } from '../../../Models/FilterModel';
 
@@ -269,6 +269,26 @@ export class AdminPhotoComponent implements OnInit {
         this.GetAllPhotos();
         this.GetWebsiteAdminFilters();
         this.modalService.dismissAll();
+      }
+      else
+        this.toaster.error(data.message);
+      this.showLoader = false;
+    });
+  }
+
+  ApplyFilesSorting() {
+    let checked = this.multiFileURL.every(i => i.id);
+    if (!checked) {
+      this.toaster.warning('برجاء اضافة الصور الجديدة اولا');
+      return;
+    }
+    
+    let FileSotingModel = this.multiFileURL.map<FileSortingModel>(i => { return { fileId: i.id, displayOrder: i.displayOrder } });
+    this.showLoader = true;
+    this.adminService.ApplyPhotoFilesSorting(FileSotingModel, this.PhotoId).subscribe(data => {
+      if (data.done) {
+        this.modalService.dismissAll();
+        this.toaster.success(data.message);
       }
       else
         this.toaster.error(data.message);

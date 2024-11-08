@@ -20,5 +20,6 @@ namespace ZayirAlkhayr.Interface.WebSite
         HandleErrorResponseModel DeletePhoto(int PhotoId);
         Task<HandleErrorResponseModel> AddPhotoDetailsImage(UploadFileModel Model);
         HandleErrorResponseModel DeletePhotoDetailsImage(string FileName, int Id);
+        HandleErrorResponseModel ApplyPhotoFilesSorting(List<FileSortingModel> Model, int PhotoId);
     }
 }

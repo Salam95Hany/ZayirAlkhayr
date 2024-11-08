@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { FilterModel } from '../Models/FilterModel';
 import { PagingFilterModel } from '../Models/PagingFilterModel';
+import { FileSortingModel } from '../Models/FileModel';
 
 @Injectable({
   providedIn: 'root'
@@ -67,6 +68,10 @@ export class AdminWebsiteService {
     return this.http.get<any>(this.apiURL + 'Activity/DeleteActivity?ActivityId=' + ActivityId);
   }
 
+  ApplyFilesSorting(Model: FileSortingModel[], ActivityId: number) {
+    return this.http.post<any>(this.apiURL + 'Activity/ApplyFilesSorting?ActivityId=' + ActivityId, Model);
+  }
+
   // ============================= Photos ==============================
 
   GetAllPhotos(PagingFilter: PagingFilterModel) {
@@ -97,6 +102,10 @@ export class AdminWebsiteService {
     return this.http.get<any>(this.apiURL + 'Photo/DeletePhoto?PhotoId=' + PhotoId);
   }
 
+  ApplyPhotoFilesSorting(Model: FileSortingModel[], PhotoId: number) {
+    return this.http.post<any>(this.apiURL + 'Photo/ApplyPhotoFilesSorting?PhotoId=' + PhotoId, Model);
+  }
+
   // ============================= Events ==============================
 
   GetAllEvents(PagingFilter: PagingFilterModel) {
@@ -125,6 +134,10 @@ export class AdminWebsiteService {
 
   DeleteEvent(EventId: number) {
     return this.http.get<any>(this.apiURL + 'Event/DeleteEvent?EventId=' + EventId);
+  }
+
+  ApplyEventFilesSorting(Model: FileSortingModel[], EventId: number) {
+    return this.http.post<any>(this.apiURL + 'Event/ApplyEventFilesSorting?EventId=' + EventId, Model);
   }
 
   // ============================= Users ==============================
@@ -225,5 +238,9 @@ export class AdminWebsiteService {
 
   DeleteBeneFactor(BeneFactorId: number) {
     return this.http.get<any>(this.apiURL + 'BeneFactor/DeleteBeneFactor?BeneFactorId=' + BeneFactorId);
+  }
+
+  DeleteBeneFactorDetails(DetailsId: number) {
+    return this.http.get<any>(this.apiURL + 'BeneFactor/DeleteBeneFactorDetails?DetailsId=' + DetailsId);
   }
 }

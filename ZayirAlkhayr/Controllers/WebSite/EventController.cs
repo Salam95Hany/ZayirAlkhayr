@@ -67,5 +67,12 @@ namespace ZayirAlkhayr.Controllers.WebSite
             var result = await _eventService.AddEventSliderImage(Model);
             return result;
         }
+
+        [HttpPost("ApplyEventFilesSorting")]
+        public HandleErrorResponseModel ApplyEventFilesSorting(List<FileSortingModel> Model, int EventId)
+        {
+            var result = _eventService.ApplyEventFilesSorting(Model, EventId);
+            return result;
+        }
     }
 }

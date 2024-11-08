@@ -478,5 +478,38 @@ namespace ZayirAlkhayr.Service.BeneFactor
                 return Response;
             }
         }
+
+        public HandleErrorResponseModel DeleteBeneFactorDetails(int DetailsId)
+        {
+            try
+            {
+                var Response = new HandleErrorResponseModel();
+                var DetailObj = _Context.BeneFactorDetails.FirstOrDefault(i => i.Id == DetailsId);
+                if (DetailObj != null)
+                {
+                    if (!string.IsNullOrEmpty(DetailObj.Image))
+                        _manageFileService.DeleteFile(DetailObj.Image, ImageFiles.BeneFactorDetailsImages);
+                    _Context.BeneFactorDetails.Remove(DetailObj);
+                    _Context.SaveChanges();
+                    Response.Done = true;
+                    Response.Message = "تم حذف العنصر بنجاح";
+                    return Response;
+                }
+                else
+                {
+                    Response.Done = false;
+                    Response.Message = "هذا العنصر غير موجود";
+                    return Response;
+                }
+
+            }
+            catch (Exception)
+            {
+                var Response = new HandleErrorResponseModel();
+                Response.Done = false;
+                Response.Message = "لقد حدث خطا";
+                return Response;
+            }
+        }
     }
 }

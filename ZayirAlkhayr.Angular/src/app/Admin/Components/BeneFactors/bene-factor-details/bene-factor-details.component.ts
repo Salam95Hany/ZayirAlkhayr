@@ -34,6 +34,7 @@ export class BeneFactorDetailsComponent implements OnInit {
   TotalValue = 0;
   TotalCount = 0;
   BeneFactorTotalValue = 0;
+  DetailsId: any;
   isFileExist = false;
   BeneFactorTypeValidation = false;
   TypeSwitcher = false;
@@ -116,6 +117,15 @@ export class BeneFactorDetailsComponent implements OnInit {
     });
   }
 
+  openDeleteItemModal(content: any, detailsId: any) {
+    this.DetailsId = detailsId;
+    this.modalService.open(content, {
+      size: 'md',
+      scrollable: true,
+      centered: true
+    });
+  }
+
   GetBenefactorType(isSelected: boolean) {
     this.BenefactorType = isSelected ? 'Cash' : 'All';
     if (this.BenefactorType == 'Cash') {
@@ -168,7 +178,7 @@ export class BeneFactorDetailsComponent implements OnInit {
       this.toaster.warning(`هذا الملف ${event.target.files[0].name} حجمه أكبر من 1 ميجا`);
       return;
     }
-    
+
     this.fileURL = [];
     this.ImageFile = null;
     this.formService.onSelectedFile(event.target.files).then(data => {
@@ -276,6 +286,23 @@ export class BeneFactorDetailsComponent implements OnInit {
 
   NumbersOnly(key: any) {
     return this.formService.NumbersOnly(key);
+  }
+
+  DeleteItem() {
+    this.showLoader = true;
+    this.adminService.DeleteBeneFactorDetails(this.DetailsId).subscribe(data => {
+      if (data.done) {
+        this.toaster.success(data.message);
+        if (this.BenefactorType == 'Cash')
+          this.GetAllBeneFactorDetailsByValueId();
+        else
+          this.GetAllBeneFactorDetails();
+        this.modalService.dismissAll();
+      }
+      else
+        this.toaster.error(data.message);
+      this.showLoader = false;
+    })
   }
 
 }

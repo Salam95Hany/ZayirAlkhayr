@@ -67,5 +67,12 @@ namespace ZayirAlkhayr.Controllers.WebSite
             var results = await _activityService.AddActivitySliderImage(Model);
             return results;
         }
+
+        [HttpPost("ApplyFilesSorting")]
+        public HandleErrorResponseModel ApplyFilesSorting(List<FileSortingModel> Model, int ActivityId)
+        {
+            var results = _activityService.ApplyFilesSorting(Model, ActivityId);
+            return results;
+        }
     }
 }

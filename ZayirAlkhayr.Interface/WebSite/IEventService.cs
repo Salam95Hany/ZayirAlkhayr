@@ -18,5 +18,6 @@ namespace ZayirAlkhayr.Interface.WebSite
         HandleErrorResponseModel UpdateEvent(Event Model);
         HandleErrorResponseModel DeleteEvent(int EventId);
         Task<HandleErrorResponseModel> AddEventSliderImage(UploadFileModel Model);
+        HandleErrorResponseModel ApplyEventFilesSorting(List<FileSortingModel> Model, int EventId);
     }
 }

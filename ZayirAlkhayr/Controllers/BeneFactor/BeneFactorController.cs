@@ -153,6 +153,13 @@ namespace ZayirAlkhayr.Controllers.BeneFactor
             return results;
         }
 
+        [HttpGet("DeleteBeneFactorDetails")]
+        public HandleErrorResponseModel DeleteBeneFactorDetails(int DetailsId)
+        {
+            var results = _beneFactorService.DeleteBeneFactorDetails(DetailsId);
+            return results;
+        }
+
         [HttpPost("ExportBeneFactorsPDFFile")]
         public IActionResult ExportBeneFactorsPDFFile(PDFModel Model, int RowCount)
         {

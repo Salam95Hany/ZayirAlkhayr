@@ -19,4 +19,10 @@ namespace ZayirAlkhayr.Entities.Common
         public int Id { get; set; }
         public string FileName { get; set; }
     }
+
+    public class FileSortingModel
+    {
+        public int FileId { get; set; }
+        public int DisplayOrder { get; set; }
+    }
 }

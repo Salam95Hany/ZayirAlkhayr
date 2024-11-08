@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AdminWebsiteService } from 'src/app/Admin/Services/admin-website.service';
+import Swiper from 'swiper';
 
 @Component({
   selector: 'app-event',

@@ -14,6 +14,7 @@ namespace ZayirAlkhayr.Entities.Models
         public int Id { get; set; }
         public int PhotoId { get; set; }
         public string Image { get; set; }
+        public int DisplayOrder { get; set; }
         [NotMapped]
         public string OldFileName { get; set; }
         [NotMapped]

@@ -53,16 +53,17 @@ namespace ZayirAlkhayr.Service.WebSite
             var results = _Context.PhotoDetails.Where(i => i.PhotoId == PhotoId).Select(i => new PhotoDetails
             {
                 Id = i.Id,
-                Image = Path.Combine(ApiLocalUrl, ImageFiles.PhotoDetailImages.ToString(), i.Image)
+                Image = Path.Combine(ApiLocalUrl, ImageFiles.PhotoDetailImages.ToString(), i.Image),
+                DisplayOrder = i.DisplayOrder
             }).ToList();
-            return results;
+            return results.OrderBy(i => i.DisplayOrder).ToList();
         }
 
         public PhotoModel GetPhotoWithDetailsById(int PhotoId)
         {
             var Photo = _Context.Photos.FirstOrDefault(i => i.Id == PhotoId);
             if (Photo == null) { return new PhotoModel(); }
-            var PhotoDetalImages = _Context.PhotoDetails.Where(i => i.PhotoId == PhotoId).Select(i => Path.Combine(ApiLocalUrl, ImageFiles.PhotoDetailImages.ToString(), i.Image)).ToList();
+            var PhotoDetalImages = _Context.PhotoDetails.Where(i => i.PhotoId == PhotoId).OrderBy(i => i.DisplayOrder).Select(i => Path.Combine(ApiLocalUrl, ImageFiles.PhotoDetailImages.ToString(), i.Image)).ToList();
 
             var PhotoModel = new PhotoModel
             {
@@ -242,6 +243,34 @@ namespace ZayirAlkhayr.Service.WebSite
             }
 
             return new HandleErrorResponseModel() { Done = false, Message = "لقد حدث خطا" };
+        }
+
+        public HandleErrorResponseModel ApplyPhotoFilesSorting(List<FileSortingModel> Model, int PhotoId)
+        {
+            try
+            {
+                var Response = new HandleErrorResponseModel();
+                var SliderImages = _Context.PhotoDetails.Where(i => i.PhotoId == PhotoId).ToList();
+                foreach (var image in SliderImages)
+                {
+                    var Row = Model.FirstOrDefault(i => i.FileId == image.Id);
+                    if (Row != null)
+                        image.DisplayOrder = Row.DisplayOrder;
+                }
+
+                _Context.SaveChanges();
+                Response.Done = true;
+                Response.Message = "تم تطبيق الترتيب بنجاح";
+                return Response;
+
+            }
+            catch (Exception)
+            {
+                var Response = new HandleErrorResponseModel();
+                Response.Done = false;
+                Response.Message = "لقد حدث خطا";
+                return Response;
+            }
         }
 
         private void DeletePhotoFiles(string PhotoImageName, List<string> PhotoDetailImageNames)

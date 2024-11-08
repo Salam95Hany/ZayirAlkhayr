@@ -187,6 +187,7 @@
                                     <i class="far fa-times-circle"></i>
                                 </div>
                             </div>
+                            <input *ngIf="url?.id" type="number" class="form-control text-center" [(ngModel)]="url.displayOrder">
                         </div>
                     </div>
                 </div>
@@ -198,6 +199,10 @@
       <i class="uil uil-plus-circle"></i>
       <span>اضافه</span>
     </button>
+        <button class="btn btn-secondary rounded-25 d-flex align-items-center gap-2" (click)="ApplyFilesSorting()">
+        <i class="uil uil-sort"></i>
+        <span>ترتيب</span>
+      </button>
         <button class="btn btn-danger rounded-25 d-flex align-items-center gap-2" (click)="modal.close()">
       <i class="uil uil-times-circle"></i>
       <span>الغاء</span>

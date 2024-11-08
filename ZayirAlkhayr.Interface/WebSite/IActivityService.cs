@@ -19,5 +19,6 @@ namespace ZayirAlkhayr.Interface.WebSite
         Task<HandleErrorResponseModel> UpdateActivity(Activity Model);
         HandleErrorResponseModel DeleteActivity(int ActivityId);
         Task<HandleErrorResponseModel> AddActivitySliderImage(UploadFileModel Model);
+        HandleErrorResponseModel ApplyFilesSorting(List<FileSortingModel> Model, int ActivityId);
     }
 }

@@ -75,5 +75,12 @@ namespace ZayirAlkhayr.Controllers.WebSite
             var results = _photoService.DeletePhotoDetailsImage(FileName, Id);
             return results;
         }
+
+        [HttpPost("ApplyPhotoFilesSorting")]
+        public HandleErrorResponseModel ApplyPhotoFilesSorting(List<FileSortingModel> Model, int PhotoId)
+        {
+            var results = _photoService.ApplyPhotoFilesSorting(Model, PhotoId);
+            return results;
+        }
     }
 }

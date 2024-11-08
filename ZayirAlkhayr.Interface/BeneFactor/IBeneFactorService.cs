@@ -33,5 +33,6 @@ namespace ZayirAlkhayr.Interface.BeneFactor
         HandleErrorResponseModel AddNewBeneFactorNationality(BeneFactorNationalities Model);
         string ExportBeneFactorsPDFFile(PDFModel Model, int RowCount);
         string ExportBeneFactorsExcelFile(PDFModel Model, string UserName);
+        HandleErrorResponseModel DeleteBeneFactorDetails(int DetailsId);
     }
 }

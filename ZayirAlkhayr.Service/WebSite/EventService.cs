@@ -49,7 +49,7 @@ namespace ZayirAlkhayr.Service.WebSite
                     Description = i.Description,
                     FromDateStr = i.FromDate != null ? i.FromDate.Value.ToString("d MMMM , yyyy @ hh:mm t", new CultureInfo("ar-AE")) : "",
                     ToDateStr = i.ToDate != null ? i.ToDate.Value.ToString("d MMMM , yyyy @ hh:mm t", new CultureInfo("ar-AE")) : "",
-                    Images = _Context.EventSliderImages.Where(x => x.EventId == i.Id).Select(i => Path.Combine(ApiLocalUrl, ImageFiles.EventSliderImages.ToString(), i.Image)).ToList(),
+                    Images = _Context.EventSliderImages.Where(x => x.EventId == i.Id).OrderBy(i => i.DisplayOrder).Select(i => Path.Combine(ApiLocalUrl, ImageFiles.EventSliderImages.ToString(), i.Image)).ToList(),
 
                 }).OrderByDescending(o => o.InsertDate).ToList(),
             }).OrderBy(o => o.ToDate).ToList();
@@ -75,9 +75,10 @@ namespace ZayirAlkhayr.Service.WebSite
             {
                 Id = i.Id,
                 EventId = i.EventId,
-                Image = Path.Combine(ApiLocalUrl, ImageFiles.EventSliderImages.ToString(), i.Image)
+                Image = Path.Combine(ApiLocalUrl, ImageFiles.EventSliderImages.ToString(), i.Image),
+                DisplayOrder = i.DisplayOrder
             }).ToList();
-            return results;
+            return results.OrderBy(i => i.DisplayOrder).ToList();
         }
 
         public HandleErrorResponseModel AddNewEvent(Event Model)
@@ -227,6 +228,34 @@ namespace ZayirAlkhayr.Service.WebSite
             }
             catch (Exception)
             {
+                Response.Done = false;
+                Response.Message = "لقد حدث خطا";
+                return Response;
+            }
+        }
+
+        public HandleErrorResponseModel ApplyEventFilesSorting(List<FileSortingModel> Model, int EventId)
+        {
+            try
+            {
+                var Response = new HandleErrorResponseModel();
+                var SliderImages = _Context.EventSliderImages.Where(i => i.EventId == EventId).ToList();
+                foreach (var image in SliderImages)
+                {
+                    var Row = Model.FirstOrDefault(i => i.FileId == image.Id);
+                    if (Row != null)
+                        image.DisplayOrder = Row.DisplayOrder;
+                }
+
+                _Context.SaveChanges();
+                Response.Done = true;
+                Response.Message = "تم تطبيق الترتيب بنجاح";
+                return Response;
+
+            }
+            catch (Exception)
+            {
+                var Response = new HandleErrorResponseModel();
                 Response.Done = false;
                 Response.Message = "لقد حدث خطا";
                 return Response;

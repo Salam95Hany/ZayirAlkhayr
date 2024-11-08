@@ -3,7 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AdminWebsiteService } from '../../../Services/admin-website.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ValidationFormService } from '../../../Services/validation-form.service';
-import { UploadFileModel } from '../../../Models/FileModel';
+import { FileSortingModel, UploadFileModel } from '../../../Models/FileModel';
 import { ToastrService } from 'ngx-toastr';
 import { PagingFilterModel } from '../../../Models/PagingFilterModel';
 import { FilterModel } from 'src/app/Admin/Models/FilterModel';
@@ -22,6 +22,7 @@ export class AdminActivityComponent implements OnInit {
   fileURL: any[] = [];
   multiFileURL: any[] = [];
   multiImagesFile: any[] = [];
+  FileSotingModel: FileSortingModel[] = [];
   FileModel: UploadFileModel = {
     files: [],
     deletedFiles: []
@@ -269,6 +270,26 @@ export class AdminActivityComponent implements OnInit {
         this.GetAllActivities();
         this.GetWebsiteAdminFilters();
         this.modalService.dismissAll();
+      }
+      else
+        this.toaster.error(data.message);
+      this.showLoader = false;
+    });
+  }
+
+  ApplyFilesSorting() {
+    let checked = this.multiFileURL.every(i => i.id);
+    if (!checked) {
+      this.toaster.warning('برجاء اضافة الصور الجديدة اولا');
+      return;
+    }
+    
+    this.FileSotingModel = this.multiFileURL.map<FileSortingModel>(i => { return { fileId: i.id, displayOrder: i.displayOrder } });
+    this.showLoader = true;
+    this.adminService.ApplyFilesSorting(this.FileSotingModel, this.ActivityId).subscribe(data => {
+      if (data.done) {
+        this.modalService.dismissAll();
+        this.toaster.success(data.message);
       }
       else
         this.toaster.error(data.message);
