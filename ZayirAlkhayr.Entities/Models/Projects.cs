@@ -17,10 +17,13 @@ namespace ZayirAlkhayr.Entities.Models
         public string BenefactorCount { get; set; } // عدد المتبرعين
         public string TotalAmount { get; set; } // اجمالي المبلغ
         public string RemainingAmount { get; set; } // باق المبلغ
+        public string ProjectUrl { get; set; }
         public bool IsVisible { get; set; }
         public string InsertUser { get; set; }
         public DateTime? InsertDate { get; set; }
         public string UpdateUser { get; set; }
         public DateTime? UpdateDate { get; set; }
+        [NotMapped]
+        public List<string> Images { get; set; }
     }
 }

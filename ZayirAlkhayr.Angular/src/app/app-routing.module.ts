@@ -13,12 +13,15 @@ import { BenefactorLoginComponent } from './WebSite/benefactor/benefactor-login/
 import { BenefactorWebDetailsComponent } from './WebSite/benefactor/benefactor-web-details/benefactor-web-details.component';
 import { BenefactorauthGuard } from './Auth/benefactorauth.guard';
 import { ProjectsComponent } from './WebSite/projects/projects.component';
+import { ProjectDeniedComponent } from './WebSite/ProjectAuth/project-denied/project-denied.component';
+import { ProjectauthGuard } from './WebSite/ProjectAuth/projectauth.guard';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'not-authorized', component: NotAuthorizedComponent },
   { path: 'benefactor-login', component: BenefactorLoginComponent },
-  { path: 'projects/events/:id', component: ProjectsComponent },
+  { path: 'projects/events/:id', component: ProjectsComponent, canActivate: [ProjectauthGuard] },
+  { path: 'project-denied/:id', component: ProjectDeniedComponent },
   { path: 'benefactor-details', component: BenefactorWebDetailsComponent, canActivate: [BenefactorauthGuard] },
 
   { path: 'admin', loadChildren: () => import('../app/Admin/admin.module').then(m => m.AdminModule) },

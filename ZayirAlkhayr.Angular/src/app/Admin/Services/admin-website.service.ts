@@ -140,6 +140,40 @@ export class AdminWebsiteService {
     return this.http.post<any>(this.apiURL + 'Event/ApplyEventFilesSorting?EventId=' + EventId, Model);
   }
 
+  // ============================= Projects ==============================
+
+  GetAllProjects(PagingFilter: PagingFilterModel) {
+    return this.http.post<any[]>(this.apiURL + 'Projects/GetAllProjects', PagingFilter);
+  }
+
+  GetProjectsSliderImagesById(ProjectId: number) {
+    return this.http.get<any>(this.apiURL + 'Projects/GetProjectsSliderImagesById?ProjectId=' + ProjectId);
+  }
+
+  AddNewProjects(Model: any) {
+    return this.http.post<any>(this.apiURL + 'Projects/AddNewProjects', Model);
+  }
+
+  AddProjectsSliderImage(Model: any) {
+    return this.http.post<any>(this.apiURL + 'Projects/AddProjectsSliderImage', Model);
+  }
+
+  UpdateProjects(Model: any) {
+    return this.http.post<any>(this.apiURL + 'Projects/UpdateProjects', Model);
+  }
+
+  DeleteProjects(ProjectId: number) {
+    return this.http.get<any>(this.apiURL + 'Projects/DeleteProjects?ProjectId=' + ProjectId);
+  }
+
+  GetWebSiteProjectsById(ProjectId: number) {
+    return this.http.get<any>(this.apiURL + 'Projects/GetWebSiteProjectsById?ProjectId=' + ProjectId);
+  }
+
+  GetAllDeniedProjects() {
+    return this.http.get<any[]>(this.apiURL + 'Projects/GetAllDeniedProjects');
+  }
+
   // ============================= Users ==============================
 
   GetAllUsers() {

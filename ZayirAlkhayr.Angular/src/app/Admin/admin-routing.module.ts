@@ -24,6 +24,7 @@ import { FamilyNeedsComponent } from './Components/GeneralServices/generalStatus
 import { FamilyCategoriesComponent } from './Components/GeneralServices/generalStatus/family-categories/family-categories.component';
 import { FamilyPatienttypesComponent } from './Components/GeneralServices/generalStatus/family-patienttypes/family-patienttypes.component';
 import { AllFamilyStatusComponent } from './Components/GeneralServices/generalStatus/all-family-status/all-family-status.component';
+import { AdminProjectComponent } from './Components/WebSite/admin-project/admin-project.component';
 
 const routes: Routes = [
   {
@@ -53,6 +54,12 @@ const routes: Routes = [
       {
         path: 'event',
         component: AdminEventComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ["SupperAdmin", "WebSite", "Admin"] }
+      },
+      {
+        path: 'project',
+        component: AdminProjectComponent,
         canActivate: [AuthGuard],
         data: { roles: ["SupperAdmin", "WebSite", "Admin"] }
       },

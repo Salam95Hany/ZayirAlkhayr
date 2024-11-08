@@ -25,6 +25,7 @@ import { BenefactorLoginComponent } from './WebSite/benefactor/benefactor-login/
 import { BenefactorWebDetailsComponent } from './WebSite/benefactor/benefactor-web-details/benefactor-web-details.component';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ProjectsComponent } from './WebSite/projects/projects.component';
+import { ProjectDeniedComponent } from './WebSite/ProjectAuth/project-denied/project-denied.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { ProjectsComponent } from './WebSite/projects/projects.component';
     BenefactorLoginComponent,
     BenefactorWebDetailsComponent,
     ProjectsComponent,
+    ProjectDeniedComponent,
   ],
   imports: [
     BrowserModule,

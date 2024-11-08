@@ -43,6 +43,7 @@ import { FamilyCategoriesComponent } from './Components/GeneralServices/generalS
 import { FamilyPatienttypesComponent } from './Components/GeneralServices/generalStatus/family-patienttypes/family-patienttypes.component';
 import { AllFamilyStatusComponent } from './Components/GeneralServices/generalStatus/all-family-status/all-family-status.component';
 import { FamilyStatusSidepanelComponent } from './Components/GeneralServices/generalStatus/family-status-sidepanel/family-status-sidepanel.component';
+import { AdminProjectComponent } from './Components/WebSite/admin-project/admin-project.component';
 
 @NgModule({
   declarations: [
@@ -82,7 +83,8 @@ import { FamilyStatusSidepanelComponent } from './Components/GeneralServices/gen
     FamilyCategoriesComponent,
     FamilyPatienttypesComponent,
     AllFamilyStatusComponent,
-    FamilyStatusSidepanelComponent
+    FamilyStatusSidepanelComponent,
+    AdminProjectComponent
   ],
   imports: [
     CommonModule,

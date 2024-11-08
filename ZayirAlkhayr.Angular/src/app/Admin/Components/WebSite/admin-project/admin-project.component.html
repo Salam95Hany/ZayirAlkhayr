@@ -1,0 +1,285 @@
+<div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <div class="d-flex align-items-center flex-wrap gap-2">
+            <button class="btn main-button d-flex align-items-center gap-2" (click)="openAddItemModal(OpenItemModal,null)">
+        <i class="uil uil-plus-circle"></i>
+        <span class="navbar-brand m-0">اضافه</span>
+      </button>
+            <button class="btn main-button d-flex align-items-center gap-2" (click)="isFilter = !isFilter" [attr.aria-expanded]="!isFilter">
+        <i class="uil uil-filter"></i>
+        <span class="navbar-brand m-0">{{ isFilter ? 'عرض' : 'اخفاء' }} الفلاتر</span>
+      </button>
+        </div>
+        <div>
+            <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="0" [totalCount]="TotalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
+        </div>
+    </div>
+    <div class="px-3 py-2 bg-light border-bottom" #collapse="ngbCollapse" [(ngbCollapse)]="isFilter">
+        <app-admin-filters [FilterList]="FilterList" [PlaceHolder]="'بالعنوان'" (FilterChecked)="FilterChecked($event)"></app-admin-filters>
+    </div>
+    <div class="card-body card-body-h">
+        <div class="table-responsive mb-2">
+            <table class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
+                <thead>
+                    <tr>
+                        <th>العنوان</th>
+                        <th>الوصف</th>
+                        <th>اجمالي مبلغ التبرع</th>
+                        <th>عدد المتبرعين</th>
+                        <th>اجمالي المبلغ</th>
+                        <th>باق المبلغ</th>
+                        <th>الرابط</th>
+                        <th>تمت الاضافة من قبل</th>
+                        <th>تاريخ الاضافة</th>
+                        <th class="text-center">مرئي في الموقع</th>
+                        <th class="text-center">أجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of ProjectsData">
+                        <td>{{item.title}}</td>
+                        <td>{{item.description}}</td>
+                        <td>{{item.totalDonationAmount}}</td>
+                        <td>{{item.benefactorCount}}</td>
+                        <td>{{item.totalAmount}}</td>
+                        <td>{{item.remainingAmount}}</td>
+                        <td>
+                            <a href="{{item.projectUrl}}" target="_blank">{{item.projectUrl}}</a>
+                        </td>
+                        <td>{{item.createdBy}}</td>
+                        <td>{{item.insertDateStr}}</td>
+                        <td class="text-center">
+                            <label class="jtoggler-wrapper m-0 mx-0">
+                <input type="checkbox" [(ngModel)]="item.isVisible" class="jtoggler" disabled>
+                <div class="jtoggler-control">
+                  <div class="jtoggler-handle"></div>
+                </div>
+              </label>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
+                                <i class="uil uil-edit text-primary icon-table-action shadow-sm" (click)="openAddItemModal(OpenItemModal,item)"></i>
+                                <i class="uil uil-times-circle text-danger icon-table-action shadow-sm" appRole [roles]="['SupperAdmin']" (click)="openDeleteItemModal(deleteItemModal,item)"></i>
+                                <i class="uil uil-plus text-primary icon-table-action shadow-sm" (click)="openAddImagesModal(OpenAddImagesModal,item)"></i>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <app-admin-pagination (pageChanged)="PagingFilter.currentpage = $event.page" [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="0" [totalCount]="TotalCount"></app-admin-pagination>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #OpenItemModal let-modal>
+    <div class="modal-header d-flex align-items-center justify-content-between main-bgcolor text-white">
+        <div class="display-7 d-flex align-items-center gap-3">
+            <i class="uil uil-focus-add"></i>
+            <span>اضافه مشروع جديد</span>
+        </div>
+        <i class="fas fa-times cursor-pointer fa-2x modal-close-btn" (click)="modal.dismiss()"></i>
+    </div>
+    <div class="modal-body gray-bgcolor">
+        <div class="bg-white p-3 rounded shadow-sm">
+            <form [formGroup]="ItemForm" autocomplete="off">
+                <div class="row g-3">
+                    <div class="col-lg-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user" formControlName="title" required>
+                            <label for="floatingInput_1">العنوان</label>
+                        </div>
+                        <div *ngIf="ItemForm.controls['title']?.invalid && (ItemForm.controls['title']?.dirty || ItemForm.controls['title']?.touched)" class="text-danger pt-2">
+                            <div *ngIf="ItemForm.controls['title'].errors?.['required']">
+                                هذا الحقل مطلوب
+                            </div>
+                            <div *ngIf="ItemForm.controls['title'].errors?.['noSpace']">
+                                لا يمكن ان يحتوي الحقل على مسافات فقط
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user" formControlName="description" required>
+                            <label for="floatingInput_1">التفاصيل</label>
+                        </div>
+                        <div *ngIf="ItemForm.controls['description']?.invalid && (ItemForm.controls['description']?.dirty || ItemForm.controls['description']?.touched)" class="text-danger pt-2">
+                            <div *ngIf="ItemForm.controls['description'].errors?.['required']">
+                                هذا الحقل مطلوب
+                            </div>
+                            <div *ngIf="ItemForm.controls['description'].errors?.['noSpace']">
+                                لا يمكن ان يحتوي الحقل على مسافات فقط
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user" formControlName="totalDonationAmount" required>
+                            <label for="floatingInput_1">اجمالي مبلغ التبرع</label>
+                        </div>
+                        <div *ngIf="ItemForm.controls['totalDonationAmount']?.invalid && (ItemForm.controls['totalDonationAmount']?.dirty || ItemForm.controls['totalDonationAmount']?.touched)" class="text-danger pt-2">
+                            <div *ngIf="ItemForm.controls['totalDonationAmount'].errors?.['required']">
+                                هذا الحقل مطلوب
+                            </div>
+                            <div *ngIf="ItemForm.controls['totalDonationAmount'].errors?.['noSpace']">
+                                لا يمكن ان يحتوي الحقل على مسافات فقط
+                            </div>
+                            <div *ngIf="ItemForm.controls['totalDonationAmount'].errors?.['pattern']">
+                                أدخل أرقام فقط
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user" formControlName="benefactorCount" required>
+                            <label for="floatingInput_1">عدد المتبرعين</label>
+                        </div>
+                        <div *ngIf="ItemForm.controls['benefactorCount']?.invalid && (ItemForm.controls['benefactorCount']?.dirty || ItemForm.controls['benefactorCount']?.touched)" class="text-danger pt-2">
+                            <div *ngIf="ItemForm.controls['benefactorCount'].errors?.['required']">
+                                هذا الحقل مطلوب
+                            </div>
+                            <div *ngIf="ItemForm.controls['benefactorCount'].errors?.['noSpace']">
+                                لا يمكن ان يحتوي الحقل على مسافات فقط
+                            </div>
+                            <div *ngIf="ItemForm.controls['benefactorCount'].errors?.['pattern']">
+                                أدخل أرقام فقط
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user" formControlName="totalAmount" required>
+                            <label for="floatingInput_1">اجمالي المبلغ</label>
+                        </div>
+                        <div *ngIf="ItemForm.controls['totalAmount']?.invalid && (ItemForm.controls['totalAmount']?.dirty || ItemForm.controls['totalAmount']?.touched)" class="text-danger pt-2">
+                            <div *ngIf="ItemForm.controls['totalAmount'].errors?.['required']">
+                                هذا الحقل مطلوب
+                            </div>
+                            <div *ngIf="ItemForm.controls['totalAmount'].errors?.['noSpace']">
+                                لا يمكن ان يحتوي الحقل على مسافات فقط
+                            </div>
+                            <div *ngIf="ItemForm.controls['totalAmount'].errors?.['pattern']">
+                                أدخل أرقام فقط
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user" formControlName="remainingAmount" required>
+                            <label for="floatingInput_1">باق المبلغ</label>
+                        </div>
+                        <div *ngIf="ItemForm.controls['remainingAmount']?.invalid && (ItemForm.controls['remainingAmount']?.dirty || ItemForm.controls['remainingAmount']?.touched)" class="text-danger pt-2">
+                            <div *ngIf="ItemForm.controls['remainingAmount'].errors?.['required']">
+                                هذا الحقل مطلوب
+                            </div>
+                            <div *ngIf="ItemForm.controls['remainingAmount'].errors?.['noSpace']">
+                                لا يمكن ان يحتوي الحقل على مسافات فقط
+                            </div>
+                            <div *ngIf="ItemForm.controls['remainingAmount'].errors?.['pattern']">
+                                أدخل أرقام فقط
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 d-flex align-items-center">
+                        <div class="me-2">مرئي</div>
+                        <label class="jtoggler-wrapper m-0 mx-0">
+                        <input type="checkbox" formControlName="isVisible" class="jtoggler">
+                        <div class="jtoggler-control">
+                          <div class="jtoggler-handle"></div>
+                        </div>
+                      </label>
+                        <div class="ms-2">غير مرئي</div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer justify-content-start gap-2">
+        <button class="btn main-button d-flex align-items-center gap-2" (click)="AddNewEvent()">
+      <i class="uil uil-plus-circle"></i>
+      <span>اضافه</span>
+    </button>
+        <button class="btn btn-danger rounded-25 d-flex align-items-center gap-2" (click)="modal.close()">
+      <i class="uil uil-times-circle"></i>
+      <span>الغاء</span>
+    </button>
+    </div>
+</ng-template>
+
+<ng-template #OpenAddImagesModal let-modal>
+    <div class="modal-header d-flex align-items-center justify-content-between main-bgcolor text-white">
+        <div class="display-7 d-flex align-items-center gap-3">
+            <i class="uil uil-focus-add"></i>
+            <span>اضافه صور</span>
+        </div>
+        <i class="fas fa-times cursor-pointer fa-2x modal-close-btn" (click)="modal.dismiss()"></i>
+    </div>
+    <div class="modal-body gray-bgcolor">
+        <div class="bg-white p-3 rounded shadow-sm">
+            <div class="row g-3">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-6 text-center">
+                    <div class="choose-file-box position-relative border rounded h-58" (click)="InputMultiFile.click()">
+                        <div class="choose-file-btn">تحميل صورة</div>
+                    </div>
+                    <div class="text-danger pt-2" *ngIf="isFileExist">
+                        هذا الحقل مطلوب
+                    </div>
+                </div>
+                <div class="col-lg-3"></div>
+                <div class="col-lg-12" *ngIf="multiFileURL.length > 0">
+                    <hr class="border-success">
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6 g-2">
+                        <div class="col" *ngFor="let url of multiFileURL;let i = index">
+                            <div class="choosed-img img-thumbnail shadow-sm">
+                                <img src="{{url.image}}" loading="lazy" alt="" />
+                                <div class="choosed-img-delete" (click)="DeleteMultiImageFiles(i,url)">
+                                    <i class="far fa-times-circle"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer justify-content-start gap-2">
+        <button class="btn main-button d-flex align-items-center gap-2" (click)="AddMultiImagesFile()">
+      <i class="uil uil-plus-circle"></i>
+      <span>اضافه</span>
+    </button>
+        <button class="btn btn-danger rounded-25 d-flex align-items-center gap-2" (click)="modal.close()">
+      <i class="uil uil-times-circle"></i>
+      <span>الغاء</span>
+    </button>
+    </div>
+</ng-template>
+
+<ng-template #deleteItemModal let-modal>
+    <div class="modal-header main-bgcolor text-white">
+        <div class="display-7 d-flex align-items-center gap-3">
+            <i class="uil uil-trash-alt"></i>
+            <span>حذف مشروع</span>
+        </div>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">هل انت متأكد أنك تريد حذف هذا العنصر</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="DeleteItem()">
+      <i class="fas fa-check"></i>
+      <span class="ms-2">نعم</span>
+    </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+      <i class="fas fa-times"></i>
+      <span class="ms-2">لا</span>
+    </button>
+    </div>
+</ng-template>
+
+<ngx-loading [show]="showLoader"></ngx-loading>
+
+<input type="file" #InputMultiFile multiple class="choose-file-input" (change)="onMultiFileChange($event)" hidden />
