@@ -3,31 +3,25 @@
         <div class="card">
             <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
                 <div class="d-flex align-items-center flex-wrap gap-2">
-                    <button class="btn main-button d-flex align-items-center gap-2"
-                        (click)="openNeedAddItemModal(OpenNeedItemModal,null)">
+                    <button class="btn main-button d-flex align-items-center gap-2" (click)="openNeedAddItemModal(OpenNeedItemModal,null)">
                         <i class="uil uil-plus-circle"></i>
                         <span class="navbar-brand m-0">اضافة</span>
                     </button>
-                    <button class="btn main-button d-flex align-items-center gap-2"
-                        (click)="NeedIsFilter = !NeedIsFilter" [attr.aria-expanded]="!NeedIsFilter">
+                    <button class="btn main-button d-flex align-items-center gap-2" (click)="NeedIsFilter = !NeedIsFilter" [attr.aria-expanded]="!NeedIsFilter">
                         <i class="uil uil-filter"></i>
                         <span class="navbar-brand m-0">{{ NeedIsFilter ? 'عرض' : 'اخفاء' }} الفلاتر</span>
                     </button>
                 </div>
                 <div>
-                    <app-admin-pagination [currentPage]="NeedsPagingFilter.currentpage"
-                        [pageSize]="NeedsPagingFilter.pagesize" [totalPages]="0" [totalCount]="NeedTotalCount"
-                        (pageChanged)="NeedPageChange($event)"></app-admin-pagination>
+                    <app-admin-pagination [currentPage]="NeedsPagingFilter.currentpage" [pageSize]="NeedsPagingFilter.pagesize" [totalPages]="0" [totalCount]="NeedTotalCount" (pageChanged)="NeedPageChange($event)"></app-admin-pagination>
                 </div>
             </div>
             <div class="px-3 py-2 bg-light border-bottom" #collapse="ngbCollapse" [(ngbCollapse)]="NeedIsFilter">
-                <app-admin-filters [FilterList]="NeedFilterList" [PlaceHolder]="'بالاسم'"
-                    (FilterChecked)="NeedFilterChecked($event)"></app-admin-filters>
+                <app-admin-filters [FilterList]="NeedFilterList" [PlaceHolder]="'بالاسم'" (FilterChecked)="NeedFilterChecked($event)"></app-admin-filters>
             </div>
             <div class="card-body card-body-h">
                 <div class="table-responsive">
-                    <table
-                        class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
+                    <table class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
                         <thead>
                             <tr>
                                 <th>الاسم</th>
@@ -45,11 +39,8 @@
                                 <td>{{item.insertDateStr}}</td>
                                 <td>
                                     <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
-                                        <i class="uil uil-edit text-primary icon-table-action shadow-sm"
-                                            (click)="openNeedAddItemModal(OpenNeedItemModal,item)"></i>
-                                        <i class="uil uil-times-circle text-danger icon-table-action shadow-sm" appRole
-                                            [roles]="['SupperAdmin','Admin']"
-                                            (click)="openDeleteNeedItemModal(deleteNeedItemModal,item)"></i>
+                                        <i class="uil uil-edit text-primary icon-table-action shadow-sm" (click)="openNeedAddItemModal(OpenNeedItemModal,item)"></i>
+                                        <i class="uil uil-times-circle text-danger icon-table-action shadow-sm" (click)="openDeleteNeedItemModal(deleteNeedItemModal,item)"></i>
                                     </div>
                                 </td>
                             </tr>
@@ -63,31 +54,25 @@
         <div class="card">
             <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
                 <div class="d-flex align-items-center flex-wrap gap-2">
-                    <button class="btn main-button d-flex align-items-center gap-2"
-                        (click)="openCategoryAddItemModal(OpenCategoryItemModal,null)">
+                    <button class="btn main-button d-flex align-items-center gap-2" (click)="openCategoryAddItemModal(OpenCategoryItemModal,null)">
                         <i class="uil uil-plus-circle"></i>
                         <span class="navbar-brand m-0">اضافة</span>
                     </button>
-                    <button class="btn main-button d-flex align-items-center gap-2"
-                        (click)="CategoryIsFilter = !CategoryIsFilter" [attr.aria-expanded]="!CategoryIsFilter">
+                    <button class="btn main-button d-flex align-items-center gap-2" (click)="CategoryIsFilter = !CategoryIsFilter" [attr.aria-expanded]="!CategoryIsFilter">
                         <i class="uil uil-filter"></i>
                         <span class="navbar-brand m-0">{{ CategoryIsFilter ? 'عرض' : 'اخفاء' }} الفلاتر</span>
                     </button>
                 </div>
                 <div>
-                    <app-admin-pagination [currentPage]="CategoriesPagingFilter.currentpage"
-                        [pageSize]="CategoriesPagingFilter.pagesize" [totalPages]="0" [totalCount]="CategoryTotalCount"
-                        (pageChanged)="CategoryPageChange($event)"></app-admin-pagination>
+                    <app-admin-pagination [currentPage]="CategoriesPagingFilter.currentpage" [pageSize]="CategoriesPagingFilter.pagesize" [totalPages]="0" [totalCount]="CategoryTotalCount" (pageChanged)="CategoryPageChange($event)"></app-admin-pagination>
                 </div>
             </div>
             <div class="px-3 py-2 bg-light border-bottom" #collapse="ngbCollapse" [(ngbCollapse)]="CategoryIsFilter">
-                <app-admin-filters [FilterList]="CategoryFilterList" [PlaceHolder]="'بالاسم'"
-                    (FilterChecked)="CategoryFilterChecked($event)"></app-admin-filters>
+                <app-admin-filters [FilterList]="CategoryFilterList" [PlaceHolder]="'بالاسم'" (FilterChecked)="CategoryFilterChecked($event)"></app-admin-filters>
             </div>
             <div class="card-body card-body-h">
                 <div class="table-responsive">
-                    <table
-                        class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
+                    <table class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
                         <thead>
                             <tr>
                                 <th>الاسم</th>
@@ -103,11 +88,8 @@
                                 <td>{{item.insertDateStr}}</td>
                                 <td>
                                     <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
-                                        <i class="uil uil-edit text-primary icon-table-action shadow-sm"
-                                            (click)="openCategoryAddItemModal(OpenCategoryItemModal,item)"></i>
-                                        <i class="uil uil-times-circle text-danger icon-table-action shadow-sm" appRole
-                                            [roles]="['SupperAdmin','Admin']"
-                                            (click)="openDeleteCategoryItemModal(deleteCategoryItemModal,item)"></i>
+                                        <i class="uil uil-edit text-primary icon-table-action shadow-sm" (click)="openCategoryAddItemModal(OpenCategoryItemModal,item)"></i>
+                                        <i class="uil uil-times-circle text-danger icon-table-action shadow-sm" appRole [roles]="['SupperAdmin','Admin']" (click)="openDeleteCategoryItemModal(deleteCategoryItemModal,item)"></i>
                                     </div>
                                 </td>
                             </tr>
@@ -135,11 +117,9 @@
                 <div class="row g-3">
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" formControlName="name" id="floatingInput_1"
-                                placeholder="new-user" required>
+                            <input type="text" class="form-control" formControlName="name" id="floatingInput_1" placeholder="new-user" required>
                             <label for="floatingInput_1">الاسم</label>
-                            <div *ngIf="NeedForm.controls['name']?.invalid && (NeedForm.controls['name']?.dirty || NeedForm.controls['name']?.touched)"
-                                class="text-danger pt-2">
+                            <div *ngIf="NeedForm.controls['name']?.invalid && (NeedForm.controls['name']?.dirty || NeedForm.controls['name']?.touched)" class="text-danger pt-2">
                                 <div *ngIf="NeedForm.controls['name'].errors?.['required']">
                                     هذا الحقل مطلوب
                                 </div>
@@ -151,18 +131,13 @@
                     </div>
                     <div class="col-lg-6">
                         <div ngbDropdown class="dropdown-with-search overflow-hidden" container="body">
-                            <button
-                                class="dropdown-with-search-btn btn border h-58 w-100 d-flex align-items-center justify-content-between selector-padding"
-                                id="dropdownBasic1" ngbDropdownToggle>
+                            <button class="dropdown-with-search-btn btn border h-58 w-100 d-flex align-items-center justify-content-between selector-padding" id="dropdownBasic1" ngbDropdownToggle>
                                 {{CategoryName}}
                             </button>
-                            <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu
-                                aria-labelledby="dropdownBasic1">
+                            <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu aria-labelledby="dropdownBasic1">
                                 <ul class="dropdown-list-box list-unstyled max-height-220 overflow-auto px-1 py-1 m-0">
                                     <ng-container *ngFor="let item of CategoryList">
-                                        <li class="dropdown-item cursor-pointer rounded"
-                                            (click)="OnChangeCategory(item)"
-                                            [ngClass]="{'DropDownSelected': CategoryName == item.name}">{{item.name}}
+                                        <li class="dropdown-item cursor-pointer rounded" (click)="OnChangeCategory(item)" [ngClass]="{'DropDownSelected': CategoryName == item.name}">{{item.name}}
                                         </li>
                                     </ng-container>
                                 </ul>
@@ -202,11 +177,9 @@
                 <div class="row g-3">
                     <div class="col-lg-12">
                         <div class="form-floating">
-                            <input type="text" class="form-control" formControlName="name" id="floatingInput_1"
-                                placeholder="new-user" required>
+                            <input type="text" class="form-control" formControlName="name" id="floatingInput_1" placeholder="new-user" required>
                             <label for="floatingInput_1">الاسم</label>
-                            <div *ngIf="CategoryForm.controls['name']?.invalid && (CategoryForm.controls['name']?.dirty || CategoryForm.controls['name']?.touched)"
-                                class="text-danger pt-2">
+                            <div *ngIf="CategoryForm.controls['name']?.invalid && (CategoryForm.controls['name']?.dirty || CategoryForm.controls['name']?.touched)" class="text-danger pt-2">
                                 <div *ngIf="CategoryForm.controls['name'].errors?.['required']">
                                     هذا الحقل مطلوب
                                 </div>

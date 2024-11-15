@@ -36,7 +36,7 @@
                         <td>
                             <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
                                 <i class="uil uil-edit text-primary icon-table-action shadow-sm" (click)="openAddItemModal(OpenItemModal,item)"></i>
-                                <i class="uil uil-times-circle text-danger icon-table-action shadow-sm" appRole [roles]="['SupperAdmin','Admin']" (click)="openDeleteItemModal(deleteItemModal,item)"></i>
+                                <i class="uil uil-times-circle text-danger icon-table-action shadow-sm" (click)="openDeleteItemModal(deleteItemModal,item)"></i>
                             </div>
                         </td>
                     </tr>

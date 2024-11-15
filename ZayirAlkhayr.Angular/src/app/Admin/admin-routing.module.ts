@@ -25,6 +25,7 @@ import { FamilyCategoriesComponent } from './Components/GeneralServices/generalS
 import { FamilyPatienttypesComponent } from './Components/GeneralServices/generalStatus/family-patienttypes/family-patienttypes.component';
 import { AllFamilyStatusComponent } from './Components/GeneralServices/generalStatus/all-family-status/all-family-status.component';
 import { AdminProjectComponent } from './Components/WebSite/admin-project/admin-project.component';
+import { OrphansComponent } from './Components/GeneralServices/orphans/orphans.component';
 
 const routes: Routes = [
   {
@@ -166,6 +167,12 @@ const routes: Routes = [
       {
         path: 'family-status',
         component: AllFamilyStatusComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ["SupperAdmin", "Admin", "Services"] }
+      },
+      {
+        path: 'orphans',
+        component: OrphansComponent,
         canActivate: [AuthGuard],
         data: { roles: ["SupperAdmin", "Admin", "Services"] }
       },

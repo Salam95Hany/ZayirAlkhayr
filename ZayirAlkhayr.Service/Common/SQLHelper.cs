@@ -12,6 +12,7 @@ using ZayirAlkhayr.Interface.Common;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Mvc.Filters;
 using ZayirAlkhayr.Entities.Common;
+using System.Reflection;
 
 namespace ZayirAlkhayr.Service.Common
 {
@@ -24,6 +25,39 @@ namespace ZayirAlkhayr.Service.Common
         {
             _configuration = configuration;
             ConnectionString = _configuration.GetConnectionString("DBConnection");
+        }
+
+        public List<TElement> SQLQuery<TElement>(string commandText, params SqlParameter[] parameters)
+        {
+            using (SqlConnection sqlConn = new SqlConnection(ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(commandText, sqlConn))
+                {
+                    cmd.CommandText = commandText;
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandTimeout = (int)TimeSpan.FromMinutes(5).TotalSeconds;
+                    foreach (var parameter in parameters)
+                    {
+                        var paramter = cmd.CreateParameter();
+                        paramter.ParameterName = parameter.ParameterName;
+                        paramter.Value = parameter.Value;
+                        if (!string.IsNullOrEmpty(parameter.TypeName))
+                        {
+                            paramter.SqlDbType = SqlDbType.Structured;
+                            paramter.TypeName = parameter.TypeName;
+                        }
+                        cmd.Parameters.Add(paramter);
+                    }
+
+                    sqlConn.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        var result = MapToList<TElement>(reader);
+                        sqlConn.Close();
+                        return result;
+                    }
+                }
+            }
         }
 
         public DataTable ExecuteDataTable(string commandText, params SqlParameter[] Parameters)
@@ -90,6 +124,38 @@ namespace ZayirAlkhayr.Service.Common
                 }
             }
             return value;
+        }
+
+        private List<T> MapToList<T>(DbDataReader dr)
+        {
+            var objList = new List<T>();
+            var props = typeof(T).GetRuntimeProperties();
+
+            List<string> drColumnsName = new List<string>();
+            for (int i = 0; i < dr.FieldCount; i++)
+            {
+                drColumnsName.Add(dr.GetName(i));
+            }
+
+
+            if (dr.HasRows)
+            {
+                while (dr.Read())
+                {
+                    T obj = Activator.CreateInstance<T>();
+                    foreach (var prop in props)
+                    {
+                        if (drColumnsName.Contains(prop.Name))
+                        {
+                            var ordinal = dr.GetOrdinal(prop.Name);
+                            var val = dr.GetValue(ordinal);
+                            prop.SetValue(obj, val == DBNull.Value ? null : val);
+                        }
+                    }
+                    objList.Add(obj);
+                }
+            }
+            return objList;
         }
         private void PrepareCommand(SqlConnection connection, SqlCommand command, SqlTransaction transaction, CommandType commandType, string commandText, SqlParameter[] commandParameters)
         {

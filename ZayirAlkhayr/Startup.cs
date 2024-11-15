@@ -115,6 +115,7 @@ namespace ZayirAlkhayr
             services.AddScoped<IFamilyPatientService, FamilyPatientService>();
             services.AddScoped<IUpdateFamilyStatusService, UpdateFamilyStatusService>();
             services.AddScoped<IProjectsService, ProjectsService>();
+            services.AddScoped<IOrphansService, OrphansService>();
 
             services.AddMvc(options =>
                 {

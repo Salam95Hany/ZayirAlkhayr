@@ -13,6 +13,7 @@ namespace ZayirAlkhayr.Interface.Common
     {
         DataTable ExecuteDataTable(string commandText, params SqlParameter[] Parameters);
         DataSet ExecuteDataset(string commandText, SqlParameter[] commandParameters);
+        List<TElement> SQLQuery<TElement>(string commandText, params SqlParameter[] parameters);
         List<FilterModel> GroupingFilters(DataTable dt);
         DataTable ConvertFilterModelToDataTable(List<FilterModel> FilterList);
         int GenerateCode();

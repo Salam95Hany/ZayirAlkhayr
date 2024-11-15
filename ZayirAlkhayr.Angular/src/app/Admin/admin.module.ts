@@ -44,6 +44,7 @@ import { FamilyPatienttypesComponent } from './Components/GeneralServices/genera
 import { AllFamilyStatusComponent } from './Components/GeneralServices/generalStatus/all-family-status/all-family-status.component';
 import { FamilyStatusSidepanelComponent } from './Components/GeneralServices/generalStatus/family-status-sidepanel/family-status-sidepanel.component';
 import { AdminProjectComponent } from './Components/WebSite/admin-project/admin-project.component';
+import { OrphansComponent } from './Components/GeneralServices/orphans/orphans.component';
 
 @NgModule({
   declarations: [
@@ -84,7 +85,8 @@ import { AdminProjectComponent } from './Components/WebSite/admin-project/admin-
     FamilyPatienttypesComponent,
     AllFamilyStatusComponent,
     FamilyStatusSidepanelComponent,
-    AdminProjectComponent
+    AdminProjectComponent,
+    OrphansComponent
   ],
   imports: [
     CommonModule,
