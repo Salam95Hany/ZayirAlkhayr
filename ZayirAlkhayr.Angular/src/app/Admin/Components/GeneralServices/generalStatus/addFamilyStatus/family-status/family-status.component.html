@@ -83,10 +83,7 @@
                 <tr>
                     <td class="fvt-td-bg">الرقم القومي</td>
                     <td>
-                        <input type="text" class="form-control" [disabled]="DetailsMode" name="NationalId" #NationalId="ngModel" [(ngModel)]="FamilyStatus.nationalId" pattern="[0-9]+" />
-                        <div class="text-danger pt-2">
-                            <div *ngIf="NationalId.errors?.pattern">أدخل أرقام فقط</div>
-                        </div>
+                        <input type="text" class="form-control" [disabled]="DetailsMode" name="NationalId" [(ngModel)]="FamilyStatus.nationalId" />
                     </td>
                 </tr>
                 <tr>

@@ -39,9 +39,9 @@
             </tr>
             <tr>
                 <td colspan="2" class="text-end">عدد الأبناء</td>
-                <td colspan="2" class="text-center">{{FamilyDetails.length}}</td>
+                <td colspan="2" class="text-center">{{FamilyChildCount}}</td>
                 <td colspan="2" class="text-end">عدد أفراد الأسرة</td>
-                <td colspan="2" class="text-center">{{FamilyDetails.length + 1}}</td>
+                <td colspan="2" class="text-center">{{FamilyChildCount + 1}}</td>
             </tr>
         </tbody>
     </table>
@@ -141,9 +141,6 @@
                             <div *ngIf="ItemForm.controls['nationalId']?.invalid && (ItemForm.controls['nationalId']?.dirty || ItemForm.controls['nationalId']?.touched)" class="text-danger pt-2">
                                 <div *ngIf="ItemForm.controls['nationalId'].errors?.['noSpace']">
                                     لا يمكن ان يحتوي الحقل على مسافات فقط
-                                </div>
-                                <div *ngIf="ItemForm.controls['nationalId'].errors?.['pattern']">
-                                    أدخل أرقام فقط
                                 </div>
                             </div>
                         </div>

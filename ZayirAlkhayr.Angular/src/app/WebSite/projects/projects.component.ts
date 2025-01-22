@@ -22,12 +22,15 @@ export class ProjectsComponent implements OnInit {
   DonationAmountToDisplay: string;
   DonationAmountToDisplay2: string;
   DonationAmountToDisplay3: string;
+  DonationAmountToDisplay4: string;
   DonationAmountDigits: string[] = [];
   DonationAmountDigits2: string[] = [];
   DonationAmountDigits3: string[] = [];
+  DonationAmountDigits4: string[] = [];
   currentIndex: number = 0;
   currentIndex2: number = 0;
   currentIndex3: number = 0;
+  currentIndex4: number = 0;
   ProjectId: any;
   ProjectData: any;
   constructor(private adminService: AdminWebsiteService, private route: ActivatedRoute) { }
@@ -43,14 +46,12 @@ export class ProjectsComponent implements OnInit {
       this.DonationAmountToDisplay = this.ProjectData.totalDonationAmount;
       this.DonationAmountToDisplay2 = this.ProjectData.totalAmount;
       this.DonationAmountToDisplay3 = this.ProjectData.remainingAmount;
+      this.DonationAmountToDisplay4 = this.ProjectData.benefactorCount;
       this.animateCounters();
     })
   }
 
   animateCounters() {
-    let BenefactorCount = 0;
-    const BenefactorCountTarget = Number(this.ProjectData.benefactorCount);
-
     const interval = setInterval(() => {
       if (this.currentIndex < this.DonationAmountToDisplay.length) {
         this.DonationAmountDigits.unshift(this.DonationAmountToDisplay[this.currentIndex]);
@@ -65,7 +66,7 @@ export class ProjectsComponent implements OnInit {
         this.DonationAmountDigits2.unshift(this.DonationAmountToDisplay2[this.currentIndex2]);
         this.currentIndex2++;
       } else {
-        clearInterval(interval);
+        clearInterval(interval2);
       }
     }, 700);
 
@@ -74,18 +75,18 @@ export class ProjectsComponent implements OnInit {
         this.DonationAmountDigits3.unshift(this.DonationAmountToDisplay3[this.currentIndex3]);
         this.currentIndex3++;
       } else {
-        clearInterval(interval);
+        clearInterval(interval3);
       }
     }, 700);
 
-    const beneFactorInterval = setInterval(() => {
-      if (BenefactorCount < BenefactorCountTarget) {
-        BenefactorCount++;
-        this.beneFactorCounter = BenefactorCount.toString();
+    const Interval4 = setInterval(() => {
+      if (this.currentIndex4 < this.DonationAmountToDisplay4.length) {
+        this.DonationAmountDigits4.unshift(this.DonationAmountToDisplay4[this.currentIndex4]);
+        this.currentIndex4++;
       } else {
-        clearInterval(beneFactorInterval);
+        clearInterval(Interval4);
       }
-    }, 75);
+    }, 700);
   }
 
 

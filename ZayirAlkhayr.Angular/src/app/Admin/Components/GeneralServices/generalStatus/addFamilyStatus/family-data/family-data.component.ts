@@ -18,7 +18,9 @@ export class FamilyDataComponent implements OnInit {
   ItemForm: FormGroup;
   FamilyDetailsId: any;
   MaritalStatusName = 'الحالة الاجتماعية';
+  FamilyChild = ["ابنة", "إبنة", "ابنه", "ابن", "إبنه", "إبن"];
   MaritalStatusValidation = false;
+  FamilyChildCount = 0;
   addMode = true;
   MaritalStatus: any[] = [
     { id: 1, name: 'أعزب' },
@@ -33,6 +35,7 @@ export class FamilyDataComponent implements OnInit {
 
   ngOnInit(): void {
     this.FormInit();
+    this.FamilyChildCount = this.FamilyDetails.filter(i => this.FamilyChild.includes(i.relevance)).length;
   }
 
   FormInit() {
@@ -43,7 +46,7 @@ export class FamilyDataComponent implements OnInit {
       age: ['', [Validators.required, this.formService.noSpaceValidator, Validators.pattern("[0-9]+")]],
       education: ['', [Validators.required, this.formService.noSpaceValidator]],
       jop: ['', [Validators.required, this.formService.noSpaceValidator]],
-      nationalId: ['', [this.formService.noSpaceValidator, Validators.pattern("[0-9]+")]],
+      nationalId: ['', [this.formService.noSpaceValidator]],
     });
   }
 
@@ -142,6 +145,8 @@ export class FamilyDataComponent implements OnInit {
         obj.nationalId = formData.nationalId;
       }
     }
+
+    this.FamilyChildCount = this.FamilyDetails.filter(i => this.FamilyChild.includes(i.relevance)).length;
     if (this.UpdateMode)
       this.FamilyDetailsChange.emit(this.FamilyDetails);
     this.modalService.dismissAll();
@@ -151,6 +156,7 @@ export class FamilyDataComponent implements OnInit {
     this.FamilyDetails = this.FamilyDetails.filter(i => i.id != this.FamilyDetailsId);
     if (this.UpdateMode)
       this.FamilyDetailsChange.emit(this.FamilyDetails);
+    this.FamilyChildCount = this.FamilyDetails.filter(i => this.FamilyChild.includes(i.relevance)).length;
     this.modalService.dismissAll();
   }
 
