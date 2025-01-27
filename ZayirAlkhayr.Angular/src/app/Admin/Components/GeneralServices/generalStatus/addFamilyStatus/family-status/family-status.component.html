@@ -10,7 +10,7 @@
                 <tr>
                     <td class="fvt-td-bg">اسم الحالة</td>
                     <td>
-                        <input type="text" class="form-control" [disabled]="DetailsMode || UpdateMode" (input)="FamilyStatusNameChange()" name="StatusName" #StatusName="ngModel" [(ngModel)]="FamilyStatus.name" required/>
+                        <input type="text" class="form-control" [disabled]="DetailsMode" (input)="FamilyStatusNameChange()" name="StatusName" #StatusName="ngModel" [(ngModel)]="FamilyStatus.name" required/>
                         <div class="text-danger pt-2" *ngIf="StatusName.invalid && (StatusName.dirty || StatusName.touched || FamilyForm.submitted )">
                             <div *ngIf="StatusName.errors?.required">هذا الحقل مطلوب</div>
                         </div>
@@ -19,7 +19,7 @@
                 <tr>
                     <td class="fvt-td-bg">الشهرة</td>
                     <td>
-                        <input type="text" class="form-control" [disabled]="DetailsMode || UpdateMode" name="Fname" #Fname="ngModel" [(ngModel)]="FamilyStatus.fname" required/>
+                        <input type="text" class="form-control" [disabled]="DetailsMode" name="Fname" #Fname="ngModel" [(ngModel)]="FamilyStatus.fname" required/>
                         <div class="text-danger pt-2" *ngIf="Fname.invalid && (Fname.dirty || Fname.touched || FamilyForm.submitted )">
                             <div *ngIf="Fname.errors?.required">هذا الحقل مطلوب</div>
                         </div>
