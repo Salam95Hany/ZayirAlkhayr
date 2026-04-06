@@ -1,0 +1,26 @@
+﻿using Microsoft.AspNetCore.Http;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ZayirAlkhayr.Entities.Models
+{
+    [Table(name: "Categories", Schema = "POS")]
+    public class Category
+    {
+        public int CategoryId { get; set; }
+        public string Name { get; set; }
+        public bool IsActive { get; set; }
+        public string InsertUser { get; set; }
+        public DateTime? InsertDate { get; set; }
+        public string UpdateUser { get; set; }
+        public DateTime? UpdateDate { get; set; }
+        [NotMapped]
+        public string OldFileName { get; set; }
+        [NotMapped]
+        public IFormFile Files { get; set; }
+    }
+}

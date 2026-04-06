@@ -65,13 +65,5 @@ namespace ZayirAlkhayr.Controllers.Settings
             var results = _userService.DeleteUser(UserId);
             return results;
         }
-
-        [HttpGet]
-        [Route("GetStatisticsHome")]
-        public StatisticsHomeModel GetStatisticsHome()
-        {
-            var results = _userService.GetStatisticsHome();
-            return results;
-        }
     }
 }

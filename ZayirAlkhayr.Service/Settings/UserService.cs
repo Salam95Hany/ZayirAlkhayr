@@ -21,9 +21,9 @@ namespace ZayirAlkhayr.Service.Settings
     {
         private UserManager<AdminUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly ZADbContext _context;
+        private readonly POSDbContext _context;
         private readonly ISQLHelper _sQLHelper;
-        public UserService(UserManager<AdminUser> userManager, RoleManager<IdentityRole> roleManager, ZADbContext context, ISQLHelper sQLHelper)
+        public UserService(UserManager<AdminUser> userManager, RoleManager<IdentityRole> roleManager, POSDbContext context, ISQLHelper sQLHelper)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -229,17 +229,6 @@ namespace ZayirAlkhayr.Service.Settings
                 Response.Done = false;
                 return Response;
             }
-        }
-
-        public StatisticsHomeModel GetStatisticsHome()
-        {
-            var StatisticsModel = new StatisticsHomeModel();
-            var VisitorCount = _context.WebSiteVisitors.Count();
-            var User = _context.Users.ToList();
-            StatisticsModel.VisitorCount = VisitorCount;
-            StatisticsModel.ActiveUserCount = User.Where(i => i.IsActive).Count();
-            StatisticsModel.InactiveUserCount = User.Where(i => !i.IsActive).Count();
-            return StatisticsModel;
         }
     }
 }

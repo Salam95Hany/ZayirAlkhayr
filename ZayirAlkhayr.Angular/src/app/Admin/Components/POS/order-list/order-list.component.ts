@@ -1,0 +1,149 @@
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { FilterModel } from 'src/app/Admin/Models/FilterModel';
+import { PagingFilterModel } from 'src/app/Admin/Models/PagingFilterModel';
+import { AdminService } from 'src/app/Admin/Services/admin.service';
+import { ValidationFormService } from 'src/app/Admin/Services/validation-form.service';
+
+@Component({
+  selector: 'app-order-list',
+  templateUrl: './order-list.component.html',
+  styleUrls: ['./order-list.component.css']
+})
+export class OrderListComponent {
+UserModel: any;
+  isFilter = false;
+  showLoader = false;
+  ItemForm: FormGroup;
+  defaultImage = 'balena-2.jpeg';
+  Total = 0;
+  CategoryId: any;
+  ProductId: any;
+  OrderId: any;
+  Results: any[] = [];
+  Categories: any[] = [];
+  Products: any[] = [];
+  SelectedProducts: any[] = [];
+  VoidReason: any;
+  Notes: any;
+  ProductPrice = 0;
+  TotalValue = 0;
+  CategoryName = 'اختر فئة';
+  ProductName = 'اختر عنصر';
+  CategoryValidation = false;
+  ProductValidation = false;
+  OrderNumber: any;
+  OrderDate: any;
+  CategoryPagingFilter: PagingFilterModel = {
+    filterList: [],
+    currentpage: 1,
+    pagesize: 500
+  }
+  PagingFilter: PagingFilterModel = {
+    filterList: [],
+    currentpage: 1,
+    pagesize: 10
+  }
+
+
+  constructor(private modalService: NgbModal, private adminService: AdminService,
+    private formService: ValidationFormService, private offcanvasService: NgbOffcanvas,
+    private fb: FormBuilder, private toaster: ToastrService) {
+
+  }
+
+  ngOnInit(): void {
+    this.UserModel = JSON.parse(localStorage.getItem('UserModel'));
+    this.GetAllOrders();
+    this.FormInit();
+  }
+
+  FormInit() {
+    this.ItemForm = this.fb.group({
+      voidReason: ['', [Validators.required, this.formService.noSpaceValidator]],
+      voidNotes: null
+    });
+  }
+
+  FillEditForm(item: any) {
+    this.OrderId = item.orderId;
+    this.GetOrderDetailsByOrderId();
+  }
+
+
+  openSidePanel(content: any, item: any) {
+    this.OrderId = item.orderId;
+    this.OrderNumber = item.orderNumber;
+    this.OrderDate = item.orderDate;
+    this.VoidReason = item?.voidReason;
+    this.Notes = item?.notes;
+    this.GetOrderDetailsByOrderId();
+    this.offcanvasService.open(content, { position: 'end' });
+  }
+
+  openDeleteItemModal(content: any, item: any) {
+    this.ItemForm.reset();
+    this.OrderId = item.orderId;
+    this.modalService.open(content, {
+      size: 'lg',
+      scrollable: true,
+      centered: true
+    });
+  }
+
+
+  GetOrderDetailsByOrderId() {
+    this.adminService.GetOrderDetailsByOrderId(this.OrderId).subscribe(data => {
+      this.SelectedProducts = data.results;
+      this.TotalValue = this.SelectedProducts.reduce((sum, item) => sum + (item.totalValue || 0), 0);
+    });
+  }
+
+  GetAllOrders() {
+    this.adminService.GetAllOrders(this.PagingFilter).subscribe(data => {
+      this.Results = data.results;
+    });
+  }
+
+  PageChange(obj: any) {
+    this.PagingFilter.currentpage = obj.page;
+    this.GetAllOrders();
+  }
+
+  FilterChecked(filterList: FilterModel[]) {
+    this.PagingFilter.filterList = filterList;
+    this.GetAllOrders();
+  }
+
+  getStatusColor(statusId: number) {
+    return {
+      'finished': statusId == 1,
+      'deleted': statusId == 2
+    }
+  }
+
+  CancelOrder() {
+    this.ItemForm = this.formService.TrimFormInputValue(this.ItemForm);
+    let isValid = this.ItemForm.valid;
+
+    if (!isValid) {
+      this.formService.validateAllFormFields(this.ItemForm);
+      return;
+    }
+
+    let fromValue = this.ItemForm.value;
+
+    this.adminService.CancelOrder(fromValue.voidReason, fromValue.action, fromValue.voidNotes, this.OrderId).subscribe(data => {
+      if (data.isSuccess) {
+        this.toaster.success(data.message);
+        this.GetAllOrders();
+        this.modalService.dismissAll();
+      }
+      else
+        this.toaster.error(data.message);
+      this.showLoader = false;
+    });
+  }
+}

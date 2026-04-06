@@ -4,48 +4,22 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppComponent } from './app.component';
-import { HomeComponent } from './WebSite/home/home.component';
-import { EventComponent } from './WebSite/event/event.component';
-import { AboutusComponent } from './WebSite/aboutus/aboutus.component';
-import { ActivityComponent } from './WebSite/activity/activity.component';
-import { ActivityDetailsComponent } from './WebSite/activity-details/activity-details.component';
-import { PhotosComponent } from './WebSite/photos/photos.component';
-import { PhotoDetailsComponent } from './WebSite/photo-details/photo-details.component';
-import { FooterComponent } from './WebSite/footer/footer.component';
-import { HeaderComponent } from './WebSite/header/header.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SwiperModule } from 'swiper/angular';
-import { CarouselComponent } from './WebSite/media/media.component';
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { ngxLoadingAnimationTypes, NgxLoadingModule } from "ngx-loading";
 import { NotAuthorizedComponent } from './Auth/not-authorized/not-authorized.component';
-import { BenefactorLoginComponent } from './WebSite/benefactor/benefactor-login/benefactor-login.component';
-import { BenefactorWebDetailsComponent } from './WebSite/benefactor/benefactor-web-details/benefactor-web-details.component';
 import { CommonModule, DatePipe } from '@angular/common';
-import { ProjectsComponent } from './WebSite/projects/projects.component';
-import { ProjectDeniedComponent } from './WebSite/ProjectAuth/project-denied/project-denied.component';
+import { CreateOrderComponent } from './Admin/Shared/create-order/create-order.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    EventComponent,
-    AboutusComponent,
-    ActivityComponent,
-    ActivityDetailsComponent,
-    PhotosComponent,
-    PhotoDetailsComponent,
-    FooterComponent,
-    HeaderComponent,
-    CarouselComponent,
     LoginComponent,
     NotAuthorizedComponent,
-    BenefactorLoginComponent,
-    BenefactorWebDetailsComponent,
-    ProjectsComponent,
-    ProjectDeniedComponent,
+    CreateOrderComponent
   ],
   imports: [
     BrowserModule,

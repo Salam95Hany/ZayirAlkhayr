@@ -33,7 +33,7 @@ namespace ZayirAlkhayr.Service.Common
             int startrow = 5;
             try
             {
-                var columnsToRemove = data.Columns.Cast<DataColumn>().Where(col => !exportTemplateBase.Header.ListHeaders.Select(x => x.NameEn).Contains(col.ColumnName)).ToList();
+                var columnsToRemove = data.Columns.Cast<DataColumn>().ToList();
                 columnsToRemove.ForEach(col => data.Columns.Remove(col));
                 var temp = new FileInfo(Path.Combine(hostingEnvironment.WebRootPath, @"Template\", "ZAStyle.xlsx"));
                 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
@@ -95,7 +95,7 @@ namespace ZayirAlkhayr.Service.Common
                 for (var i = 0; i < Headers.TblHeaders.Count; i++)
                 {
                     var headerName = Headers.TblHeaders[i];
-                    var header = Headers.ListHeaders.FirstOrDefault(i => i.NameEn == headerName);
+                    var header = new { NameAr = string.Empty };// Headers.ListHeaders.FirstOrDefault(i => i.NameEn == headerName);
                     var headerValue = header.NameAr;
                     var headerCell = worksheet.Cells[4, i + 1];
                     headerCell.Value = headerValue;

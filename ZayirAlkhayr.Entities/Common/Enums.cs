@@ -8,24 +8,19 @@ namespace ZayirAlkhayr.Entities.Common
 {
     public enum ImageFiles
     {
-        SliderImages = 0,
-        ActivityImages = 1,
-        ActivitySliderImages = 2,
-        ExportFiles = 3,
-        PhotoImages = 4,
-        PhotoDetailImages = 5,
-        EventSliderImages = 6,
-        BeneFactorImages = 7,
-        BeneFactorDetailsImages = 8,
-        ProjectSliderImages = 9
+        SliderImages = 0
     }
 
-    public enum FamilyStatusTabs
+    public enum OrderTypes
     {
-        All = 0,
-        Poor = 1,
-        Widows = 2,
-        Patient = 3,
-        Needed = 4
+        TakeAway = 1,
+        Delivery =2
+    }
+
+    public enum OrderStatus
+    {
+        InProgress = 1,
+        Completed = 2,
+        Cancelled = 3
     }
 }

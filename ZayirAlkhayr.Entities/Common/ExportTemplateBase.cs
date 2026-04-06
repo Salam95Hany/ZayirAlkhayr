@@ -30,7 +30,6 @@ namespace PosSystem.Entities.Common
 
     public class ExportHeaders
     {
-        public List<PDFHeaderSelected> ListHeaders { get; set; }
         public IList<string> TblHeaders { get; set; }
         
     }

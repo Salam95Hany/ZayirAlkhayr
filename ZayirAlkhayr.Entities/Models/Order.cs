@@ -1,0 +1,28 @@
+﻿using Microsoft.AspNetCore.Http;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ZayirAlkhayr.Entities.Common;
+
+namespace ZayirAlkhayr.Entities.Models
+{
+    [Table(name: "Orders", Schema = "POS")]
+    public class Order
+    {
+        public int OrderId { get; set; }
+        public int? CustomerId { get; set; }
+        public string OrderNumber { get; set; }
+        public OrderTypes OrderType { get; set; }
+        public OrderStatus OrderStatus { get; set; }
+        public double TotalAmount { get; set; }
+        public double? CostDelivery { get; set; }
+        public bool IsUpdated { get; set; }
+        public string InsertUser { get; set; }
+        public DateTime? InsertDate { get; set; }
+        public string UpdateUser { get; set; }
+        public DateTime? UpdateDate { get; set; }
+    }
+}

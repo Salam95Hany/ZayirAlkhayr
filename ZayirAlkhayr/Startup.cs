@@ -12,18 +12,10 @@ using Microsoft.OpenApi.Models;
 using QuestPDF.Infrastructure;
 using System.Text;
 using ZayirAlkhayr.Entities.Models;
-using ZayirAlkhayr.Interface.BeneFactor;
 using ZayirAlkhayr.Interface.Common;
-using ZayirAlkhayr.Interface.GeneralServices;
 using ZayirAlkhayr.Interface.Settings;
-using ZayirAlkhayr.Interface.Tasks;
-using ZayirAlkhayr.Interface.WebSite;
-using ZayirAlkhayr.Service.BeneFactor;
 using ZayirAlkhayr.Service.Common;
-using ZayirAlkhayr.Service.GeneralServices;
 using ZayirAlkhayr.Service.Settings;
-using ZayirAlkhayr.Service.Tasks;
-using ZayirAlkhayr.Service.WebSite;
 
 namespace ZayirAlkhayr
 {
@@ -34,7 +26,7 @@ namespace ZayirAlkhayr
         {
             Configuration = configuration;
         }
-        readonly string MyAllowSpecificOrigins = "_ZayirAlkhayr";
+        readonly string MyAllowSpecificOrigins = "_POSRestaurant";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -51,7 +43,7 @@ namespace ZayirAlkhayr
                     });
             });
             services.AddControllers();
-            services.AddDbContext<ZADbContext>();
+            services.AddDbContext<POSDbContext>();
             QuestPDF.Settings.License = LicenseType.Community;
             services.AddIdentity<AdminUser, IdentityRole>(options =>
             {
@@ -61,7 +53,7 @@ namespace ZayirAlkhayr
                 options.Password.RequireUppercase = false;
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+/ ";
             })
-                .AddEntityFrameworkStores<ZADbContext>()
+                .AddEntityFrameworkStores<POSDbContext>()
                 .AddDefaultTokenProviders();
 
             var key = Encoding.UTF8.GetBytes("1234567890123456");
@@ -91,31 +83,13 @@ namespace ZayirAlkhayr
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ZayirAlkhayr", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "POSRestaurant", Version = "v1" });
             });
             //QuestPDF.Settings.License = LicenseType.Community;
-            services.AddScoped<IWebsiteHomeService, WebsiteHomeService>();
-            services.AddScoped<IEventService, EventService>();
-            services.AddScoped<IActivityService, ActivityService>();
-            services.AddScoped<IPhotoService, PhotoService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IBeneFactorService, BeneFactorService>();
-            services.AddScoped<IAccountsMonyService, AccountsMonyService>();
-            services.AddScoped<IDbBackupService, DbBackupService>();
-            services.AddScoped<IGeneralTasksService, GeneralTasksService>();
-            services.AddScoped<IFamilyStatusService, FamilyStatusService>();
-            services.AddScoped<IAddFamilyStatusService, AddFamilyStatusService>();
             services.AddScoped<IManageFileService, ManageFileService>();
             services.AddScoped<IExportManagerService, ExportManagerService>();
-            services.AddScoped<ICreatePdfFileService, CreatePdfFileService>();
             services.AddScoped<ISQLHelper, SQLHelper>();
-            services.AddScoped<IFamilyNationalityService, FamilyNationalityService>();
-            services.AddScoped<IFamilyNeedsService, FamilyNeedsService>();
-            services.AddScoped<IFamilyCategoryService, FamilyCategoryService>();
-            services.AddScoped<IFamilyPatientService, FamilyPatientService>();
-            services.AddScoped<IUpdateFamilyStatusService, UpdateFamilyStatusService>();
-            services.AddScoped<IProjectsService, ProjectsService>();
-            services.AddScoped<IOrphansService, OrphansService>();
 
             services.AddMvc(options =>
                 {
@@ -137,7 +111,7 @@ namespace ZayirAlkhayr
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ZayirAlkhayr v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "POSRestaurant v1"));
             }
 
             app.UseAuthentication();
