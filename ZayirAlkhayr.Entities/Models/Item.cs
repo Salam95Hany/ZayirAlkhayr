@@ -14,6 +14,7 @@ namespace ZayirAlkhayr.Entities.Models
         public int ItemId { get; set; }
         public int CategoryId { get; set; }
         public string Name { get; set; }
+        public string Image { get; set; }
         public double Price { get; set; }
         public double CostPrice { get; set; }
         public bool IsActive { get; set; }
@@ -25,5 +26,7 @@ namespace ZayirAlkhayr.Entities.Models
         public string OldFileName { get; set; }
         [NotMapped]
         public IFormFile Files { get; set; }
+        public virtual Category Category { get; set; }
+        public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
     }
 }

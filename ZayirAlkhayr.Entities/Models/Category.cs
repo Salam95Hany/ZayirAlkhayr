@@ -13,6 +13,7 @@ namespace ZayirAlkhayr.Entities.Models
     {
         public int CategoryId { get; set; }
         public string Name { get; set; }
+        public string Image { get; set; }
         public bool IsActive { get; set; }
         public string InsertUser { get; set; }
         public DateTime? InsertDate { get; set; }
@@ -22,5 +23,6 @@ namespace ZayirAlkhayr.Entities.Models
         public string OldFileName { get; set; }
         [NotMapped]
         public IFormFile Files { get; set; }
+        public ICollection<Item> Items { get; set; } = new List<Item>();
     }
 }

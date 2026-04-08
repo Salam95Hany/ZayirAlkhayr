@@ -7,15 +7,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using QuestPDF.Infrastructure;
 using System.Text;
+using ZayirAlkhayr.Entities.Auth;
 using ZayirAlkhayr.Entities.Models;
+using ZayirAlkhayr.Interface.Auth;
 using ZayirAlkhayr.Interface.Common;
-using ZayirAlkhayr.Interface.Settings;
+using ZayirAlkhayr.Interface.Customer;
+using ZayirAlkhayr.Interface.POS;
+using ZayirAlkhayr.Interface.Repositories;
+using ZayirAlkhayr.Service.Auth;
 using ZayirAlkhayr.Service.Common;
-using ZayirAlkhayr.Service.Settings;
+using ZayirAlkhayr.Service.Customer;
+using ZayirAlkhayr.Service.POS;
+using ZayirAlkhayr.Service.Repositories;
 
 namespace ZayirAlkhayr
 {
@@ -42,16 +50,16 @@ namespace ZayirAlkhayr
                                .AllowAnyMethod();
                     });
             });
+            services.Configure<AppSettings>(Configuration);
+            services.AddSingleton<IAppSettings>(sp => sp.GetRequiredService<IOptions<AppSettings>>().Value);
             services.AddControllers();
             services.AddDbContext<POSDbContext>();
             QuestPDF.Settings.License = LicenseType.Community;
             services.AddIdentity<AdminUser, IdentityRole>(options =>
             {
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequiredLength = 4;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 8;
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+/ ";
+                options.User.RequireUniqueEmail = true;
             })
                 .AddEntityFrameworkStores<POSDbContext>()
                 .AddDefaultTokenProviders();
@@ -86,10 +94,17 @@ namespace ZayirAlkhayr
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "POSRestaurant", Version = "v1" });
             });
             //QuestPDF.Settings.License = LicenseType.Community;
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ISQLHelper, SQLHelper>();
             services.AddScoped<IManageFileService, ManageFileService>();
             services.AddScoped<IExportManagerService, ExportManagerService>();
-            services.AddScoped<ISQLHelper, SQLHelper>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IJwtProvider, JwtProvider>();
+            services.AddScoped<IItemService, ItemService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<ICustomerService, CustomerService>();
 
             services.AddMvc(options =>
                 {

@@ -10,7 +10,7 @@ namespace ZayirAlkhayr.Interface.Common
 {
     public interface IManageFileService
     {
-        Task<HandleErrorResponseModel> UploadFile(IFormFile File, string OldFileName, ImageFiles FolderName);
-        HandleErrorResponseModel DeleteFile(string FileName, ImageFiles FolderName);
+        Task<ApiResponseModel<string>> UploadFile(IFormFile File, string OldFileName, ImageFiles FolderName);
+        ApiResponseModel<string> DeleteFile(string FileName, ImageFiles FolderName);
     }
 }

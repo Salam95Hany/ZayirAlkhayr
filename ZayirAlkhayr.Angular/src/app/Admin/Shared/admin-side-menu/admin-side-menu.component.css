@@ -7,22 +7,26 @@
     right: 0;
     z-index: 5;
     /*background: url("../../../../assets/admin-sidemenu.jpg") no-repeat;
-    */background-size: cover;
+    */
+    background-size: cover;
     transition: var(--main-transition);
     -webkit-transition: var(--main-transition);
     -moz-transition: var(--main-transition);
     -ms-transition: var(--main-transition);
     -o-transition: var(--main-transition);
 }
-  #admin-side-menu.collapse-side-menu {
+
+#admin-side-menu.collapse-side-menu {
     width: var(--collapse-menu);
     min-width: var(--collapse-menu);
-  }
-  #admin-side-menu.collapse-side-menu:hover {
+}
+
+#admin-side-menu.collapse-side-menu:hover {
     width: var(--admin-side-menu-width);
     min-width: var(--admin-side-menu-width);
-  }
-  .admin-side-menu-content {
+}
+
+.admin-side-menu-content {
     position: relative;
     z-index: 2;
     color: #FFF;
@@ -31,8 +35,9 @@
     opacity: .9;
     height: calc(100vh - var(--admin-header-height));
     overflow: auto;
-  }
-  .admin-side-menu-user {
+}
+
+.admin-side-menu-user {
     padding: 15px;
     background-color: rgba(255, 255, 255, .1);
     border-radius: 5px;
@@ -40,37 +45,42 @@
     -moz-border-radius: 5px;
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
-  }
-  .side-menu-list-title {
+}
+
+.side-menu-list-title {
     text-transform: uppercase;
     font-size: .9rem;
     margin: .75rem 0;
     font-weight: 700;
     white-space: nowrap;
     color: rgba(255, 255, 255, .6);
-  }
-  .menu-list-collapsed {
+}
+
+.menu-list-collapsed {
     position: relative;
     padding-right: 25px;
-  }
-  .menu-list-collapsed::before {
+}
+
+.menu-list-collapsed::before {
     content: '';
     width: 3px;
     height: calc(100% - 10px);
     position: absolute;
     top: 0;
     right: 15px;
-    background-color: rgba(255,255,255,.3);
+    background-color: rgba(255, 255, 255, .3);
     border-radius: 15px;
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
     -ms-border-radius: 15px;
     -o-border-radius: 15px;
-  }
-  .admin-side-menu-content {
+}
+
+.admin-side-menu-content {
     white-space: nowrap;
-  }
-  .side-menu-list-link {
+}
+
+.side-menu-list-link {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -81,16 +91,19 @@
     white-space: nowrap;
     text-decoration: none;
     cursor: pointer;
-  }
-  .side-menu-list-link.sub-link {
+}
+
+.side-menu-list-link.sub-link {
     padding: 4px 15px 6px 0;
-  }
-  .side-menu-list-link:hover,
-  .side-menu-list-link.active {
+}
+
+.side-menu-list-link:hover,
+.side-menu-list-link.active {
     color: #fff;
     background: rgba(255, 255, 255, .1);
-  }
-  .side-menu-list-link.with-sub-menu::after {
+}
+
+.side-menu-list-link.with-sub-menu::after {
     content: '\f077';
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
@@ -109,81 +122,89 @@
     -moz-transition: var(--main-transition);
     -ms-transition: var(--main-transition);
     -o-transition: var(--main-transition);
-  }
-  .side-menu-list-link.with-sub-menu.expanded::after {
+}
+
+.side-menu-list-link.with-sub-menu.expanded::after {
     transform: rotate(-180deg) translateY(10px);
     -webkit-transform: rotate(-180deg) translateY(10px);
     -moz-transform: rotate(-180deg) translateY(10px);
     -ms-transform: rotate(-180deg) translateY(10px);
     -o-transform: rotate(-180deg) translateY(10px);
-  }
-  .side-menu-list-item:not(:last-of-type) .side-menu-list-link {
+}
+
+.side-menu-list-item:not(:last-of-type) .side-menu-list-link {
     margin-bottom: 5px;
-  }
-  #admin-side-menu.collapse-side-menu .side-menu-list-link:not(.with-sub-menu) {
+}
+
+#admin-side-menu.collapse-side-menu .side-menu-list-link:not(.with-sub-menu) {
     justify-content: center;
-  }
-  #admin-side-menu.collapse-side-menu:hover .side-menu-list-link {
+}
+
+#admin-side-menu.collapse-side-menu:hover .side-menu-list-link {
     justify-content: start;
-  }
-  #admin-side-menu.collapse-side-menu .menu-list-collapsed {
+}
+
+#admin-side-menu.collapse-side-menu .menu-list-collapsed {
     padding-right: 11px;
     opacity: 0;
-  }
-  #admin-side-menu.collapse-side-menu:hover .menu-list-collapsed {
+}
+
+#admin-side-menu.collapse-side-menu:hover .menu-list-collapsed {
     padding-right: 25px;
     opacity: 1;
-  }
-  #admin-side-menu .side-menu-text {
+}
+
+#admin-side-menu .side-menu-text {
     font-size: 14px;
-  }
-  #admin-side-menu.collapse-side-menu .side-menu-text {
+}
+
+#admin-side-menu.collapse-side-menu .side-menu-text {
     text-indent: -999em;
     display: none;
-  }
-  #admin-side-menu.collapse-side-menu:hover .side-menu-text {
+}
+
+#admin-side-menu.collapse-side-menu:hover .side-menu-text {
     text-indent: 1em;
     display: flex;
-  }
+}
 
-  .admin-side-menu-overlay {
+.admin-side-menu-overlay {
     position: fixed;
     inset: 0;
     z-index: 1;
-    background-color: rgba(0,0,0, .5);
+    background-color: rgba(0, 0, 0, .5);
     width: 100%;
     height: 100%;
     cursor: pointer;
     display: none;
-  }
+}
 
-  @media(max-width: 1000px) {
+@media(max-width: 1000px) {
     #admin-side-menu {
-      right: -270px;
+        right: -270px;
     }
     #admin-side-menu.collapse-side-menu {
-      right: 0;
-      width: var(--admin-side-menu-width);
-      min-width: var(--admin-side-menu-width);
+        right: 0;
+        width: var(--admin-side-menu-width);
+        min-width: var(--admin-side-menu-width);
     }
     #admin-side-menu.collapse-side-menu:hover {
-      right: 0;
-      width: var(--admin-side-menu-width);
-      min-width: var(--admin-side-menu-width);
+        right: 0;
+        width: var(--admin-side-menu-width);
+        min-width: var(--admin-side-menu-width);
     }
     #admin-side-menu.collapse-side-menu .side-menu-text {
-      text-indent: 1em;
-      display: flex;
+        text-indent: 1em;
+        display: flex;
     }
     #admin-side-menu.collapse-side-menu .menu-list-collapsed {
-      padding-right: 25px;
-      opacity: 1;
+        padding-right: 25px;
+        opacity: 1;
     }
     .admin-side-menu-overlay.show {
-      display: block;
+        display: block;
     }
     #admin-side-menu.collapse-side-menu .side-menu-list-link:not(.with-sub-menu) {
-      justify-content: start;
+        justify-content: start;
     }
-
-  }
+}

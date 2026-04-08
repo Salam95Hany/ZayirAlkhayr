@@ -16,10 +16,9 @@ namespace ZayirAlkhayr.Service.Common
         {
             _environment = environment;
         }
-        public async Task<HandleErrorResponseModel> UploadFile(IFormFile File, string OldFileName, ImageFiles FolderName)
+        public async Task<ApiResponseModel<string>> UploadFile(IFormFile File, string OldFileName, ImageFiles FolderName)
         {
-            var Response = new HandleErrorResponseModel();
-            string FolderPath = Path.Combine(_environment.WebRootPath, FolderName.ToString());
+            string FolderPath = Path.Combine(_environment.WebRootPath, "Images", FolderName.ToString());
             if (!string.IsNullOrEmpty(OldFileName))
             {
                 DeleteFile(OldFileName, FolderName);
@@ -27,9 +26,7 @@ namespace ZayirAlkhayr.Service.Common
             bool ImageIsExist = CheckFileIsExist(FolderPath, File.FileName);
             if (ImageIsExist)
             {
-                Response.Done = false;
-                Response.Message = "الصورة موجودة برجاء ادخال صورة اخرى";
-                return Response;
+                return ApiResponseModel<string>.Failure(GenericErrors.TransFailed);
             }
 
             var FileName = Guid.NewGuid().ToString() + "_" + File.FileName;
@@ -38,9 +35,7 @@ namespace ZayirAlkhayr.Service.Common
             var supportedTypes = new[] { ".jpg", ".JPG", ".png", ".PNG", ".bmp", ".jpeg", ".JPEG", ".jfif", ".webp" };
             if (!supportedTypes.Contains(extension))
             {
-                Response.Done = false;
-                Response.Message = "صيغة الملف غير مقبولة";
-                return Response;
+                return ApiResponseModel<string>.Failure(GenericErrors.TransFailed);
             }
             else
             {
@@ -55,17 +50,12 @@ namespace ZayirAlkhayr.Service.Common
                     }
                 }
             }
-
-            Response.Done = true;
-            Response.Message = "تمت اضافة الصورة بنجاح";
-            Response.StringValue = FileName;
-            return Response;
+            return ApiResponseModel<string>.Success(GenericErrors.AddSuccess, FileName);
         }
 
-        public HandleErrorResponseModel DeleteFile(string FileName, ImageFiles FolderName)
+        public ApiResponseModel<string> DeleteFile(string FileName, ImageFiles FolderName)
         {
-            var Response = new HandleErrorResponseModel();
-            string DirectoryPath = Path.Combine(_environment.WebRootPath, FolderName.ToString());
+            string DirectoryPath = Path.Combine(_environment.WebRootPath, "Images", FolderName.ToString());
             string FullPath = Path.Combine(DirectoryPath, FileName);
             if (File.Exists(FullPath))
             {
@@ -75,15 +65,12 @@ namespace ZayirAlkhayr.Service.Common
                 }
                 catch (Exception)
                 {
-                    Response.Done = false;
-                    Response.Message = "لقد حدث خطا لا يمكن حذف هذه الصورة";
+                    return ApiResponseModel<string>.Failure(GenericErrors.TransFailed);
                 }
 
             }
 
-            Response.Done = true;
-            Response.Message = "تم حذف الصورة بنجاح";
-            return Response;
+            return ApiResponseModel<string>.Success(GenericErrors.DeleteSuccess);
         }
 
         private bool CheckFileIsExist(string FolderPath, string FileName)

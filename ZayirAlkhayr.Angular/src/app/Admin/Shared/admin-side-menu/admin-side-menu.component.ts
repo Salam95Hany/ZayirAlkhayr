@@ -16,12 +16,8 @@ export class AdminSideMenuComponent implements OnInit {
   RoleName = '';
   UserModel: any;
   Roles = [
-    { nameEn: 'SupperAdmin', nameAr: 'مدير' },
-    { nameEn: 'WebSite', nameAr: 'موقع زائر الخير' },
-    { nameEn: 'Services', nameAr: 'خدمات اجتماعية' },
-    { nameEn: 'BeneFactors', nameAr: 'متبرعين' },
-    { nameEn: 'Accounts', nameAr: 'حسابات' },
-    { nameEn: 'Admin', nameAr: 'مشرف' }
+    { nameEn: 'Admin', nameAr: 'مدير' },
+    { nameEn: 'Cashier', nameAr: 'كاشير' }
   ];
   WebSite = ['home-slideimage', 'activity', 'event', 'photo'];
   BeneFactor = ['benefactors', 'benefactor-detail', 'benefactor-type', 'benefactor-note', 'benefactor-nationality'];

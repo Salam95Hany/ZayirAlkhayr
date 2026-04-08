@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ZayirAlkhayr.Entities.Common;
 
 namespace ZayirAlkhayr.Entities.Models
 {
@@ -19,5 +15,6 @@ namespace ZayirAlkhayr.Entities.Models
         public DateTime? InsertDate { get; set; }
         public string UpdateUser { get; set; }
         public DateTime? UpdateDate { get; set; }
+        public ICollection<Order> Orders { get; set; } = new List<Order>();
     }
 }

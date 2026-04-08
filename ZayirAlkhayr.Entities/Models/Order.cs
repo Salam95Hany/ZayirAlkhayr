@@ -14,15 +14,20 @@ namespace ZayirAlkhayr.Entities.Models
     {
         public int OrderId { get; set; }
         public int? CustomerId { get; set; }
-        public string OrderNumber { get; set; }
+        public int OrderNumber { get; set; }
         public OrderTypes OrderType { get; set; }
         public OrderStatus OrderStatus { get; set; }
         public double TotalAmount { get; set; }
         public double? CostDelivery { get; set; }
         public bool IsUpdated { get; set; }
+        public string Note { get; set; }
+        public string VoidReason { get; set; }
+        public string VoidNotes { get; set; }
         public string InsertUser { get; set; }
         public DateTime? InsertDate { get; set; }
         public string UpdateUser { get; set; }
         public DateTime? UpdateDate { get; set; }
+        public Customer Customers { get; set; }
+        public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
     }
 }

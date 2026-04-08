@@ -17,5 +17,8 @@ namespace ZayirAlkhayr.Entities.Models
         public int Quantity { get; set; }
         public double Price { get; set; }
         public double Total { get; set; }
+        public Order Order { get; set; }
+
+        public Item Item { get; set; }
     }
 }

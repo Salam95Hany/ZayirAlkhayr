@@ -8,7 +8,8 @@ namespace ZayirAlkhayr.Entities.Common
 {
     public enum ImageFiles
     {
-        SliderImages = 0
+        Items = 0,
+        Categories = 1
     }
 
     public enum OrderTypes
