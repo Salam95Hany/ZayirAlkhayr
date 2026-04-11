@@ -72,5 +72,7 @@ namespace ZayirAlkhayr.Service.Common
         public static Error FinishOrderTable = new("تم إغلاق الطاولة بنجاح");
 
         public static Error TableIsBusy = new("هذه الطاولة مشغولة برجاء اختيار طاولة متاحة");
+
+        public static Error DeleteRelationRow = new("لا يمكن حذف هذا السجل لأنه مرتبط ببيانات أخرى.");
     }
 }

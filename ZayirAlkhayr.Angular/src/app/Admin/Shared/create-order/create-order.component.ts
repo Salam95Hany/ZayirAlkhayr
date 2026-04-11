@@ -5,6 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ValidationFormService } from '../../Services/validation-form.service';
 
 @Component({
   selector: 'app-create-order',
@@ -12,7 +14,7 @@ import { DOCUMENT } from '@angular/common';
   styleUrls: ['./create-order.component.css']
 })
 export class CreateOrderComponent {
-orderModel = {} as any;
+  orderModel = {} as any;
   foodItemsList: any[] = [];
   selectedFoodItems: any[] = [];
   addSelectedFoodItem: any;
@@ -23,7 +25,7 @@ orderModel = {} as any;
   activeCat = null;
   OrderId: any;
   NoteTxt = '';
-  defaultImage = 'balena-2.jpeg';
+  defaultImage = '../../../../assets/PosLogo.jpeg';
   keys: any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
   UserModel: any;
   cashAmount = '';
@@ -31,7 +33,13 @@ orderModel = {} as any;
   remaining = 0;
   CurrentTime: any;
   ele: any;
+  CostDelivery = 10000;
   QtyFoodItemInputCounter: any;
+  OrderTypeId = 1;
+  CustomerSearch = '';
+  CustomerSearchData: any;
+  CustomerSearchCount = 0;
+  ItemCustomerForm: FormGroup;
   CategoryPagingFilter: PagingFilterModel = {
     filterList: [],
     currentpage: 1,
@@ -40,7 +48,7 @@ orderModel = {} as any;
 
 
   constructor(private adminService: AdminService, private toaster: ToastrService, private modalService: NgbModal, private route: ActivatedRoute,
-    @Inject(DOCUMENT) private document: any
+    @Inject(DOCUMENT) private document: any, private fb: FormBuilder, private formService: ValidationFormService
   ) { }
 
   ngOnInit(): void {
@@ -50,8 +58,19 @@ orderModel = {} as any;
     this.orderModel.totalValue = 0;
     this.GetCurrentTime();
     this.GetAllCategories();
+    this.CustomerFormInit();
     if (this.OrderId)
       this.GetOrderWithDetailsByOrderId();
+  }
+
+  CustomerFormInit() {
+    this.ItemCustomerForm = this.fb.group({
+      customerId: 0,
+      fullName: ['', [Validators.required, this.formService.noSpaceValidator]],
+      phone: ['', [Validators.required, this.formService.noSpaceValidator]],
+      address: ['', [Validators.required, this.formService.noSpaceValidator]],
+      insertUser: null
+    });
   }
 
   GetOrderWithDetailsByOrderId() {
@@ -84,8 +103,20 @@ orderModel = {} as any;
     this.modalService.open(content, { size: 'md', centered: true, scrollable: true });
   }
 
-  openTableModal(content: any) {
-    this.modalService.open(content, { size: 'xl', centered: true, scrollable: true })
+  OpenOrderTypeModal(content: any) {
+    this.modalService.open(content, { size: 'lg', centered: true, scrollable: true });
+  }
+
+  OpenCustomerSearchModal(content: any) {
+    this.CustomerSearch = '';
+    this.CustomerSearchCount = 0;
+    this.modalService.open(content, { size: 'lg', centered: true, scrollable: true });
+  }
+
+  OpenAddNewCustomerModal(content: any) {
+    this.CustomerSearch = '';
+    this.CustomerSearchCount = 0;
+    this.modalService.open(content, { size: 'lg', centered: true, scrollable: true });
   }
 
   onClickFoodItem(item: any, content: any) {
@@ -282,5 +313,64 @@ orderModel = {} as any;
           this.toaster.error(data.message);
       });
     }
+  }
+
+  CustomerSearchId: number;
+  OnCustomerSearch(content: any) {
+    if (!this.CustomerSearch) {
+      this.toaster.warning('برجاء إدخال اسم او رقم العميل');
+      return;
+    }
+
+    if (this.CustomerSearch.length > 3) {
+      this.adminService.GetCustomerBySearchText(this.CustomerSearch).subscribe(data => {
+        this.CustomerSearchCount = data.totalCount;
+
+        if (this.CustomerSearchCount == 1) {
+          this.CustomerSearchData = data.results[0];
+          this.modalService.dismissAll();
+        } else {
+          this.CustomerSearchData = null;
+          this.modalService.dismissAll();
+          this.modalService.open(content, { size: 'lg', centered: true, scrollable: true });
+        }
+      });
+    }
+  }
+
+  GetCustomerById() {
+    this.adminService.GetCustomerById(this.CustomerSearchId).subscribe(data => {
+      this.CustomerSearchData = data.results;
+    })
+  }
+
+  AddNewCustomerItem() {
+    this.ItemCustomerForm = this.formService.TrimFormInputValue(this.ItemCustomerForm);
+    let isValid = this.ItemCustomerForm.valid;
+
+    if (!isValid) {
+      this.formService.validateAllFormFields(this.ItemCustomerForm);
+      return;
+    }
+
+    this.showLoader = true;
+    this.adminService.AddNewCustomer(this.ItemCustomerForm.value).subscribe(data => {
+      if (data.isSuccess) {
+        this.toaster.success(data.message);
+        this.CustomerSearchId = data.results;
+        this.GetCustomerById();
+        this.modalService.dismissAll();
+      }
+      else
+        this.toaster.error(data.message);
+      this.showLoader = false;
+    });
+  }
+
+  ResetCustomer() {
+    this.CustomerSearch = '';
+    this.CustomerSearchCount = 0;
+    this.CustomerSearchData = null;
+    this.CustomerSearchId = null;
   }
 }

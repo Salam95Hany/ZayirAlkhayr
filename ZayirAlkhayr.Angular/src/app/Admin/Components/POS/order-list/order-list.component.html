@@ -39,7 +39,7 @@
                             </span>
                         </td>
                         <td>{{item.orderDate | date:'dd/MM/yyyy, h:mm a'}}</td>
-                        <td>{{item.totalAmount}} ج.م</td>
+                        <td>{{item.totalAmount}} ل.س</td>
                         <td>كاش</td>
                         <td>
                             <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
@@ -145,13 +145,13 @@
                                     <td>{{item.categoryName}}</td>
                                     <td>{{item.quantity}}</td>
                                     <td>{{item.price}}</td>
-                                    <td>{{item.totalValue}} ج.م</td>
+                                    <td>{{item.totalValue}} ل.س</td>
                                 </tr>
                             </tbody>
                             <tfoot *ngIf="SelectedProducts.length > 0">
                                 <tr>
                                     <td class="text-end fw-bold">الإجمالي: </td>
-                                    <td colspan="5" class="fw-bold">{{TotalValue}} ج.م</td>
+                                    <td colspan="5" class="fw-bold">{{TotalValue}} ل.س</td>
                                 </tr>
                             </tfoot>
                         </table>

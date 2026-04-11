@@ -45,7 +45,8 @@ namespace ZayirAlkhayr.Service.POS
                 ProductName = i.Name,
                 CategoryName = i.Category.Name,
                 Image = Path.Combine(ApiLocalUrl, "Images", ImageFiles.Items.ToString(), i.Image ?? string.Empty),
-                Price = i.Price
+                Price = i.Price,
+                CostPrice = i.CostPrice
             }).ToList();
             return ApiResponseModel<List<ProductsResponseDto>>.Success(GenericErrors.GetSuccess, data, Count);
         }
@@ -62,7 +63,7 @@ namespace ZayirAlkhayr.Service.POS
                     else
                         return FileName;
                 }
-
+                Model.InsertDate = DateTime.Now;
                 await _unitOfWork.Repository<Item>().AddAsync(Model);
                 await _unitOfWork.CompleteAsync();
                 return ApiResponseModel<string>.Success(GenericErrors.AddSuccess);
@@ -83,6 +84,9 @@ namespace ZayirAlkhayr.Service.POS
                     Entity.Name = Model.Name;
                     Entity.Price = Model.Price;
                     Entity.CategoryId = Model.CategoryId;
+                    Entity.CostPrice = Model.CostPrice;
+                    Entity.UpdateUser = Model.InsertUser;
+                    Entity.UpdateDate = DateTime.Now;
                     if (Model.Files != null)
                     {
                         var FileName = await _manageFileService.UploadFile(Model.Files, Model.OldFileName, ImageFiles.Items);
@@ -113,8 +117,8 @@ namespace ZayirAlkhayr.Service.POS
                 if (Entity != null)
                 {
                     _unitOfWork.Repository<Item>().Delete(Entity);
-                    DeleteCategoryFile(Entity.Image);
                     await _unitOfWork.CompleteAsync();
+                    DeleteCategoryFile(Entity.Image);
                     return ApiResponseModel<string>.Success(GenericErrors.DeleteSuccess);
                 }
 

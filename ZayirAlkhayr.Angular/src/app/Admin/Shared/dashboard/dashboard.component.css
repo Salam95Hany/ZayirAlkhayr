@@ -1,4 +1,12 @@
-:root {
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+ :host {
     --navy: #0f1c2e;
     --navy-mid: #16273d;
     --navy-soft: #1e3350;
@@ -14,14 +22,6 @@
     background: #f1f5f9;
     color: var(--text);
     min-height: 100vh;
-}
-
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
 }
 
 
@@ -97,7 +97,7 @@
     height: 16px;
     background: var(--danger);
     border-radius: 50%;
-    font-size: .6rem;
+    font-size: 1rem;
     font-weight: 700;
     color: #fff;
     display: grid;
@@ -114,7 +114,7 @@
     place-items: center;
     color: #fff;
     font-weight: 700;
-    font-size: .8rem;
+    font-size: 1rem;
     margin-left: 6px;
     cursor: pointer;
     border: 2px solid rgba(255, 255, 255, .2);
@@ -219,7 +219,7 @@
 }
 
 .stat-label {
-    font-size: .75rem;
+    font-size: 1rem;
     font-weight: 500;
     color: var(--muted);
     letter-spacing: .5px;
@@ -236,7 +236,7 @@
 }
 
 .stat-delta {
-    font-size: .72rem;
+    font-size: 1rem;
     color: var(--muted);
     display: flex;
     align-items: center;
@@ -293,13 +293,13 @@
 
 .card-title {
     font-family: 'Syne', sans-serif;
-    font-size: .95rem;
+    font-size: 1rem;
     font-weight: 700;
     letter-spacing: -.2px;
 }
 
 .badge-pill {
-    font-size: .68rem;
+    font-size: 1rem;
     font-weight: 600;
     padding: 4px 10px;
     border-radius: 20px;
@@ -341,6 +341,7 @@
     border-top: 1px solid var(--border);
     gap: 12px;
     transition: background .15s;
+    justify-content: space-between;
 }
 
 .order-row:hover {
@@ -350,13 +351,13 @@
 .order-num {
     font-family: 'Syne', sans-serif;
     font-weight: 700;
-    font-size: .88rem;
+    font-size: 1rem;
     color: var(--accent);
     min-width: 48px;
 }
 
 .order-status-badge {
-    font-size: .7rem;
+    font-size: 1rem;
     font-weight: 600;
     padding: 4px 12px;
     border-radius: 20px;
@@ -373,8 +374,7 @@
 }
 
 .order-time {
-    margin-left: auto;
-    font-size: .72rem;
+    font-size: 1rem;
     color: var(--muted);
 }
 
@@ -414,7 +414,7 @@
 .selling-rank {
     font-family: 'Syne', sans-serif;
     font-weight: 800;
-    font-size: .8rem;
+    font-size: 1rem;
     width: 26px;
     height: 26px;
     border-radius: 8px;
@@ -447,11 +447,11 @@
 
 .selling-name {
     font-weight: 600;
-    font-size: .88rem;
+    font-size: 1rem;
 }
 
 .selling-sub {
-    font-size: .72rem;
+    font-size: 1rem;
     color: var(--muted);
 }
 
@@ -472,7 +472,7 @@
 /* ─── STOCK ALERTS ────────────────────────────────────── */
 
 .stock-section-label {
-    font-size: .7rem;
+    font-size: 1rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -500,13 +500,13 @@
 }
 
 .stock-name {
-    font-size: .85rem;
+    font-size: 1rem;
     font-weight: 500;
     flex: 1;
 }
 
 .stock-level {
-    font-size: .72rem;
+    font-size: 1rem;
     font-weight: 600;
     padding: 3px 9px;
     border-radius: 20px;
@@ -561,14 +561,14 @@
 }
 
 .legend-label {
-    font-size: .78rem;
+    font-size: 1rem;
     color: var(--muted);
 }
 
 .legend-val {
     font-family: 'Syne', sans-serif;
     font-weight: 800;
-    font-size: .95rem;
+    font-size: 1rem;
 }
 
 
@@ -595,12 +595,12 @@
 }
 
 .cust-label {
-    font-size: .85rem;
+    font-size: 1rem;
     font-weight: 500;
 }
 
 .cust-sub {
-    font-size: .72rem;
+    font-size: 1rem;
     color: var(--muted);
 }
 
@@ -613,7 +613,7 @@
 
 .cust-chip {
     margin-left: auto;
-    font-size: .7rem;
+    font-size: 1rem;
     font-weight: 600;
     padding: 4px 10px;
     border-radius: 20px;
@@ -625,13 +625,7 @@
 /* ─── BOTTOM ACTIONS ──────────────────────────────────── */
 
 .bottom-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(255, 255, 255, .92);
     backdrop-filter: blur(12px);
-    border-top: 1px solid var(--border);
     padding: 14px 24px;
     display: flex;
     gap: 12px;
@@ -647,7 +641,7 @@
     border-radius: 13px;
     font-family: 'DM Sans', sans-serif;
     font-weight: 600;
-    font-size: .85rem;
+    font-size: 1rem;
     border: none;
     cursor: pointer;
     transition: transform .18s, box-shadow .18s, opacity .18s;
@@ -717,7 +711,7 @@
 }
 
 .page-sub {
-    font-size: .8rem;
+    font-size: 1rem;
     color: var(--muted);
     margin-top: 2px;
 }
@@ -726,7 +720,7 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: .8rem;
+    font-size: 1rem;
     font-weight: 500;
     color: var(--muted);
     background: #fff;

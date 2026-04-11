@@ -111,12 +111,12 @@
     align-items: center;
     justify-content: center;
     background-color: #ffffff;
-    border: 1px solid #ddd;
+    border: 2px solid var(--main-color);
 }
 
 .order-list-img img {
-    width: 25px;
-    height: auto;
+    width: 46px;
+    height: 46px;
 }
 
 .order-list-item {
@@ -157,6 +157,7 @@
     background-color: var(--main-color);
     margin-right: 6px;
     margin-top: 3px;
+    margin-left: 5px;
     border-radius: 50%;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
@@ -165,14 +166,9 @@
 }
 
 .filter-order-box {
-    /* border-bottom: 3px solid #FFF; */
-    /*background-color: #0e1f27;
-    */
     color: #fff;
-    width: 150px;
+    width: 190px;
     height: 180px;
-    /*padding: 20px;
-    */
     padding: 0px 10px 25px 10 px;
     text-align: center;
     border-radius: 15px;
@@ -189,7 +185,7 @@
 }
 
 .filter-order-image {
-    width: 150px;
+    width: 190px;
     height: 180px;
     position: absolute;
     z-index: 1;
@@ -201,7 +197,7 @@
 }
 
 .filter-order-box img {
-    width: 150px;
+    width: 190px;
     height: 180px;
     position: absolute;
     inset: 0;

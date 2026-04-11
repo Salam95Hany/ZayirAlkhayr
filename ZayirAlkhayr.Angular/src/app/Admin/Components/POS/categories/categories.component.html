@@ -32,7 +32,7 @@
                         <td>
                             <img src="{{item.image}}" (error)="$event.target.src = defaultImage" class="table-image">
                         </td>
-                        <td>{{item.categoryName}}</td>
+                        <td>{{item.name}}</td>
                         <td>
                             <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
                                 <i class="uil uil-edit text-primary icon-table-action shadow-sm" (click)="openAddItemModal(OpenItemModal,item)"></i>
@@ -64,13 +64,13 @@
                 <div class="row g-3">
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" formControlName="categoryName" id="floatingInput_1" placeholder="new-user" required>
+                            <input type="text" class="form-control" formControlName="name" id="floatingInput_1" placeholder="new-user" required>
                             <label for="floatingInput_1">الاسم</label>
-                            <div *ngIf="ItemForm.controls['categoryName']?.invalid && (ItemForm.controls['categoryName']?.dirty || ItemForm.controls['categoryName']?.touched)" class="text-danger pt-2">
-                                <div *ngIf="ItemForm.controls['categoryName'].errors?.['required']">
+                            <div *ngIf="ItemForm.controls['name']?.invalid && (ItemForm.controls['name']?.dirty || ItemForm.controls['name']?.touched)" class="text-danger pt-2">
+                                <div *ngIf="ItemForm.controls['name'].errors?.['required']">
                                     هذا الحقل مطلوب
                                 </div>
-                                <div *ngIf="ItemForm.controls['categoryName'].errors?.['noSpace']">
+                                <div *ngIf="ItemForm.controls['name'].errors?.['noSpace']">
                                     لا يمكن ان يحتوي الحقل على مسافات فقط
                                 </div>
                             </div>

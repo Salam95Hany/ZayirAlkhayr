@@ -46,5 +46,13 @@ namespace ZayirAlkhayr.Entities.Models
                 optionsBuilder.EnableSensitiveDataLogging();
             }
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Item>().HasOne(i => i.Category).WithMany(c => c.Items).HasForeignKey(i => i.CategoryId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Order>().HasOne(i => i.Customers).WithMany(c => c.Orders).HasForeignKey(i => i.CustomerId).OnDelete(DeleteBehavior.Restrict);
+        }
     }
 }

@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/Auth/auth.service';
-import { AdminWebsiteService } from '../../Services/admin-website.service';
+import { AdminService } from '../../Services/admin.service';
 
 @Component({
   selector: 'app-admin-header',
@@ -22,13 +22,13 @@ export class AdminHeaderComponent implements OnInit {
   UserModel: any;
 
 
-  constructor(private router: Router, private authService: AuthService, private adminService: AdminWebsiteService) {
-    this.onClickOutside;
+  constructor(private router: Router, private authService: AuthService, private adminService: AdminService) {
+    // this.onClickOutside;
   }
 
   ngOnInit(): void {
     this.UserModel = JSON.parse(localStorage.getItem('UserModel'));
-    this.GetPagesAutoSearch();
+    // this.GetPagesAutoSearch();
   }
 
   HandleSearchEle(index: number, inputEle: any) {
@@ -40,11 +40,11 @@ export class AdminHeaderComponent implements OnInit {
     this.collapseExpandContent.emit();
   }
 
-  GetPagesAutoSearch() {
-    this.adminService.GetPagesAutoSearch(this.SearchText).subscribe(data => {
-      this.PagesList = data;
-    });
-  }
+  // GetPagesAutoSearch() {
+  //   this.adminService.GetPagesAutoSearch(this.SearchText).subscribe(data => {
+  //     this.PagesList = data;
+  //   });
+  // }
 
   onShowAutoCompleteMenu(input: HTMLInputElement) {
     this.showAutoCompleteMenu = true;
@@ -52,7 +52,7 @@ export class AdminHeaderComponent implements OnInit {
       this.showAutoCompleteMenu = false;
     }
     
-    this.GetPagesAutoSearch();
+    // this.GetPagesAutoSearch();
   }
 
   goToWebsite() {
@@ -64,14 +64,14 @@ export class AdminHeaderComponent implements OnInit {
     });
   }
 
-  @HostListener('document:mousedown', ['$event']) onClickOutside(event: Event) {
-    if (!this.autoCompleteWrapper.nativeElement.contains(event.target)) {
-      this.showAutoCompleteMenu = false;
-      this.isSearchOpen = false;
-    } else {
-      return;
-    }
-  }
+  // @HostListener('document:mousedown', ['$event']) onClickOutside(event: Event) {
+  //   if (!this.autoCompleteWrapper.nativeElement.contains(event.target)) {
+  //     this.showAutoCompleteMenu = false;
+  //     this.isSearchOpen = false;
+  //   } else {
+  //     return;
+  //   }
+  // }
 
   Logout() {
     this.authService.AdminLogout(this.UserModel?.userId).subscribe(data => {

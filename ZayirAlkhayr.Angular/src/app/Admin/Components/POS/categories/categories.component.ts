@@ -20,7 +20,7 @@ export class CategoriesComponent {
   ItemForm: FormGroup;
   Total = 0;
   CategoryId: any;
-  defaultImage = 'balena-2.jpeg';
+  defaultImage = '../../../../assets/PosLogo.jpeg';
   ImageFile: any;
   Results: any[] = [];
   fileURL: any[] = [];
@@ -46,7 +46,7 @@ export class CategoriesComponent {
   FormInit() {
     this.ItemForm = this.fb.group({
       categoryId: 0,
-      categoryName: ['', [Validators.required, this.formService.noSpaceValidator]],
+      name: ['', [Validators.required, this.formService.noSpaceValidator]],
       insertUser: null,
       oldFileName: null,
       file: null,
@@ -59,7 +59,7 @@ export class CategoriesComponent {
     let fileName = item.image.split('\\');
     this.ItemForm.setValue({
       categoryId: item.categoryId,
-      categoryName: item.categoryName,
+      name: item.name,
       oldFileName: fileName[fileName.length - 1],
       insertUser: this.UserModel?.userId,
       file: null,

@@ -18,7 +18,7 @@ export class ItemsComponent {
   isFilter = false;
   showLoader = false;
   ItemForm: FormGroup;
-  defaultImage = 'balena-2.jpeg';
+  defaultImage = '../../../../assets/PosLogo.jpeg';
   Total = 0;
   CategoryId: any;
   ProductId: any;
@@ -55,11 +55,11 @@ export class ItemsComponent {
 
   FormInit() {
     this.ItemForm = this.fb.group({
-      productId: 0,
-      productName: ['', [Validators.required, this.formService.noSpaceValidator]],
+      itemId: 0,
+      name: ['', [Validators.required, this.formService.noSpaceValidator]],
       categoryId: null,
       price: ['', [Validators.required, this.formService.noSpaceValidator]],
-      description: null,
+      costPrice: ['', [Validators.required, this.formService.noSpaceValidator]],
       insertUser: null,
       oldFileName: null,
       file: null,
@@ -73,11 +73,11 @@ export class ItemsComponent {
     this.CategoryId = item.categoryId;
     let fileName = item.image.split('\\');
     this.ItemForm.setValue({
-      productId: item.productId,
-      productName: item.productName,
+      itemId: item.productId,
+      name: item.productName,
       categoryId: item.categoryId,
       price: item.price,
-      description: item?.description ? item?.description : null,
+      costPrice: item?.costPrice ? item?.costPrice : null,
       oldFileName: fileName[fileName.length - 1],
       insertUser: this.UserModel?.userId,
       file: null,
@@ -86,7 +86,7 @@ export class ItemsComponent {
 
   ResetForm() {
     this.ItemForm.reset();
-    this.ItemForm.get('productId').setValue(0);
+    this.ItemForm.get('itemId').setValue(0);
     this.CategoryId = null;
     this, this.CategoryName = 'اختر فئة';
     this.ItemForm.get('insertUser').setValue(this.UserModel?.userId);
@@ -117,7 +117,7 @@ export class ItemsComponent {
 
   onCategoryClicked(item: any) {
     this.CategoryId = item.categoryId;
-    this.CategoryName = item.categoryName;
+    this.CategoryName = item.name;
     this.CategoryValidation = false;
   }
 
@@ -179,7 +179,7 @@ export class ItemsComponent {
     const formData = new FormData();
     this.formService.buildFormData(formData, this.ItemForm.value);
     this.showLoader = true;
-    if (this.ItemForm.controls['productId'].value == 0) {
+    if (this.ItemForm.controls['itemId'].value == 0) {
       this.adminService.AddNewProduct(formData).subscribe(data => {
         if (data.isSuccess) {
           this.toaster.success(data.message);

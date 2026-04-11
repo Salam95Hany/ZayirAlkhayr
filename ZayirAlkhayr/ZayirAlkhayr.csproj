@@ -25,6 +25,8 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\ExportFiles\" />
+    <Folder Include="wwwroot\Images\Categories\" />
+    <Folder Include="wwwroot\Images\Items\" />
   </ItemGroup>
 
 </Project>

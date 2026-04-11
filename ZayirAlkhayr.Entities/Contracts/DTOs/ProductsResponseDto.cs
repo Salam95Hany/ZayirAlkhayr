@@ -14,6 +14,7 @@ namespace ZayirAlkhayr.Entities.Contracts.DTOs
         public string CategoryName { get; set; }
         public string Image { get; set; }
         public double Price { get; set; }
+        public double CostPrice { get; set; }
         public string Description { get; set; }
     }
 }

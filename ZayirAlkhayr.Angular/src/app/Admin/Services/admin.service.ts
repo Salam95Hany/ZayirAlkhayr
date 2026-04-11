@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { PagingFilterModel } from '../Models/PagingFilterModel';
 import { map } from 'rxjs';
+import { ApiResponseModel } from '../Models/ApiResponseModel';
 
 @Injectable({
   providedIn: 'root'
@@ -11,110 +12,118 @@ export class AdminService {
   apiURL = environment.apiUrl;
   constructor(private http: HttpClient) { }
 
-  // ============================= AccountsMony ==============================
+  // ============================= Category ==============================
 
-  GetAllAccountsImportMonyData(PagingFilter: PagingFilterModel) {
-    return this.http.post<any[]>(this.apiURL + 'AccountsMony/GetAllAccountsImportMonyData', PagingFilter);
+  GetAllCategories(Model: PagingFilterModel) {
+    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'Category/GetAllCategories', Model);
   }
 
-  GetAllAccountsImportMonyFilters(PagingFilter: PagingFilterModel) {
-    return this.http.post<any[]>(this.apiURL + 'AccountsMony/GetAllAccountsImportMonyFilters', PagingFilter);
+  AddNewCategory(Model: any) {
+    return this.http.post<ApiResponseModel<any>>(this.apiURL + 'Category/AddNewCategory', Model);
   }
 
-  GetAllAccountsExportMonyData(PagingFilter: PagingFilterModel) {
-    return this.http.post<any[]>(this.apiURL + 'AccountsMony/GetAllAccountsExportMonyData', PagingFilter);
+  UpdateCategory(Model: any) {
+    return this.http.post<ApiResponseModel<any>>(this.apiURL + 'Category/UpdateCategory', Model);
   }
 
-  GetAllAccountsExportMonyFilters(PagingFilter: PagingFilterModel) {
-    return this.http.post<any[]>(this.apiURL + 'AccountsMony/GetAllAccountsExportMonyFilters', PagingFilter);
+  DeleteCategory(CategoryId: number) {
+    return this.http.get<ApiResponseModel<any>>(this.apiURL + 'Category/DeleteCategory?CategoryId=' + CategoryId);
   }
 
-  GetAllImportExportMonyStatistics(PagingFilter: PagingFilterModel) {
-    return this.http.post<any>(this.apiURL + 'AccountsMony/GetAllImportExportMonyStatistics', PagingFilter);
+  // ============================= Item ==============================
+
+  GetAllProducts(Model: PagingFilterModel) {
+    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'Item/GetAllProducts', Model);
   }
 
-  AddNewAccountsImportMony(Model: any) {
-    return this.http.post<any>(this.apiURL + 'AccountsMony/AddNewAccountsImportMony', Model);
+  GetProductsByCategoryId(CategoryId: number) {
+    return this.http.get<ApiResponseModel<any[]>>(this.apiURL + 'Item/GetProductsByCategoryId?CategoryId=' + CategoryId);
   }
 
-  UpdateAccountsImportMony(Model: any) {
-    return this.http.post<any>(this.apiURL + 'AccountsMony/UpdateAccountsImportMony', Model);
+  AddNewProduct(Model: any) {
+    return this.http.post<ApiResponseModel<any>>(this.apiURL + 'Item/AddNewProduct', Model);
   }
 
-  DeleteAccountsImportMony(AccountId: number) {
-    return this.http.get<any>(this.apiURL + 'AccountsMony/DeleteAccountsImportMony?AccountId=' + AccountId);
+  UpdateProduct(Model: any) {
+    return this.http.post<ApiResponseModel<any>>(this.apiURL + 'Item/UpdateProduct', Model);
   }
 
-  AddNewAccountsExportMony(Model: any) {
-    return this.http.post<any>(this.apiURL + 'AccountsMony/AddNewAccountsExportMony', Model);
+  DeleteProduct(ProductId: number) {
+    return this.http.get<ApiResponseModel<any>>(this.apiURL + 'Item/DeleteProduct?ProductId=' + ProductId);
   }
 
-  UpdateAccountsExportMony(Model: any) {
-    return this.http.post<any>(this.apiURL + 'AccountsMony/UpdateAccountsExportMony', Model);
+  // ============================= Order ==============================
+
+  GetAllOrders(Model: PagingFilterModel) {
+    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'Order/GetAllOrders', Model);
   }
 
-  DeleteAccountsExportMony(AccountId: number) {
-    return this.http.get<any>(this.apiURL + 'AccountsMony/DeleteAccountsExportMony?AccountId=' + AccountId);
+  GetOrderDetailsByOrderId(OrderId: number) {
+    return this.http.get<ApiResponseModel<any>>(this.apiURL + 'Order/GetOrderDetailsByOrderId?OrderId=' + OrderId);
   }
 
-  // ============================= DbBackup ==============================
-
-  DownloadBackupFile(fileName: string) {
-    return this.http.get(this.apiURL + 'DbBackup/SaveDbBackupFile', {
-      responseType: 'blob',
-      observe: 'response'
-    }).pipe(
-      map((response: any) => {
-        const downloadLink = document.createElement('a');
-        downloadLink.href = URL.createObjectURL(new Blob([response.body], { type: response.body.type }));
-        downloadLink.download = fileName + '.bak';
-        downloadLink.click();
-      })
-    );
+  GetOrderWithDetailsByOrderId(OrderId: number) {
+    return this.http.get<ApiResponseModel<any>>(this.apiURL + 'Order/GetOrderWithDetailsByOrderId?OrderId=' + OrderId);
   }
 
-  DownloadZipFile(Folder: string, fileName: string) {
-    return this.http.get(this.apiURL + 'DbBackup/DownloadImagesFolder?Folder=' + Folder, {
-      responseType: 'blob',
-      observe: 'response'
-    }).pipe(
-      map((response: any) => {
-        const downloadLink = document.createElement('a');
-        downloadLink.href = URL.createObjectURL(new Blob([response.body], { type: response.body.type }));
-        downloadLink.download = fileName + '.zip';
-        downloadLink.click();
-      })
-    );
+  AddNewOrder(Model: any) {
+    return this.http.post<ApiResponseModel<any>>(this.apiURL + 'Order/AddNewOrder', Model);
   }
 
-  // ============================= GeneralTasks ==============================
-
-  GetAllGeneralTasksData(PagingFilter: PagingFilterModel) {
-    return this.http.post<any[]>(this.apiURL + 'GeneralTasks/GetAllGeneralTasksData', PagingFilter);
+  UpdateOrder(Model: any) {
+    return this.http.post<ApiResponseModel<any>>(this.apiURL + 'Order/UpdateOrder', Model);
   }
 
-  GetAllGeneralTasksFilter(PagingFilter: PagingFilterModel) {
-    return this.http.post<any[]>(this.apiURL + 'GeneralTasks/GetAllGeneralTasksFilter', PagingFilter);
+  CancelOrder(VoidReason: string, Action: string, VoidNotes: string, OrderId: number) {
+    return this.http.get<ApiResponseModel<any>>(this.apiURL + 'Order/CancelOrder?VoidReason=' + VoidReason + '&Action=' + Action + '&VoidNotes=' + VoidNotes + '&OrderId=' + OrderId);
   }
 
-  GetAllUserTasks(UserId: string) {
-    return this.http.get<any[]>(this.apiURL + 'GeneralTasks/GetAllUserTasks?UserId=' + UserId);
+  // ============================= Auth ==============================
+
+  GetAllUsers() {
+    return this.http.get<ApiResponseModel<any[]>>(this.apiURL + 'Auth/GetAllUsers');
   }
 
-  AddNewGeneralTask(Model: any) {
-    return this.http.post<any>(this.apiURL + 'GeneralTasks/AddNewGeneralTask', Model);
+  GetStatisticsHome() {
+    return this.http.get<ApiResponseModel<any>>(this.apiURL + 'Auth/GetStatisticsHome');
   }
 
-  UpdateGeneralTask(Model: any) {
-    return this.http.post<any>(this.apiURL + 'GeneralTasks/UpdateGeneralTask', Model);
+  CreateUser(Model: any) {
+    return this.http.post<ApiResponseModel<any>>(this.apiURL + 'Auth/CreateUser', Model);
   }
 
-  DeleteGeneralTask(TaskId: number) {
-    return this.http.get<any>(this.apiURL + 'GeneralTasks/DeleteGeneralTask?TaskId=' + TaskId);
+  EditUser(Model: any) {
+    return this.http.post<ApiResponseModel<any>>(this.apiURL + 'Auth/EditUser', Model);
   }
 
-  ConvertTaskStatus(TaskId: number, StatusId: number) {
-    return this.http.get<any>(this.apiURL + 'GeneralTasks/ConvertTaskStatus?TaskId=' + TaskId + '&StatusId=' + StatusId);
+  DeleteUser(UserId: string) {
+    return this.http.get<ApiResponseModel<any>>(this.apiURL + 'Auth/DeleteUser?UserId=' + UserId);
+  }
+
+  // ============================= Customer ==============================
+
+  GetAllCustomers(Model: PagingFilterModel) {
+    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'Customer/GetAllCustomers', Model);
+  }
+
+  GetCustomerBySearchText(SearchText: string) {
+    return this.http.get<ApiResponseModel<any[]>>(this.apiURL + 'Customer/GetCustomerBySearchText?SearchText=' + SearchText);
+  }
+
+  GetCustomerById(CustomerId: number) {
+    return this.http.get<ApiResponseModel<any>>(this.apiURL + 'Customer/GetCustomerById?CustomerId=' + CustomerId);
+  }
+
+  AddNewCustomer(Model: any) {
+    return this.http.post<ApiResponseModel<any>>(this.apiURL + 'Customer/AddNewCustomer', Model);
+  }
+
+  UpdateCustomer(Model: any) {
+    return this.http.post<ApiResponseModel<any>>(this.apiURL + 'Customer/UpdateCustomer', Model);
+  }
+
+  DeleteCustomer(CustomerId: number) {
+    return this.http.get<ApiResponseModel<any>>(this.apiURL + 'Customer/DeleteCustomer?CustomerId=' + CustomerId);
   }
 
 }

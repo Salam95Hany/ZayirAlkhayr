@@ -26,7 +26,7 @@
                         <th>الاسم</th>
                         <th>الفئة</th>
                         <th>السعر</th>
-                        <th>الوصف</th>
+                        <th>سعر التكلفة</th>
                         <th class="text-center">أجراءات</th>
                     </tr>
                 </thead>
@@ -38,7 +38,7 @@
                         <td>{{item.productName}}</td>
                         <td>{{item.categoryName}}</td>
                         <td>{{item.price}}</td>
-                        <td>{{item.description ?? '-'}}</td>
+                        <td>{{item.costPrice}}</td>
                         <td>
                             <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
                                 <i class="uil uil-edit text-primary icon-table-action shadow-sm" (click)="openAddItemModal(OpenItemModal,item)"></i>
@@ -70,13 +70,13 @@
                 <div class="row g-3">
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" formControlName="productName" id="floatingInput_1" placeholder="new-user" required>
+                            <input type="text" class="form-control" formControlName="name" id="floatingInput_1" placeholder="new-user" required>
                             <label for="floatingInput_1">الاسم</label>
-                            <div *ngIf="ItemForm.controls['productName']?.invalid && (ItemForm.controls['productName']?.dirty || ItemForm.controls['productName']?.touched)" class="text-danger pt-2">
-                                <div *ngIf="ItemForm.controls['productName'].errors?.['required']">
+                            <div *ngIf="ItemForm.controls['name']?.invalid && (ItemForm.controls['name']?.dirty || ItemForm.controls['name']?.touched)" class="text-danger pt-2">
+                                <div *ngIf="ItemForm.controls['name'].errors?.['required']">
                                     هذا الحقل مطلوب
                                 </div>
-                                <div *ngIf="ItemForm.controls['productName'].errors?.['noSpace']">
+                                <div *ngIf="ItemForm.controls['name'].errors?.['noSpace']">
                                     لا يمكن ان يحتوي الحقل على مسافات فقط
                                 </div>
                             </div>
@@ -90,7 +90,7 @@
                             <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu aria-labelledby="dropdownBasic1">
                                 <ul class="dropdown-list-box list-unstyled max-height-220 overflow-auto px-1 py-1 m-0">
                                     <ng-container *ngFor="let item of Categories">
-                                        <li class="dropdown-item cursor-pointer rounded" [ngClass]="{'DropDownSelected': CategoryName == item.categoryName}" (click)="onCategoryClicked(item)">{{item.categoryName}}</li>
+                                        <li class="dropdown-item cursor-pointer rounded" [ngClass]="{'DropDownSelected': CategoryName == item.name}" (click)="onCategoryClicked(item)">{{item.name}}</li>
                                     </ng-container>
                                 </ul>
                             </div>
@@ -112,11 +112,11 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" formControlName="description" id="floatingInput_1" placeholder="new-user">
-                            <label for="floatingInput_1">الوصف</label>
-                            <div *ngIf="ItemForm.controls['description']?.invalid && (ItemForm.controls['description']?.dirty || ItemForm.controls['description']?.touched)" class="text-danger pt-2">
-                                <div *ngIf="ItemForm.controls['description'].errors?.['noSpace']">
-                                    لا يمكن ان يحتوي الحقل على مسافات فقط
+                            <input type="number" class="form-control" formControlName="costPrice" id="floatingInput_1" placeholder="new-user" required>
+                            <label for="floatingInput_1">سعر التكلفة</label>
+                            <div *ngIf="ItemForm.controls['costPrice']?.invalid && (ItemForm.controls['costPrice']?.dirty || ItemForm.controls['costPrice']?.touched)" class="text-danger pt-2">
+                                <div *ngIf="ItemForm.controls['costPrice'].errors?.['required']">
+                                    هذا الحقل مطلوب
                                 </div>
                             </div>
                         </div>

@@ -1,137 +1,113 @@
-<!-- TOPBAR -->
-<nav class="topbar">
-    <div class="brand-icon"><i class="bi bi-grid-fill"></i></div>
-    <div class="topbar-brand">Dashboard</div>
-    <div class="topbar-actions">
-        <button class="tb-btn"><i class="bi bi-bell"></i></button>
-        <button class="tb-btn">
-      <i class="bi bi-envelope"></i>
-      <span class="tb-badge">3</span>
-    </button>
-        <button class="tb-btn"><i class="bi bi-clock-history"></i></button>
-        <div class="avatar">JD</div>
-    </div>
-</nav>
-
-<div class="page-wrapper">
+<div>
 
     <!-- PAGE HEADER -->
-    <div class="page-header">
+    <!-- <div class="page-header">
         <div>
-            <div class="page-title">Operations Overview</div>
-            <div class="page-sub">Monday, April 6 · Live data</div>
+            <div class="page-title">نظرة عامة على العمليات</div>
         </div>
         <div class="date-chip">
             <i class="bi bi-calendar3"></i> Today — Apr 6, 2026
         </div>
-    </div>
+    </div> -->
 
     <!-- STAT CARDS -->
     <div class="stat-cards">
-
-        <div class="stat-card primary">
-            <div class="stat-icon"><i class="bi bi-receipt-cutoff"></i></div>
-            <div class="stat-label">Orders Today</div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="uil uil-receipt"></i></div>
+            <div class="stat-label">طلبات اليوم</div>
             <div class="stat-value">120</div>
-            <div class="stat-delta"><i class="bi bi-arrow-up-short up"></i><span class="up">+12%</span> vs yesterday</div>
+            <div class="stat-delta"><i class="uil uil-arrow-up up"></i><span class="up">+12%</span> مقارنة بالأمس</div>
             <div class="stat-bar">
                 <div class="stat-bar-fill" style="width:86%"></div>
             </div>
         </div>
-
         <div class="stat-card">
-            <div class="stat-icon"><i class="bi bi-plus-circle"></i></div>
-            <div class="stat-label">New Orders</div>
+            <div class="stat-icon"><i class="uil uil-plus-circle"></i></div>
+            <div class="stat-label">طلبات التوصيل</div>
             <div class="stat-value">8</div>
-            <div class="stat-delta"><i class="bi bi-arrow-up-short up"></i><span class="up">+3</span> in last hour</div>
+            <div class="stat-delta"><i class="uil uil-arrow-up up"></i><span class="up">+3</span> مقارنة بالأمس</div>
             <div class="stat-bar">
                 <div class="stat-bar-fill" style="width:22%;background:var(--accent2)"></div>
             </div>
         </div>
-
         <div class="stat-card">
-            <div class="stat-icon"><i class="bi bi-hourglass-split"></i></div>
-            <div class="stat-label">In Progress</div>
+            <div class="stat-icon"><i class="uil uil-hourglass"></i></div>
+            <div class="stat-label">الطلبات الخارجية</div>
             <div class="stat-value">5</div>
-            <div class="stat-delta"><i class="bi bi-dash"></i> stable</div>
+            <div class="stat-delta"><i class="uil uil-minus"></i> مقارنة بالأمس</div>
             <div class="stat-bar">
                 <div class="stat-bar-fill" style="width:15%;background:var(--accent3)"></div>
             </div>
         </div>
-
         <div class="stat-card">
-            <div class="stat-icon"><i class="bi bi-check2-circle"></i></div>
-            <div class="stat-label">Completed</div>
+            <div class="stat-icon"><i class="uil uil-check-circle"></i></div>
+            <div class="stat-label">الطلبات المنتهية</div>
             <div class="stat-value">104</div>
-            <div class="stat-delta"><i class="bi bi-arrow-up-short up"></i><span class="up">+8</span> today</div>
+            <div class="stat-delta"><i class="uil uil-arrow-up up"></i><span class="up">+8</span> مقارنة بالأمس</div>
             <div class="stat-bar">
                 <div class="stat-bar-fill" style="width:78%;background:#16a34a"></div>
             </div>
         </div>
-
         <div class="stat-card">
-            <div class="stat-icon"><i class="bi bi-x-circle"></i></div>
-            <div class="stat-label">Cancelled</div>
+            <div class="stat-icon"><i class="uil uil-times-circle"></i></div>
+            <div class="stat-label">الطلبات الملغية</div>
             <div class="stat-value">3</div>
-            <div class="stat-delta"><i class="bi bi-arrow-down-short down"></i><span class="down">-1</span> vs yesterday</div>
+            <div class="stat-delta"><i class="uil uil-arrow-down down"></i><span class="down">-1</span> مقارنة بالأمس</div>
             <div class="stat-bar">
                 <div class="stat-bar-fill" style="width:6%;background:var(--danger)"></div>
             </div>
         </div>
-
     </div>
     <!-- /stat-cards -->
 
     <!-- MAIN GRID -->
     <div class="main-grid">
-
         <!-- LIVE ORDERS -->
         <div class="card">
             <div class="card-header-custom">
-                <div class="card-title"><i class="bi bi-lightning-fill text-warning me-1"></i> Live Orders</div>
-                <span class="badge-pill badge-live">● Live</span>
+                <div class="card-title"><i class="uil uil-receipt text-warning me-1"></i>الطلبات الحالية</div>
+                <span class="badge-pill badge-live">● مباشر</span>
             </div>
             <div class="order-row">
                 <div class="order-dot dot-progress"></div>
                 <div class="order-num">#105</div>
                 <div>
-                    <div class="order-status-badge status-progress">In Progress</div>
+                    <div class="order-status-badge status-new">منتهي</div>
                 </div>
-                <div class="order-time"><i class="bi bi-clock me-1"></i>2m ago</div>
+                <div class="order-time"><i class="uil uil-arrow-up me-1"></i>2m ago</div>
             </div>
             <div class="order-row">
                 <div class="order-dot dot-new"></div>
                 <div class="order-num">#106</div>
                 <div>
-                    <div class="order-status-badge status-new">New Order</div>
+                    <div class="order-status-badge status-new">منتهي</div>
                 </div>
-                <div class="order-time"><i class="bi bi-clock me-1"></i>just now</div>
+                <div class="order-time"><i class="uil uil-arrow-up me-1"></i>just now</div>
             </div>
             <div class="order-row">
                 <div class="order-dot dot-progress"></div>
                 <div class="order-num">#104</div>
                 <div>
-                    <div class="order-status-badge status-progress">In Progress</div>
+                    <div class="order-status-badge badge-live">ملغي</div>
                 </div>
-                <div class="order-time"><i class="bi bi-clock me-1"></i>7m ago</div>
+                <div class="order-time"><i class="uil uil-arrow-up me-1"></i>7m ago</div>
             </div>
             <div class="order-row" style="border-top:1px solid var(--border);padding-top:14px;margin-top:4px">
-                <a href="#" style="font-size:.78rem;font-weight:600;color:var(--accent);text-decoration:none">View all orders <i class="bi bi-arrow-right"></i></a>
+                <a href="#" style="font-size:.78rem;font-weight:600;color:var(--accent);text-decoration:none">عرض جميع الطلبات <i class="bi bi-arrow-right"></i></a>
             </div>
         </div>
 
         <!-- TOP SELLING -->
         <div class="card">
             <div class="card-header-custom">
-                <div class="card-title"><i class="bi bi-fire text-danger me-1"></i> Top Selling Items</div>
-                <span class="badge-pill badge-top">Today</span>
+                <div class="card-title"><i class="uil uil-fire text-danger me-1"></i> المنتجات الأكثر مبيعاً</div>
+                <span class="badge-pill badge-top">اليوم</span>
             </div>
             <div class="selling-item">
                 <div class="selling-rank gold">1</div>
-                <div class="selling-emoji">🍔</div>
                 <div style="flex:1">
-                    <div class="selling-name">Burger</div>
-                    <div class="selling-sub">48 sold · $576</div>
+                    <div class="selling-name">برجر</div>
+                    <div class="selling-sub">50 مباع - 500 ل.س</div>
                 </div>
                 <div style="width:90px">
                     <div class="selling-bar-wrap">
@@ -141,10 +117,9 @@
             </div>
             <div class="selling-item">
                 <div class="selling-rank silver">2</div>
-                <div class="selling-emoji">🍕</div>
                 <div style="flex:1">
-                    <div class="selling-name">Pizza</div>
-                    <div class="selling-sub">35 sold · $525</div>
+                    <div class="selling-name">بيتزا</div>
+                    <div class="selling-sub">50 مباع - 500 ل.س</div>
                 </div>
                 <div style="width:90px">
                     <div class="selling-bar-wrap">
@@ -154,10 +129,9 @@
             </div>
             <div class="selling-item">
                 <div class="selling-rank bronze">3</div>
-                <div class="selling-emoji">🥪</div>
                 <div style="flex:1">
-                    <div class="selling-name">Sandwich</div>
-                    <div class="selling-sub">21 sold · $231</div>
+                    <div class="selling-name">شاورما</div>
+                    <div class="selling-sub">50 مباع - 500 ل.س</div>
                 </div>
                 <div style="width:90px">
                     <div class="selling-bar-wrap">
@@ -170,43 +144,43 @@
         <!-- STOCK ALERTS -->
         <div class="card">
             <div class="card-header-custom">
-                <div class="card-title"><i class="bi bi-exclamation-triangle-fill text-warning me-1"></i> Stock Alerts</div>
-                <span class="badge-pill badge-stock">5 items</span>
+                <div class="card-title"><i class="uil uil-exclamation-triangle text-warning me-1"></i> تنبيهات المخزون المنخفض</div>
+                <span class="badge-pill badge-stock">5 عناصر</span>
             </div>
-            <div class="stock-section-label">Low Stock</div>
+            <div class="stock-section-label">مخزون منخفض</div>
             <div class="stock-item">
                 <div class="stock-dot" style="background:#ef4444"></div>
-                <div class="stock-name">Sugar</div>
-                <div class="stock-level level-low">Low</div>
+                <div class="stock-name">سكر</div>
+                <div class="stock-level level-low">منخفض</div>
             </div>
             <div class="stock-item">
                 <div class="stock-dot" style="background:#f97316"></div>
-                <div class="stock-name">Coffee</div>
-                <div class="stock-level level-low">Low</div>
+                <div class="stock-name">قهوة</div>
+                <div class="stock-level level-low">منخفض</div>
             </div>
             <div class="stock-item">
                 <div class="stock-dot" style="background:#eab308"></div>
-                <div class="stock-name">Milk</div>
-                <div class="stock-level level-low">Low</div>
+                <div class="stock-name">حليب</div>
+                <div class="stock-level level-low">منخفض</div>
             </div>
-            <div class="stock-section-label">Out of Stock</div>
+            <div class="stock-section-label">نفد من المخزون</div>
             <div class="stock-item">
                 <div class="stock-dot" style="background:#1e293b"></div>
-                <div class="stock-name">Tea</div>
-                <div class="stock-level level-out">Out</div>
+                <div class="stock-name">شاي</div>
+                <div class="stock-level level-out">نفد</div>
             </div>
             <div class="stock-item">
                 <div class="stock-dot" style="background:#1e293b"></div>
-                <div class="stock-name">Cheese</div>
-                <div class="stock-level level-out">Out</div>
+                <div class="stock-name">جبنة</div>
+                <div class="stock-level level-out">نفد</div>
             </div>
         </div>
 
         <!-- ORDER STATUS DONUT -->
         <div class="card">
             <div class="card-header-custom">
-                <div class="card-title"><i class="bi bi-pie-chart-fill me-1" style="color:var(--accent)"></i> Order Status</div>
-                <span class="badge-pill badge-chart">Live</span>
+                <div class="card-title"><i class="uil uil-chart-pie me-1" style="color:var(--accent)"></i> حالة الطلبات</div>
+                <span class="badge-pill badge-chart">مباشر</span>
             </div>
             <div class="donut-wrap">
                 <svg class="donut-svg" width="110" height="110" viewBox="0 0 110 110">
@@ -215,7 +189,7 @@
           <circle cx="55" cy="55" r="42" fill="none" stroke="#10b981" stroke-width="14"
             stroke-dasharray="211 264" stroke-dashoffset="66"
             stroke-linecap="round" transform="rotate(-90 55 55)"/>
-          <circle cx="55" cy="55" r="42" fill="none" stroke="#f59e0b" stroke-width="14"
+          <circle cx="55" cy="55" r="42" fill="none" stroke="#ef4444" stroke-width="14"
             stroke-dasharray="53 264" stroke-dashoffset="-145"
             stroke-linecap="round" transform="rotate(-90 55 55)"/>
           <text x="55" y="59" text-anchor="middle" font-family="Syne,sans-serif" font-weight="800" font-size="16" fill="#0f172a">80%</text>
@@ -224,15 +198,15 @@
                     <div class="donut-legend-item">
                         <div class="legend-dot" style="background:#10b981"></div>
                         <div>
-                            <div class="legend-label">Ready</div>
+                            <div class="legend-label">منتهي</div>
                             <div class="legend-val" style="color:#10b981">80%</div>
                         </div>
                     </div>
                     <div class="donut-legend-item">
-                        <div class="legend-dot" style="background:#f59e0b"></div>
+                        <div class="legend-dot" style="background:#ef4444"></div>
                         <div>
-                            <div class="legend-label">Pending</div>
-                            <div class="legend-val" style="color:#f59e0b">20%</div>
+                            <div class="legend-label">ملغي</div>
+                            <div class="legend-val" style="color:#ef4444">20%</div>
                         </div>
                     </div>
                 </div>
@@ -242,37 +216,37 @@
         <!-- CUSTOMER ACTIVITY -->
         <div class="card" style="grid-column: span 2;">
             <div class="card-header-custom">
-                <div class="card-title"><i class="bi bi-people-fill me-1" style="color:var(--accent2)"></i> Customer Activity</div>
-                <span class="badge-pill badge-cust">Today</span>
+                <div class="card-title"><i class="uil uil-users-alt me-1" style="color:var(--accent2)"></i> حركة العملاء</div>
+                <span class="badge-pill badge-cust">اليوم</span>
             </div>
             <div class="cust-row">
-                <div class="cust-icon"><i class="bi bi-person-check-fill"></i></div>
+                <div class="cust-icon"><i class="uil uil-user-check"></i></div>
                 <div>
-                    <div class="cust-label">Active Customers</div>
-                    <div class="cust-sub">Currently browsing or ordering</div>
+                    <div class="cust-label">نشاط العملاء</div>
+                    <div class="cust-sub">طلبت اليوم</div>
                 </div>
                 <div class="cust-val">35</div>
             </div>
             <div class="cust-row">
-                <div class="cust-icon" style="background:#ecfdf5;color:var(--accent2)"><i class="bi bi-person-plus-fill"></i></div>
+                <div class="cust-icon" style="background:#ecfdf5;color:var(--accent2)"><i class="uil uil-user-plus"></i></div>
                 <div>
-                    <div class="cust-label">New Customers</div>
-                    <div class="cust-sub">First-time visitors today</div>
+                    <div class="cust-label">عملاء جدد</div>
+                    <div class="cust-sub">أول مرة تطلب</div>
                 </div>
-                <div class="cust-chip">+New</div>
+                <div class="cust-chip">+2 جديد</div>
             </div>
             <div class="cust-row" style="border-top:none;padding-top:0">
                 <div style="width:100%;background:#f8fafc;border-radius:12px;padding:10px 16px;display:flex;gap:24px;">
                     <div>
-                        <div style="font-size:.7rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px">Avg. Spend</div>
-                        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem">$24.50</div>
+                        <div style="font-size:1rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px">متوسط صرف العميل</div>
+                        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem">25.5 ل.س</div>
                     </div>
                     <div>
-                        <div style="font-size:.7rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px">Retention</div>
+                        <div style="font-size:1rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px">العملاء العائدين</div>
                         <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem">68%</div>
                     </div>
                     <div>
-                        <div style="font-size:.7rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px">Peak Hour</div>
+                        <div style="font-size:1rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px">وقت الذروة</div>
                         <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem">12–2 PM</div>
                     </div>
                 </div>
@@ -286,8 +260,8 @@
 
 <!-- BOTTOM ACTION BAR -->
 <div class="bottom-bar">
-    <button class="action-btn btn-blue"><i class="bi bi-plus-lg"></i> New Order</button>
-    <button class="action-btn btn-green"><i class="bi bi-cart-plus"></i> Add Purchase</button>
-    <button class="action-btn btn-red"><i class="bi bi-exclamation-triangle"></i> View Low Stock</button>
-    <button class="action-btn btn-indigo"><i class="bi bi-person-plus"></i> Add Customer</button>
+    <button class="action-btn btn-blue" routerLink="/create-order"><i class="uil uil-plus"></i> إنشاء طلب</button>
+    <button class="action-btn btn-green"><i class="uil uil-shopping-cart"></i> إضافة فاتورة</button>
+    <button class="action-btn btn-red"><i class="uil uil-exclamation-triangle"></i> عرض المخزون المنخفض</button>
+    <button class="action-btn btn-indigo" routerLink="/admin/customers"><i class="uil uil-user-plus"></i> إضافة عميل</button>
 </div>

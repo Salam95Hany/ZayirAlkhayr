@@ -4,10 +4,11 @@
 @import url("../node_modules/swiper/modules/navigation/navigation.min.css");
 :root {
     /* COLORS */
-    --main-color: #74c173;
+    --main-color: #E65100;
     --secondary-color: #4CAF50;
-    --main-color-gradient: linear-gradient(90deg, rgba(0, 176, 155, 1) 0%, rgba(76, 164, 70, 1) 45%);
-    --main-color-radial: radial-gradient(circle, rgba(0, 176, 155, 1) 30%, rgba(76, 164, 70, 1) 64%);
+    --main-color-gradient: linear-gradient( 90deg, #FFA726 0%, #F57C00 45%, #E65100 100%);
+    ;
+    --main-color-radial: radial-gradient( circle, #FFA726 30%, #E65100 64%);
     --main-color-rgba: rgb(150 215 149 / 50%);
     --main-color-rgba-lighter: rgb(150 215 149 / 50%);
     --background-body: #EEF5FF;
@@ -854,7 +855,7 @@ select {
 }
 
 ::-webkit-calendar-picker-indicator {
-    background-image: url("../public/calendar_2.png");
+    /* background-image: url("../public/calendar_2.png"); */
     cursor: pointer;
     font-size: 20px;
 }

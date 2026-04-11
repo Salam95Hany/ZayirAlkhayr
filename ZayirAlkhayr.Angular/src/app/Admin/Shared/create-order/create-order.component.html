@@ -43,9 +43,9 @@
                                     <img [src]="item.image" (error)="$event.target.src = defaultImage" loading="lazy" alt="item-image" />
                                 </div>
                                 <div class="main-color fw-bold">{{item.productName}}</div>
-                                <div class="fw-bold fs-6 text-danger">{{item.price}} ج.م</div>
+                                <div class="fw-bold fs-6 text-danger">{{item.price}} ل.س</div>
                                 <div class="choosed-cat-result-add">
-                                    <img src="add-square.png" loading="lazy" alt="" />
+                                    <img src="../../../../assets/add-square.png" loading="lazy" alt="" />
                                 </div>
                             </div>
                         </div>
@@ -60,12 +60,12 @@
                             <h5 class="m-0 text-center">الرئيسية</h5>
                         </div>
                     </div>
-                    <div class="col-lg-2">
+                    <!-- <div class="col-lg-2">
                         <div class="order-home-box box-hover d-flex flex-column align-items-center justify-content-center rounded h-100 cursor-pointer shadow-sm gap-2" (click)="openTableModal(selectTableModal)">
                             <i class="fas fa-dolly"></i>
                             <h5 class="m-0 text-center">اختر طاولة</h5>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-lg-2">
                         <div class="order-home-box box-hover d-flex flex-column align-items-center justify-content-center rounded h-100 cursor-pointer shadow-sm gap-2" (click)="resetOrderModel()">
                             <i class="fas fa-window-close"></i>
@@ -86,17 +86,50 @@
                 <div class="bullets-box position-relative w-100">
                     <h3 class="position-relative d-flex align-items-center m-0 cursor-pointer">
                         <div class="module-header-icon me-2">
-                            <i class="fas fa-truck"></i>
+                            <i class="fas fa-{{OrderTypeId == 1 ? 'shopping-bag' : 'motorcycle'}}"></i>
                         </div>
-                        <div class="d-flex align-items-center justify-content-between w-100">
-                            <span class="username-title text-white text-uppercase fw-bold ms-2">صالة</span>
-                            <span *ngIf="orderModel?.tableNumber">رقم الطاولة: {{orderModel?.tableNumber}}</span>
+                        <div class="d-flex align-items-center justify-content-between w-100" (click)="OpenOrderTypeModal(OrderTypeModal)">
+                            <span class="username-title text-white text-uppercase fw-bold ms-2">{{OrderTypeId == 1 ? 'خارجي' : 'توصيل'}}</span>
                         </div>
                     </h3>
                     <h5 class="position-relative d-flex align-items-center m-0">
                     </h5>
                 </div>
             </header>
+            <div class="bg-white rounded px-3 py-2 border shadow-sm mb-1" *ngIf="OrderTypeId == 2">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="fw-bold">
+                        <i class="fas fa-user-circle me-2 main-color" style="font-size: 16px;"></i>
+                        <span>اسم العميل : </span>
+                        <span class="fw-bold me-2 ms-2">{{CustomerSearchData?.fullName ?? '-'}}</span>
+
+                    </div>
+                    <div class="d-flex text-center">
+                        <div class="order-setting-icon rounded cursor-pointer border me-2">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex fw-bold mb-2">
+                        <i class="fas fa-phone me-2 mb-1 main-color" style="font-size: 16px;"></i>
+                        <span>رقم الهاتف :</span>
+                        <div class="me-2 ms-2">{{CustomerSearchData?.phone ?? '-'}}</div>
+                    </div>
+                    <div class="d-flex text-center mt-1" (click)="OpenCustomerSearchModal(CustomerSearchModal)">
+                        <div class="order-setting-icon rounded cursor-pointer border me-2">
+                            <i [class]="'fas fa-plus-circle'"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-map-marker-alt me-2 main-color" style="font-size: 19px;"></i>
+                        <span class="fw-bold me-2 ms-05">العنوان :</span>
+                        <div>{{CustomerSearchData?.address ?? '-'}}</div>
+                    </div>
+                </div>
+            </div>
             <div class="bg-white rounded px-3 py-2 border shadow-sm mb-1">
                 <div class="form-control d-flex min-height-50">
                     <div class="w-100 me-2 text-danger">
@@ -120,17 +153,17 @@
                 <div *ngFor="let item of selectedFoodItems;let i = index" class="order-list-item  gap-2 p-2 rounded">
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center cursor-pointer gap-2">
-                            <div class="order-list-img rounded">
+                            <div class="order-list-img">
                                 <img [src]="item.image" (error)="$event.target.src = defaultImage" loading="lazy" alt="item-image" />
                             </div>
                             <div>
                                 <div class="fw-bold fs-5">{{item.productName}}</div>
-                                <div class="text-muted">{{item.quantity}} * {{item.price}} ج.م</div>
+                                <div class="text-muted">{{item.quantity}} * {{item.price}} ل.س</div>
                             </div>
                         </div>
                         <div class="order-list-text d-flex align-items-center gap-4">
                             <div>
-                                <div class="main-color fw-bold fs-6">{{item.totalValue}} ج.م</div>
+                                <div class="main-color fw-bold fs-6">{{item.totalValue}} ل.س</div>
                                 <div class="fw-bold text-muted fs-6">{{item.quantity}} الكمية</div>
                             </div>
                             <i (click)="removeItem(i)" class="fas fa-times-circle delete-order-list-item-btn cursor-pointer fs-6"></i>
@@ -142,18 +175,23 @@
                 <div class="order-summary-check d-flex align-items-center justify-content-between border-bottom pb-05 mb-1">
                     <div class="order-summary-dots d-flex align-items-center fs-6 position-relative">ضريبة
                     </div>
-                    <div class="fw-bold fs-5">0 ج.م</div>
+                    <div class="fw-bold fs-5">0 ل.س</div>
+                </div>
+                <div class="order-summary-check d-flex align-items-center justify-content-between border-bottom pb-05 mb-1" *ngIf="OrderTypeId == 2">
+                    <div class="order-summary-dots d-flex align-items-center fs-6 position-relative">رسوم التوصيل
+                    </div>
+                    <div class="fw-bold fs-5">10000 ل.س</div>
                 </div>
                 <div class="order-summary-check d-flex align-items-center justify-content-between">
                     <div class="order-summary-dots d-flex align-items-center fs-5 position-relative main-color fw-bold">
                         الإجمالي
                     </div>
-                    <div class="fw-bold fs-5">{{orderModel?.totalValue}} ج.م</div>
+                    <div class="fw-bold fs-5">{{orderModel?.totalValue}} ل.س</div>
                 </div>
             </div>
             <div class="rounded text-white px-3 py-2 d-flex align-items-center justify-content-between pay-background">
                 <button class="btn btn-lg justify-content-center pay-button" (click)="openPayModal(payModal)">دفع</button>
-                <div class="p-2 rounded fs-5 fw-bold">{{orderModel?.totalValue}} ج.م
+                <div class="p-2 rounded fs-5 fw-bold">{{orderModel?.totalValue}} ل.س
                 </div>
             </div>
         </div>
@@ -173,7 +211,7 @@
                 <div>
                     <label class="form-check-label text-danger fw-bold fs-5" for="regular-type">السعر</label>
                 </div>
-                <div class="main-color fw-bold fs-5">{{addSelectedFoodItem.price}} ج.م</div>
+                <div class="main-color fw-bold fs-5">{{addSelectedFoodItem.price}} ل.س</div>
             </div>
         </div>
     </div>
@@ -204,7 +242,7 @@
 <ng-template #payModal let-modal>
     <div class="modal-header justify-content-between">
         <h4 class="d-flex align-items-center m-0">
-            <img src="debit-card.png" class="pay-img" alt="Cash-image" loading="lazy" />
+            <img src="../../../../assets/debit-card.png" class="pay-img" alt="Cash-image" loading="lazy" />
             <div class="ms-3">دفعة</div>
         </h4>
         <button class="btn btn-danger" (click)="modal.dismiss()">
@@ -216,13 +254,13 @@
             <div class="d-flex align-items-center fs-5 position-relative main-color fw-bold">
                 صافى القيمة
             </div>
-            <div class="fw-bold fs-5">{{orderModel?.totalValue| number : '1.2-2'}} ج.م</div>
+            <div class="fw-bold fs-5">{{orderModel?.totalValue| number : '1.2-2'}} ل.س</div>
         </div>
         <hr class="border-dark">
         <div class="mb-2">
             <div class="card order-card-payment shadow-sm cursor-pointer active">
                 <div class="card-body d-flex align-items-center">
-                    <img src="profits.png" class="pay-img" alt="Cash-image" loading="lazy" />
+                    <img src="../../../../assets/profits.png" class="pay-img" alt="Cash-image" loading="lazy" />
                     <span class="ms-3">نقدى</span>
                 </div>
             </div>
@@ -231,7 +269,7 @@
             <div class="card shadow-sm cursor-pointer bg-light w-100">
                 <div class="card-body">
                     <div class="mb-2 d-flex align-items-center">
-                        <img src="payment-way.png" class="pay-img" alt="Cash-image" loading="lazy" />
+                        <img src="../../../../assets/payment-way.png" class="pay-img" alt="Cash-image" loading="lazy" />
                         <div class="ms-3 font-size-20">الدفع نقدا</div>
                     </div>
                     <div class="d-flex align-items-center justify-content-center mb-2">
@@ -250,10 +288,10 @@
             <div class="card-body py-2">
                 <div class="row align-items-center">
                     <div class="col-lg-3">
-                        <p class="m-0 fs-5">المتبقى</p>
+                        <p class="m-0 fs-5">المتبقي للعميل</p>
                     </div>
                     <div class="col-lg-9">
-                        <div class="text-dark fw-bold text-end">{{remaining | number : '1.2-2'}} ج.م
+                        <div class="text-dark fw-bold text-end">{{remaining | number : '1.2-2'}} ل.س
                         </div>
                     </div>
                 </div>
@@ -292,12 +330,12 @@
                         </div>
                         <div>
                             <div class="fw-bold fs-5">{{item.productName}}</div>
-                            <div class="text-muted">{{item.quantity}} x {{item.price}} ج.م</div>
+                            <div class="text-muted">{{item.quantity}} x {{item.price}} ل.س</div>
                         </div>
                     </div>
                     <div class="order-list-text d-flex align-items-center gap-4">
                         <div>
-                            <div class="main-color fw-bold fs-6">{{item.totalValue}} ج.م</div>
+                            <div class="main-color fw-bold fs-6">{{item.totalValue}} ل.س</div>
                             <div class="fw-bold text-muted fs-6">{{item.quantity}} الكمية</div>
                         </div>
                         <i *ngIf="item.addonItemId != 0" (click)="removeItem(item,i)" class="fas fa-times-circle delete-order-list-item-btn cursor-pointer fs-6"></i>
@@ -344,19 +382,140 @@
     </div>
 </ng-template>
 
-<ng-template #selectTableModal let-modal>
-    <div class="modal-header justify-content-between">
-        <h4 class="d-flex align-items-center m-0">
-            <img src="debit-card.png" class="pay-img" alt="Cash-image" loading="lazy" />
-            <div class="ms-3">اختر طاولة</div>
-        </h4>
-        <button class="btn btn-danger" (click)="modal.dismiss()">
-            <i class="fas fa-times"></i>
-        </button>
+<ng-template #OrderTypeModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">اختر نوع الطلب</h4>
     </div>
     <div class="modal-body">
-        <div>
-            <app-order-table [isOrderMode]="true" (TableSelected)="getTableNumberSelected($event)"></app-order-table>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card order-card border-2 shadow-sm cursor-pointer mb-3" [ngClass]="{'active': OrderTypeId==1}" (click)="modal.dismiss();OrderTypeId = 1;ResetCustomer()">
+                    <div class="card-body d-flex flex-column align-items-center justify-content-center height-90">
+                        <i class="fas fa-shopping-bag main-color order-icon fs-2"></i>
+                        <p class="mt-2 mb-0 text-center fs-5">خارجي
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="card order-card border-2 shadow-sm cursor-pointer mb-3" [ngClass]="{'active': OrderTypeId==2}" (click)="modal.dismiss();OrderTypeId = 2;ResetCustomer()">
+                    <div class="card-body d-flex flex-column align-items-center justify-content-center height-90">
+                        <i class="fas fa-motorcycle main-color order-icon fs-2"></i>
+                        <p class="mt-2 mb-0 text-center fs-5">توصيل
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button class="btn btn-danger" (click)="modal.dismiss()">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">إغلاق</span>
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #CustomerSearchModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">بحث بالاسم, رقم الهاتف</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-lg-12 mb-3">
+                <div class="d-flex align-items-center">
+                    <div class="form-floating w-100 me-2">
+                        <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user" autocomplete="off" [(ngModel)]="CustomerSearch" (keydown.enter)="OnCustomerSearch(AddNewCustomerModal)">
+                        <label for="floatingInput_1">العميل</label>
+                    </div>
+                    <div>
+                        <button class="btn btn-success" (click)="OnCustomerSearch(AddNewCustomerModal)">بحث</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12" *ngIf="CustomerSearchCount > 1">
+                <div>
+                    <ul>
+                        <li>هناك {{CustomerSearchCount}} عميل في نتيجة البحث برجاء تضييق نطاق البحث</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button class="btn btn-danger" (click)="modal.dismiss()">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">إغلاق</span>
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #AddNewCustomerModal let-modal>
+    <div class="modal-header d-flex align-items-center justify-content-between main-bgcolor text-white">
+        <div class="display-7 d-flex align-items-center gap-3">
+            <i class="uil uil-focus-add"></i>
+            <span>املأ البيانات التالية</span>
+        </div>
+        <i class="fas fa-times cursor-pointer fa-2x modal-close-btn" (click)="modal.dismiss()"></i>
+    </div>
+    <div class="modal-body gray-bgcolor">
+        <div class="bg-white p-3 rounded shadow-sm">
+            <form [formGroup]="ItemCustomerForm" autocomplete="off">
+                <div class="row g-3">
+                    <div class="col-lg-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" formControlName="fullName" id="floatingInput_1" placeholder="new-user" required>
+                            <label for="floatingInput_1">الاسم</label>
+                            <div *ngIf="ItemCustomerForm.controls['fullName']?.invalid && (ItemCustomerForm.controls['fullName']?.dirty || ItemCustomerForm.controls['fullName']?.touched)" class="text-danger pt-2">
+                                <div *ngIf="ItemCustomerForm.controls['fullName'].errors?.['required']">
+                                    هذا الحقل مطلوب
+                                </div>
+                                <div *ngIf="ItemCustomerForm.controls['fullName'].errors?.['noSpace']">
+                                    لا يمكن ان يحتوي الحقل على مسافات فقط
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" formControlName="phone" id="floatingInput_1" placeholder="new-user" (keypress)="NumbersOnly($event.key)" required>
+                            <label for="floatingInput_1">رقم الهاتف</label>
+                            <div *ngIf="ItemCustomerForm.controls['phone']?.invalid && (ItemCustomerForm.controls['phone']?.dirty || ItemCustomerForm.controls['phone']?.touched)" class="text-danger pt-2">
+                                <div *ngIf="ItemCustomerForm.controls['phone'].errors?.['required']">
+                                    هذا الحقل مطلوب
+                                </div>
+                                <div *ngIf="ItemCustomerForm.controls['phone'].errors?.['noSpace']">
+                                    لا يمكن ان يحتوي الحقل على مسافات فقط
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" formControlName="address" id="floatingInput_1" placeholder="new-user" required>
+                            <label for="floatingInput_1">العنوان</label>
+                            <div *ngIf="ItemCustomerForm.controls['address']?.invalid && (ItemCustomerForm.controls['address']?.dirty || ItemCustomerForm.controls['address']?.touched)" class="text-danger pt-2">
+                                <div *ngIf="ItemCustomerForm.controls['address'].errors?.['required']">
+                                    هذا الحقل مطلوب
+                                </div>
+                                <div *ngIf="ItemCustomerForm.controls['address'].errors?.['noSpace']">
+                                    لا يمكن ان يحتوي الحقل على مسافات فقط
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer justify-content-start gap-2">
+        <button type="submit" class="btn main-button d-flex align-items-center gap-2" (click)="AddNewCustomerItem()">
+            <i class="uil uil-plus-circle"></i>
+            <span>اضافه</span>
+        </button>
+        <button class="btn btn-danger rounded-25 d-flex align-items-center gap-2" (click)="modal.close()">
+            <i class="uil uil-times-circle"></i>
+            <span>الغاء</span>
+        </button>
     </div>
 </ng-template>
