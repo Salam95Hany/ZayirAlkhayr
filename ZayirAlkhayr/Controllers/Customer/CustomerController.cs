@@ -25,10 +25,10 @@ namespace ZayirAlkhayr.Controllers.Customer
             return results;
         }
 
-        [HttpGet("GetCustomerBySearchText")]
-        public async Task<ApiResponseModel<List<ZayirAlkhayr.Entities.Models.Customer>>> GetCustomerBySearchText(string SearchText)
+        [HttpGet("GetCustomerByPhone")]
+        public async Task<ApiResponseModel<List<ZayirAlkhayr.Entities.Models.Customer>>> GetCustomerByPhone(string PhoneNumber)
         {
-            var results = await _customerService.GetCustomerBySearchText(SearchText);
+            var results = await _customerService.GetCustomerByPhone(PhoneNumber);
             return results;
         }
 

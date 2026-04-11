@@ -20,8 +20,7 @@ namespace ZayirAlkhayr.Entities.Common
 
     public enum OrderStatus
     {
-        InProgress = 1,
-        Completed = 2,
-        Cancelled = 3
+        Completed = 1,
+        Cancelled = 2
     }
 }

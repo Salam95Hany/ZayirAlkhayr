@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { PagingFilterModel } from '../../Models/PagingFilterModel';
 import { AdminService } from '../../Services/admin.service';
 import { ToastrService } from 'ngx-toastr';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -38,7 +38,6 @@ export class CreateOrderComponent {
   OrderTypeId = 1;
   CustomerSearch = '';
   CustomerSearchData: any;
-  CustomerSearchCount = 0;
   ItemCustomerForm: FormGroup;
   CategoryPagingFilter: PagingFilterModel = {
     filterList: [],
@@ -48,7 +47,7 @@ export class CreateOrderComponent {
 
 
   constructor(private adminService: AdminService, private toaster: ToastrService, private modalService: NgbModal, private route: ActivatedRoute,
-    @Inject(DOCUMENT) private document: any, private fb: FormBuilder, private formService: ValidationFormService
+    @Inject(DOCUMENT) private document: any, private fb: FormBuilder, private formService: ValidationFormService, private offcanvasService: NgbOffcanvas
   ) { }
 
   ngOnInit(): void {
@@ -74,13 +73,15 @@ export class CreateOrderComponent {
   }
 
   GetOrderWithDetailsByOrderId() {
+    this.showLoader = true;
     this.adminService.GetOrderWithDetailsByOrderId(this.OrderId).subscribe(data => {
+      this.showLoader = false;
       if (data.isSuccess) {
         this.NoteTxt = data?.results?.notes;
-        this.orderModel.tableNumber = data?.results?.tableNumber;
         this.orderModel.notes = data?.results?.notes;
         this.orderModel.totalValue = data?.results?.totalValue;
-        this.orderModel.tax = data?.results?.tax;
+        this.CustomerSearchData = data?.results?.customer;
+        this.OrderTypeId = data?.results?.orderType;
         this.selectedFoodItems = data.results.orderDetails;
       } else {
         this.toaster.error(data.message);
@@ -109,14 +110,41 @@ export class CreateOrderComponent {
 
   OpenCustomerSearchModal(content: any) {
     this.CustomerSearch = '';
-    this.CustomerSearchCount = 0;
     this.modalService.open(content, { size: 'lg', centered: true, scrollable: true });
   }
 
   OpenAddNewCustomerModal(content: any) {
     this.CustomerSearch = '';
-    this.CustomerSearchCount = 0;
     this.modalService.open(content, { size: 'lg', centered: true, scrollable: true });
+  }
+
+  openHistorySidePanel(content) {
+    if (!this.CustomerSearchData?.customerId) {
+      this.toaster.warning('برجاء اختيار عميل');
+      return;
+    }
+
+    this.getCustomerOrdersHistory();
+    this.offcanvasService.open(content, { position: 'end' });
+  }
+  customerOrdersHistory: any[] = [];
+  getCustomerOrdersHistory() {
+    if (this.CustomerSearchData) {
+      this.adminService.GetCustomerOrdersHistory(this.CustomerSearchData?.customerId).subscribe(data => {
+        this.customerOrdersHistory = data.results;
+        this.customerOrdersHistory.map(a => a.isCollapsed = false);
+      });
+    }
+  }
+
+  getOrderDetailsFromArchieve(index: number) {
+    this.customerOrdersHistory.map((item, i) => {
+      if (index == i) {
+        item.isCollapsed = !item.isCollapsed
+      } else {
+        item.isCollapsed = false;
+      }
+    });
   }
 
   onClickFoodItem(item: any, content: any) {
@@ -139,6 +167,7 @@ export class CreateOrderComponent {
     this.showLoader = true;
     this.adminService.GetAllCategories(this.CategoryPagingFilter).subscribe((data) => {
       this.categoriesList = data.results;
+      this.showLoader = false;
     });
   }
 
@@ -173,8 +202,8 @@ export class CreateOrderComponent {
   createMasterItems() {
     if (this.addSelectedFoodItem.masterQuantity && this.addSelectedFoodItem.masterQuantity > 0) {
       let obj = {
-        productId: this.addSelectedFoodItem.productId,
-        productName: this.addSelectedFoodItem.productName,
+        productId: this.addSelectedFoodItem.itemId,
+        productName: this.addSelectedFoodItem.name,
         image: this.addSelectedFoodItem.image,
         quantity: this.addSelectedFoodItem.masterQuantity,
         price: this.addSelectedFoodItem.price,
@@ -269,6 +298,8 @@ export class CreateOrderComponent {
     this.amountPaid = '';
     this.NoteTxt = '';
     this.remaining = 0;
+    this.ResetCustomer();
+    this.OrderTypeId = 1;
   }
 
   createOrder() {
@@ -277,10 +308,17 @@ export class CreateOrderComponent {
       return;
     }
 
-    this.orderModel.customerID = null;
+    if (this.OrderTypeId == 2 && !this.CustomerSearchData?.customerId) {
+      this.toaster.warning('برجاء اختيار عميل');
+      return;
+    }
+
+    this.showLoader = true;
+    this.orderModel.customerId = this.CustomerSearchData?.customerId ?? null;
     this.orderModel.totalAmount = this.orderModel.totalValue;
-    this.orderModel.tax = 0;
-    this.orderModel.paymentMethod = 'Cash';
+    this.orderModel.orderType = this.OrderTypeId;
+    this.orderModel.costDelivery = this.OrderTypeId == 1 ? 0 : this.CostDelivery;
+    this.orderModel.note = this.NoteTxt;
     this.orderModel.userId = this.UserModel?.userId;
     this.orderModel.details = this.selectedFoodItems.map(i => {
       return {
@@ -290,9 +328,9 @@ export class CreateOrderComponent {
       }
     });
 
-
     if (!this.OrderId) {
       this.adminService.AddNewOrder(this.orderModel).subscribe(data => {
+        this.showLoader = false;
         if (data.isSuccess) {
           this.toaster.success(data.message);
           this.resetOrderModel();
@@ -318,15 +356,18 @@ export class CreateOrderComponent {
   CustomerSearchId: number;
   OnCustomerSearch(content: any) {
     if (!this.CustomerSearch) {
-      this.toaster.warning('برجاء إدخال اسم او رقم العميل');
+      this.toaster.warning('برجاء إدخال رقم العميل');
+      return;
+    }
+
+    if (this.CustomerSearch.length < 9) {
+      this.toaster.warning('برجاء إدخال رقم هاتف صحيح');
       return;
     }
 
     if (this.CustomerSearch.length > 3) {
-      this.adminService.GetCustomerBySearchText(this.CustomerSearch).subscribe(data => {
-        this.CustomerSearchCount = data.totalCount;
-
-        if (this.CustomerSearchCount == 1) {
+      this.adminService.GetCustomerByPhone(this.CustomerSearch).subscribe(data => {
+        if (data.results.length > 0) {
           this.CustomerSearchData = data.results[0];
           this.modalService.dismissAll();
         } else {
@@ -369,7 +410,6 @@ export class CreateOrderComponent {
 
   ResetCustomer() {
     this.CustomerSearch = '';
-    this.CustomerSearchCount = 0;
     this.CustomerSearchData = null;
     this.CustomerSearchId = null;
   }

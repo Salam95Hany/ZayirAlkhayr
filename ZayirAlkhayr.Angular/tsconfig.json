@@ -15,6 +15,8 @@
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "ES2022",
@@ -29,6 +31,6 @@
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": false
+    "strictTemplates": false,
   }
 }

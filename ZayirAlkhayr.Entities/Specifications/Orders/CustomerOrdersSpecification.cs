@@ -7,15 +7,16 @@ using ZayirAlkhayr.Entities.Models;
 
 namespace ZayirAlkhayr.Entities.Specifications.Orders
 {
-    public class OrderDetailsSpecification: BaseSpecification<Order>
+    public class CustomerOrdersSpecification : BaseSpecification<Order>
     {
-        public OrderDetailsSpecification(int OrderId) : base(i => i.OrderId == OrderId)
+        public CustomerOrdersSpecification(int CustomerId) : base(i => i.CustomerId == CustomerId)
         {
             AddInclude(i => i.OrderDetails);
-            AddInclude(i => i.Customers);
+            AddInclude(i => i.User);
             AddInclude("OrderDetails.Item");
             AddInclude("OrderDetails.Item.Category");
 
+            ApplyOrderBy(i => i.InsertDate);
         }
     }
 }

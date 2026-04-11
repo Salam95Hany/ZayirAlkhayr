@@ -61,6 +61,7 @@ namespace ZayirAlkhayr.Service.Common
                 .Select(group => new FilterModel
                 {
                     CategoryName = group.Key.CategoryName,
+                    CategoryDisplayName = group.FirstOrDefault().Field<string>("CategoryDisplayName"),
                     FilterType = group.FirstOrDefault().Field<string>("FilterType"),
                     FilterItems = group.Select(s => new FilterModel
                     {

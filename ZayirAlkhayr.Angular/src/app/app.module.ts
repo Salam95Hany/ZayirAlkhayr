@@ -13,13 +13,16 @@ import { ngxLoadingAnimationTypes, NgxLoadingModule } from "ngx-loading";
 import { NotAuthorizedComponent } from './Auth/not-authorized/not-authorized.component';
 import { CommonModule, DatePipe } from '@angular/common';
 import { CreateOrderComponent } from './Admin/Shared/create-order/create-order.component';
+import { ArabicDatePipe } from './Admin/Pipes/arabic-date.pipe';
+import { SharedModule } from './Admin/Shared/shared.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     NotAuthorizedComponent,
-    CreateOrderComponent
+    CreateOrderComponent,
+    ArabicDatePipe
   ],
   imports: [
     BrowserModule,
@@ -28,6 +31,7 @@ import { CreateOrderComponent } from './Admin/Shared/create-order/create-order.c
     HttpClientModule,
     BrowserAnimationsModule,
     NgbModule,
+    SharedModule,
     SwiperModule,
     ToastrModule.forRoot({
       preventDuplicates: true
@@ -36,12 +40,13 @@ import { CreateOrderComponent } from './Admin/Shared/create-order/create-order.c
       animationType: ngxLoadingAnimationTypes.circleSwish,
       backdropBackgroundColour: 'rgba(0, 18, 59, 0.6)',
       backdropBorderRadius: '3px',
-      primaryColour: '#74c173',
+      primaryColour: '#E65100',
       fullScreenBackdrop: true
     }),
     ReactiveFormsModule,
-    FormsModule
+    FormsModule 
   ],
+  exports:[ArabicDatePipe],
   providers:[DatePipe],
   bootstrap: [AppComponent]
 })

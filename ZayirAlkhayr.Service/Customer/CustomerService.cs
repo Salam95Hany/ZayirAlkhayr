@@ -2,12 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using ZayirAlkhayr.Entities.Common;
-using ZayirAlkhayr.Entities.Models;
-using ZayirAlkhayr.Entities.Specifications.Categories;
 using ZayirAlkhayr.Entities.Specifications.Customers;
 using ZayirAlkhayr.Interface.Common;
 using ZayirAlkhayr.Interface.Customer;
@@ -35,9 +31,9 @@ namespace ZayirAlkhayr.Service.Customer
             return ApiResponseModel<DataTable>.Success(GenericErrors.GetSuccess, dt);
         }
 
-        public async Task<ApiResponseModel<List<ZayirAlkhayr.Entities.Models.Customer>>> GetCustomerBySearchText(string SearchText)
+        public async Task<ApiResponseModel<List<ZayirAlkhayr.Entities.Models.Customer>>> GetCustomerByPhone(string PhoneNumber)
         {
-            var Spec = new CustomerSearchSpecification(SearchText);
+            var Spec = new CustomerSearchSpecification(PhoneNumber);
             var Results = await _unitOfWork.Repository<ZayirAlkhayr.Entities.Models.Customer>().GetAllWithSpecAsync(Spec);
             return ApiResponseModel<List<ZayirAlkhayr.Entities.Models.Customer>>.Success(GenericErrors.GetSuccess, Results);
         }

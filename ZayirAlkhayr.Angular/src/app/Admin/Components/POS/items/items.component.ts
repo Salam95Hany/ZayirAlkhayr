@@ -28,6 +28,7 @@ export class ItemsComponent {
   CategoryName = 'اختر فئة';
   CategoryValidation = false;
   ImageFile: any;
+  // [PlaceHolder]="'بالاسم'"
   CategoryPagingFilter: PagingFilterModel = {
     filterList: [],
     currentpage: 1,
@@ -128,7 +129,9 @@ export class ItemsComponent {
   }
 
   GetAllProducts() {
+    this.showLoader = true;
     this.adminService.GetAllProducts(this.PagingFilter).subscribe(data => {
+      this.showLoader = false;
       this.Results = data.results;
       this.Total = data.totalCount;
     });
@@ -173,7 +176,7 @@ export class ItemsComponent {
       this.formService.validateAllFormFields(this.ItemForm);
       return;
     }
-
+this.showLoader = true;
     this.ItemForm.patchValue({ file: this.ImageFile });
     this.ItemForm.patchValue({ categoryId: this.CategoryId });
     const formData = new FormData();
@@ -181,6 +184,7 @@ export class ItemsComponent {
     this.showLoader = true;
     if (this.ItemForm.controls['itemId'].value == 0) {
       this.adminService.AddNewProduct(formData).subscribe(data => {
+        this.showLoader = false   ;
         if (data.isSuccess) {
           this.toaster.success(data.message);
           this.GetAllProducts();

@@ -1,6 +1,6 @@
 export interface FilterModel {
     categoryName?: string;
-    categoryNameAr?: string;
+    categoryDisplayName?: string;
     itemId?: string;
     itemKey?: string;
     itemValue?: string;
@@ -10,5 +10,6 @@ export interface FilterModel {
     filterType?: string;
     isVisible?: boolean;
     filterItems?: FilterModel[];
+    rangeValue?: { startDate: any; endDate: any };
     displayOrder?: number;
 }

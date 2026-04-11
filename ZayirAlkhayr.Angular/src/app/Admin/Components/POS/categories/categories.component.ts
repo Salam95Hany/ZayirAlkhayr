@@ -13,7 +13,7 @@ import { ValidationFormService } from 'src/app/Admin/Services/validation-form.se
   styleUrls: ['./categories.component.css']
 })
 export class CategoriesComponent {
-@ViewChild('InputFile') InputFile: ElementRef;
+  @ViewChild('InputFile') InputFile: ElementRef;
   UserModel: any;
   isFilter = false;
   showLoader = false;
@@ -24,6 +24,7 @@ export class CategoriesComponent {
   ImageFile: any;
   Results: any[] = [];
   fileURL: any[] = [];
+  // [PlaceHolder]="'بالاسم'"
   PagingFilter: PagingFilterModel = {
     filterList: [],
     currentpage: 1,
@@ -96,7 +97,9 @@ export class CategoriesComponent {
   }
 
   GetAllCategories() {
+    this.showLoader = true;
     this.adminService.GetAllCategories(this.PagingFilter).subscribe(data => {
+      this.showLoader = false;
       this.Results = data.results;
       this.Total = data.totalCount;
     });
@@ -139,13 +142,14 @@ export class CategoriesComponent {
       this.formService.validateAllFormFields(this.ItemForm);
       return;
     }
-
+    this.showLoader = true;
     this.ItemForm.patchValue({ file: this.ImageFile });
     const formData = new FormData();
     this.formService.buildFormData(formData, this.ItemForm.value);
     this.showLoader = true;
     if (this.ItemForm.controls['categoryId'].value == 0) {
       this.adminService.AddNewCategory(formData).subscribe(data => {
+        this.showLoader = false;
         if (data.isSuccess) {
           this.toaster.success(data.message);
           this.GetAllCategories();

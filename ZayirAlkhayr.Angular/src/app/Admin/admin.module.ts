@@ -19,6 +19,10 @@ import { ItemsComponent } from './Components/POS/items/items.component';
 import { CategoriesComponent } from './Components/POS/categories/categories.component';
 import { OrderListComponent } from './Components/POS/order-list/order-list.component';
 import { DashboardComponent } from './Shared/dashboard/dashboard.component';
+import { EnumTextPipe } from './Pipes/enum-text.pipe';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
+import { TimeAgoTodayPipe } from './Pipes/time-ago-today.pipe';
+import { SharedModule } from './Shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -34,14 +38,18 @@ import { DashboardComponent } from './Shared/dashboard/dashboard.component';
     ItemsComponent,
     CategoriesComponent,
     OrderListComponent,
-    DashboardComponent
+    DashboardComponent,
+    EnumTextPipe,
+    TimeAgoTodayPipe
   ],
   imports: [
     CommonModule,
     NgbModule,
     ReactiveFormsModule,
     FormsModule,
+    SharedModule,
     PaginationModule.forRoot(),
+    NgxDaterangepickerMd.forRoot(),
     NgxLoadingModule.forRoot({
       animationType: ngxLoadingAnimationTypes.circleSwish,
       backdropBackgroundColour: 'rgba(0, 18, 59, 0.6)',
@@ -51,6 +59,6 @@ import { DashboardComponent } from './Shared/dashboard/dashboard.component';
     }),
     AdminRoutingModule
   ],
-  providers:[DatePipe]
+  providers: [DatePipe]
 })
 export class AdminModule { }

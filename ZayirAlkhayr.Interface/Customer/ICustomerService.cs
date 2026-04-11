@@ -11,7 +11,7 @@ namespace ZayirAlkhayr.Interface.Customer
     public interface ICustomerService
     {
         Task<ApiResponseModel<DataTable>> GetAllCustomers(PagingFilterModel PagingFilter);
-        Task<ApiResponseModel<List<ZayirAlkhayr.Entities.Models.Customer>>> GetCustomerBySearchText(string SearchText);
+        Task<ApiResponseModel<List<ZayirAlkhayr.Entities.Models.Customer>>> GetCustomerByPhone(string PhoneNumber);
         Task<ApiResponseModel<ZayirAlkhayr.Entities.Models.Customer>> GetCustomerById(int CustomerId);
         Task<ApiResponseModel<int>> AddNewCustomer(ZayirAlkhayr.Entities.Models.Customer Model);
         Task<ApiResponseModel<string>> UpdateCustomer(ZayirAlkhayr.Entities.Models.Customer Model);

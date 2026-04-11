@@ -15,46 +15,46 @@
         <div class="stat-card">
             <div class="stat-icon"><i class="uil uil-receipt"></i></div>
             <div class="stat-label">طلبات اليوم</div>
-            <div class="stat-value">120</div>
-            <div class="stat-delta"><i class="uil uil-arrow-up up"></i><span class="up">+12%</span> مقارنة بالأمس</div>
+            <div class="stat-value">{{StatisticsData?.todayOrders ?? 0}}</div>
+            <div class="stat-delta"><i class="uil uil-arrow-{{StatisticsData?.ordersTrend}} {{StatisticsData?.ordersTrend}}"></i><span class="{{StatisticsData?.ordersTrend}}">{{StatisticsData?.ordersPercent ?? 0}}%</span> مقارنة بالأمس</div>
             <div class="stat-bar">
-                <div class="stat-bar-fill" style="width:86%"></div>
+                <div class="stat-bar-fill" [style.width.%]="StatisticsData?.ordersPercent ?? 0"></div>
             </div>
         </div>
         <div class="stat-card">
             <div class="stat-icon"><i class="uil uil-plus-circle"></i></div>
             <div class="stat-label">طلبات التوصيل</div>
-            <div class="stat-value">8</div>
-            <div class="stat-delta"><i class="uil uil-arrow-up up"></i><span class="up">+3</span> مقارنة بالأمس</div>
+            <div class="stat-value">{{StatisticsData?.todayDelivery ?? 0}}</div>
+            <div class="stat-delta"><i class="uil uil-arrow-{{StatisticsData?.deliveryTrend}} {{StatisticsData?.deliveryTrend}}"></i><span class="{{StatisticsData?.deliveryTrend}}">{{StatisticsData?.deliveryPercent ?? 0}}%</span> مقارنة بالأمس</div>
             <div class="stat-bar">
-                <div class="stat-bar-fill" style="width:22%;background:var(--accent2)"></div>
+                <div class="stat-bar-fill" [style.width.%]="StatisticsData?.deliveryPercent ?? 0" style="background: var(--accent2)"></div>
             </div>
         </div>
         <div class="stat-card">
             <div class="stat-icon"><i class="uil uil-hourglass"></i></div>
             <div class="stat-label">الطلبات الخارجية</div>
-            <div class="stat-value">5</div>
-            <div class="stat-delta"><i class="uil uil-minus"></i> مقارنة بالأمس</div>
+            <div class="stat-value">{{StatisticsData?.todayTakeAway ?? 0}}</div>
+            <div class="stat-delta"><i class="uil uil-arrow-{{StatisticsData?.takeAwayTrend}} {{StatisticsData?.takeAwayTrend}}"></i><span class="{{StatisticsData?.takeAwayTrend}}">{{StatisticsData?.takeAwayPercent ?? 0}}%</span> مقارنة بالأمس</div>
             <div class="stat-bar">
-                <div class="stat-bar-fill" style="width:15%;background:var(--accent3)"></div>
+                <div class="stat-bar-fill" [style.width.%]="StatisticsData?.takeAwayPercent ?? 0" style="background: var(--accent3)"></div>
             </div>
         </div>
         <div class="stat-card">
             <div class="stat-icon"><i class="uil uil-check-circle"></i></div>
             <div class="stat-label">الطلبات المنتهية</div>
-            <div class="stat-value">104</div>
-            <div class="stat-delta"><i class="uil uil-arrow-up up"></i><span class="up">+8</span> مقارنة بالأمس</div>
+            <div class="stat-value">{{StatisticsData?.todayCompleted ?? 0}}</div>
+            <div class="stat-delta"><i class="uil uil-arrow-{{StatisticsData?.completedTrend}} {{StatisticsData?.completedTrend}}"></i><span class="{{StatisticsData?.completedTrend}}">{{StatisticsData?.completedPercent ?? 0}}%</span> مقارنة بالأمس</div>
             <div class="stat-bar">
-                <div class="stat-bar-fill" style="width:78%;background:#16a34a"></div>
+                <div class="stat-bar-fill" [style.width.%]="StatisticsData?.completedPercent ?? 0" style="background: #16a34a"></div>
             </div>
         </div>
         <div class="stat-card">
             <div class="stat-icon"><i class="uil uil-times-circle"></i></div>
             <div class="stat-label">الطلبات الملغية</div>
-            <div class="stat-value">3</div>
-            <div class="stat-delta"><i class="uil uil-arrow-down down"></i><span class="down">-1</span> مقارنة بالأمس</div>
+            <div class="stat-value">{{StatisticsData?.todayCancelled ?? 0}}</div>
+            <div class="stat-delta"><i class="uil uil-arrow-{{StatisticsData?.cancelTrend}} {{StatisticsData?.cancelTrend}}"></i><span class="{{StatisticsData?.cancelTrend}}">{{StatisticsData?.cancelPercent ?? 0}}%</span> مقارنة بالأمس</div>
             <div class="stat-bar">
-                <div class="stat-bar-fill" style="width:6%;background:var(--danger)"></div>
+                <div class="stat-bar-fill" [style.width.%]="StatisticsData?.cancelPercent ?? 0" style="background: var(--danger)"></div>
             </div>
         </div>
     </div>
@@ -68,32 +68,17 @@
                 <div class="card-title"><i class="uil uil-receipt text-warning me-1"></i>الطلبات الحالية</div>
                 <span class="badge-pill badge-live">● مباشر</span>
             </div>
-            <div class="order-row">
-                <div class="order-dot dot-progress"></div>
-                <div class="order-num">#105</div>
+            <div class="order-row" *ngFor="let item of TopOrderData">
+                <div class="order-dot dot-{{item?.orderStatus == 1 ? 'new':'progress'}}"></div>
+                <div class="order-num">#{{item?.orderNumber}}</div>
                 <div>
-                    <div class="order-status-badge status-new">منتهي</div>
+                    <div class="order-status-badge status-new" *ngIf="item?.orderStatus == 1">منتهي</div>
+                    <div class="order-status-badge badge-live" *ngIf="item?.orderStatus == 2">ملغي</div>
                 </div>
-                <div class="order-time"><i class="uil uil-arrow-up me-1"></i>2m ago</div>
-            </div>
-            <div class="order-row">
-                <div class="order-dot dot-new"></div>
-                <div class="order-num">#106</div>
-                <div>
-                    <div class="order-status-badge status-new">منتهي</div>
-                </div>
-                <div class="order-time"><i class="uil uil-arrow-up me-1"></i>just now</div>
-            </div>
-            <div class="order-row">
-                <div class="order-dot dot-progress"></div>
-                <div class="order-num">#104</div>
-                <div>
-                    <div class="order-status-badge badge-live">ملغي</div>
-                </div>
-                <div class="order-time"><i class="uil uil-arrow-up me-1"></i>7m ago</div>
+                <div class="order-time"><i class="uil uil-arrow-up me-1"></i>{{item?.insertDate | timeAgoToday}}</div>
             </div>
             <div class="order-row" style="border-top:1px solid var(--border);padding-top:14px;margin-top:4px">
-                <a href="#" style="font-size:.78rem;font-weight:600;color:var(--accent);text-decoration:none">عرض جميع الطلبات <i class="bi bi-arrow-right"></i></a>
+                <a style="font-size:.78rem;font-weight:600;color:var(--accent);text-decoration:none" routerLink="/admin/order-list">عرض جميع الطلبات <i class="uil uil-arrow-right"></i></a>
             </div>
         </div>
 
@@ -103,39 +88,15 @@
                 <div class="card-title"><i class="uil uil-fire text-danger me-1"></i> المنتجات الأكثر مبيعاً</div>
                 <span class="badge-pill badge-top">اليوم</span>
             </div>
-            <div class="selling-item">
-                <div class="selling-rank gold">1</div>
+            <div class="selling-item" *ngFor="let item of TopSellingItems">
+                <div class="selling-rank silver">{{item?.rowNum}}</div>
                 <div style="flex:1">
-                    <div class="selling-name">برجر</div>
-                    <div class="selling-sub">50 مباع - 500 ل.س</div>
+                    <div class="selling-name">{{item?.itemName}}</div>
+                    <div class="selling-sub">{{item?.totalQuantity ?? 0}} مباع - {{item?.totalSales ?? 0}} ل.س</div>
                 </div>
                 <div style="width:90px">
                     <div class="selling-bar-wrap">
                         <div class="selling-bar-inner" style="width:95%;background:linear-gradient(90deg,#f59e0b,#fbbf24)"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="selling-item">
-                <div class="selling-rank silver">2</div>
-                <div style="flex:1">
-                    <div class="selling-name">بيتزا</div>
-                    <div class="selling-sub">50 مباع - 500 ل.س</div>
-                </div>
-                <div style="width:90px">
-                    <div class="selling-bar-wrap">
-                        <div class="selling-bar-inner" style="width:70%;background:linear-gradient(90deg,#3b82f6,#60a5fa)"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="selling-item">
-                <div class="selling-rank bronze">3</div>
-                <div style="flex:1">
-                    <div class="selling-name">شاورما</div>
-                    <div class="selling-sub">50 مباع - 500 ل.س</div>
-                </div>
-                <div style="width:90px">
-                    <div class="selling-bar-wrap">
-                        <div class="selling-bar-inner" style="width:44%;background:linear-gradient(90deg,#10b981,#34d399)"></div>
                     </div>
                 </div>
             </div>
@@ -180,33 +141,46 @@
         <div class="card">
             <div class="card-header-custom">
                 <div class="card-title"><i class="uil uil-chart-pie me-1" style="color:var(--accent)"></i> حالة الطلبات</div>
-                <span class="badge-pill badge-chart">مباشر</span>
+                <span class="badge-pill badge-chart">● مباشر</span>
             </div>
             <div class="donut-wrap">
                 <svg class="donut-svg" width="110" height="110" viewBox="0 0 110 110">
-          <circle cx="55" cy="55" r="42" fill="none" stroke="#f1f5f9" stroke-width="14"/>
-          <!-- 80% green, 20% orange -->
-          <circle cx="55" cy="55" r="42" fill="none" stroke="#10b981" stroke-width="14"
-            stroke-dasharray="211 264" stroke-dashoffset="66"
-            stroke-linecap="round" transform="rotate(-90 55 55)"/>
-          <circle cx="55" cy="55" r="42" fill="none" stroke="#ef4444" stroke-width="14"
-            stroke-dasharray="53 264" stroke-dashoffset="-145"
-            stroke-linecap="round" transform="rotate(-90 55 55)"/>
-          <text x="55" y="59" text-anchor="middle" font-family="Syne,sans-serif" font-weight="800" font-size="16" fill="#0f172a">80%</text>
+            <circle cx="55" cy="55" r="42" fill="none" stroke="#f1f5f9" stroke-width="14"/>
+            <circle cx="55" cy="55" r="42" fill="none" stroke="#10b981" stroke-width="14"
+                [attr.stroke-dasharray]="(TodayOrdersStats?.completedPercent / 100) * 264 + ' 264'"
+                stroke-dashoffset="0"
+                stroke-linecap="round"
+                transform="rotate(-90 55 55)"/>
+            <circle cx="55" cy="55" r="42" fill="none" stroke="#ef4444" stroke-width="14"
+                [attr.stroke-dasharray]="(TodayOrdersStats?.cancelledPercent / 100) * 264 + ' 264'"
+                [attr.stroke-dashoffset]="-((TodayOrdersStats?.completedPercent / 100) * 264)"
+                stroke-linecap="round"
+                transform="rotate(-90 55 55)"/>
+            <text x="55" y="59" text-anchor="middle"
+                  font-family="Syne,sans-serif"
+                  font-weight="800"
+                  font-size="16"
+                  fill="#0f172a">
+                {{ TodayOrdersStats?.completedPercent ?? 0 }}%
+            </text>
         </svg>
                 <div class="donut-legend">
                     <div class="donut-legend-item">
                         <div class="legend-dot" style="background:#10b981"></div>
                         <div>
                             <div class="legend-label">منتهي</div>
-                            <div class="legend-val" style="color:#10b981">80%</div>
+                            <div class="legend-val" style="color:#10b981">
+                                {{ TodayOrdersStats?.completedPercent ?? 0 }}%
+                            </div>
                         </div>
                     </div>
                     <div class="donut-legend-item">
                         <div class="legend-dot" style="background:#ef4444"></div>
                         <div>
                             <div class="legend-label">ملغي</div>
-                            <div class="legend-val" style="color:#ef4444">20%</div>
+                            <div class="legend-val" style="color:#ef4444">
+                                {{ TodayOrdersStats?.cancelledPercent ?? 0 }}%
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -217,7 +191,7 @@
         <div class="card" style="grid-column: span 2;">
             <div class="card-header-custom">
                 <div class="card-title"><i class="uil uil-users-alt me-1" style="color:var(--accent2)"></i> حركة العملاء</div>
-                <span class="badge-pill badge-cust">اليوم</span>
+                <span class="badge-pill badge-cust">● مباشر</span>
             </div>
             <div class="cust-row">
                 <div class="cust-icon"><i class="uil uil-user-check"></i></div>
@@ -225,7 +199,7 @@
                     <div class="cust-label">نشاط العملاء</div>
                     <div class="cust-sub">طلبت اليوم</div>
                 </div>
-                <div class="cust-val">35</div>
+                <div class="cust-val">{{CustomerDelivery?.todayDeliveryCustomers ?? 0}}</div>
             </div>
             <div class="cust-row">
                 <div class="cust-icon" style="background:#ecfdf5;color:var(--accent2)"><i class="uil uil-user-plus"></i></div>
@@ -233,21 +207,21 @@
                     <div class="cust-label">عملاء جدد</div>
                     <div class="cust-sub">أول مرة تطلب</div>
                 </div>
-                <div class="cust-chip">+2 جديد</div>
+                <div class="cust-chip">+{{CustomerDelivery?.newCustomersToday ?? 0}} جديد</div>
             </div>
             <div class="cust-row" style="border-top:none;padding-top:0">
                 <div style="width:100%;background:#f8fafc;border-radius:12px;padding:10px 16px;display:flex;gap:24px;">
                     <div>
                         <div style="font-size:1rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px">متوسط صرف العميل</div>
-                        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem">25.5 ل.س</div>
+                        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem">{{CustomerDelivery?.avgCustomerSpend ?? 0}} ل.س</div>
                     </div>
                     <div>
                         <div style="font-size:1rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px">العملاء العائدين</div>
-                        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem">68%</div>
+                        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem">{{CustomerDelivery?.returningCustomersPercent ?? 0}}%</div>
                     </div>
                     <div>
                         <div style="font-size:1rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px">وقت الذروة</div>
-                        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem">12–2 PM</div>
+                        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem">{{CustomerDelivery?.peakTimeRange ?? '-'}}</div>
                     </div>
                 </div>
             </div>

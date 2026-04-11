@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Data;
 using System.Threading.Tasks;
 using ZayirAlkhayr.Entities.Common;
 using ZayirAlkhayr.Entities.Contracts.DTOs.Orders;
@@ -21,14 +22,21 @@ namespace ZayirAlkhayr.Controllers.POS
         }
 
         [HttpPost("GetAllOrders")]
-        public async Task<ApiResponseModel<List<Order>>> GetAllOrders(PagingFilterModel Model)
+        public async Task<ApiResponseModel<DataTable>> GetAllOrders(PagingFilterModel PagingFilter)
         {
-            var results = await _orderService.GetAllOrders(Model);
+            var results = await _orderService.GetAllOrders(PagingFilter);
+            return results;
+        }
+
+        [HttpPost("GetAllOrderFilters")]
+        public async Task<ApiResponseModel<List<FilterModel>>> GetAllOrderFilters(PagingFilterModel PagingFilter)
+        {
+            var results = await _orderService.GetAllOrderFilters(PagingFilter);
             return results;
         }
 
         [HttpGet("GetOrderDetailsByOrderId")]
-        public async Task<ApiResponseModel<List<OrderDetailsResponse>>> GetOrderDetailsByOrderId(int OrderId)
+        public async Task<ApiResponseModel<OrderDetailsWithCustomer>> GetOrderDetailsByOrderId(int OrderId)
         {
             var results = await _orderService.GetOrderDetailsByOrderId(OrderId);
             return results;
@@ -60,6 +68,13 @@ namespace ZayirAlkhayr.Controllers.POS
         public async Task<ApiResponseModel<string>> CancelOrder(string VoidReason, string Action, string? VoidNotes, int OrderId)
         {
             var results = await _orderService.CancelOrder(VoidReason, Action, VoidNotes, OrderId);
+            return results;
+        }
+
+        [HttpGet("GetCustomerOrdersHistory")]
+        public async Task<ApiResponseModel<List<OrderWithDetailsResponse>>> GetCustomerOrdersHistory(int CustomerId)
+        {
+            var results = await _orderService.GetCustomerOrdersHistory(CustomerId);
             return results;
         }
     }

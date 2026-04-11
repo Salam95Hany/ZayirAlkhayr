@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
         <div class="d-flex align-items-center flex-wrap gap-2">
-            <button class="btn main-button d-flex align-items-center gap-2">
+            <button class="btn main-button d-flex align-items-center gap-2" routerLink="/create-order">
                 <i class="uil uil-plus-circle"></i>
                 <span class="navbar-brand m-0">اضافة</span>
             </button>
@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="px-3 py-2 bg-light border-bottom" #collapse="ngbCollapse" [(ngbCollapse)]="isFilter">
-        <app-admin-filters [PlaceHolder]="'برقم الطلب'" (FilterChecked)="FilterChecked($event)"></app-admin-filters>
+        <app-admin-filters [FilterList]="FilterList" (FilterChecked)="FilterChecked($event)"></app-admin-filters>
     </div>
     <div class="card-body card-body-h">
         <div class="table-responsive mb-2">
@@ -23,24 +23,32 @@
                 <thead>
                     <tr>
                         <th>رقم الطلب</th>
-                        <th>الحالة</th>
+                        <th>نوع الطلب</th>
+                        <th>حالة الطلب</th>
                         <th>تاريخ الطلب</th>
                         <th>الإجمالي</th>
-                        <th>نوع الدفع</th>
+                        <th>العميل</th>
+                        <th>الكاشير</th>
                         <th class="text-center">أجراءات</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of Results">
-                        <td>{{item.orderNumber}}</td>
+                        <td>{{item.orderNumber}}#</td>
                         <td>
-                            <span class="badge rounded-pill default p-2 text-uppercase px-3" [ngClass]="getStatusColor(item.statusId)">
-                                {{item.statusId == 1 ? 'منتهي' : item.statusId == 2 ? 'ملغي' : '-'}}
+                            <span class="badge rounded-pill default p-2 text-uppercase px-3" [ngClass]="getOrderTypeColor(item.orderType)">
+                                {{item.orderType | enumText:'orderType'}}
                             </span>
                         </td>
-                        <td>{{item.orderDate | date:'dd/MM/yyyy, h:mm a'}}</td>
+                        <td>
+                            <span class="badge rounded-pill default p-2 text-uppercase px-3" [ngClass]="getStatusColor(item.orderStatus)">
+                                {{item.orderStatus | enumText:'orderStatus'}}
+                            </span>
+                        </td>
+                        <td>{{item.createdDate | arabicDateWithTime}}</td>
                         <td>{{item.totalAmount}} ل.س</td>
-                        <td>كاش</td>
+                        <td>{{item.fullName ?? '-'}}</td>
+                        <td>{{item.cashierName ?? '-'}}</td>
                         <td>
                             <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
                                 <i class="uil uil-edit text-primary icon-table-action shadow-sm" [routerLink]="['/create-order']" [queryParams]="{ orderId: item.orderId }"></i>
@@ -57,6 +65,8 @@
         </div>
     </div>
 </div>
+
+<ngx-loading [show]="showLoader"></ngx-loading>
 
 
 <ng-template #deleteItemModal let-modal>
@@ -112,7 +122,7 @@
 <ng-template #SidePanel let-offcanvas>
     <div class="offcanvas-header pb-0 d-flex align-items-center justify-content-between">
         <div>
-            <h4 class="offcanvas-title m-0 d-flex align-items-center w-100"><i class="uil uil-document-info text-success"></i> {{OrderNumber}} - {{OrderDate| date:'dd/MM/yyyy, h:mm a'}}
+            <h4 class="offcanvas-title m-0 d-flex align-items-center w-100"><i class="uil uil-document-info text-success"></i> {{OrderNumber}} - {{OrderDate| arabicDateWithTime}}
             </h4>
         </div>
         <button type="button" class="btn bg-danger text-white rounded" aria-label="Close" (click)="offcanvas.dismiss()">
@@ -158,10 +168,32 @@
                     </div>
                 </div>
             </div>
-
+            <div class="bg-white rounded px-3 py-2 border shadow-sm mb-1" *ngIf="CustomerData?.fullName">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="fw-bold mb-2">
+                        <i class="fas fa-user-circle me-2 main-color" style="font-size: 16px;"></i>
+                        <span>اسم العميل : </span>
+                        <span class="fw-bold me-2 ms-2">{{CustomerData?.fullName ?? '-'}}</span>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex fw-bold mb-2">
+                        <i class="fas fa-phone me-2 mb-1 main-color" style="font-size: 16px;"></i>
+                        <span>رقم الهاتف :</span>
+                        <div class="me-2 ms-2">{{CustomerData?.phone ?? '-'}}</div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-map-marker-alt me-2 main-color" style="font-size: 19px;"></i>
+                        <span class="fw-bold me-2 ms-05">العنوان :</span>
+                        <div>{{CustomerData?.address ?? '-'}}</div>
+                    </div>
+                </div>
+            </div>
             <div class="card radius-10 border-0 card-shadow" *ngIf="Notes">
                 <div class="card-body">
-                    <div class="row">
+                    <div class="row d-flex align-items-center">
                         <div class="col-lg-2">
                             <h5 class="m-0 fw-bold">ملاحظات</h5>
                         </div>
@@ -173,7 +205,7 @@
             </div>
             <div class="card radius-10 border-0 card-shadow mt-2" *ngIf="VoidReason">
                 <div class="card-body">
-                    <div class="row">
+                    <div class="row d-flex align-items-center   ">
                         <div class="col-lg-2">
                             <h5 class="m-0 fw-bold">سبب الإلغاء</h5>
                         </div>

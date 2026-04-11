@@ -58,6 +58,10 @@ export class AdminService {
     return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'Order/GetAllOrders', Model);
   }
 
+  GetAllOrderFilters(Model: PagingFilterModel) {
+    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'Order/GetAllOrderFilters', Model);
+  }
+
   GetOrderDetailsByOrderId(OrderId: number) {
     return this.http.get<ApiResponseModel<any>>(this.apiURL + 'Order/GetOrderDetailsByOrderId?OrderId=' + OrderId);
   }
@@ -76,6 +80,10 @@ export class AdminService {
 
   CancelOrder(VoidReason: string, Action: string, VoidNotes: string, OrderId: number) {
     return this.http.get<ApiResponseModel<any>>(this.apiURL + 'Order/CancelOrder?VoidReason=' + VoidReason + '&Action=' + Action + '&VoidNotes=' + VoidNotes + '&OrderId=' + OrderId);
+  }
+
+  GetCustomerOrdersHistory(CustomerId: string) {
+    return this.http.get<ApiResponseModel<any[]>>(this.apiURL + 'Order/GetCustomerOrdersHistory?CustomerId=' + CustomerId);
   }
 
   // ============================= Auth ==============================
@@ -106,8 +114,8 @@ export class AdminService {
     return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'Customer/GetAllCustomers', Model);
   }
 
-  GetCustomerBySearchText(SearchText: string) {
-    return this.http.get<ApiResponseModel<any[]>>(this.apiURL + 'Customer/GetCustomerBySearchText?SearchText=' + SearchText);
+  GetCustomerByPhone(PhoneNumber: string) {
+    return this.http.get<ApiResponseModel<any[]>>(this.apiURL + 'Customer/GetCustomerByPhone?PhoneNumber=' + PhoneNumber);
   }
 
   GetCustomerById(CustomerId: number) {
@@ -124,6 +132,28 @@ export class AdminService {
 
   DeleteCustomer(CustomerId: number) {
     return this.http.get<ApiResponseModel<any>>(this.apiURL + 'Customer/DeleteCustomer?CustomerId=' + CustomerId);
+  }
+
+  // ============================= Dashboard ==============================
+
+  GetDashboardStatistics() {
+    return this.http.get<ApiResponseModel<any[]>>(this.apiURL + 'Dashboard/GetDashboardStatistics');
+  }
+
+  GetTop3Orders() {
+    return this.http.get<ApiResponseModel<any[]>>(this.apiURL + 'Dashboard/GetTop3Orders');
+  }
+
+  GetTopSellingItemsToday() {
+    return this.http.get<ApiResponseModel<any[]>>(this.apiURL + 'Dashboard/GetTopSellingItemsToday');
+  }
+
+  GetTodayOrdersStats() {
+    return this.http.get<ApiResponseModel<any>>(this.apiURL + 'Dashboard/GetTodayOrdersStats');
+  }
+
+  GetCustomerDeliveryInsights() {
+    return this.http.get<ApiResponseModel<any[]>>(this.apiURL + 'Dashboard/GetCustomerDeliveryInsights');
   }
 
 }

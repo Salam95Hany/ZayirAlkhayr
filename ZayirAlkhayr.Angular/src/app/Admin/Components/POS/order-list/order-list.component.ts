@@ -13,8 +13,9 @@ import { ValidationFormService } from 'src/app/Admin/Services/validation-form.se
   styleUrls: ['./order-list.component.css']
 })
 export class OrderListComponent {
-UserModel: any;
-  isFilter = false;
+  UserModel: any;
+  FilterList: FilterModel[] = [];
+  isFilter = true;
   showLoader = false;
   ItemForm: FormGroup;
   defaultImage = 'balena-2.jpeg';
@@ -26,6 +27,7 @@ UserModel: any;
   Categories: any[] = [];
   Products: any[] = [];
   SelectedProducts: any[] = [];
+  CustomerData: any;
   VoidReason: any;
   Notes: any;
   ProductPrice = 0;
@@ -57,6 +59,7 @@ UserModel: any;
   ngOnInit(): void {
     this.UserModel = JSON.parse(localStorage.getItem('UserModel'));
     this.GetAllOrders();
+    this.GetAllOrderFilters();
     this.FormInit();
   }
 
@@ -76,9 +79,7 @@ UserModel: any;
   openSidePanel(content: any, item: any) {
     this.OrderId = item.orderId;
     this.OrderNumber = item.orderNumber;
-    this.OrderDate = item.orderDate;
-    this.VoidReason = item?.voidReason;
-    this.Notes = item?.notes;
+    this.OrderDate = item.createdDate;
     this.GetOrderDetailsByOrderId();
     this.offcanvasService.open(content, { position: 'end' });
   }
@@ -95,15 +96,28 @@ UserModel: any;
 
 
   GetOrderDetailsByOrderId() {
+    this.showLoader = true;
     this.adminService.GetOrderDetailsByOrderId(this.OrderId).subscribe(data => {
-      this.SelectedProducts = data.results;
+      this.showLoader = false;
+      this.Notes = data?.results?.note;
+      this.VoidReason = data?.results?.voidReason;
+      this.CustomerData = data?.results?.customer;
+      this.SelectedProducts = data?.results?.orderDetails;
       this.TotalValue = this.SelectedProducts.reduce((sum, item) => sum + (item.totalValue || 0), 0);
     });
   }
 
   GetAllOrders() {
+    this.showLoader = true;
     this.adminService.GetAllOrders(this.PagingFilter).subscribe(data => {
+      this.showLoader = false;
       this.Results = data.results;
+    });
+  }
+
+  GetAllOrderFilters() {
+    this.adminService.GetAllOrderFilters(this.PagingFilter).subscribe(data => {
+      this.FilterList = data.results;
     });
   }
 
@@ -115,12 +129,20 @@ UserModel: any;
   FilterChecked(filterList: FilterModel[]) {
     this.PagingFilter.filterList = filterList;
     this.GetAllOrders();
+    this.GetAllOrderFilters();
   }
 
   getStatusColor(statusId: number) {
     return {
       'finished': statusId == 1,
       'deleted': statusId == 2
+    }
+  }
+
+  getOrderTypeColor(typeId: number) {
+    return {
+      'takeaway': typeId == 1,
+      'delivery': typeId == 2
     }
   }
 
@@ -132,13 +154,15 @@ UserModel: any;
       this.formService.validateAllFormFields(this.ItemForm);
       return;
     }
-
+    this.showLoader = true;
     let fromValue = this.ItemForm.value;
 
     this.adminService.CancelOrder(fromValue.voidReason, fromValue.action, fromValue.voidNotes, this.OrderId).subscribe(data => {
+      this.showLoader = false;
       if (data.isSuccess) {
         this.toaster.success(data.message);
         this.GetAllOrders();
+        this.GetAllOrderFilters();
         this.modalService.dismissAll();
       }
       else

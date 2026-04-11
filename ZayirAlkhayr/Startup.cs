@@ -105,6 +105,8 @@ namespace ZayirAlkhayr
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IDashboardService, DashboardService>();
+            
 
             services.AddMvc(options =>
                 {

@@ -895,3 +895,24 @@
     background-color: #fff;
     color: #000;
 }
+
+.badge-completed {
+    background: #EAF3DE;
+    color: #3B6D11;
+}
+
+.badge-pending {
+    background: #FAEEDA;
+    color: #854F0B;
+}
+
+.badge-cancelled {
+    background: #FCEBEB;
+    color: #A32D2D;
+}
+
+.close-btn:hover {
+    background: #FCEBEB !important;
+    border-color: #F09595 !important;
+    color: #A32D2D !important;
+}

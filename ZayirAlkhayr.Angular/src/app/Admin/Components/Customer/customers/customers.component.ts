@@ -20,6 +20,7 @@ export class CustomersComponent {
   Total = 0;
   CustomerId: any;
   Results: any[] = [];
+  // [PlaceHolder]="'بالاسم, رقم التلفون'"
   PagingFilter: PagingFilterModel = {
     filterList: [],
     currentpage: 1,

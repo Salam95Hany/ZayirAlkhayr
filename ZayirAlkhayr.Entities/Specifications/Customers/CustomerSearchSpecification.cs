@@ -10,10 +10,10 @@ namespace ZayirAlkhayr.Entities.Specifications.Customers
 {
     public class CustomerSearchSpecification : BaseSpecification<Customer>
     {
-        public CustomerSearchSpecification(string SearchText) : base()
+        public CustomerSearchSpecification(string PhoneNumber) : base()
         {
-            if (!string.IsNullOrEmpty(SearchText))
-                AddCriteria(fc => fc.FullName.Contains(SearchText) || fc.Phone.Contains(SearchText));
+            if (!string.IsNullOrEmpty(PhoneNumber))
+                AddCriteria(fc => fc.Phone.Contains(PhoneNumber));
         }
     }
 }

@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZayirAlkhayr.Entities.Auth;
 using ZayirAlkhayr.Entities.Common;
 
 namespace ZayirAlkhayr.Entities.Models
@@ -28,6 +29,8 @@ namespace ZayirAlkhayr.Entities.Models
         public string UpdateUser { get; set; }
         public DateTime? UpdateDate { get; set; }
         public Customer Customers { get; set; }
+        [ForeignKey(nameof(InsertUser))]
+        public AdminUser User { get; set; }
         public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
     }
 }
