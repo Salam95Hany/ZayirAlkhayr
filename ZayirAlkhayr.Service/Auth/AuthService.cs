@@ -57,7 +57,7 @@ namespace ZayirAlkhayr.Service.Auth
                 var roles = await _userManager.GetRolesAsync(user);
                 var roleNme = roles.FirstOrDefault();
                 user.IsActive = true;
-                user.LoginDate = DateTime.UtcNow;
+                user.LoginDate = DateTime.Now;
                 await _userManager.UpdateAsync(user);
 
                 string roleId = null;

@@ -13,7 +13,6 @@ using ZayirAlkhayr.Interface.Common;
 using ZayirAlkhayr.Interface.POS;
 using ZayirAlkhayr.Interface.Repositories;
 using ZayirAlkhayr.Service.Common;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ZayirAlkhayr.Service.POS
 {
@@ -107,11 +106,11 @@ namespace ZayirAlkhayr.Service.POS
         {
             try
             {
-                var Spec = new OrderNumberSpecification(DateTime.UtcNow);
+                var Spec = new OrderNumberSpecification(DateTime.Now);
                 var OrderNumber = await _unitOfWork.Repository<Order>().MaxAsync(i =>
-                i.InsertDate.Value.Year == DateTime.UtcNow.Year
-                && i.InsertDate.Value.Month == DateTime.UtcNow.Month
-                && i.InsertDate.Value.Day == DateTime.UtcNow.Day
+                i.InsertDate.Value.Year == DateTime.Now.Year
+                && i.InsertDate.Value.Month == DateTime.Now.Month
+                && i.InsertDate.Value.Day == DateTime.Now.Day
                 , i => (int?)i.OrderNumber) ?? 0;
                 var order = new Order
                 {
@@ -124,7 +123,7 @@ namespace ZayirAlkhayr.Service.POS
                     IsUpdated = false,
                     Note = Model.Note,
                     InsertUser = Model.UserId,
-                    InsertDate = DateTime.UtcNow
+                    InsertDate = DateTime.Now
                 };
 
                 await _unitOfWork.Repository<Order>().AddAsync(order);
@@ -180,7 +179,7 @@ namespace ZayirAlkhayr.Service.POS
                     entity.TotalAmount = order.TotalAmount;
                     entity.Note = order.Note;
                     entity.UpdateUser = order.UserId;
-                    entity.UpdateDate = DateTime.UtcNow;
+                    entity.UpdateDate = DateTime.Now;
 
                     await _unitOfWork.CompleteAsync();
                     return ApiResponseModel<string>.Success(GenericErrors.UpdateSuccess);

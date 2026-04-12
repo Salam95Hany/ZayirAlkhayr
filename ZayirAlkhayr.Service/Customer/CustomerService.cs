@@ -49,7 +49,7 @@ namespace ZayirAlkhayr.Service.Customer
         {
             try
             {
-                Model.InsertDate = DateTime.UtcNow;
+                Model.InsertDate = DateTime.Now;
                 await _unitOfWork.Repository<ZayirAlkhayr.Entities.Models.Customer>().AddAsync(Model);
                 await _unitOfWork.CompleteAsync();
                 return ApiResponseModel<int>.Success(GenericErrors.AddSuccess, Model.CustomerId);
@@ -72,7 +72,7 @@ namespace ZayirAlkhayr.Service.Customer
                     Entity.Phone = Model.Phone;
                     Entity.Address = Model.Address;
                     Entity.UpdateUser = Model.InsertUser;
-                    Entity.UpdateDate = DateTime.UtcNow;
+                    Entity.UpdateDate = DateTime.Now;
 
                     await _unitOfWork.CompleteAsync();
                     return ApiResponseModel<string>.Success(GenericErrors.UpdateSuccess);

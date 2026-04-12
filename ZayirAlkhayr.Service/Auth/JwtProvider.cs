@@ -36,7 +36,7 @@ namespace ZayirAlkhayr.Service.Auth
                 issuer: _appSettings.Jwt.Issuer,
                 audience: _appSettings.Jwt.Audience,
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(_appSettings.Jwt.ExpiryMinutes),
+                expires: DateTime.Now.AddMinutes(_appSettings.Jwt.ExpiryMinutes),
                 signingCredentials: singingCredentials
             );
 
