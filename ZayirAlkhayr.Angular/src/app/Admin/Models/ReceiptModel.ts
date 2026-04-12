@@ -1,0 +1,17 @@
+export interface ReceiptModel {
+    orderNo: number;
+    orderType: string;
+    date: string;
+    cashier: string;
+    agent: string;
+    items: ReceiptItemsModel[];
+    grandTotal: number;
+}
+
+export interface ReceiptItemsModel {
+    name: string;
+    qty: number;
+    price?: number;
+    total?: number;
+    categoryId: number;
+}

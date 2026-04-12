@@ -143,7 +143,7 @@ namespace ZayirAlkhayr.Service.POS
                 }
 
                 await _unitOfWork.CompleteAsync();
-                return ApiResponseModel<string>.Success(GenericErrors.AddSuccess);
+                return ApiResponseModel<string>.Success(GenericErrors.AddSuccess, OrderNumber.ToString());
             }
             catch (Exception)
             {
@@ -182,7 +182,7 @@ namespace ZayirAlkhayr.Service.POS
                     entity.UpdateDate = DateTime.Now;
 
                     await _unitOfWork.CompleteAsync();
-                    return ApiResponseModel<string>.Success(GenericErrors.UpdateSuccess);
+                    return ApiResponseModel<string>.Success(GenericErrors.UpdateSuccess, entity.OrderNumber.ToString());
                 }
 
                 return ApiResponseModel<string>.Failure(GenericErrors.NotFound);

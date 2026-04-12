@@ -7,6 +7,8 @@ import { ActivatedRoute } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ValidationFormService } from '../../Services/validation-form.service';
+import { QzPrintService } from '../../Services/qz-print.service';
+import { ReceiptModel } from '../../Models/ReceiptModel';
 
 @Component({
   selector: 'app-create-order',
@@ -39,6 +41,7 @@ export class CreateOrderComponent {
   CustomerSearch = '';
   CustomerSearchData: any;
   ItemCustomerForm: FormGroup;
+  CustomerSearchId: number;
   CategoryPagingFilter: PagingFilterModel = {
     filterList: [],
     currentpage: 1,
@@ -47,7 +50,8 @@ export class CreateOrderComponent {
 
 
   constructor(private adminService: AdminService, private toaster: ToastrService, private modalService: NgbModal, private route: ActivatedRoute,
-    @Inject(DOCUMENT) private document: any, private fb: FormBuilder, private formService: ValidationFormService, private offcanvasService: NgbOffcanvas
+    @Inject(DOCUMENT) private document: any, private fb: FormBuilder, private formService: ValidationFormService, private offcanvasService: NgbOffcanvas,
+    private qzPrintService: QzPrintService
   ) { }
 
   ngOnInit(): void {
@@ -328,32 +332,71 @@ export class CreateOrderComponent {
       }
     });
 
-    if (!this.OrderId) {
-      this.adminService.AddNewOrder(this.orderModel).subscribe(data => {
+    const request$ = !this.OrderId
+      ? this.adminService.AddNewOrder(this.orderModel)
+      : this.adminService.UpdateOrder({ ...this.orderModel, orderId: this.OrderId });
+
+    request$.subscribe({
+      next: (data) => {
+        if (!data.isSuccess) {
+          this.showLoader = false;
+          this.toaster.error(data.message);
+          return;
+        }
+
+        this.toaster.success(data.message);
+        debugger;
+        const d = new Date();
+        let time = d.toLocaleTimeString('en-GB', {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true
+        });
+        const date = d.toLocaleDateString('en-GB', {
+          month: 'numeric',
+          day: 'numeric',
+          year: 'numeric'
+        });
+
+        time = time.replace('AM', 'ص').replace('am', 'ص').replace('PM', 'م').replace('pm', 'م');
+        const formatted = `${date}  ${time}`;
+
+        let OrderPrinterObj: ReceiptModel = {
+          orderNo: data.results,
+          orderType: this.OrderTypeId == 1 ? 'خارجي' : 'توصيل',
+          date: formatted,
+          cashier: this.UserModel?.userName,
+          agent: this.CustomerSearchData?.fullName,
+          items: this.selectedFoodItems.map(i => {
+            return {
+              name: i.productName,
+              qty: i.quantity,
+              price: i.price,
+              total: i.totalValue,
+              categoryId: i.categoryId
+            }
+          }),
+          grandTotal: this.OrderTypeId == 1 ? this.orderModel.totalValue : this.orderModel.totalValue + 10000
+        };
+
+        this.qzPrintService.Print(OrderPrinterObj).then(() => {
+          this.resetOrderModel();
+          this.modalService.dismissAll();
+        }).catch(err => {
+          console.error('Print failed', err);
+          this.toaster.error('حدث خطأ أثناء الطباعة');
+        }).finally(() => {
+          this.showLoader = false;
+        });
+      },
+      error: () => {
         this.showLoader = false;
-        if (data.isSuccess) {
-          this.toaster.success(data.message);
-          this.resetOrderModel();
-          this.modalService.dismissAll();
-        }
-        else
-          this.toaster.error(data.message);
-      });
-    } else {
-      this.orderModel.orderId = this.OrderId;
-      this.adminService.UpdateOrder(this.orderModel).subscribe(data => {
-        if (data.isSuccess) {
-          this.toaster.success(data.message);
-          this.resetOrderModel();
-          this.modalService.dismissAll();
-        }
-        else
-          this.toaster.error(data.message);
-      });
-    }
+        this.toaster.error('حدث خطأ');
+      }
+    });
   }
 
-  CustomerSearchId: number;
   OnCustomerSearch(content: any) {
     if (!this.CustomerSearch) {
       this.toaster.warning('برجاء إدخال رقم العميل');
