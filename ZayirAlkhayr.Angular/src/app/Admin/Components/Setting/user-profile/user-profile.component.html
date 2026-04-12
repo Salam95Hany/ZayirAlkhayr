@@ -1,0 +1,184 @@
+<div>
+    <div class="profile-card">
+        <div class="profile-header">
+            <h1 class="profile-name">{{UserInfo?.userName}}</h1>
+            <p class="profile-role">{{UserInfo?.roleNameAr}}</p>
+        </div>
+        <div class="profile-body">
+            <div class="info-section">
+                <h2 class="section-title">
+                    <i class="fas fa-user"></i> المعلومات الشخصية
+                </h2>
+                <div class="info-item">
+                    <div class="info-label">
+                        <i class="fas fa-envelope"></i> البريد الالكتروني
+                    </div>
+                    <div class="info-value">{{UserInfo?.email}}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">
+                        <i class="fas fa-phone"></i> رقم الهاتف
+                    </div>
+                    <div class="info-value">{{UserInfo?.phoneNumber}}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">
+                        <i class="fas fa-phone"></i> العنوان
+                    </div>
+                    <div class="info-value">{{UserInfo?.address}}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">
+                        <i class="fas fa-building"></i> القسم
+                    </div>
+                    <div class="info-value">مطعم صبح ومسا</div>
+                </div>
+            </div>
+            <div class="info-section">
+                <h2 class="section-title">
+                    <i class="fas fa-cog"></i> معلومات الحساب
+                </h2>
+                <div class="info-item">
+                    <div class="info-label">
+                        <i class="fas fa-user-tag"></i> الصلاحية
+                    </div>
+                    <div class="info-value">{{UserInfo?.roleNameAr}}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">
+                        <i class="fas fa-times-circle"></i> الحالة
+                    </div>
+                    <div class="info-value">
+                        <span class="badge-status" [ngClass]="{'badge-active': UserInfo?.isActive , 'badge-inactive' : !UserInfo?.isActive}">
+                            {{UserInfo?.isActive ? 'نشط' : 'غير نشط'}}
+                        </span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">
+                        <i class="fas fa-clock"></i> اخر تسجيل دخول
+                    </div>
+                    <div class="info-value">{{UserInfo?.loginFullDate}}</div>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button type="button" (click)="OpenEditProfileModal(EditProfileModal)">
+                    <i class="fas fa-edit"></i>
+                    تعديل الملف الشخصي
+                </button>
+                <button type="button" (click)="OpenChangePasswordModal(ChangePasswordModal)">
+                    <i class="fas fa-key"></i>
+                    تغيير كلمة المرور
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ngx-loading [show]="showLoader"></ngx-loading>
+
+<ng-template #EditProfileModal let-modal>
+    <div class="modal-header modal-header-bg justify-content-between">
+        <h2 class="d-flex align-items-center gap-2">
+            <i class="fas fa-edit"></i>
+            <span>تعديل الملف الشخصي</span>
+        </h2>
+        <div class="cursor-pointer text-danger fs-2" (click)="modal.dismiss()">
+            <i class="fas fa-times-circle"></i>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="step-content form-card" data-step="1" style="display: block;">
+            <form [formGroup]="EditProfileForm" autocomplete="off">
+                <div class="row g-3">
+                    <div class="col-lg-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" (keypress)="NumbersOnly($event.key)" id="floatingInput_1" placeholder="new-user" formControlName="phoneNumber" required>
+                            <label for="floatingInput_1">رقم التلفون</label>
+                        </div>
+                        <div *ngIf="EditProfileForm.controls['phoneNumber']?.invalid && (EditProfileForm.controls['phoneNumber']?.dirty || EditProfileForm.controls['phoneNumber']?.touched)" class="text-danger pt-2">
+                            <div *ngIf="EditProfileForm.controls['phoneNumber'].errors?.['required']">
+                                هذا الحقل مطلوب
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user" formControlName="email" required>
+                            <label for="floatingInput_1">البريد الالكتروني</label>
+                        </div>
+                        <div *ngIf="EditProfileForm.controls['email']?.invalid && (EditProfileForm.controls['email']?.dirty || EditProfileForm.controls['email']?.touched)" class="text-danger pt-2">
+                            <div *ngIf="EditProfileForm.controls['email'].errors?.['required']">
+                                هذا الحقل مطلوب
+                            </div>
+                            <div *ngIf="EditProfileForm.controls['email'].errors?.['pattern']">
+                                البريد الالكتروني غير صالح
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user" formControlName="address" required>
+                            <label for="floatingInput_1">عنوان المستخدم</label>
+                        </div>
+                        <div *ngIf="EditProfileForm.controls['address']?.invalid && (EditProfileForm.controls['address']?.dirty || EditProfileForm.controls['address']?.touched)" class="text-danger pt-2">
+                            <div *ngIf="EditProfileForm.controls['address'].errors?.['required']">
+                                هذا الحقل مطلوب
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button class="btn btn-success" (click)="EditUserProfile()" [disabled]="BtnDisabled">
+            <i class="fas fa-save"></i> حفظ
+        </button>
+        <button class="btn btn-danger" (click)="modal.dismiss()">
+            <i class="fas fa-times-circle"></i> الغاء
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #ChangePasswordModal let-modal>
+    <div class="modal-header modal-header-bg justify-content-between">
+        <h2 class="d-flex align-items-center gap-2">
+            <i class="fas fa-edit"></i>
+            <span>تغيير كلمة المرور</span>
+        </h2>
+        <div class="cursor-pointer text-danger fs-2" (click)="modal.dismiss()">
+            <i class="fas fa-times-circle"></i>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="step-content form-card" data-step="1" style="display: block;">
+            <form [formGroup]="ChangePasswordForm" autocomplete="off">
+                <div class="row g-3">
+                    <div class="col-lg-12">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user" formControlName="password">
+                            <label for="floatingInput_1">كلمة المرور</label>
+                        </div>
+                        <div *ngIf="ChangePasswordForm.controls['password']?.invalid && (ChangePasswordForm.controls['password']?.dirty || ChangePasswordForm.controls['password']?.touched)" class="text-danger pt-2">
+                            <div *ngIf="ChangePasswordForm.controls['password'].errors?.['required']">
+                                هذا الحقل مطلوب
+                            </div>
+                            <div *ngIf="ChangePasswordForm.controls['password'].errors?.['pattern']">
+                                يجب أن تحتوي كلمة المرور على الأقل على: حرف كبير، حرف صغير، رقم، ورمز خاص (مثل $ أو !)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button class="btn btn-success" (click)="ChangeUserPassword()" [disabled]="BtnDisabled">
+            <i class="fas fa-save"></i> حفظ
+        </button>
+        <button class="btn btn-danger" (click)="modal.dismiss()">
+            <i class="fas fa-times-circle"></i> الغاء
+        </button>
+    </div>
+</ng-template>

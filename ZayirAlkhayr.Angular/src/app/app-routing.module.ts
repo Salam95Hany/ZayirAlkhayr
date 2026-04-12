@@ -8,7 +8,7 @@ import { AuthGuard } from './Auth/auth.guard';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'not-authorized', component: NotAuthorizedComponent },
-  { path: 'create-order', component: CreateOrderComponent },
+  { path: 'create-order', component: CreateOrderComponent, canActivate: [AuthGuard], data: { roles: ["Admin", "Cashier"] } },
   { path: 'admin', loadChildren: () => import('../app/Admin/admin.module').then(m => m.AdminModule) },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: 'login', pathMatch: 'full' }

@@ -12,22 +12,11 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) { }
 
   AdminLogin(model: any) {
-    return this.http.post<any>(this.apiURL + 'User/AdminLogin', model);
+    return this.http.post<any>(this.apiURL + 'Auth/AdminLogin', model);
   }
 
   AdminLogout(UserId: string) {
-    return this.http.get<any>(this.apiURL + 'User/AdminLogout?UserId=' + UserId);
-  }
-
-  CreateSessionId() {
-    let sessionId = localStorage.getItem('sessionId');
-    if (sessionId)
-      return;
-
-    this.http.get<any>(this.apiURL + 'WebsiteHome/CreateSessionId').subscribe(data => {
-      const sessionId = data.sessionId;
-      localStorage.setItem('sessionId', sessionId);
-    });
+    return this.http.get<any>(this.apiURL + 'Auth/AdminLogout?UserId=' + UserId);
   }
 
   isAuthenticated(): boolean {

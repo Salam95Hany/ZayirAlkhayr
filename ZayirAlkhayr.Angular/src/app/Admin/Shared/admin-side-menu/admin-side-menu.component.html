@@ -41,13 +41,13 @@
                         </a>
                     </li>
                     <ul class="list-unstyled m-0 menu-list-collapsed" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed_1">
-                        <li>
+                        <li appRole [roles]="['Admin']">
                             <a class="side-menu-list-link sub-link" routerLink="./categories" routerLinkActive="active">
                                 <i class="uil uil-sliders-v-alt"></i>
                                 <span class="side-menu-text">الفئات</span>
                             </a>
                         </li>
-                        <li>
+                        <li appRole [roles]="['Admin']">
                             <a class="side-menu-list-link sub-link" routerLink="./items" routerLinkActive="active">
                                 <i class="uil uil-sliders-v-alt"></i>
                                 <span class="side-menu-text">العناصر</span>
@@ -71,177 +71,27 @@
                                 <span class="side-menu-text">إنشاء طلب</span>
                             </a>
                         </li>
-
-                        <!-- <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./activity" routerLinkActive="active">
-                                <i class="uil uil-sliders-v-alt"></i>
-                                <span class="side-menu-text">الأنشطة</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./event" routerLinkActive="active">
-                                <i class="uil uil-sliders-v-alt"></i>
-                                <span class="side-menu-text">الفعاليات</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./photo" routerLinkActive="active">
-                                <i class="uil uil-sliders-v-alt"></i>
-                                <span class="side-menu-text">الصور</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./project" routerLinkActive="active">
-                                <i class="uil uil-sliders-v-alt"></i>
-                                <span class="side-menu-text">المشاريع</span>
-                            </a>
-                        </li> -->
                     </ul>
                 </ul>
-            </div>
-            <!-- <div appRoleChecker [roles]="['SupperAdmin','BeneFactors','Admin']">
-                <hr>
-                <div class="side-menu-list-title side-menu-text">المتبرعين</div>
-                <ul class="side-menu-list list-unstyled p-0 m-0">
-                    <li class="side-menu-list-item">
-                        <a class="side-menu-list-link with-sub-menu" [class.expanded]="isCollapsed_3" (click)="collapse3.toggle()" [attr.aria-expanded]="!isCollapsed_3">
-                            <i class="uil uil-setting"></i>
-                            <span class="side-menu-text">إدارة المتبرعين</span>
-                        </a>
-                    </li>
-                    <ul class="list-unstyled m-0 menu-list-collapsed" #collapse3="ngbCollapse" [(ngbCollapse)]="isCollapsed_3">
-                        <li appRoleChecker [roles]="['SupperAdmin','BeneFactors','Admin']">
-                            <a class="side-menu-list-link sub-link" routerLink="./benefactors" routerLinkActive="active">
-                                <i class="uil uil-sliders-v-alt"></i>
-                                <span class="side-menu-text">المتبرعين</span>
+                <div appRole [roles]="['Admin']">
+                    <hr>
+                    <ul class="side-menu-list list-unstyled p-0 m-0">
+                        <li class="side-menu-list-item">
+                            <a class="side-menu-list-link with-sub-menu" [class.expanded]="isCollapsed_2" (click)="collapse2.toggle()" [attr.aria-expanded]="!isCollapsed_2">
+                                <i class="uil uil-setting"></i>
+                                <span class="side-menu-text">الإعدادات</span>
                             </a>
                         </li>
-                        <li appRoleChecker [roles]="['SupperAdmin','BeneFactors','Admin']">
-                            <a class="side-menu-list-link sub-link" routerLink="./benefactor-detail" routerLinkActive="active">
-                                <i class="uil uil-sliders-v-alt"></i>
-                                <span class="side-menu-text">تفاصيل المتبرعين</span>
-                            </a>
-                        </li>
-                        <li appRoleChecker [roles]="['SupperAdmin','BeneFactors','Admin']">
-                            <a class="side-menu-list-link sub-link" routerLink="./benefactor-note" routerLinkActive="active">
-                                <i class="uil uil-sliders-v-alt"></i>
-                                <span class="side-menu-text">ملاحظات المتبرعين</span>
-                            </a>
-                        </li>
-                        <li appRoleChecker [roles]="['SupperAdmin','BeneFactors','Admin']">
-                            <a class="side-menu-list-link sub-link" routerLink="./benefactor-nationality" routerLinkActive="active">
-                                <i class="uil uil-sliders-v-alt"></i>
-                                <span class="side-menu-text">جنسيات المتبرعين</span>
-                            </a>
-                        </li>
-                        <li appRoleChecker [roles]="['SupperAdmin','BeneFactors','Admin']">
-                            <a class="side-menu-list-link sub-link" routerLink="./benefactor-type" routerLinkActive="active">
-                                <i class="uil uil-sliders-v-alt"></i>
-                                <span class="side-menu-text">أنواع التبرع</span>
-                            </a>
-                        </li>
+                        <ul class="list-unstyled m-0 menu-list-collapsed" #collapse2="ngbCollapse" [(ngbCollapse)]="isCollapsed_2">
+                            <li>
+                                <a class="side-menu-list-link sub-link" routerLink="./users" routerLinkActive="active">
+                                    <i class="uil uil-sliders-v-alt"></i>
+                                    <span class="side-menu-text">المستخدمين</span>
+                                </a>
+                            </li>
+                        </ul>
                     </ul>
-                </ul>
-            </div> -->
-            <!-- <div>
-                <hr>
-                <div class="side-menu-list-title side-menu-text">المهام</div>
-                <ul class="side-menu-list list-unstyled p-0 m-0">
-                    <li class="side-menu-list-item">
-                        <a class="side-menu-list-link with-sub-menu" [class.expanded]="isCollapsed_4" (click)="collapse4.toggle()" [attr.aria-expanded]="!isCollapsed_4">
-                            <i class="uil uil-setting"></i>
-                            <span class="side-menu-text">إدارة المهام</span>
-                        </a>
-                    </li>
-                    <ul class="list-unstyled m-0 menu-list-collapsed" #collapse4="ngbCollapse" [(ngbCollapse)]="isCollapsed_4">
-                        <li appRoleChecker [roles]="['SupperAdmin','Admin']">
-                            <a class="side-menu-list-link sub-link" routerLink="./general-tasks" routerLinkActive="active">
-                                <i class="uil uil-sliders-v-alt"></i>
-                                <span class="side-menu-text">المهام العامة</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./daily-tasks" routerLinkActive="active">
-                                <i class="uil uil-sliders-v-alt"></i>
-                                <span class="side-menu-text">المهام اليومية</span>
-                            </a>
-                        </li>
-                        <li appRoleChecker [roles]="['SupperAdmin','Accounts','Admin']">
-                            <a class="side-menu-list-link sub-link" routerLink="./account-import-money" routerLinkActive="active">
-                                <i class="uil uil-sliders-v-alt"></i>
-                                <span class="side-menu-text">الايرادات</span>
-                            </a>
-                        </li>
-                        <li appRoleChecker [roles]="['SupperAdmin','Accounts','Admin']">
-                            <a class="side-menu-list-link sub-link" routerLink="./account-export-money" routerLinkActive="active">
-                                <i class="uil uil-sliders-v-alt"></i>
-                                <span class="side-menu-text">الصادرات</span>
-                            </a>
-                        </li>
-                    </ul>
-                </ul>
-            </div> -->
-            <!-- <div appRoleChecker [roles]="['SupperAdmin','Admin','Services']">
-                <hr>
-                <div class="side-menu-list-title side-menu-text">خدمات اجتماعية</div>
-                <ul class="side-menu-list list-unstyled p-0 m-0">
-                    <li class="side-menu-list-item">
-                        <a class="side-menu-list-link with-sub-menu" [class.expanded]="isCollapsed_2" (click)="collapse2.toggle()" [attr.aria-expanded]="!isCollapsed_2">
-                            <i class="uil uil-setting"></i>
-                            <span class="side-menu-text">الحالات</span>
-                        </a>
-                    </li>
-                    <ul class="list-unstyled m-0 menu-list-collapsed" #collapse2="ngbCollapse" [(ngbCollapse)]="isCollapsed_2">
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./family-status" routerLinkActive="active">
-                                <i class="uil uil-sliders-v-alt"></i>
-                                <span class="side-menu-text">حالات عامة</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./family-nationality" routerLinkActive="active">
-                                <i class="uil uil-sliders-v-alt"></i>
-                                <span class="side-menu-text">الجنسيات</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./family-needs" routerLinkActive="active">
-                                <i class="uil uil-sliders-v-alt"></i>
-                                <span class="side-menu-text">الاحتياجات</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./family-categories" routerLinkActive="active">
-                                <i class="uil uil-sliders-v-alt"></i>
-                                <span class="side-menu-text">الفئات</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./family-patientTypes" routerLinkActive="active">
-                                <i class="uil uil-sliders-v-alt"></i>
-                                <span class="side-menu-text">أنواع المرض</span>
-                            </a>
-                        </li>
-                    </ul>
-                </ul>
-            </div> -->
-            <div appRole [roles]="['SupperAdmin']">
-                <hr>
-                <div class="side-menu-list-title side-menu-text">الاعدادات</div>
-                <ul class="side-menu-list list-unstyled p-0 m-0">
-                    <li>
-                        <a class="side-menu-list-link sub-link" routerLink="./create-user" routerLinkActive="active">
-                            <i class="uil uil-sliders-v-alt"></i>
-                            <span class="side-menu-text">المستخدمين</span>
-                        </a>
-                    </li>
-                    <!-- <li>
-                        <a class="side-menu-list-link sub-link" routerLink="./backup" routerLinkActive="active">
-                            <i class="uil uil-sliders-v-alt"></i>
-                            <span class="side-menu-text">النسخ الاحتياطية</span>
-                        </a>
-                    </li> -->
-                </ul>
+                </div>
             </div>
         </div>
     </div>

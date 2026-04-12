@@ -19,23 +19,17 @@ export class AdminSideMenuComponent implements OnInit {
     { nameEn: 'Admin', nameAr: 'مدير' },
     { nameEn: 'Cashier', nameAr: 'كاشير' }
   ];
-  WebSite = ['home-slideimage', 'activity', 'event', 'photo'];
-  BeneFactor = ['benefactors', 'benefactor-detail', 'benefactor-type', 'benefactor-note', 'benefactor-nationality'];
-  Tasks = ['account-export-money', 'account-import-money', 'general-tasks', 'daily-tasks'];
-  Services = ['family-status', 'family-nationality', 'family-needs', 'family-categories', 'family-patientTypes'];
+  POS = ['categories', 'items', 'order-list', 'customers'];
+  Settings = ['users'];
   constructor(private router: Router) { }
 
   ngOnInit(): void {
     this.UserModel = JSON.parse(localStorage.getItem('UserModel'));
     this.RoleName = this.Roles.find(i => i.nameEn == this.UserModel?.role)?.nameAr;
     let url = this.router.url.split('/')[2];
-    if (this.WebSite.includes(url))
+    if (this.POS.includes(url))
       this.isCollapsed_1 = false;
-    else if (this.BeneFactor.includes(url))
-      this.isCollapsed_3 = false;
-    else if (this.Tasks.includes(url))
-      this.isCollapsed_4 = false;
-    else if (this.Services.includes(url))
+    else if (this.Settings.includes(url))
       this.isCollapsed_2 = false;
   }
 

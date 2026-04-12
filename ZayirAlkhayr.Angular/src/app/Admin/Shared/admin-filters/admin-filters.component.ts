@@ -102,7 +102,6 @@ export class AdminFiltersComponent {
   }
 
   removeSelectedFilter(filter: FilterModel, index: number) {
-    debugger;
     this.SelectedFilter.splice(index, 1);
 
     this.FilterList.forEach(f => {
@@ -115,7 +114,6 @@ export class AdminFiltersComponent {
         f.itemKey = '';
         f.itemId = '';
       }
-debugger
       if (f.filterType === 'DateRange' && f.categoryName === filter.categoryName) {
         f.rangeValue = null;
       }

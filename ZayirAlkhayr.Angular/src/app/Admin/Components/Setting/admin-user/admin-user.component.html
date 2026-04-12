@@ -35,7 +35,7 @@
                         <td>{{item.email}}</td>
                         <td>{{item.phoneNumber}}</td>
                         <td>{{item?.address}}</td>
-                        <td>{{item?.loginDate}}</td>
+                        <td>{{item?.loginDate | arabicDateWithTime}}</td>
                         <td>
                             <div class="status-tag active" *ngIf="item.isActive">نشط</div>
                             <div class="status-tag inactive" *ngIf="!item.isActive">غير نشط</div>
@@ -53,6 +53,8 @@
         </div>
     </div>
 </div>
+
+<ngx-loading [show]="showLoader"></ngx-loading>
 
 <ng-template #AddUserModal let-modal>
     <div class="modal-header d-flex align-items-center justify-content-between main-bgcolor text-white">

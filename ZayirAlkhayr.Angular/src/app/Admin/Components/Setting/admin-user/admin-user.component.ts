@@ -11,7 +11,8 @@ import { ValidationFormService } from 'src/app/Admin/Services/validation-form.se
   styleUrls: ['./admin-user.component.css']
 })
 export class AdminUserComponent implements OnInit {
- UsersData: any[] = [];
+  UsersData: any[] = [];
+  showLoader = false;
   ItemForm: FormGroup;
   UserId: any;
   RoleName: any;
@@ -21,7 +22,7 @@ export class AdminUserComponent implements OnInit {
     { nameEn: 'Cashier', nameAr: 'كاشير' }
   ];
   RoleValidation = false;
-  ManagerUserId = '321db4e1-e32b-4aeb-8802-b076f9d7227d';
+  ManagerUserId = 'ea6eeb5d-662a-4044-8278-231c35bd1429';
   TotalCount = 0;
 
   constructor(private modalService: NgbModal, private adminService: AdminService, private formService: ValidationFormService
@@ -109,7 +110,9 @@ export class AdminUserComponent implements OnInit {
   }
 
   GetAllUsers() {
+    this.showLoader = true;
     this.adminService.GetAllUsers().subscribe(data => {
+      this.showLoader = false;
       this.UsersData = data.results;
       this.UsersData.forEach(item => {
         let role = this.Roles.find(i => i.nameEn == item.role);
@@ -127,9 +130,11 @@ export class AdminUserComponent implements OnInit {
       this.formService.validateAllFormFields(this.ItemForm);
       return;
     }
+    this.showLoader = true;
     this.ItemForm.patchValue({ role: this.RoleName });
     if (!this.ItemForm.controls['userId'].value) {
       this.adminService.CreateUser(this.ItemForm.value).subscribe(data => {
+        this.showLoader = false;
         if (data.isSuccess) {
           this.toaster.success(data.message);
           this.GetAllUsers();
@@ -141,9 +146,11 @@ export class AdminUserComponent implements OnInit {
     } else {
       if (this.ManagerUserId == this.UserId) {
         this.toaster.warning('لا يمكن التعديل على هذا المستخدم');
+        this.showLoader = false;
         return;
       }
       this.adminService.EditUser(this.ItemForm.value).subscribe(data => {
+        this.showLoader = false;
         if (data.isSuccess) {
           this.toaster.success(data.message);
           this.GetAllUsers();
@@ -160,7 +167,9 @@ export class AdminUserComponent implements OnInit {
       this.toaster.warning('لا يمكن حذف هذا المستخدم');
       return;
     }
+    this.showLoader = true;
     this.adminService.DeleteUser(this.UserId).subscribe(data => {
+      this.showLoader = false;
       if (data.isSuccess) {
         this.toaster.success(data.message);
         this.GetAllUsers();

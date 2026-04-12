@@ -1,15 +1,4 @@
 <div>
-
-    <!-- PAGE HEADER -->
-    <!-- <div class="page-header">
-        <div>
-            <div class="page-title">نظرة عامة على العمليات</div>
-        </div>
-        <div class="date-chip">
-            <i class="bi bi-calendar3"></i> Today — Apr 6, 2026
-        </div>
-    </div> -->
-
     <!-- STAT CARDS -->
     <div class="stat-cards">
         <div class="stat-card">
@@ -235,7 +224,7 @@
 <!-- BOTTOM ACTION BAR -->
 <div class="bottom-bar">
     <button class="action-btn btn-blue" routerLink="/create-order"><i class="uil uil-plus"></i> إنشاء طلب</button>
-    <button class="action-btn btn-green"><i class="uil uil-shopping-cart"></i> إضافة فاتورة</button>
-    <button class="action-btn btn-red"><i class="uil uil-exclamation-triangle"></i> عرض المخزون المنخفض</button>
+    <button class="action-btn btn-green" appRole [roles]="['Admin']"><i class="uil uil-shopping-cart"></i> إضافة فاتورة</button>
+    <button class="action-btn btn-red" appRole [roles]="['Admin']"><i class="uil uil-exclamation-triangle"></i> عرض المخزون المنخفض</button>
     <button class="action-btn btn-indigo" routerLink="/admin/customers"><i class="uil uil-user-plus"></i> إضافة عميل</button>
 </div>

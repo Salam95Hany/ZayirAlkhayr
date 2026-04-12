@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ZayirAlkhayr.Entities.Auth;
 using ZayirAlkhayr.Entities.Common;
+using ZayirAlkhayr.Entities.Contracts.DTOs.Auth;
 using ZayirAlkhayr.Entities.Models;
 using ZayirAlkhayr.Interface.Auth;
 using ZayirAlkhayr.Interface.Common;
@@ -16,7 +17,7 @@ using ZayirAlkhayr.Service.Common;
 
 namespace ZayirAlkhayr.Service.Auth
 {
-    public class AuthService: IAuthService
+    public class AuthService : IAuthService
     {
         private readonly UserManager<AdminUser> _userManager;
         private readonly SignInManager<AdminUser> _signInManager;
@@ -73,10 +74,11 @@ namespace ZayirAlkhayr.Service.Auth
                     Role = roleNme,
                     RoleId = roleId,
                     UserId = user.Id,
+                    PrinterName = user.PrinterName,
                     Token = token,
-                    LoginDate = DateTime.UtcNow,
-                    LoginDateAr = DateTime.UtcNow.ToString("dddd d MMMM , yyyy", new CultureInfo("ar-AE")),
-                    LoginTimeAr = DateTime.UtcNow.ToString("hh:mm:ss t", new CultureInfo("ar-AE")),
+                    LoginDate = DateTime.Now,
+                    LoginDateAr = DateTime.Now.ToString("dddd d MMMM , yyyy", new CultureInfo("ar-AE")),
+                    LoginTimeAr = DateTime.Now.ToString("hh:mm:ss t", new CultureInfo("ar-AE")),
                     ExpiresIn = expiresIn,
                 };
 
@@ -182,7 +184,7 @@ namespace ZayirAlkhayr.Service.Auth
 
             var result = await _userManager.DeleteAsync(user);
             if (result.Succeeded)
-                return ApiResponseModel<string>.Failure(GenericErrors.DeleteSuccess);
+                return ApiResponseModel<string>.Success(GenericErrors.DeleteSuccess);
             else
                 return ApiResponseModel<string>.Failure(GenericErrors.TransFailed);
         }
@@ -194,7 +196,6 @@ namespace ZayirAlkhayr.Service.Auth
                 return ApiResponseModel<string>.Failure(GenericErrors.UserNotFound);
 
             user.IsActive = false;
-            user.LoginDate = null;
 
             var updateResult = await _userManager.UpdateAsync(user);
             if (!updateResult.Succeeded)
@@ -255,6 +256,102 @@ namespace ZayirAlkhayr.Service.Auth
             };
 
             return StatisticsHomeCard;
+        }
+
+        public async Task<ApiResponseModel<UserWithRolesDto>> GetUserInfoById(string UserId)
+        {
+            var users = _unitOfWork.Repository<AdminUser>().GetAllAsQueryable();
+            var roles = _unitOfWork.Repository<IdentityRole>().GetAllAsQueryable();
+            var userRoles = _unitOfWork.Repository<IdentityUserRole<string>>().GetAllAsQueryable();
+
+            var data = await (from user in users
+                              join ur in userRoles on user.Id equals ur.UserId into userRoleJoin
+                              from ur in userRoleJoin.DefaultIfEmpty()
+                              join role in roles on ur.RoleId equals role.Id into roleJoin
+                              from role in roleJoin.DefaultIfEmpty()
+                              where user.Id == UserId
+                              select new
+                              {
+                                  user.Id,
+                                  user.UserName,
+                                  user.Email,
+                                  user.Address,
+                                  user.PhoneNumber,
+                                  user.LoginDate,
+                                  user.IsActive,
+                                  RoleName = role != null ? role.Name : null
+                              }).FirstOrDefaultAsync();
+
+
+            var result = new UserWithRolesDto
+            {
+                UserId = data.Id,
+                UserName = data.UserName,
+                Email = data.Email,
+                Address = data.Address,
+                PhoneNumber = data.PhoneNumber,
+                IsActive = data.IsActive,
+                LoginFullDate = data.LoginDate.Value.ToString("dddd d MMMM , yyyy - hh:mm:ss tt",new CultureInfo("ar-EG")),
+                Role = data.RoleName
+            };
+
+            return ApiResponseModel<UserWithRolesDto>.Success(GenericErrors.GetSuccess, result);
+        }
+
+        public async Task<ApiResponseModel<string>> EditUserProfile(AddUserModel model)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(model.UserId);
+                if (user == null)
+                {
+                    return ApiResponseModel<string>.Failure(GenericErrors.UserNotFound);
+                }
+
+                user.Address = model.Address;
+                user.PhoneNumber = model.PhoneNumber;
+                user.Email = model.Email;
+                user.NormalizedEmail = model.Email.ToUpperInvariant();
+
+                var updateResult = await _userManager.UpdateAsync(user);
+                if (!updateResult.Succeeded)
+                    return ApiResponseModel<string>.Failure(GenericErrors.TransFailed);
+
+                return ApiResponseModel<string>.Success(GenericErrors.UpdateSuccess);
+            }
+            catch (Exception)
+            {
+                return ApiResponseModel<string>.Failure(GenericErrors.TransFailed);
+            }
+        }
+
+        public async Task<ApiResponseModel<string>> ChangeUserPassword(AddUserModel model)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(model.UserId);
+                if (user == null)
+                {
+                    return ApiResponseModel<string>.Failure(GenericErrors.UserNotFound);
+                }
+
+                if (!string.IsNullOrWhiteSpace(model.Password))
+                {
+                    var removePassResult = await _userManager.RemovePasswordAsync(user);
+                    if (!removePassResult.Succeeded)
+                        return ApiResponseModel<string>.Failure(GenericErrors.DeletePassFailed);
+
+                    var addPassResult = await _userManager.AddPasswordAsync(user, model.Password);
+                    if (!addPassResult.Succeeded)
+                        return ApiResponseModel<string>.Failure(GenericErrors.NewPassFailed);
+                }
+
+                return ApiResponseModel<string>.Success(GenericErrors.UpdateSuccess);
+            }
+            catch (Exception)
+            {
+                return ApiResponseModel<string>.Failure(GenericErrors.TransFailed);
+            }
         }
     }
 }

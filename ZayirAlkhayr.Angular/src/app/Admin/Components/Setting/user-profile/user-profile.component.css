@@ -1,0 +1,432 @@
+:host {
+    --navy: #0f1c2e;
+    --navy-mid: #16273d;
+    --navy-soft: #1e3350;
+    --accent: #3b82f6;
+    --accent2: #10b981;
+    --accent3: #f59e0b;
+    --danger: #ef4444;
+    --card-bg: #ffffff;
+    --muted: #64748b;
+    --border: rgba(203, 213, 225, .55);
+    --text: #0f172a;
+    --bg-light: #f1f5f9;
+    font-family: 'DM Sans', 'Segoe UI', sans-serif;
+}
+
+:host ::ng-deep {
+    background: var(--bg-light);
+    color: var(--text);
+    padding: 0;
+}
+
+div {
+    box-sizing: border-box;
+}
+
+.profile-card {
+    background: var(--card-bg);
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 32px rgba(15, 28, 46, 0.08);
+    animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.profile-header {
+    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 50%, #1d4ed8 100%);
+    padding: 1px 0px;
+    position: relative;
+    text-align: center;
+    box-shadow: 0 12px 24px rgba(59, 130, 246, 0.15);
+}
+
+.profile-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+}
+
+.profile-image-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 24px;
+    z-index: 1;
+}
+
+.profile-image {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 6px solid white;
+    object-fit: cover;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.profile-image:hover {
+    transform: scale(1.05);
+}
+
+.status-badge {
+    position: absolute;
+    bottom: 12px;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+    background: var(--accent2);
+    border: 4px solid white;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+.profile-name {
+    color: white;
+    font-size: 32px;
+    font-weight: 800;
+    margin: 16px 0 8px;
+    letter-spacing: -0.5px;
+    font-family: 'Syne', sans-serif;
+}
+
+.profile-role {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.profile-body {
+    padding: 48px 40px;
+}
+
+.info-section {
+    margin-bottom: 42px;
+    animation: fadeIn 0.6s ease-out;
+}
+
+.info-section:last-of-type {
+    margin-bottom: 24px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.section-title {
+    color: var(--navy);
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    letter-spacing: -0.3px;
+    position: relative;
+    padding-left: 16px;
+}
+
+.section-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 20px;
+    background: var(--accent);
+    border-radius: 2px;
+}
+
+.section-title i {
+    color: var(--accent);
+    font-size: 18px;
+    width: 24px;
+    text-align: center;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    transition: all 0.2s ease;
+}
+
+.info-item:hover {
+    background: rgba(59, 130, 246, 0.02);
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.info-item:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-weight: 600;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 160px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.info-label i {
+    color: var(--accent);
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+}
+
+.info-value {
+    color: var(--text);
+    font-weight: 600;
+    font-size: 16px;
+    text-align: right;
+}
+
+.badge-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 24px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+}
+
+.badge-active {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.08));
+    color: #047857;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.badge-active::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: #10b981;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.badge-inactive {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(239, 68, 68, 0.08));
+    color: #991b1b;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.badge-inactive::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: #ef4444;
+    border-radius: 50%;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 36px;
+    flex-wrap: wrap;
+}
+
+.action-buttons button {
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 44px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 20px;
+    letter-spacing: 0.3px;
+    position: relative;
+    overflow: hidden;
+}
+
+.action-buttons button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.action-buttons button:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.action-buttons button:active {
+    transform: scale(0.98);
+}
+
+
+/* Edit Profile Button */
+
+.action-buttons button[type="button"]:first-of-type {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+}
+
+.action-buttons button[type="button"]:first-of-type:hover {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    box-shadow: 0 12px 32px rgba(59, 130, 246, 0.35);
+    transform: translateY(-3px);
+}
+
+
+/* Change Password Button */
+
+.action-buttons button[type="button"]:last-of-type {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.25);
+}
+
+.action-buttons button[type="button"]:last-of-type:hover {
+    background: linear-gradient(135deg, #059669, #047857);
+    box-shadow: 0 12px 32px rgba(16, 185, 129, 0.35);
+    transform: translateY(-3px);
+}
+
+
+/* Responsive Design */
+
+@media (max-width: 768px) {
+    .profile-card {
+        margin: 20px;
+        border-radius: 20px;
+    }
+    .profile-header {
+        padding: 36px 24px;
+    }
+    .profile-body {
+        padding: 32px 24px;
+    }
+    .profile-name {
+        font-size: 26px;
+    }
+    .profile-image {
+        width: 120px;
+        height: 120px;
+    }
+    .info-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .info-value {
+        text-align: left;
+    }
+    .section-title {
+        font-size: 16px;
+    }
+    .action-buttons {
+        gap: 12px;
+    }
+    .action-buttons button {
+        flex: 1;
+        min-width: 140px;
+        height: 40px;
+        font-size: 13px;
+        padding: 0 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-card {
+        margin: 12px;
+        border-radius: 16px;
+    }
+    .profile-header {
+        padding: 28px 16px;
+    }
+    .profile-body {
+        padding: 24px 16px;
+    }
+    .profile-name {
+        font-size: 22px;
+    }
+    .profile-image {
+        width: 100px;
+        height: 100px;
+        border-width: 5px;
+    }
+    .info-section {
+        margin-bottom: 28px;
+    }
+    .section-title {
+        font-size: 14px;
+    }
+    .info-label {
+        min-width: auto;
+        font-size: 12px;
+    }
+    .info-value {
+        font-size: 14px;
+    }
+    .action-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .action-buttons button {
+        width: 100%;
+        height: 40px;
+        font-size: 12px;
+        padding: 0 12px;
+    }
+}

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ZayirAlkhayr.Entities.Auth;
 using ZayirAlkhayr.Entities.Common;
+using ZayirAlkhayr.Entities.Contracts.DTOs.Auth;
 
 namespace ZayirAlkhayr.Interface.Auth
 {
@@ -19,5 +20,8 @@ namespace ZayirAlkhayr.Interface.Auth
         Task<ApiResponseModel<string>> AdminLogout(string UserId);
         Task<ApiResponseModel<string>> EditUserPassword(string UserId, string Password);
         Task<object> GetStatisticsHome();
+        Task<ApiResponseModel<UserWithRolesDto>> GetUserInfoById(string UserId);
+        Task<ApiResponseModel<string>> EditUserProfile(AddUserModel model);
+        Task<ApiResponseModel<string>> ChangeUserPassword(AddUserModel model);
     }
 }

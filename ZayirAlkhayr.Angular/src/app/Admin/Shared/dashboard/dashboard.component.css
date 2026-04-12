@@ -280,6 +280,106 @@
 .card {
     background: var(--card-bg);
     border-radius: 18px;
+    /* ─── RESPONSIVE TWEAKS (small + x-small screens) ───────────────────────── */
+    @media (max-width: 500px) {
+        .page-wrapper {
+            padding: 16px 12px 120px;
+            max-width: 100%;
+        }
+        .stat-cards {
+            grid-template-columns: repeat(1, 1fr);
+            gap: 12px;
+        }
+        .stat-card {
+            padding: 14px 16px;
+            border-radius: 14px;
+        }
+        .stat-icon {
+            width: 36px;
+            height: 36px;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+        .stat-value {
+            font-size: 1.4rem;
+        }
+        .main-grid {
+            gap: 12px;
+        }
+        .order-row {
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 10px 16px;
+            justify-content: flex-start;
+        }
+        .order-num {
+            min-width: 0;
+            flex-basis: auto;
+        }
+        .order-status-badge {
+            margin-left: 0;
+            order: 3;
+        }
+        .order-time {
+            margin-left: 0;
+            order: 2;
+        }
+        .selling-item,
+        .stock-item,
+        .cust-row {
+            padding: 10px 16px;
+        }
+        .selling-rank {
+            width: 24px;
+            height: 24px;
+        }
+        .donut-wrap {
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+        .donut-svg {
+            width: 90px;
+            height: 90px;
+        }
+        .donut-legend {
+            align-items: center;
+        }
+        .cust-val,
+        .cust-chip {
+            margin-left: 0;
+            margin-top: 8px;
+        }
+        .bottom-bar {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 10px;
+            justify-content: flex-start;
+            overflow-x: auto;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 -6px 18px rgba(2, 6, 23, 0.08);
+        }
+        .action-btn {
+            padding: 8px 14px;
+            font-size: .95rem;
+            white-space: nowrap;
+            flex: 0 0 auto;
+        }
+    }
+    @media (max-width: 360px) {
+        .stat-value {
+            font-size: 1.2rem;
+        }
+        .card-header-custom {
+            padding: 12px 16px;
+        }
+        .card {
+            border-radius: 12px;
+        }
+    }
     border: 1px solid var(--border);
     overflow: hidden;
 }

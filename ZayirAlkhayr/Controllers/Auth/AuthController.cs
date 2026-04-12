@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Threading.Tasks;
 using ZayirAlkhayr.Entities.Auth;
 using ZayirAlkhayr.Entities.Common;
+using ZayirAlkhayr.Entities.Contracts.DTOs.Auth;
 using ZayirAlkhayr.Interface.Auth;
 
 namespace ZayirAlkhayr.Controllers.Auth
@@ -79,6 +81,30 @@ namespace ZayirAlkhayr.Controllers.Auth
         public async Task<object> GetStatisticsHome()
         {
             var results = await _authService.GetStatisticsHome();
+            return results;
+        }
+
+        [HttpGet]
+        [Route("GetUserInfoById")]
+        public async Task<ApiResponseModel<UserWithRolesDto>> GetUserInfoById(string UserId)
+        {
+            var results = await _authService.GetUserInfoById(UserId);
+            return results;
+        }
+
+        [HttpPost]
+        [Route("EditUserProfile")]
+        public async Task<ApiResponseModel<string>> EditUserProfile(AddUserModel model)
+        {
+            var results = await _authService.EditUserProfile(model);
+            return results;
+        }
+
+        [HttpPost]
+        [Route("ChangeUserPassword")]
+        public async Task<ApiResponseModel<string>> ChangeUserPassword(AddUserModel model)
+        {
+            var results = await _authService.ChangeUserPassword(model);
             return results;
         }
     }
