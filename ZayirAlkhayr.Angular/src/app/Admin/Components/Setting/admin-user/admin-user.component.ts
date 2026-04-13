@@ -11,6 +11,7 @@ import { ValidationFormService } from 'src/app/Admin/Services/validation-form.se
   styleUrls: ['./admin-user.component.css']
 })
 export class AdminUserComponent implements OnInit {
+  private readonly arabicWordsPattern = /^[\u0621-\u064A]+(?:\s+[\u0621-\u064A]+)*$/;
   UsersData: any[] = [];
   showLoader = false;
   ItemForm: FormGroup;
@@ -38,6 +39,7 @@ export class AdminUserComponent implements OnInit {
     this.ItemForm = this.fb.group({
       userId: null,
       userName: ['', [Validators.required, Validators.pattern("^[a-zA-Z \\-']+")]],
+      userNameAr: ['', [Validators.required, Validators.pattern(this.arabicWordsPattern)]],
       email: ['', [Validators.required, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
       password: [
         '',
@@ -58,6 +60,7 @@ export class AdminUserComponent implements OnInit {
     this.ItemForm.setValue({
       userId: item.userId,
       userName: item.userName,
+      userNameAr: item?.userNameAr,
       email: item.email,
       password: null,
       phoneNumber: item.phoneNumber,

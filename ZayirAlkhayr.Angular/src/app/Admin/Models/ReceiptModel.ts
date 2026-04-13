@@ -3,8 +3,9 @@ export interface ReceiptModel {
     orderType: string;
     date: string;
     cashier: string;
-    agent: string;
+    agent?: string;
     items: ReceiptItemsModel[];
+    deliveryFee?: number;
     grandTotal: number;
 }
 

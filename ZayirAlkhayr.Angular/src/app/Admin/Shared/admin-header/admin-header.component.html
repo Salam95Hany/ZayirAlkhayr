@@ -39,7 +39,7 @@
                     <li class="nav-item" ngbDropdown display="dynamic" placement="bottom-start">
                         <a class="nav-link user-dropdown-link d-flex align-items-center gap-2 cursor-pointer" ngbDropdownToggle id="user-dropdown">
                             <i class="uil uil-user"></i>
-                            <span class="navbar-brand m-0">{{UserModel?.userName}}</span>
+                            <span class="navbar-brand m-0">{{UserModel?.userNameAr}}</span>
                         </a>
                         <div ngbDropdownMenu aria-labelledby="user-dropdown" class="dropdown-menu border animate__animated animate__fadeInUp">
                             <a class="cursor-pointer" ngbDropdownItem (click)="$event.preventDefault()" routerLink="/admin/user-profile">

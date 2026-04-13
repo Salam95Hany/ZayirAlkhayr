@@ -20,7 +20,7 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    let currentUser = JSON.parse(localStorage.getItem('UserModel'));
+    const currentUser = this.getStoredUser();
     if (!currentUser || this.isTokenExpired())
       return false;
 
@@ -28,23 +28,29 @@ export class AuthService {
   }
 
   isTokenExpired(): boolean {
-    let access_token = JSON.parse(localStorage.getItem('UserModel'))?.token;
-    if (!access_token)
+    try {
+      const access_token = this.getStoredUser()?.token;
+      if (!access_token)
+        return true;
+
+      const decode = jwtDecode(access_token);
+      if (!decode.exp)
+        return true;
+
+      const expirationDate = decode.exp * 1000;
+      const now = new Date().getTime();
+      return expirationDate < now;
+    } catch {
       return true;
-    const decode = jwtDecode(access_token);
-    if (!decode.exp)
-      return true;
-    const expirationDate = decode.exp * 1000;
-    const now = new Date().getTime();
-    return expirationDate < now;
+    }
   }
 
   isInRole(roles: string[]): boolean {
-    let userModel = JSON.parse(localStorage.getItem('UserModel'));
+    const userModel = this.getStoredUser();
     if (!userModel)
       return false;
 
-    let ckeckRole = roles.some(i => i == userModel?.role);
+    const ckeckRole = roles.some(i => i == userModel?.role);
     return ckeckRole;
   }
 
@@ -53,5 +59,13 @@ export class AuthService {
     this.router.navigateByUrl('/login');
   }
 
+  private getStoredUser(): any | null {
+    try {
+      const userModel = localStorage.getItem('UserModel');
+      return userModel ? JSON.parse(userModel) : null;
+    } catch {
+      return null;
+    }
+  }
 
 }

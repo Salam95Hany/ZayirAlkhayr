@@ -48,6 +48,14 @@ export class CreateOrderComponent {
     pagesize: 100
   }
 
+  get deliveryFee(): number {
+    return this.OrderTypeId == 2 ? this.CostDelivery : 0;
+  }
+
+  get payableTotal(): number {
+    return (Number(this.orderModel?.totalValue) || 0) + this.deliveryFee;
+  }
+
 
   constructor(private adminService: AdminService, private toaster: ToastrService, private modalService: NgbModal, private route: ActivatedRoute,
     @Inject(DOCUMENT) private document: any, private fb: FormBuilder, private formService: ValidationFormService, private offcanvasService: NgbOffcanvas,
@@ -114,7 +122,7 @@ export class CreateOrderComponent {
 
   OpenCustomerSearchModal(content: any) {
     this.CustomerSearch = '';
-    this.modalService.open(content, { size: 'lg', centered: true, scrollable: true });
+    this.modalService.open(content, { size: 'md', centered: true, scrollable: true });
   }
 
   OpenAddNewCustomerModal(content: any) {
@@ -243,15 +251,9 @@ export class CreateOrderComponent {
 
   onAmountPaidChange() {
     if (this.cashAmount)
-      this.remaining = Number(this.cashAmount) - this.orderModel.totalValue;
+      this.remaining = Number(this.cashAmount) - this.payableTotal;
     else
       this.remaining = 0;
-  }
-
-  NumbersOnly(key: any): boolean {
-    let patt = /^([0-9\+])$/;
-    let result = patt.test(key);
-    return result;
   }
 
   GetPayInputNumbers(key: any) {
@@ -321,14 +323,14 @@ export class CreateOrderComponent {
     this.orderModel.customerId = this.CustomerSearchData?.customerId ?? null;
     this.orderModel.totalAmount = this.orderModel.totalValue;
     this.orderModel.orderType = this.OrderTypeId;
-    this.orderModel.costDelivery = this.OrderTypeId == 1 ? 0 : this.CostDelivery;
+    this.orderModel.costDelivery = this.deliveryFee;
     this.orderModel.note = this.NoteTxt;
     this.orderModel.userId = this.UserModel?.userId;
     this.orderModel.details = this.selectedFoodItems.map(i => {
       return {
         ProductID: i.productId,
         quantity: i.quantity,
-        unitPrice: i.totalValue,
+        unitPrice: i.price,
       }
     });
 
@@ -345,7 +347,6 @@ export class CreateOrderComponent {
         }
 
         this.toaster.success(data.message);
-        debugger;
         const d = new Date();
         let time = d.toLocaleTimeString('en-GB', {
           hour: '2-digit',
@@ -366,7 +367,7 @@ export class CreateOrderComponent {
           orderNo: data.results,
           orderType: this.OrderTypeId == 1 ? 'خارجي' : 'توصيل',
           date: formatted,
-          cashier: this.UserModel?.userName,
+          cashier: this.UserModel?.userNameAr,
           agent: this.CustomerSearchData?.fullName,
           items: this.selectedFoodItems.map(i => {
             return {
@@ -377,7 +378,8 @@ export class CreateOrderComponent {
               categoryId: i.categoryId
             }
           }),
-          grandTotal: this.OrderTypeId == 1 ? this.orderModel.totalValue : this.orderModel.totalValue + 10000
+          deliveryFee: this.deliveryFee,
+          grandTotal: this.payableTotal
         };
 
         this.qzPrintService.Print(OrderPrinterObj).then(() => {
@@ -395,6 +397,10 @@ export class CreateOrderComponent {
         this.toaster.error('حدث خطأ');
       }
     });
+  }
+
+  NumbersOnly(key: any) {
+    return this.formService.NumbersOnly(key);
   }
 
   OnCustomerSearch(content: any) {

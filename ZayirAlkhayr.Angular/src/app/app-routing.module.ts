@@ -4,9 +4,10 @@ import { LoginComponent } from './login/login.component';
 import { NotAuthorizedComponent } from './Auth/not-authorized/not-authorized.component';
 import { CreateOrderComponent } from './Admin/Shared/create-order/create-order.component';
 import { AuthGuard } from './Auth/auth.guard';
+import { GuestGuard } from './Auth/guest.guard';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent, canActivate: [GuestGuard] },
   { path: 'not-authorized', component: NotAuthorizedComponent },
   { path: 'create-order', component: CreateOrderComponent, canActivate: [AuthGuard], data: { roles: ["Admin", "Cashier"] } },
   { path: 'admin', loadChildren: () => import('../app/Admin/admin.module').then(m => m.AdminModule) },

@@ -1,4 +1,4 @@
-<div>
+<div class="page-wrapper">
     <!-- STAT CARDS -->
     <div class="stat-cards">
         <div class="stat-card">
@@ -66,8 +66,8 @@
                 </div>
                 <div class="order-time"><i class="uil uil-arrow-up me-1"></i>{{item?.insertDate | timeAgoToday}}</div>
             </div>
-            <div class="order-row" style="border-top:1px solid var(--border);padding-top:14px;margin-top:4px">
-                <a style="font-size:.78rem;font-weight:600;color:var(--accent);text-decoration:none" routerLink="/admin/order-list">عرض جميع الطلبات <i class="uil uil-arrow-right"></i></a>
+            <div class="order-row order-row-link">
+                <a class="order-link" routerLink="/admin/order-list">عرض جميع الطلبات <i class="uil uil-arrow-right"></i></a>
             </div>
         </div>
 
@@ -79,11 +79,11 @@
             </div>
             <div class="selling-item" *ngFor="let item of TopSellingItems">
                 <div class="selling-rank silver">{{item?.rowNum}}</div>
-                <div style="flex:1">
+                <div class="selling-content">
                     <div class="selling-name">{{item?.itemName}}</div>
                     <div class="selling-sub">{{item?.totalQuantity ?? 0}} مباع - {{item?.totalSales ?? 0}} ل.س</div>
                 </div>
-                <div style="width:90px">
+                <div class="selling-meter">
                     <div class="selling-bar-wrap">
                         <div class="selling-bar-inner" style="width:95%;background:linear-gradient(90deg,#f59e0b,#fbbf24)"></div>
                     </div>
@@ -177,7 +177,7 @@
         </div>
 
         <!-- CUSTOMER ACTIVITY -->
-        <div class="card" style="grid-column: span 2;">
+        <div class="card dashboard-card-wide">
             <div class="card-header-custom">
                 <div class="card-title"><i class="uil uil-users-alt me-1" style="color:var(--accent2)"></i> حركة العملاء</div>
                 <span class="badge-pill badge-cust">● مباشر</span>
@@ -191,26 +191,26 @@
                 <div class="cust-val">{{CustomerDelivery?.todayDeliveryCustomers ?? 0}}</div>
             </div>
             <div class="cust-row">
-                <div class="cust-icon" style="background:#ecfdf5;color:var(--accent2)"><i class="uil uil-user-plus"></i></div>
+                <div class="cust-icon cust-icon-secondary"><i class="uil uil-user-plus"></i></div>
                 <div>
                     <div class="cust-label">عملاء جدد</div>
                     <div class="cust-sub">أول مرة تطلب</div>
                 </div>
                 <div class="cust-chip">+{{CustomerDelivery?.newCustomersToday ?? 0}} جديد</div>
             </div>
-            <div class="cust-row" style="border-top:none;padding-top:0">
-                <div style="width:100%;background:#f8fafc;border-radius:12px;padding:10px 16px;display:flex;gap:24px;">
-                    <div>
-                        <div style="font-size:1rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px">متوسط صرف العميل</div>
-                        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem">{{CustomerDelivery?.avgCustomerSpend ?? 0}} ل.س</div>
+            <div class="cust-row cust-row-summary">
+                <div class="customer-metrics">
+                    <div class="metric-item">
+                        <div class="metric-label">متوسط صرف العميل</div>
+                        <div class="metric-value">{{CustomerDelivery?.avgCustomerSpend ?? 0}} ل.س</div>
                     </div>
-                    <div>
-                        <div style="font-size:1rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px">العملاء العائدين</div>
-                        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem">{{CustomerDelivery?.returningCustomersPercent ?? 0}}%</div>
+                    <div class="metric-item">
+                        <div class="metric-label">العملاء العائدين</div>
+                        <div class="metric-value">{{CustomerDelivery?.returningCustomersPercent ?? 0}}%</div>
                     </div>
-                    <div>
-                        <div style="font-size:1rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px">وقت الذروة</div>
-                        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem">{{CustomerDelivery?.peakTimeRange ?? '-'}}</div>
+                    <div class="metric-item">
+                        <div class="metric-label">وقت الذروة</div>
+                        <div class="metric-value">{{CustomerDelivery?.peakTimeRange ?? '-'}}</div>
                     </div>
                 </div>
             </div>

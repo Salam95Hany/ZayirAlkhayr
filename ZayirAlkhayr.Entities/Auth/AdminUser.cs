@@ -11,6 +11,7 @@ namespace ZayirAlkhayr.Entities.Auth
     {
         public string Address { get; set; }
         public string PrinterName { get; set; }
+        public string UserNameAr { get; set; }
         public bool IsActive { get; set; }
         public DateTime? LoginDate { get; set; }
     }

@@ -19,7 +19,8 @@
             <table class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
                 <thead>
                     <tr>
-                        <th>الاسم</th>
+                        <th>اسم المستخدم</th>
+                        <th>الاسم بالعربي</th>
                         <th>البريد الالكترونى</th>
                         <th>رقم التلفون</th>
                         <th>العنوان</th>
@@ -32,6 +33,7 @@
                 <tbody>
                     <tr *ngFor="let item of UsersData">
                         <td>{{item.userName}}</td>
+                        <td>{{item.userNameAr}}</td>
                         <td>{{item.email}}</td>
                         <td>{{item.phoneNumber}}</td>
                         <td>{{item?.address}}</td>
@@ -71,7 +73,7 @@
                     <div class="col-lg-6">
                         <div class="form-floating">
                             <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user" formControlName="userName" required>
-                            <label for="floatingInput_1">اسم المستخدم</label>
+                            <label for="floatingInput_1">اسم المستخدم بالانكليزي</label>
                         </div>
                         <div *ngIf="ItemForm.controls['userName']?.invalid && (ItemForm.controls['userName']?.dirty || ItemForm.controls['userName']?.touched)" class="text-danger pt-2">
                             <div *ngIf="ItemForm.controls['userName'].errors?.['required']">
@@ -79,6 +81,20 @@
                             </div>
                             <div *ngIf="ItemForm.controls['userName'].errors?.['pattern']">
                                 أدخل أحرف انكليزية فقط
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user" formControlName="userNameAr" required>
+                            <label for="floatingInput_1">اسم المستخدم بالعربي</label>
+                        </div>
+                        <div *ngIf="ItemForm.controls['userNameAr']?.invalid && (ItemForm.controls['userNameAr']?.dirty || ItemForm.controls['userNameAr']?.touched)" class="text-danger pt-2">
+                            <div *ngIf="ItemForm.controls['userNameAr'].errors?.['required']">
+                                هذا الحقل مطلوب
+                            </div>
+                            <div *ngIf="ItemForm.controls['userNameAr'].errors?.['pattern']">
+                                أدخل أحرف عربية فقط
                             </div>
                         </div>
                     </div>

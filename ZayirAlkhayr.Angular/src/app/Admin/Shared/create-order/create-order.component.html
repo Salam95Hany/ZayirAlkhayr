@@ -1,197 +1,282 @@
-<nav class="breadcrumb-nav border-bottom border-4" style="background-color: #6c757d; color: #fff;">
-    <div class="d-flex align-items-center justify-content-between">
-        <ol class="breadcrumb m-0">
-            <li class="breadcrumb-item"><span class="fw-bold ps-1">{{ UserModel?.fullName}}</span></li>
-        </ol>
-
-        <div class="d-flex text-center">
-            <ol class="breadcrumb m-0">
-                <li class="breadcrumb-item"><span class="fw-bold pe-1">{{UserModel?.salesDay | arabicDate}}</span></li>
-            </ol>
-        </div>
-    </div>
-</nav>
-<div class="container-fluid">
-    <div class="row h-100">
-        <div class="col-xl-8">
-            <section class="order-categories">
-                <div class="order-cat-wrapper small-scroll pe-2 mb-4" [class.open]="isOrderCatOpen">
-                    <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-3">
-                        <div *ngFor="let item of categoriesList;let i=index" class="col d-flex align-items-center justify-content-center">
-                            <div (click)="GetProductsByCategoryId(item.categoryId)" class="filter-order-box position-relative shadow-sm cursor-pointer" [class.active]="activeCat === i">
-                                <div class="filter-order-image">
-                                    <img src="{{item.image}}" (error)="$event.target.src = defaultImage" loading="lazy" alt="order-img" />
-                                </div>
-                                <div class="filter-order-text fs-6 text-uppercase fw-bold">{{item.name}}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <button class="order-cat-collapse-btn shadow-lg" (click)="isOrderCatOpen = !isOrderCatOpen;">
-                    <i class="fas fa-chevron-down" [class.icon-rotated]="isOrderCatOpen"></i>
+<div class="create-order-page">
+    <nav class="pos-toolbar">
+        <div class="pos-toolbar__identity">
+            <div>
+                <div class="toolbar-eyebrow">نقطة البيع</div>
+                <h1 class="toolbar-title">إدارة الطلبات وإنشاؤها</h1>
+            </div>
+            <div class="d-flex align-items-center">
+                <div class="pay-background me-2">
+                    <button class="pay-button" (click)="openPayModal(payModal)">
+                    <i class="fas fa-wallet"></i>
+                    <span>دفع</span>
                 </button>
-            </section>
-            <ng-container>
-                <div class="choosed-cat-result-card-wrapper overflow-auto small-scroll pe-2 mt-5 mb-4">
-                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-6 g-3">
-                        <div *ngFor="let item of foodItemsList;let i=index" (click)="onClickFoodItem(item,newModal)" class="col">
-                            <div class="choosed-cat-result-card bg-white p-3 d-flex flex-column gap-2 shadow-sm rounded cursor-pointer h-100">
-                                <div class="choosed-cat-result-img">
-                                    <img [src]="item.image" (error)="$event.target.src = defaultImage" loading="lazy" alt="item-image" />
+                    <div class="pay-total-box">
+                        <div class="pay-total-box__label">المبلغ المطلوب</div>
+                        <div class="pay-total-box__value">{{payableTotal}} ل.س</div>
+                    </div>
+                </div>
+                <div class="toolbar-user">
+                    <div class="toolbar-user__name">{{ UserModel?.userNameAr }}</div>
+                    <div class="toolbar-user__meta">{{UserModel?.loginDate | arabicDateWithTime}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="pos-toolbar__chips">
+            <div class="toolbar-chip">
+                <i class="uil uil-clock-three"></i>
+                <span>{{CurrentTime}}</span>
+            </div>
+            <div class="toolbar-chip toolbar-chip--accent">
+                <i class="uil uil-receipt"></i>
+                <span>{{OrderId ? 'تعديل طلب' : 'طلب جديد'}}</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="create-order-shell">
+        <section class="create-order-main">
+            <div class="pos-panel">
+                <div class="panel-header">
+                    <div>
+                        <div class="panel-kicker">التصنيفات</div>
+                        <h2 class="panel-title">اختر الفئة المناسبة</h2>
+                    </div>
+                    <button type="button" class="order-cat-collapse-btn" (click)="isOrderCatOpen = !isOrderCatOpen;">
+                        <span>{{isOrderCatOpen ? 'عرض أقل' : 'عرض الكل'}}</span>
+                        <i class="fas fa-chevron-down" [class.icon-rotated]="isOrderCatOpen"></i>
+                    </button>
+                </div>
+
+                <div class="order-cat-wrapper small-scroll" [class.open]="isOrderCatOpen">
+                    <div class="row row-cols-2 row-cols-sm-3 row-cols-lg-4 row-cols-xxl-6 g-3">
+                        <div *ngFor="let item of categoriesList; let i = index" class="col d-flex align-items-stretch">
+                            <div (click)="activeCat = i; GetProductsByCategoryId(item.categoryId)" class="filter-order-box position-relative shadow-sm cursor-pointer" [class.active]="activeCat === i">
+                                <div class="filter-order-image">
+                                    <img [src]="item.image" (error)="$event.target.src = defaultImage" loading="lazy" alt="order-category" />
                                 </div>
-                                <div class="main-color fw-bold">{{item.name}}</div>
-                                <div class="fw-bold fs-6 text-danger">{{item.price}} ل.س</div>
-                                <div class="choosed-cat-result-add">
-                                    <img src="../../../../assets/add-square.png" loading="lazy" alt="" />
-                                </div>
+                                <div class="filter-order-text">{{item.name}}</div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </ng-container>
-            <section class="order-settings">
-                <div class="row g-3 mb-3 justify-content-center">
-                    <div class="col-lg-2">
-                        <div class="order-home-box box-hover d-flex flex-column align-items-center justify-content-center rounded h-100 cursor-pointer shadow-sm gap-2" routerLink="/admin/home">
-                            <i class="uil uil-home"></i>
-                            <h5 class="m-0 text-center">الرئيسية</h5>
-                        </div>
+            </div>
+
+            <div class="pos-panel">
+                <div class="panel-header">
+                    <div>
+                        <div class="panel-kicker">المنتجات</div>
+                        <h2 class="panel-title">أضف الأصناف إلى الطلب بسرعة</h2>
                     </div>
-                    <!-- <div class="col-lg-2">
-                        <div class="order-home-box box-hover d-flex flex-column align-items-center justify-content-center rounded h-100 cursor-pointer shadow-sm gap-2" (click)="openTableModal(selectTableModal)">
-                            <i class="fas fa-dolly"></i>
-                            <h5 class="m-0 text-center">اختر طاولة</h5>
+                    <div class="panel-badge">{{foodItemsList?.length ?? 0}} صنف</div>
+                </div>
+
+                <div class="choosed-cat-result-card-wrapper overflow-auto small-scroll">
+                    <ng-container *ngIf="foodItemsList?.length; else noProductsState">
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xxl-4 g-3">
+                            <div *ngFor="let item of foodItemsList; let i = index" (click)="onClickFoodItem(item,newModal)" class="col">
+                                <div class="choosed-cat-result-card product-card">
+                                    <div class="choosed-cat-result-img">
+                                        <img [src]="item.image" (error)="$event.target.src = defaultImage" loading="lazy" alt="item-image" />
+                                    </div>
+                                    <div class="product-card__content">
+                                        <div class="product-card__name">{{item.name}}</div>
+                                        <div class="product-card__price">{{item.price}} ل.س</div>
+                                    </div>
+                                    <div class="choosed-cat-result-add">
+                                        <img src="../../../../assets/add-square.png" loading="lazy" alt="add-item" />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div> -->
-                    <div class="col-lg-2">
-                        <div class="order-home-box box-hover d-flex flex-column align-items-center justify-content-center rounded h-100 cursor-pointer shadow-sm gap-2" (click)="resetOrderModel()">
-                            <i class="fas fa-window-close"></i>
-                            <h5 class="m-0 text-center">الغاء</h5>
+                    </ng-container>
+
+                    <ng-template #noProductsState>
+                        <div class="empty-state">
+                            <div class="empty-state__icon"><i class="uil uil-apps"></i></div>
+                            <h3 class="empty-state__title">اختر تصنيفاً لعرض المنتجات</h3>
+                            <p class="empty-state__text">بمجرد اختيار الفئة ستظهر الأصناف هنا بشكل منظم وسريع الاستخدام.</p>
                         </div>
-                    </div>
-                    <div class="col-lg-2">
-                        <div class="order-home-box box-hover d-flex flex-column align-items-center justify-content-center rounded h-100 cursor-pointer shadow-sm gap-2" (click)="toggleFullscreenWindow()">
-                            <i class="fas" [ngClass]="{'fa-expand': fullscreenMode === false, 'fa-compress': fullscreenMode}"></i>
-                            <h5 class="m-0 text-center">شاشة كاملة</h5>
-                        </div>
+                    </ng-template>
+                </div>
+            </div>
+
+            <div class="pos-panel quick-actions-panel">
+                <div class="panel-header">
+                    <div>
+                        <div class="panel-kicker">إجراءات سريعة</div>
+                        <h2 class="panel-title">تنقل وتحكم أسرع أثناء العمل</h2>
                     </div>
                 </div>
-            </section>
-        </div>
-        <div class="col-xl-4">
-            <header class="module-header rounded shadow-lg text-white px-3 py-3 d-flex align-items-center mb-2">
-                <div class="bullets-box position-relative w-100">
-                    <h3 class="position-relative d-flex align-items-center m-0 cursor-pointer">
-                        <div class="module-header-icon me-2">
+
+                <div class="quick-actions-grid">
+                    <div class="order-home-box" routerLink="/admin/dashboard">
+                        <i class="uil uil-home"></i>
+                        <h5 class="m-0 text-center">الرئيسية</h5>
+                    </div>
+                    <div class="order-home-box" (click)="resetOrderModel()">
+                        <i class="fas fa-window-close"></i>
+                        <h5 class="m-0 text-center">إلغاء الطلب</h5>
+                    </div>
+                    <div class="order-home-box" (click)="toggleFullscreenWindow()">
+                        <i class="fas" [ngClass]="{'fa-expand': fullscreenMode === false, 'fa-compress': fullscreenMode}"></i>
+                        <h5 class="m-0 text-center">شاشة كاملة</h5>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <aside class="create-order-summary">
+            <div class="summary-card summary-card--hero">
+                <div class="summary-card__header">
+                    <div class="summary-hero">
+                        <div class="summary-hero__icon">
                             <i class="fas fa-{{OrderTypeId == 1 ? 'shopping-bag' : 'motorcycle'}}"></i>
                         </div>
-                        <div class="d-flex align-items-center justify-content-between w-100" (click)="OpenOrderTypeModal(OrderTypeModal)">
-                            <span class="username-title text-white text-uppercase fw-bold ms-2">{{OrderTypeId == 1 ? 'خارجي' : 'توصيل'}}</span>
+                        <div>
+                            <div class="summary-card__eyebrow">نوع الطلب</div>
+                            <div class="summary-card__title">{{OrderTypeId == 1 ? 'خارجي' : 'توصيل'}}</div>
                         </div>
-                    </h3>
-                    <h5 class="position-relative d-flex align-items-center m-0">
-                    </h5>
-                </div>
-            </header>
-            <div class="bg-white rounded px-3 py-2 border shadow-sm mb-1" *ngIf="OrderTypeId == 2">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="fw-bold">
-                        <i class="fas fa-user-circle me-2 main-color" style="font-size: 16px;"></i>
-                        <span>اسم العميل : </span>
-                        <span class="fw-bold me-2 ms-2">{{CustomerSearchData?.fullName ?? '-'}}</span>
                     </div>
-                    <div class="d-flex text-center">
-                        <div class="order-setting-icon rounded cursor-pointer border me-2" (click)="openHistorySidePanel(historySidePanel)">
+                    <button type="button" class="summary-switch-btn" (click)="OpenOrderTypeModal(OrderTypeModal)">
+                        تغيير
+                    </button>
+                </div>
+                <div class="summary-hero__stats">
+                    <div class="hero-stat">
+                        <span class="hero-stat__label">العناصر</span>
+                        <strong>{{selectedFoodItems?.length ?? 0}}</strong>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="hero-stat__label">القيمة الحالية</span>
+                        <strong>{{payableTotal}} ل.س</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card" *ngIf="OrderTypeId == 2">
+                <div class="summary-card__header">
+                    <div>
+                        <div class="summary-card__eyebrow">بيانات التوصيل</div>
+                        <div class="summary-card__title">معلومات العميل</div>
+                    </div>
+                    <div class="summary-card__actions">
+                        <button type="button" class="ghost-icon-btn" (click)="openHistorySidePanel(historySidePanel)">
                             <i class="fas fa-chart-bar"></i>
+                        </button>
+                        <button type="button" class="ghost-icon-btn" (click)="OpenCustomerSearchModal(CustomerSearchModal)">
+                            <i class="fas fa-plus-circle"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="summary-info-list">
+                    <div class="summary-info-item">
+                        <i class="fas fa-user-circle"></i>
+                        <div>
+                            <div class="summary-info-label">اسم العميل</div>
+                            <div class="summary-info-value">{{CustomerSearchData?.fullName ?? '-'}}</div>
+                        </div>
+                    </div>
+                    <div class="summary-info-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <div class="summary-info-label">رقم الهاتف</div>
+                            <div class="summary-info-value">{{CustomerSearchData?.phone ?? '-'}}</div>
+                        </div>
+                    </div>
+                    <div class="summary-info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <div class="summary-info-label">العنوان</div>
+                            <div class="summary-info-value">{{CustomerSearchData?.address ?? '-'}}</div>
                         </div>
                     </div>
                 </div>
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="d-flex fw-bold mb-2">
-                        <i class="fas fa-phone me-2 mb-1 main-color" style="font-size: 16px;"></i>
-                        <span>رقم الهاتف :</span>
-                        <div class="me-2 ms-2">{{CustomerSearchData?.phone ?? '-'}}</div>
+            </div>
+
+            <div class="summary-card">
+                <div class="summary-card__header">
+                    <div>
+                        <div class="summary-card__eyebrow">ملاحظات</div>
+                        <div class="summary-card__title">تفاصيل إضافية على الطلب</div>
                     </div>
-                    <div class="d-flex text-center mt-1" (click)="OpenCustomerSearchModal(CustomerSearchModal)">
-                        <div class="order-setting-icon rounded cursor-pointer border me-2">
-                            <i [class]="'fas fa-plus-circle'"></i>
-                        </div>
-                    </div>
+                    <button type="button" class="ghost-icon-btn" (click)="openNotesModal(notesModal)">
+                        <i class="far fa-comments"></i>
+                    </button>
                 </div>
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-map-marker-alt me-2 main-color" style="font-size: 19px;"></i>
-                        <span class="fw-bold me-2 ms-05">العنوان :</span>
-                        <div>{{CustomerSearchData?.address ?? '-'}}</div>
-                    </div>
+                <div class="notes-preview" [class.notes-preview--empty]="!orderModel?.notes">
+                    {{orderModel?.notes || 'لا توجد ملاحظات مضافة حتى الآن'}}
                 </div>
             </div>
-            <div class="bg-white rounded px-3 py-2 border shadow-sm mb-1">
-                <div class="form-control d-flex min-height-50">
-                    <div class="w-100 me-2 text-danger">
-                        <span>{{orderModel?.notes}}</span>
+
+            <div class="summary-card">
+                <div class="summary-card__header">
+                    <div>
+                        <div class="summary-card__eyebrow">العناصر</div>
+                        <div class="summary-card__title">ملخص الأصناف المختارة</div>
                     </div>
-                    <div class="order-setting-icon rounded cursor-pointer border" (click)="openNotesModal(notesModal)">
-                        <i class="fa-solid far fa-comments"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="items-header-box rounded px-3 py-2 mb-2 d-flex align-items-center justify-content-between text-white">
-                <div class="fs-5">العناصر</div>
-                <div class="fw-bold fs-5 d-flex align-items-center">
-                    <div *ngIf="selectedFoodItems?.length" class="me-2"># {{selectedFoodItems?.length}}</div>
-                    <div class="d-flex align-items-center order-setting-icon rounded cursor-pointer border" (click)="openExpandModal(foodItemsExpand)">
-                        <i class="fas fa-expand"></i>
+                    <div class="summary-card__actions">
+                        <span class="panel-badge panel-badge--soft"># {{selectedFoodItems?.length ?? 0}}</span>
+                        <button type="button" class="ghost-icon-btn" (click)="openExpandModal(foodItemsExpand)">
+                            <i class="fas fa-expand"></i>
+                        </button>
                     </div>
                 </div>
-            </div>
-            <div class="order-list-box bg-white rounded px-3 py-2 mb-2 overflow-auto small-scroll shadow-sm">
-                <div *ngFor="let item of selectedFoodItems;let i = index" class="order-list-item  gap-2 p-2 rounded">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div class="d-flex align-items-center cursor-pointer gap-2">
-                            <div class="order-list-img">
-                                <img [src]="item.image" (error)="$event.target.src = defaultImage" loading="lazy" alt="item-image" />
+                <div class="order-list-box small-scroll">
+                    <ng-container *ngIf="selectedFoodItems?.length; else emptyOrderState">
+                        <div *ngFor="let item of selectedFoodItems; let i = index" class="order-list-item">
+                            <div class="order-list-item__media">
+                                <div class="order-list-img">
+                                    <img [src]="item.image" (error)="$event.target.src = defaultImage" loading="lazy" alt="item-image" />
+                                </div>
+                                <div class="order-list-item__details">
+                                    <div class="order-list-item__name">{{item.productName}}</div>
+                                    <div class="order-list-item__meta">{{item.quantity}} × {{item.price}} ل.س</div>
+                                </div>
                             </div>
-                            <div>
-                                <div class="fw-bold fs-5">{{item.productName}}</div>
-                                <div class="text-muted">{{item.quantity}} * {{item.price}} ل.س</div>
+                            <div class="order-list-item__side">
+                                <div class="order-list-item__total">{{item.totalValue}} ل.س</div>
+                                <div class="order-list-item__qty">الكمية {{item.quantity}}</div>
+                                <button type="button" class="delete-order-list-item-btn" (click)="removeItem(i)">
+                                    <i class="fas fa-times-circle"></i>
+                                </button>
                             </div>
                         </div>
-                        <div class="order-list-text d-flex align-items-center gap-4">
-                            <div>
-                                <div class="main-color fw-bold fs-6">{{item.totalValue}} ل.س</div>
-                                <div class="fw-bold text-muted fs-6">{{item.quantity}} الكمية</div>
-                            </div>
-                            <i (click)="removeItem(i)" class="fas fa-times-circle delete-order-list-item-btn cursor-pointer fs-6"></i>
+                    </ng-container>
+
+                    <ng-template #emptyOrderState>
+                        <div class="empty-state empty-state--compact">
+                            <div class="empty-state__icon"><i class="uil uil-shopping-basket"></i></div>
+                            <h3 class="empty-state__title">لا توجد عناصر بعد</h3>
+                            <p class="empty-state__text">ابدأ من قائمة المنتجات لإضافة العناصر إلى الطلب الحالي.</p>
                         </div>
+                    </ng-template>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="summary-card__header">
+                    <div>
+                        <div class="summary-card__eyebrow">الحساب</div>
+                        <div class="summary-card__title">تفاصيل المبلغ النهائي</div>
+                    </div>
+                </div>
+                <div class="totals-list">
+                    <div class="totals-row">
+                        <span>إجمالي الأصناف</span>
+                        <strong>{{orderModel?.totalValue ?? 0}} ل.س</strong>
+                    </div>
+                    <div class="totals-row" *ngIf="OrderTypeId == 2">
+                        <span>رسوم التوصيل</span>
+                        <strong>{{deliveryFee}} ل.س</strong>
+                    </div>
+                    <div class="totals-row totals-row--grand">
+                        <span>الإجمالي النهائي</span>
+                        <strong>{{payableTotal}} ل.س</strong>
                     </div>
                 </div>
             </div>
-            <div class="bg-white rounded px-3 py-2 mb-2 shadow-sm">
-                <!-- <div class="order-summary-check d-flex align-items-center justify-content-between border-bottom pb-05 mb-1">
-                    <div class="order-summary-dots d-flex align-items-center fs-6 position-relative">ضريبة
-                    </div>
-                    <div class="fw-bold fs-5">0 ل.س</div>
-                </div> -->
-                <div class="order-summary-check d-flex align-items-center justify-content-between border-bottom pb-05 mb-1" *ngIf="OrderTypeId == 2">
-                    <div class="order-summary-dots d-flex align-items-center fs-6 position-relative">رسوم التوصيل
-                    </div>
-                    <div class="fw-bold fs-5">10000 ل.س</div>
-                </div>
-                <div class="order-summary-check d-flex align-items-center justify-content-between">
-                    <div class="order-summary-dots d-flex align-items-center fs-5 position-relative main-color fw-bold">
-                        الإجمالي
-                    </div>
-                    <div class="fw-bold fs-5">{{orderModel?.totalValue}} ل.س</div>
-                </div>
-            </div>
-            <div class="rounded text-white px-3 py-2 d-flex align-items-center justify-content-between pay-background">
-                <button class="btn btn-lg justify-content-center pay-button" (click)="openPayModal(payModal)">دفع</button>
-                <div class="p-2 rounded fs-5 fw-bold">{{orderModel?.totalValue}} ل.س
-                </div>
-            </div>
-        </div>
+        </aside>
     </div>
 </div>
 
@@ -248,12 +333,12 @@
             <i class="fas fa-times"></i>
         </button>
     </div>
-    <div class="modal-body bg-light">
+    <div class="modal-body bg-light overflow-hidden">
         <div class="order-summary-check d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center fs-5 position-relative main-color fw-bold">
                 صافى القيمة
             </div>
-            <div class="fw-bold fs-5">{{orderModel?.totalValue| number : '1.2-2'}} ل.س</div>
+            <div class="fw-bold fs-5">{{payableTotal | number : '1.2-2'}} ل.س</div>
         </div>
         <hr class="border-dark">
         <div class="mb-2">
@@ -424,7 +509,7 @@
             <div class="col-lg-12 mb-3">
                 <div class="d-flex align-items-center">
                     <div class="form-floating w-100 me-2">
-                        <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user" autocomplete="off" [(ngModel)]="CustomerSearch" (keydown.enter)="OnCustomerSearch(AddNewCustomerModal)">
+                        <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user" (keypress)="NumbersOnly($event.key)" autocomplete="off" [(ngModel)]="CustomerSearch" (keydown.enter)="OnCustomerSearch(AddNewCustomerModal)">
                         <label for="floatingInput_1">العميل</label>
                     </div>
                     <div>
