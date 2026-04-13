@@ -1,127 +1,4 @@
 <div class="sales-report-page">
-    <section class="report-hero">
-        <div class="report-hero__content">
-            <div class="report-hero__eyebrow">تقارير الإدارة</div>
-            <h1 class="report-hero__title">تقرير المبيعات</h1>
-            <p class="report-hero__text">
-                متابعة حركة المبيعات بطريقة أوضح، مع فلاتر سريعة، مؤشرات عامة، وجدول منظم يساعدك على مراجعة الأداء اليومي والشهري بسهولة.
-            </p>
-        </div>
-
-        <div class="report-hero__actions">
-            <div class="hero-badge">
-                <span class="hero-badge__label">النطاق الحالي</span>
-                <strong>{{activeRangeLabel}}</strong>
-            </div>
-
-            <button type="button" class="hero-btn hero-btn--ghost" (click)="resetFilters()">
-                <i class="uil uil-refresh"></i>
-                <span>إعادة ضبط</span>
-            </button>
-
-            <button type="button" class="hero-btn" (click)="refreshReport()">
-                <i class="uil uil-sync"></i>
-                <span>تحديث العرض</span>
-            </button>
-        </div>
-    </section>
-
-    <section class="report-surface report-filters">
-        <div class="section-head">
-            <div>
-                <div class="section-head__kicker">الفلاتر</div>
-                <h2 class="section-head__title">تخصيص عرض التقرير</h2>
-                <p class="section-head__text">يمكنك تصفية النتائج حسب الفترة، نوع الطلب، حالة الطلب، أو الكاشير للوصول إلى نظرة أدق.</p>
-            </div>
-
-            <div class="section-head__meta">
-                <div class="meta-pill">
-                    <i class="uil uil-database"></i>
-                    <span>{{totalCount}} سجل</span>
-                </div>
-                <div class="meta-pill meta-pill--soft">
-                    <i class="uil uil-clock-three"></i>
-                    <span>{{lastUpdated | arabicDateWithTime}}</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="quick-range-list">
-            <button *ngFor="let item of quickRanges" type="button" class="quick-range-btn" [class.active]="selectedRange === item.value" (click)="setQuickRange(item.value)">
-                {{item.label}}
-            </button>
-        </div>
-
-        <div class="filters-grid">
-            <label class="filter-field filter-field--wide">
-                <span class="filter-label">بحث سريع</span>
-                <div class="filter-control filter-control--icon">
-                    <i class="uil uil-search"></i>
-                    <input type="text" class="filter-input" [(ngModel)]="searchTerm" (ngModelChange)="applyFilters()" placeholder="ابحث برقم الطلب أو اسم العميل أو الكاشير">
-                </div>
-            </label>
-
-            <label class="filter-field">
-                <span class="filter-label">حالة الطلب</span>
-                <select class="filter-input filter-select" [(ngModel)]="selectedStatus" (ngModelChange)="applyFilters()">
-                    <option value="all">كل الحالات</option>
-                    <option value="completed">مكتمل</option>
-                    <option value="pending">قيد التنفيذ</option>
-                    <option value="cancelled">ملغي</option>
-                </select>
-            </label>
-
-            <label class="filter-field">
-                <span class="filter-label">نوع الطلب</span>
-                <select class="filter-input filter-select" [(ngModel)]="selectedOrderType" (ngModelChange)="applyFilters()">
-                    <option value="all">كل الأنواع</option>
-                    <option value="takeaway">خارجي</option>
-                    <option value="delivery">توصيل</option>
-                </select>
-            </label>
-
-            <label class="filter-field">
-                <span class="filter-label">الكاشير</span>
-                <select class="filter-input filter-select" [(ngModel)]="selectedCashier" (ngModelChange)="applyFilters()">
-                    <option value="all">جميع الكاشير</option>
-                    <option *ngFor="let cashier of cashierOptions" [ngValue]="cashier">{{cashier}}</option>
-                </select>
-            </label>
-
-            <label class="filter-field">
-                <span class="filter-label">من تاريخ</span>
-                <input type="date" class="filter-input" [(ngModel)]="dateFrom" (ngModelChange)="onDateRangeChange()">
-            </label>
-
-            <label class="filter-field">
-                <span class="filter-label">إلى تاريخ</span>
-                <input type="date" class="filter-input" [(ngModel)]="dateTo" (ngModelChange)="onDateRangeChange()">
-            </label>
-
-            <label class="filter-field">
-                <span class="filter-label">عدد السجلات</span>
-                <select class="filter-input filter-select" [(ngModel)]="pageSize" (ngModelChange)="onPageSizeChange()">
-                    <option *ngFor="let size of pageSizeOptions" [ngValue]="size">{{size}} / الصفحة</option>
-                </select>
-            </label>
-        </div>
-
-        <div class="filter-summary">
-            <div class="summary-chip">
-                <span class="summary-chip__label">معدل الإتمام</span>
-                <strong>{{summary.completionRate}}%</strong>
-            </div>
-            <div class="summary-chip">
-                <span class="summary-chip__label">طلبات قيد التنفيذ</span>
-                <strong>{{summary.pendingOrders}}</strong>
-            </div>
-            <div class="summary-chip">
-                <span class="summary-chip__label">نسبة الإلغاء</span>
-                <strong>{{summary.cancellationRate}}%</strong>
-            </div>
-        </div>
-    </section>
-
     <section class="overview-grid">
         <article class="report-surface overview-card overview-card--primary">
             <div class="overview-card__icon">
@@ -160,12 +37,41 @@
         </article>
     </section>
 
+    <section class="report-surface report-filters">
+        <div class="section-head">
+            <div>
+                <div class="section-head__kicker">الفلاتر</div>
+                <h2 class="section-head__title">تخصيص عرض التقرير</h2>
+            </div>
+
+            <div class="section-head__meta">
+                <div class="meta-pill">
+                    <i class="uil uil-database"></i>
+                    <span>{{totalCount}} سجل</span>
+                </div>
+                <div class="meta-pill meta-pill--soft">
+                    <i class="uil uil-clock-three"></i>
+                    <span>{{lastUpdated | arabicDateWithTime}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="quick-range-list">
+            <button *ngFor="let item of quickRanges" type="button" class="quick-range-btn" [class.active]="selectedRange === item.value" (click)="setQuickRange(item.value)">
+                {{item.label}}
+            </button>
+        </div>
+        <div class="d-flex align-items-center justify-content-between" *ngIf="pagedRows.length > 0 && FilterList.length > 0">
+            <app-admin-filters *ngIf="FilterList.length > 0" [FilterList]="FilterList" (FilterChecked)="FilterChecked($event)"></app-admin-filters>
+            <app-admin-pagination *ngIf="pagedRows.length > 0" [currentPage]="currentPage" [pageSize]="pageSize" [totalPages]="totalPages" [totalCount]="totalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
+        </div>
+    </section>
+
     <section class="report-surface report-table-card">
         <div class="section-head section-head--compact">
             <div>
                 <div class="section-head__kicker">النتائج</div>
                 <h2 class="section-head__title">جدول تقارير المبيعات</h2>
-                <p class="section-head__text">عرض واضح للطلبات المسجلة مع القيم الأساسية التي تساعد على المقارنة والتحليل السريع.</p>
             </div>
 
             <div class="table-head-summary">
@@ -198,7 +104,6 @@
                             <td>
                                 <div class="table-identity">
                                     <strong>#{{item.orderNumber}}</strong>
-                                    <span>طلب مبيعات</span>
                                 </div>
                             </td>
                             <td class="table-date">{{item.createdDate | arabicDateWithTime}}</td>
@@ -249,10 +154,6 @@
                 </div>
                 <h3 class="empty-state__title">لا توجد نتائج مطابقة</h3>
                 <p class="empty-state__text">جرّب تعديل الفلاتر أو إعادة ضبط النطاق الزمني لإظهار نتائج أكثر.</p>
-                <button type="button" class="hero-btn" (click)="resetFilters()">
-                    <i class="uil uil-refresh"></i>
-                    <span>إعادة ضبط الفلاتر</span>
-                </button>
             </div>
         </ng-template>
     </section>

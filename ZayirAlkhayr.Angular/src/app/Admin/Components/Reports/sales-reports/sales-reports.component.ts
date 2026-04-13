@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FilterModel } from 'src/app/Admin/Models/FilterModel';
 
 type SalesQuickRange = 'today' | 'week' | 'month' | 'quarter' | 'all' | 'custom';
 type SalesStatus = 'completed' | 'pending' | 'cancelled';
@@ -40,6 +41,183 @@ interface SalesSummary {
   styleUrls: ['./sales-reports.component.css']
 })
 export class SalesReportsComponent implements OnInit {
+  FilterList: FilterModel[] = [
+
+    {
+      "categoryName": "SearchText",
+      "categoryDisplayName": "برقم الطلب, اسم العميل",
+      "itemId": null,
+      "itemKey": null,
+      "itemValue": null,
+      "isChecked": false,
+      "from": null,
+      "to": null,
+      "filterType": "SearchText",
+      "isVisible": false,
+      "filterItems": [
+        {
+          "categoryName": "SearchText",
+          "categoryDisplayName": null,
+          "itemId": "",
+          "itemKey": "",
+          "itemValue": "",
+          "isChecked": false,
+          "from": null,
+          "to": null,
+          "filterType": null,
+          "isVisible": false,
+          "filterItems": null,
+          "displayOrder": 0
+        }
+      ],
+      "displayOrder": 0
+    },
+    {
+      "categoryName": "DateRange",
+      "categoryDisplayName": "تاريخ الطلب",
+      "itemId": null,
+      "itemKey": null,
+      "itemValue": null,
+      "isChecked": false,
+      "from": null,
+      "to": null,
+      "filterType": "DateRange",
+      "isVisible": false,
+      "filterItems": [
+        {
+          "categoryName": "DateRange",
+          "categoryDisplayName": null,
+          "itemId": "",
+          "itemKey": "",
+          "itemValue": "",
+          "isChecked": false,
+          "from": null,
+          "to": null,
+          "filterType": null,
+          "isVisible": false,
+          "filterItems": null,
+          "displayOrder": 0
+        }
+      ],
+      "displayOrder": 0
+    },
+    {
+      "categoryName": "OrderStatus",
+      "categoryDisplayName": "حالة الطلب",
+      "itemId": null,
+      "itemKey": null,
+      "itemValue": null,
+      "isChecked": false,
+      "from": null,
+      "to": null,
+      "filterType": "Checkbox",
+      "isVisible": false,
+      "filterItems": [
+        {
+          "categoryName": "OrderStatus",
+          "categoryDisplayName": null,
+          "itemId": "2",
+          "itemKey": "ملغي",
+          "itemValue": "1",
+          "isChecked": false,
+          "from": null,
+          "to": null,
+          "filterType": null,
+          "isVisible": false,
+          "filterItems": null,
+          "displayOrder": 0
+        },
+        {
+          "categoryName": "OrderStatus",
+          "categoryDisplayName": null,
+          "itemId": "1",
+          "itemKey": "منتهي",
+          "itemValue": "10",
+          "isChecked": false,
+          "from": null,
+          "to": null,
+          "filterType": null,
+          "isVisible": false,
+          "filterItems": null,
+          "displayOrder": 0
+        }
+      ],
+      "displayOrder": 0
+    },
+    {
+      "categoryName": "OrderType",
+      "categoryDisplayName": "نوع الطلب",
+      "itemId": null,
+      "itemKey": null,
+      "itemValue": null,
+      "isChecked": false,
+      "from": null,
+      "to": null,
+      "filterType": "Checkbox",
+      "isVisible": false,
+      "filterItems": [
+        {
+          "categoryName": "OrderType",
+          "categoryDisplayName": null,
+          "itemId": "2",
+          "itemKey": "توصيل",
+          "itemValue": "6",
+          "isChecked": false,
+          "from": null,
+          "to": null,
+          "filterType": null,
+          "isVisible": false,
+          "filterItems": null,
+          "displayOrder": 0
+        },
+        {
+          "categoryName": "OrderType",
+          "categoryDisplayName": null,
+          "itemId": "1",
+          "itemKey": "خارجي",
+          "itemValue": "5",
+          "isChecked": false,
+          "from": null,
+          "to": null,
+          "filterType": null,
+          "isVisible": false,
+          "filterItems": null,
+          "displayOrder": 0
+        }
+      ],
+      "displayOrder": 0
+    },
+    {
+      "categoryName": "CashierName",
+      "categoryDisplayName": "الكاشير",
+      "itemId": null,
+      "itemKey": null,
+      "itemValue": null,
+      "isChecked": false,
+      "from": null,
+      "to": null,
+      "filterType": "Checkbox",
+      "isVisible": false,
+      "filterItems": [
+        {
+          "categoryName": "CashierName",
+          "categoryDisplayName": null,
+          "itemId": "ea6eeb5d-662a-4044-8278-231c35bd1429",
+          "itemKey": "salam hany",
+          "itemValue": "11",
+          "isChecked": false,
+          "from": null,
+          "to": null,
+          "filterType": null,
+          "isVisible": false,
+          "filterItems": null,
+          "displayOrder": 0
+        }
+      ],
+      "displayOrder": 0
+    }
+
+  ];
   readonly quickRanges: { label: string; value: SalesQuickRange }[] = [
     { label: 'اليوم', value: 'today' },
     { label: 'آخر 7 أيام', value: 'week' },
@@ -69,6 +247,10 @@ export class SalesReportsComponent implements OnInit {
   ngOnInit(): void {
     this.reportRows = this.buildMockSalesReports();
     this.setQuickRange('month');
+  }
+
+  FilterChecked(filters: FilterModel[]) {
+
   }
 
   get totalCount(): number {
