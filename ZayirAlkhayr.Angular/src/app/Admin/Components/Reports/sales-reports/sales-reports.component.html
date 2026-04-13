@@ -1,0 +1,259 @@
+<div class="sales-report-page">
+    <section class="report-hero">
+        <div class="report-hero__content">
+            <div class="report-hero__eyebrow">تقارير الإدارة</div>
+            <h1 class="report-hero__title">تقرير المبيعات</h1>
+            <p class="report-hero__text">
+                متابعة حركة المبيعات بطريقة أوضح، مع فلاتر سريعة، مؤشرات عامة، وجدول منظم يساعدك على مراجعة الأداء اليومي والشهري بسهولة.
+            </p>
+        </div>
+
+        <div class="report-hero__actions">
+            <div class="hero-badge">
+                <span class="hero-badge__label">النطاق الحالي</span>
+                <strong>{{activeRangeLabel}}</strong>
+            </div>
+
+            <button type="button" class="hero-btn hero-btn--ghost" (click)="resetFilters()">
+                <i class="uil uil-refresh"></i>
+                <span>إعادة ضبط</span>
+            </button>
+
+            <button type="button" class="hero-btn" (click)="refreshReport()">
+                <i class="uil uil-sync"></i>
+                <span>تحديث العرض</span>
+            </button>
+        </div>
+    </section>
+
+    <section class="report-surface report-filters">
+        <div class="section-head">
+            <div>
+                <div class="section-head__kicker">الفلاتر</div>
+                <h2 class="section-head__title">تخصيص عرض التقرير</h2>
+                <p class="section-head__text">يمكنك تصفية النتائج حسب الفترة، نوع الطلب، حالة الطلب، أو الكاشير للوصول إلى نظرة أدق.</p>
+            </div>
+
+            <div class="section-head__meta">
+                <div class="meta-pill">
+                    <i class="uil uil-database"></i>
+                    <span>{{totalCount}} سجل</span>
+                </div>
+                <div class="meta-pill meta-pill--soft">
+                    <i class="uil uil-clock-three"></i>
+                    <span>{{lastUpdated | arabicDateWithTime}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="quick-range-list">
+            <button *ngFor="let item of quickRanges" type="button" class="quick-range-btn" [class.active]="selectedRange === item.value" (click)="setQuickRange(item.value)">
+                {{item.label}}
+            </button>
+        </div>
+
+        <div class="filters-grid">
+            <label class="filter-field filter-field--wide">
+                <span class="filter-label">بحث سريع</span>
+                <div class="filter-control filter-control--icon">
+                    <i class="uil uil-search"></i>
+                    <input type="text" class="filter-input" [(ngModel)]="searchTerm" (ngModelChange)="applyFilters()" placeholder="ابحث برقم الطلب أو اسم العميل أو الكاشير">
+                </div>
+            </label>
+
+            <label class="filter-field">
+                <span class="filter-label">حالة الطلب</span>
+                <select class="filter-input filter-select" [(ngModel)]="selectedStatus" (ngModelChange)="applyFilters()">
+                    <option value="all">كل الحالات</option>
+                    <option value="completed">مكتمل</option>
+                    <option value="pending">قيد التنفيذ</option>
+                    <option value="cancelled">ملغي</option>
+                </select>
+            </label>
+
+            <label class="filter-field">
+                <span class="filter-label">نوع الطلب</span>
+                <select class="filter-input filter-select" [(ngModel)]="selectedOrderType" (ngModelChange)="applyFilters()">
+                    <option value="all">كل الأنواع</option>
+                    <option value="takeaway">خارجي</option>
+                    <option value="delivery">توصيل</option>
+                </select>
+            </label>
+
+            <label class="filter-field">
+                <span class="filter-label">الكاشير</span>
+                <select class="filter-input filter-select" [(ngModel)]="selectedCashier" (ngModelChange)="applyFilters()">
+                    <option value="all">جميع الكاشير</option>
+                    <option *ngFor="let cashier of cashierOptions" [ngValue]="cashier">{{cashier}}</option>
+                </select>
+            </label>
+
+            <label class="filter-field">
+                <span class="filter-label">من تاريخ</span>
+                <input type="date" class="filter-input" [(ngModel)]="dateFrom" (ngModelChange)="onDateRangeChange()">
+            </label>
+
+            <label class="filter-field">
+                <span class="filter-label">إلى تاريخ</span>
+                <input type="date" class="filter-input" [(ngModel)]="dateTo" (ngModelChange)="onDateRangeChange()">
+            </label>
+
+            <label class="filter-field">
+                <span class="filter-label">عدد السجلات</span>
+                <select class="filter-input filter-select" [(ngModel)]="pageSize" (ngModelChange)="onPageSizeChange()">
+                    <option *ngFor="let size of pageSizeOptions" [ngValue]="size">{{size}} / الصفحة</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="filter-summary">
+            <div class="summary-chip">
+                <span class="summary-chip__label">معدل الإتمام</span>
+                <strong>{{summary.completionRate}}%</strong>
+            </div>
+            <div class="summary-chip">
+                <span class="summary-chip__label">طلبات قيد التنفيذ</span>
+                <strong>{{summary.pendingOrders}}</strong>
+            </div>
+            <div class="summary-chip">
+                <span class="summary-chip__label">نسبة الإلغاء</span>
+                <strong>{{summary.cancellationRate}}%</strong>
+            </div>
+        </div>
+    </section>
+
+    <section class="overview-grid">
+        <article class="report-surface overview-card overview-card--primary">
+            <div class="overview-card__icon">
+                <i class="uil uil-money-withdraw"></i>
+            </div>
+            <div class="overview-card__label">إجمالي المبيعات</div>
+            <div class="overview-card__value">{{summary.totalSales | number : '1.0-0'}} ل.س</div>
+            <div class="overview-card__meta">{{summary.completedOrders}} طلب مكتمل ضمن النطاق الحالي</div>
+        </article>
+
+        <article class="report-surface overview-card">
+            <div class="overview-card__icon overview-card__icon--blue">
+                <i class="uil uil-receipt"></i>
+            </div>
+            <div class="overview-card__label">إجمالي الطلبات</div>
+            <div class="overview-card__value">{{summary.totalOrders}}</div>
+            <div class="overview-card__meta">{{summary.cancelledOrders}} طلب ملغي و {{summary.pendingOrders}} قيد التنفيذ</div>
+        </article>
+
+        <article class="report-surface overview-card">
+            <div class="overview-card__icon overview-card__icon--green">
+                <i class="uil uil-truck"></i>
+            </div>
+            <div class="overview-card__label">مبيعات التوصيل</div>
+            <div class="overview-card__value">{{summary.deliverySales | number : '1.0-0'}} ل.س</div>
+            <div class="overview-card__meta">{{summary.deliveryShare}}% من إجمالي المبيعات المحققة</div>
+        </article>
+
+        <article class="report-surface overview-card">
+            <div class="overview-card__icon overview-card__icon--slate">
+                <i class="uil uil-chart-growth"></i>
+            </div>
+            <div class="overview-card__label">متوسط قيمة الطلب</div>
+            <div class="overview-card__value">{{summary.averageOrderValue | number : '1.0-0'}} ل.س</div>
+            <div class="overview-card__meta">{{summary.activeCashiers}} كاشير نشط ساهموا في هذه النتائج</div>
+        </article>
+    </section>
+
+    <section class="report-surface report-table-card">
+        <div class="section-head section-head--compact">
+            <div>
+                <div class="section-head__kicker">النتائج</div>
+                <h2 class="section-head__title">جدول تقارير المبيعات</h2>
+                <p class="section-head__text">عرض واضح للطلبات المسجلة مع القيم الأساسية التي تساعد على المقارنة والتحليل السريع.</p>
+            </div>
+
+            <div class="table-head-summary">
+                <div class="meta-pill">
+                    <i class="uil uil-files-landscapes-alt"></i>
+                    <span>صفحة {{currentPage}} من {{totalPages}}</span>
+                </div>
+            </div>
+        </div>
+
+        <ng-container *ngIf="pagedRows.length; else emptyState">
+            <div class="table-responsive report-table-wrap">
+                <table class="report-table">
+                    <thead>
+                        <tr>
+                            <th>رقم الطلب</th>
+                            <th>التاريخ</th>
+                            <th>العميل</th>
+                            <th>نوع الطلب</th>
+                            <th>الحالة</th>
+                            <th>الكاشير</th>
+                            <th>طريقة الدفع</th>
+                            <th>الأصناف</th>
+                            <th>الرسوم</th>
+                            <th>الإجمالي</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of pagedRows; trackBy: trackByOrder">
+                            <td>
+                                <div class="table-identity">
+                                    <strong>#{{item.orderNumber}}</strong>
+                                    <span>طلب مبيعات</span>
+                                </div>
+                            </td>
+                            <td class="table-date">{{item.createdDate | arabicDateWithTime}}</td>
+                            <td>
+                                <div class="table-identity">
+                                    <strong>{{item.customerName}}</strong>
+                                    <span>{{item.itemsCount}} صنف</span>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="table-pill table-pill--type" [ngClass]="'table-pill--' + item.orderType">
+                                    {{getOrderTypeLabel(item.orderType)}}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="table-pill table-pill--status" [ngClass]="'table-pill--' + item.status">
+                                    {{getStatusLabel(item.status)}}
+                                </span>
+                            </td>
+                            <td>{{item.cashierName}}</td>
+                            <td>
+                                <span class="table-pill table-pill--payment">
+                                    {{getPaymentMethodLabel(item.paymentMethod)}}
+                                </span>
+                            </td>
+                            <td>{{item.itemsCount}}</td>
+                            <td>{{item.deliveryFee | number : '1.0-0'}} ل.س</td>
+                            <td class="table-total">{{item.totalAmount | number : '1.0-0'}} ل.س</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-footer">
+                <div class="table-footer__summary">
+                    <strong>{{totalCount}}</strong>
+                    <span>إجمالي السجلات بعد التصفية</span>
+                </div>
+
+                <app-admin-pagination [currentPage]="currentPage" [pageSize]="pageSize" [totalPages]="totalPages" [totalCount]="totalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
+            </div>
+        </ng-container>
+
+        <ng-template #emptyState>
+            <div class="empty-state">
+                <div class="empty-state__icon">
+                    <i class="uil uil-folder-open"></i>
+                </div>
+                <h3 class="empty-state__title">لا توجد نتائج مطابقة</h3>
+                <p class="empty-state__text">جرّب تعديل الفلاتر أو إعادة ضبط النطاق الزمني لإظهار نتائج أكثر.</p>
+                <button type="button" class="hero-btn" (click)="resetFilters()">
+                    <i class="uil uil-refresh"></i>
+                    <span>إعادة ضبط الفلاتر</span>
+                </button>
+            </div>
+        </ng-template>
+    </section>
+</div>

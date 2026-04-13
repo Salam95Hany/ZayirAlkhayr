@@ -73,6 +73,28 @@
                         </li>
                     </ul>
                 </ul>
+                <div class="admin-side-menu-list">
+                    <div>
+                        <hr>
+                        <div class="side-menu-list-title side-menu-text">التقارير</div>
+                        <ul class="side-menu-list list-unstyled p-0 m-0">
+                            <li class="side-menu-list-item">
+                                <a class="side-menu-list-link with-sub-menu" [class.expanded]="isCollapsed_3" (click)="collapse3.toggle()" [attr.aria-expanded]="!isCollapsed_3">
+                                    <i class="uil uil-setting"></i>
+                                    <span class="side-menu-text">تقارير المبيعات</span>
+                                </a>
+                            </li>
+                            <ul class="list-unstyled m-0 menu-list-collapsed" #collapse3="ngbCollapse" [(ngbCollapse)]="isCollapsed_3">
+                                <li appRole [roles]="['Admin']">
+                                    <a class="side-menu-list-link sub-link" routerLink="./sales-reports" routerLinkActive="active">
+                                        <i class="uil uil-sliders-v-alt"></i>
+                                        <span class="side-menu-text">المبيعات اليومية</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </ul>
+                    </div>
+                </div>
                 <div appRole [roles]="['Admin']">
                     <hr>
                     <ul class="side-menu-list list-unstyled p-0 m-0">

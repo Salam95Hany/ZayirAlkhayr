@@ -1,10 +1,12 @@
 .admin-main-content {
     position: relative;
     top: var(--admin-header-height);
-    width: calc(100vw - var(--admin-side-menu-width));
+    width: calc(100% - var(--admin-side-menu-width));
+    max-width: calc(100% - var(--admin-side-menu-width));
     min-height: calc(100vh - var(--admin-header-height));
     margin-right: var(--admin-side-menu-width);
     padding: 20px;
+    overflow-x: hidden;
     transition: var(--main-transition);
     -webkit-transition: var(--main-transition);
     -moz-transition: var(--main-transition);
@@ -12,7 +14,8 @@
     -o-transition: var(--main-transition);
   }
   .admin-main-content.expand-content {
-    width: calc(100vw - var(--collapse-menu));
+    width: calc(100% - var(--collapse-menu));
+    max-width: calc(100% - var(--collapse-menu));
     margin-right: var(--collapse-menu);
   }
   @media(max-width: 1000px) {

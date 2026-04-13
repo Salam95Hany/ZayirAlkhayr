@@ -21,6 +21,7 @@ export class AdminSideMenuComponent implements OnInit {
   ];
   POS = ['categories', 'items', 'order-list', 'customers'];
   Settings = ['users'];
+  Reports = ['sales-reports'];
   constructor(private router: Router) { }
 
   ngOnInit(): void {
@@ -31,6 +32,8 @@ export class AdminSideMenuComponent implements OnInit {
       this.isCollapsed_1 = false;
     else if (this.Settings.includes(url))
       this.isCollapsed_2 = false;
+    else if (this.Reports.includes(url))
+      this.isCollapsed_3 = false;
   }
 
   onCloseSidemenuFromOverlay() {

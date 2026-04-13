@@ -9,6 +9,7 @@ import { OrderListComponent } from './Components/POS/order-list/order-list.compo
 import { CustomersComponent } from './Components/Customer/customers/customers.component';
 import { AdminUserComponent } from './Components/Setting/admin-user/admin-user.component';
 import { UserProfileComponent } from './Components/Setting/user-profile/user-profile.component';
+import { SalesReportsComponent } from './Components/Reports/sales-reports/sales-reports.component';
 
 const routes: Routes = [
   {
@@ -44,6 +45,12 @@ const routes: Routes = [
       {
         path: 'customers',
         component: CustomersComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ["Admin", "Cashier"] },
+      },
+      {
+        path: 'sales-reports',
+        component: SalesReportsComponent,
         canActivate: [AuthGuard],
         data: { roles: ["Admin", "Cashier"] },
       },
