@@ -12,17 +12,40 @@
     -moz-transition: var(--main-transition);
     -ms-transition: var(--main-transition);
     -o-transition: var(--main-transition);
-  }
-  .admin-main-content.expand-content {
+}
+
+.admin-main-content.expand-content {
     width: calc(100% - var(--collapse-menu));
     max-width: calc(100% - var(--collapse-menu));
     margin-right: var(--collapse-menu);
-  }
-  @media(max-width: 1000px) {
+}
+
+@media (max-width: 1200px) {
     .admin-main-content,
     .admin-main-content.expand-content {
-      width: 100%;
-      margin-right: 0;
+        padding: 16px;
     }
-  }
-  
+}
+
+@media (max-width: 1000px) {
+    .admin-main-content,
+    .admin-main-content.expand-content {
+        width: 100%;
+        max-width: 100%;
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 767px) {
+    .admin-main-content,
+    .admin-main-content.expand-content {
+        padding: 12px;
+    }
+}
+
+@media (max-width: 575px) {
+    .admin-main-content,
+    .admin-main-content.expand-content {
+        padding: 8px;
+    }
+}

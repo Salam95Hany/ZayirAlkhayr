@@ -61,9 +61,13 @@
                 {{item.label}}
             </button>
         </div>
-        <div class="d-flex align-items-center justify-content-between" *ngIf="pagedRows.length > 0 && FilterList.length > 0">
-            <app-admin-filters *ngIf="FilterList.length > 0" [FilterList]="FilterList" (FilterChecked)="FilterChecked($event)"></app-admin-filters>
-            <app-admin-pagination *ngIf="pagedRows.length > 0" [currentPage]="currentPage" [pageSize]="pageSize" [totalPages]="totalPages" [totalCount]="totalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
+        <div class="report-filters-toolbar" *ngIf="pagedRows.length > 0 && FilterList.length > 0">
+            <div class="report-filters-toolbar__filters">
+                <app-admin-filters *ngIf="FilterList.length > 0" [FilterList]="FilterList" (FilterChecked)="FilterChecked($event)"></app-admin-filters>
+            </div>
+            <div class="report-filters-toolbar__pagination">
+                <app-admin-pagination *ngIf="pagedRows.length > 0" [currentPage]="currentPage" [pageSize]="pageSize" [totalPages]="totalPages" [totalCount]="totalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
+            </div>
         </div>
     </section>
 
@@ -101,35 +105,35 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of pagedRows; trackBy: trackByOrder">
-                            <td>
+                            <td data-label="رقم الطلب">
                                 <div class="table-identity">
                                     <strong>#{{item.orderNumber}}</strong>
                                 </div>
                             </td>
-                            <td class="table-date">{{item.createdDate | arabicDateWithTime}}</td>
-                            <td>
+                            <td class="table-date" data-label="التاريخ">{{item.createdDate | arabicDateWithTime}}</td>
+                            <td data-label="العميل">
                                 <div class="table-identity">
                                     <strong>{{item.customerName}}</strong>
                                     <span>{{item.itemsCount}} صنف</span>
                                 </div>
                             </td>
-                            <td>
+                            <td data-label="نوع الطلب">
                                 <span class="table-pill table-pill--type" [ngClass]="'table-pill--' + item.orderType">
                                     {{getOrderTypeLabel(item.orderType)}}
                                 </span>
                             </td>
-                            <td>
+                            <td data-label="الحالة">
                                 <span class="table-pill table-pill--status" [ngClass]="'table-pill--' + item.status">
                                     {{getStatusLabel(item.status)}}
                                 </span>
                             </td>
-                            <td>{{item.cashierName}}</td>
-                            <td>
+                            <td data-label="الكاشير">{{item.cashierName}}</td>
+                            <td data-label="طريقة الدفع">
                                 <span class="table-pill table-pill--payment">
                                     {{getPaymentMethodLabel(item.paymentMethod)}}
                                 </span>
                             </td>
-                            <td>{{item.itemsCount}}</td>
+                            <td data-label="الأصناف">{{item.itemsCount}}</td>
                             <td>{{item.deliveryFee | number : '1.0-0'}} ل.س</td>
                             <td class="table-total">{{item.totalAmount | number : '1.0-0'}} ل.س</td>
                         </tr>

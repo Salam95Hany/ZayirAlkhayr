@@ -68,3 +68,52 @@
     border-radius: 31px;
     margin-bottom: 2px;
 }
+
+@media (max-width: 991px) {
+    .navbar .container-fluid {
+        gap: 0.75rem;
+    }
+
+    .logo-menu-area {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .navbar-collapse {
+        width: 100%;
+        padding-bottom: 0.5rem;
+    }
+
+    .navbar-nav {
+        width: 100%;
+    }
+
+    .user-dropdown-link {
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 575px) {
+    .logo-menu-area {
+        gap: 0.5rem !important;
+    }
+
+    .img-logo-box {
+        --dim: 44px;
+    }
+
+    .login-logo .logo-img {
+        --dim: 50px;
+    }
+
+    .user-dropdown-link i {
+        --dim: 36px;
+        font-size: 18px;
+    }
+
+    .dropdown-menu a {
+        width: 100%;
+    }
+}

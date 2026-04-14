@@ -1,25 +1,43 @@
-<div class="card">
-    <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
-        <div class="d-flex align-items-center flex-wrap gap-2">
-            <button class="btn main-button d-flex align-items-center gap-2" (click)="openAddItemModal(OpenItemModal,null)">
+<div class="admin-crud-page">
+    <section class="admin-crud-hero">
+        <div class="admin-crud-hero__content">
+            <div class="admin-crud-hero__eyebrow">إدارة المنتجات</div>
+            <h1 class="admin-crud-hero__title">العناصر والأسعار</h1>
+            <p class="admin-crud-hero__text">واجهة موحدة لإدارة العناصر وربطها بالفئات وتحديث الأسعار والصور بسهولة.</p>
+        </div>
+
+        <div class="admin-crud-hero__actions">
+            <div class="admin-crud-summary-card">
+                <span class="admin-crud-summary-card__label">إجمالي العناصر</span>
+                <strong class="admin-crud-summary-card__value">{{Total}}</strong>
+            </div>
+
+            <button class="btn main-button admin-crud-action-btn d-flex align-items-center gap-2" (click)="openAddItemModal(OpenItemModal,null)">
                 <i class="uil uil-plus-circle"></i>
-                <span class="navbar-brand m-0">اضافة</span>
+                <span>إضافة عنصر</span>
             </button>
-            <button class="btn main-button d-flex align-items-center gap-2" (click)="isFilter = !isFilter" [attr.aria-expanded]="!isFilter">
+            <button class="btn main-button admin-crud-action-btn admin-crud-action-btn--soft d-flex align-items-center gap-2" (click)="isFilter = !isFilter" [attr.aria-expanded]="!isFilter">
                 <i class="uil uil-filter"></i>
-                <span class="navbar-brand m-0">{{ isFilter ? 'عرض' : 'اخفاء' }} الفلاتر</span>
+                <span>{{ isFilter ? 'عرض الفلاتر' : 'إخفاء الفلاتر' }}</span>
             </button>
         </div>
-        <div>
+    </section>
+
+    <section class="admin-crud-panel">
+        <div class="admin-crud-head">
+            <div>
+                <div class="admin-crud-head__kicker">قائمة العناصر</div>
+                <h2 class="admin-crud-head__title">العناصر المتاحة في النظام</h2>
+            </div>
             <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="0" [totalCount]="Total" (pageChanged)="PageChange($event)"></app-admin-pagination>
         </div>
-    </div>
-    <div class="px-3 py-2 bg-light border-bottom" #collapse="ngbCollapse" [(ngbCollapse)]="isFilter">
-        <app-admin-filters (FilterChecked)="FilterChecked($event)"></app-admin-filters>
-    </div>
-    <div class="card-body card-body-h">
-        <div class="table-responsive mb-2">
-            <table class="table table-bordered align-middle table-dark table-hover border shadow-lg bg-white m-0">
+
+        <div class="admin-crud-filters" #collapse="ngbCollapse" [(ngbCollapse)]="isFilter">
+            <app-admin-filters (FilterChecked)="FilterChecked($event)"></app-admin-filters>
+        </div>
+
+        <div class="admin-crud-table-wrap table-responsive mb-2">
+            <table class="admin-crud-table">
                 <thead>
                     <tr>
                         <th class="th-width"></th>
@@ -27,67 +45,62 @@
                         <th>الفئة</th>
                         <th>السعر</th>
                         <th>سعر التكلفة</th>
-                        <th class="text-center">أجراءات</th>
+                        <th class="text-center">الإجراءات</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of Results">
-                        <td>
-                            <img src="{{item.image}}" (error)="$event.target.src = defaultImage" class="table-image">
-                        </td>
-                        <td>{{item.productName}}</td>
-                        <td>{{item.categoryName}}</td>
+                        <td><img src="{{item.image}}" (error)="$event.target.src = defaultImage" class="admin-crud-image-thumb"></td>
+                        <td><div class="admin-crud-entity-cell"><strong>{{item.productName}}</strong></div></td>
+                        <td><span class="role-chip">{{item.categoryName}}</span></td>
                         <td>{{item.price}}</td>
                         <td>{{item.costPrice}}</td>
                         <td>
-                            <div class="d-flex align-items-center justify-content-center fs-5 gap-2">
-                                <i class="uil uil-edit text-primary icon-table-action shadow-sm" (click)="openAddItemModal(OpenItemModal,item)"></i>
-                                <i class="uil uil-times-circle text-danger icon-table-action shadow-sm" (click)="openDeleteItemModal(deleteItemModal,item)"></i>
+                            <div class="table-actions d-flex align-items-center justify-content-center gap-2">
+                                <button type="button" class="table-action table-action--edit" (click)="openAddItemModal(OpenItemModal,item)"><i class="uil uil-edit"></i></button>
+                                <button type="button" class="table-action table-action--delete" (click)="openDeleteItemModal(deleteItemModal,item)"><i class="uil uil-times-circle"></i></button>
                             </div>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <div>
-            <app-admin-pagination (pageChanged)="PagingFilter.currentpage = $event.page" [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="0" [totalCount]="Total"></app-admin-pagination>
-        </div>
-    </div>
+
+        <app-admin-pagination (pageChanged)="PagingFilter.currentpage = $event.page" [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="0" [totalCount]="Total"></app-admin-pagination>
+    </section>
 </div>
 
-
 <ng-template #OpenItemModal let-modal>
-    <div class="modal-header d-flex align-items-center justify-content-between main-bgcolor text-white">
-        <div class="display-7 d-flex align-items-center gap-3">
-            <i class="uil uil-focus-add"></i>
-            <span>املأ البيانات التالية</span>
+    <div class="modal-header admin-modal-header d-flex align-items-center justify-content-between text-white">
+        <div class="modal-title-wrap d-flex align-items-center gap-3">
+            <span class="modal-title-icon"><i class="uil uil-focus-add"></i></span>
+            <div>
+                <div class="modal-kicker">إدارة العنصر</div>
+                <div class="modal-title-text">إضافة أو تعديل عنصر</div>
+            </div>
         </div>
         <i class="fas fa-times cursor-pointer fa-2x modal-close-btn" (click)="modal.dismiss()"></i>
     </div>
-    <div class="modal-body gray-bgcolor">
-        <div class="bg-white p-3 rounded shadow-sm">
+    <div class="modal-body admin-modal-body">
+        <div class="admin-modal-card">
             <form [formGroup]="ItemForm" autocomplete="off">
                 <div class="row g-3">
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" formControlName="name" id="floatingInput_1" placeholder="new-user" required>
-                            <label for="floatingInput_1">الاسم</label>
+                            <input type="text" class="form-control" formControlName="name" id="item_name" placeholder="new-user" required>
+                            <label for="item_name">الاسم</label>
                             <div *ngIf="ItemForm.controls['name']?.invalid && (ItemForm.controls['name']?.dirty || ItemForm.controls['name']?.touched)" class="text-danger pt-2">
-                                <div *ngIf="ItemForm.controls['name'].errors?.['required']">
-                                    هذا الحقل مطلوب
-                                </div>
-                                <div *ngIf="ItemForm.controls['name'].errors?.['noSpace']">
-                                    لا يمكن ان يحتوي الحقل على مسافات فقط
-                                </div>
+                                <div *ngIf="ItemForm.controls['name'].errors?.['required']">هذا الحقل مطلوب</div>
+                                <div *ngIf="ItemForm.controls['name'].errors?.['noSpace']">لا يمكن أن يحتوي الحقل على مسافات فقط</div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        <div ngbDropdown class="dropdown-with-search overflow-hidden" container="body">
-                            <button class="dropdown-with-search-btn btn border h-58 w-100 d-flex align-items-center justify-content-between selector-padding" id="dropdownBasic1" ngbDropdownToggle>
+                        <div ngbDropdown class="dropdown-with-search overflow-hidden admin-user-role-dropdown" container="body">
+                            <button class="dropdown-with-search-btn btn border h-58 w-100 d-flex align-items-center justify-content-between selector-padding" id="itemCategoryDropdown" ngbDropdownToggle>
                                 {{CategoryName}}
                             </button>
-                            <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                            <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu aria-labelledby="itemCategoryDropdown">
                                 <ul class="dropdown-list-box list-unstyled max-height-220 overflow-auto px-1 py-1 m-0">
                                     <ng-container *ngFor="let item of Categories">
                                         <li class="dropdown-item cursor-pointer rounded" [ngClass]="{'DropDownSelected': CategoryName == item.name}" (click)="onCategoryClicked(item)">{{item.name}}</li>
@@ -95,40 +108,33 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="text-danger pt-2" *ngIf="CategoryValidation">
-                            هذا الحقل مطلوب
-                        </div>
+                        <div class="text-danger pt-2" *ngIf="CategoryValidation">هذا الحقل مطلوب</div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="number" class="form-control" formControlName="price" id="floatingInput_1" placeholder="new-user" required>
-                            <label for="floatingInput_1">السعر</label>
+                            <input type="number" class="form-control" formControlName="price" id="item_price" placeholder="new-user" required>
+                            <label for="item_price">السعر</label>
                             <div *ngIf="ItemForm.controls['price']?.invalid && (ItemForm.controls['price']?.dirty || ItemForm.controls['price']?.touched)" class="text-danger pt-2">
-                                <div *ngIf="ItemForm.controls['price'].errors?.['required']">
-                                    هذا الحقل مطلوب
-                                </div>
+                                <div *ngIf="ItemForm.controls['price'].errors?.['required']">هذا الحقل مطلوب</div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="number" class="form-control" formControlName="costPrice" id="floatingInput_1" placeholder="new-user" required>
-                            <label for="floatingInput_1">سعر التكلفة</label>
+                            <input type="number" class="form-control" formControlName="costPrice" id="item_cost_price" placeholder="new-user" required>
+                            <label for="item_cost_price">سعر التكلفة</label>
                             <div *ngIf="ItemForm.controls['costPrice']?.invalid && (ItemForm.controls['costPrice']?.dirty || ItemForm.controls['costPrice']?.touched)" class="text-danger pt-2">
-                                <div *ngIf="ItemForm.controls['costPrice'].errors?.['required']">
-                                    هذا الحقل مطلوب
-                                </div>
+                                <div *ngIf="ItemForm.controls['costPrice'].errors?.['required']">هذا الحقل مطلوب</div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        <div class="choose-file-box position-relative border rounded h-58" (click)="InputFile.click()">
+                        <div class="choose-file-box position-relative border rounded h-58 admin-modal-upload" (click)="InputFile.click()">
                             <div class="choose-file-btn">تحميل صورة</div>
                         </div>
                     </div>
                     <div class="col-lg-12" *ngIf="fileURL.length > 0">
-                        <hr class="border-success">
-                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6 g-2">
+                        <div class="admin-modal-preview-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6 g-2">
                             <div class="col" *ngFor="let url of fileURL">
                                 <div class="choosed-img img-thumbnail shadow-sm">
                                     <img src="{{url.image}}" loading="lazy" alt="" />
@@ -143,39 +149,30 @@
             </form>
         </div>
     </div>
-    <div class="modal-footer justify-content-start gap-2">
-        <button type="submit" class="btn main-button d-flex align-items-center gap-2" (click)="AddNewItem()">
-            <i class="uil uil-plus-circle"></i>
-            <span>اضافه</span>
-        </button>
-        <button class="btn btn-danger rounded-25 d-flex align-items-center gap-2" (click)="modal.close()">
-            <i class="uil uil-times-circle"></i>
-            <span>الغاء</span>
-        </button>
+    <div class="modal-footer admin-modal-footer justify-content-start gap-2">
+        <button type="submit" class="btn main-button d-flex align-items-center gap-2" (click)="AddNewItem()"><i class="uil uil-plus-circle"></i><span>حفظ العنصر</span></button>
+        <button class="btn btn-outline-secondary rounded-25 d-flex align-items-center gap-2" (click)="modal.close()"><i class="uil uil-times-circle"></i><span>إلغاء</span></button>
     </div>
 </ng-template>
 
 <input type="file" #InputFile class="choose-file-input" (change)="onFileChange($event)" hidden />
 
 <ng-template #deleteItemModal let-modal>
-    <div class="modal-header main-bgcolor text-white">
-        <div class="display-7 d-flex align-items-center gap-3">
-            <i class="uil uil-trash-alt"></i>
-            <span>حذف عنصر</span>
+    <div class="modal-header admin-modal-header admin-modal-header--danger text-white">
+        <div class="modal-title-wrap d-flex align-items-center gap-3">
+            <span class="modal-title-icon modal-title-icon--danger"><i class="uil uil-trash-alt"></i></span>
+            <div>
+                <div class="modal-kicker">حذف العنصر</div>
+                <div class="modal-title-text">تأكيد عملية الحذف</div>
+            </div>
         </div>
     </div>
-    <div class="modal-body">
-        <p class="fs-5 m-0">هل انت متأكد أنك تريد حذف هذا العنصر</p>
+    <div class="modal-body admin-modal-body">
+        <p class="fs-5 m-0">هل أنت متأكد أنك تريد حذف هذا العنصر؟</p>
     </div>
-    <div class="modal-footer justify-content-start">
-        <button type="button" class="btn btn-success" (click)="DeleteItem()">
-            <i class="fas fa-check"></i>
-            <span class="ms-2">نعم</span>
-        </button>
-        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
-            <i class="fas fa-times"></i>
-            <span class="ms-2">لا</span>
-        </button>
+    <div class="modal-footer admin-modal-footer justify-content-start gap-2">
+        <button type="button" class="btn btn-success rounded-25 d-flex align-items-center gap-2" (click)="DeleteItem()"><i class="fas fa-check"></i><span>نعم</span></button>
+        <button type="button" class="btn btn-danger rounded-25 d-flex align-items-center gap-2" (click)="modal.close('Save click')"><i class="fas fa-times"></i><span>لا</span></button>
     </div>
 </ng-template>
 

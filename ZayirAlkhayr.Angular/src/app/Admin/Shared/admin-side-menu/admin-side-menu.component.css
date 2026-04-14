@@ -363,3 +363,51 @@
         display: block;
     }
 }
+
+@media (max-width: 767px) {
+    #admin-side-menu,
+    #admin-side-menu.collapse-side-menu,
+    #admin-side-menu.collapse-side-menu:hover {
+        width: min(86vw, 300px);
+        min-width: min(86vw, 300px);
+    }
+
+    #admin-side-menu {
+        right: -100vw;
+    }
+
+    .admin-side-menu-content {
+        padding: 0.85rem 0.75rem;
+    }
+
+    .admin-side-menu-user {
+        border-radius: 20px;
+    }
+
+    .side-menu-list-link {
+        min-height: 46px;
+        padding: 0.65rem 0.75rem;
+        border-radius: 16px;
+    }
+
+    .menu-icon {
+        width: 34px;
+        height: 34px;
+        flex: 0 0 34px;
+        border-radius: 12px;
+        font-size: 1.05rem;
+    }
+}
+
+@media (max-width: 420px) {
+    #admin-side-menu,
+    #admin-side-menu.collapse-side-menu,
+    #admin-side-menu.collapse-side-menu:hover {
+        width: calc(100vw - 18px);
+        min-width: calc(100vw - 18px);
+    }
+
+    #admin-side-menu {
+        right: -100vw;
+    }
+}
