@@ -1,45 +1,103 @@
 <div class="login-wrapper">
-    <div class="login-box shadow-lg position-relative">
-        <header class="login-logo">
-            <div class="img-logo-box">
-                <img src="../../../assets/PosLogo.jpeg" class="logo-img" loading="lazy" alt="" />
+    <div class="login-shell shadow-lg">
+        <section class="login-brand-panel">
+            <div class="brand-glow"></div>
+            <div class="brand-content">
+                <div class="brand-logo-ring">
+                    <img src="../../../assets/PosLogo.jpeg" class="brand-logo" loading="lazy" alt="شعار النظام" />
+                </div>
+
+                <span class="brand-badge">بوابة الإدارة</span>
+
+                <h1 class="brand-title">مرحباً بعودتك</h1>
+                <p class="brand-subtitle">
+                    سجّل الدخول للوصول إلى لوحة التحكم ومتابعة العمليات اليومية بسهولة ووضوح.
+                </p>
+
+                <div class="brand-points">
+                    <div class="brand-point">
+                        <span class="brand-point__icon"><i class="fas fa-shield-alt"></i></span>
+                        <div>
+                            <strong>دخول آمن</strong>
+                            <p>واجهة واضحة ومتوافقة مع ألوان وهوية النظام.</p>
+                        </div>
+                    </div>
+
+                    <div class="brand-point">
+                        <span class="brand-point__icon"><i class="fas fa-chart-line"></i></span>
+                        <div>
+                            <strong>وصول سريع</strong>
+                            <p>ابدأ مباشرة في إدارة المبيعات والتقارير والإعدادات.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </header>
-        <section class="login-info pt-5">
-            <h2 class="form-title text-center mb-5 d-flex align-items-center justify-content-center">
-                <span class="form-title-text d-inline-block position-relative">تسجيل الدخول</span>
-            </h2>
-            <div class="text-danger text-center" *ngIf="ErrorMessage">{{ErrorMessage}}</div>
-            <form #LoginForm="ngForm" class="d-flex flex-column gap-4 align-items-center w-100">
-                <div class="input-box w-100">
-                    <div class="input-group pb-2 border-bottom">
-                        <input type="text" class="form-control bg-transparent border-0 text-black" name="UserName" #UserName="ngModel" [(ngModel)]="LoginModel.userName" placeholder="اسم المستخدم" required />
-                        <span class="input-group-text bg-transparent border-0 p-0">
-              <i class="fas fa-user main-color"></i>
-            </span>
-                    </div>
-                    <!-- <div *ngIf="UserName.invalid && (UserName.dirty || UserName.touched || LoginForm.submitted )" class="text-danger pt-2">
-                        <div *ngIf="UserName.errors?.required">اسم المستخدم مطلوب</div>
-                    </div> -->
-                </div>
-                <div class="input-box w-100">
-                    <div class="input-group pb-2 border-bottom">
-                        <input type="password" [type]="isShowPassword ? 'text' : 'password'" name="Password" #Password="ngModel" [(ngModel)]="LoginModel.password" placeholder="اسم المستخدم" minlength="4" required class="form-control bg-transparent border-0 text-black" placeholder="كلمة المرور"
+        </section>
+
+        <section class="login-form-panel">
+            <div class="login-form-head">
+                <span class="form-kicker">تسجيل الدخول</span>
+                <h2 class="form-title">الدخول إلى الحساب</h2>
+                <p class="form-description">أدخل بياناتك للمتابعة إلى لوحة الإدارة.</p>
+            </div>
+
+            <div class="login-alert" *ngIf="ErrorMessage">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>{{ErrorMessage}}</span>
+            </div>
+
+            <form #LoginForm="ngForm" class="login-form" (ngSubmit)="Login()">
+                <div class="form-field">
+                    <label class="field-label" for="userName">اسم المستخدم</label>
+                    <div class="field-control">
+                        <span class="field-icon">
+                            <i class="fas fa-user"></i>
+                        </span>
+                        <input
+                            id="userName"
+                            type="text"
+                            class="form-control field-input"
+                            name="UserName"
+                            #UserName="ngModel"
+                            [(ngModel)]="LoginModel.userName"
+                            placeholder="أدخل اسم المستخدم"
+                            required
                         />
-                        <span class="input-group-text bg-transparent border-0 p-0">
-              <i class="far {{ isShowPassword ? 'fa-eye-slash' : 'fa-eye'  }} main-color cursor-pointer"
-                (click)="isShowPassword = !isShowPassword"></i>
-            </span>
                     </div>
-                    <!-- <div *ngIf="Password.invalid && (Password.dirty || Password.touched || LoginForm.submitted )" class="text-danger pt-2">
-                        <div *ngIf="Password.errors?.required">كلمة المرور مطلوبة</div>
-                        <div *ngIf="Password.errors?.minlength">كلمة المرور لا تقل عن 4 احرف او ارقام</div>
-                    </div> -->
                 </div>
-                <button class="btn main-button d-flex align-items-center gap-2 mt-4" (click)="Login()" [disabled]="ButtonDisabled">
-          <i class="fas fa-sign-in-alt rotated-icon"></i>
-          <span>تسجيل دخول</span>
-        </button>
+
+                <div class="form-field">
+                    <label class="field-label" for="password">كلمة المرور</label>
+                    <div class="field-control">
+                        <span class="field-icon">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                        <input
+                            id="password"
+                            [type]="isShowPassword ? 'text' : 'password'"
+                            class="form-control field-input"
+                            name="Password"
+                            #Password="ngModel"
+                            [(ngModel)]="LoginModel.password"
+                            placeholder="أدخل كلمة المرور"
+                            minlength="4"
+                            required
+                        />
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            [attr.aria-label]="isShowPassword ? 'إخفاء كلمة المرور' : 'إظهار كلمة المرور'"
+                            (click)="isShowPassword = !isShowPassword"
+                        >
+                            <i class="far" [ngClass]="isShowPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn main-button login-submit d-flex align-items-center justify-content-center gap-2" [disabled]="ButtonDisabled">
+                    <i class="fas fa-sign-in-alt rotated-icon"></i>
+                    <span>{{ ButtonDisabled ? 'جاري تسجيل الدخول...' : 'تسجيل الدخول' }}</span>
+                </button>
             </form>
         </section>
     </div>

@@ -18,7 +18,7 @@ export class LoginComponent {
   }
 
   Login() {
-    this.LoginForm.onSubmit();
+    if (this.ButtonDisabled) return;
     const isValid = this.LoginForm.form.valid;
     if (!isValid)
       return;
