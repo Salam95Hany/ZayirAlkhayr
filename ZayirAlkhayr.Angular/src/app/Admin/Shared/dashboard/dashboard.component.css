@@ -125,10 +125,8 @@
 /* ─── LAYOUT ──────────────────────────────────────────── */
 
 .page-wrapper {
-    /* max-width: 1380px; */
     width: 100%;
-    /* margin: 0 auto; */
-    /* padding: 28px 24px 40px; */
+    padding: 24px 20px 32px;
 }
 
 
@@ -302,6 +300,8 @@
     font-size: 1rem;
     font-weight: 700;
     letter-spacing: -.2px;
+    min-width: 0;
+    overflow-wrap: anywhere;
 }
 
 .badge-pill {
@@ -310,6 +310,9 @@
     padding: 4px 10px;
     border-radius: 20px;
     border: none;
+    max-width: 100%;
+    text-align: center;
+    white-space: normal;
 }
 
 .badge-live {
@@ -987,6 +990,42 @@
     }
     .donut-legend {
         width: 100%;
+    }
+
+    .card-title,
+    .stock-section-label,
+    .metric-label,
+    .stat-label,
+    .order-status-badge,
+    .badge-pill {
+        font-size: 0.82rem;
+    }
+
+    .action-btn {
+        padding: 8px 12px;
+        font-size: 0.88rem;
+    }
+}
+
+@media (max-width: 420px) {
+    .page-wrapper {
+        padding: 14px 10px 108px;
+    }
+
+    .card-header-custom,
+    .order-row,
+    .selling-item,
+    .stock-item,
+    .cust-row,
+    .stock-section-label,
+    .donut-wrap {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .bottom-bar {
+        padding: 8px 10px;
+        gap: 8px;
     }
 }
 

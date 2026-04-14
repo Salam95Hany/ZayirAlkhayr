@@ -5,8 +5,8 @@
                 <i class="uil uil-money-withdraw"></i>
             </div>
             <div class="overview-card__label">إجمالي المبيعات</div>
-            <div class="overview-card__value">{{summary.totalSales | number : '1.0-0'}} ل.س</div>
-            <div class="overview-card__meta">{{summary.completedOrders}} طلب مكتمل ضمن النطاق الحالي</div>
+            <div class="overview-card__value">{{StatisticData?.totalSales ?? 0 | number : '1.0-0'}} ل.س</div>
+            <div class="overview-card__meta">{{StatisticData?.completedOrders ?? 0}} طلب منتهي ضمن النطاق الحالي</div>
         </article>
 
         <article class="report-surface overview-card">
@@ -14,8 +14,8 @@
                 <i class="uil uil-receipt"></i>
             </div>
             <div class="overview-card__label">إجمالي الطلبات</div>
-            <div class="overview-card__value">{{summary.totalOrders}}</div>
-            <div class="overview-card__meta">{{summary.cancelledOrders}} طلب ملغي و {{summary.pendingOrders}} قيد التنفيذ</div>
+            <div class="overview-card__value">{{StatisticData?.totalOrders ?? 0}}</div>
+            <div class="overview-card__meta">{{StatisticData?.cancelledOrders ?? 0}} طلب ملغي و {{StatisticData?.completedOrdersCount ?? 0}} منتهي</div>
         </article>
 
         <article class="report-surface overview-card">
@@ -23,8 +23,8 @@
                 <i class="uil uil-truck"></i>
             </div>
             <div class="overview-card__label">مبيعات التوصيل</div>
-            <div class="overview-card__value">{{summary.deliverySales | number : '1.0-0'}} ل.س</div>
-            <div class="overview-card__meta">{{summary.deliveryShare}}% من إجمالي المبيعات المحققة</div>
+            <div class="overview-card__value">{{StatisticData?.deliverySales ?? 0 | number : '1.0-0'}} ل.س</div>
+            <div class="overview-card__meta">{{StatisticData?.deliveryOrdersPercentage ?? 0}}% من إجمالي المبيعات المحققة</div>
         </article>
 
         <article class="report-surface overview-card">
@@ -32,8 +32,8 @@
                 <i class="uil uil-chart-growth"></i>
             </div>
             <div class="overview-card__label">متوسط قيمة الطلب</div>
-            <div class="overview-card__value">{{summary.averageOrderValue | number : '1.0-0'}} ل.س</div>
-            <div class="overview-card__meta">{{summary.activeCashiers}} كاشير نشط ساهموا في هذه النتائج</div>
+            <div class="overview-card__value">{{StatisticData?.averageOrderValue ?? 0 | number : '1.0-0'}} ل.س</div>
+            <div class="overview-card__meta">{{StatisticData?.cashiersCount ?? 0}} كاشير نشط ساهموا في هذه النتائج</div>
         </article>
     </section>
 
@@ -47,26 +47,31 @@
             <div class="section-head__meta">
                 <div class="meta-pill">
                     <i class="uil uil-database"></i>
-                    <span>{{totalCount}} سجل</span>
+                    <span>{{TotalCount}} سجل</span>
                 </div>
                 <div class="meta-pill meta-pill--soft">
                     <i class="uil uil-clock-three"></i>
                     <span>{{lastUpdated | arabicDateWithTime}}</span>
                 </div>
+                <button type="button" class="report-export-btn" (click)="ExportSalesReport()" [disabled]="isExporting || !canExport">
+                    <span *ngIf="isExporting" class="spinner-border spinner-border-sm report-export-btn__spinner" aria-hidden="true"></span>
+                    <i *ngIf="!isExporting" class="uil uil-export report-export-btn__icon"></i>
+                    <span>{{isExporting ? 'جاري التصدير...' : 'تصدير التقرير'}}</span>
+                </button>
             </div>
         </div>
 
         <div class="quick-range-list">
-            <button *ngFor="let item of quickRanges" type="button" class="quick-range-btn" [class.active]="selectedRange === item.value" (click)="setQuickRange(item.value)">
+            <button *ngFor="let item of quickRanges" type="button" class="quick-range-btn" [class.active]="selectedRange === item.type" (click)="RangeFilterClicked(item.type)">
                 {{item.label}}
             </button>
         </div>
-        <div class="report-filters-toolbar" *ngIf="pagedRows.length > 0 && FilterList.length > 0">
+        <div class="report-filters-toolbar" *ngIf="FilterList.length > 0">
             <div class="report-filters-toolbar__filters">
-                <app-admin-filters *ngIf="FilterList.length > 0" [FilterList]="FilterList" (FilterChecked)="FilterChecked($event)"></app-admin-filters>
+                <app-admin-filters [FilterList]="FilterList" [AppliedFilters]="PagingFilter.filterList" (FilterChecked)="FilterChecked($event)"></app-admin-filters>
             </div>
             <div class="report-filters-toolbar__pagination">
-                <app-admin-pagination *ngIf="pagedRows.length > 0" [currentPage]="currentPage" [pageSize]="pageSize" [totalPages]="totalPages" [totalCount]="totalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
+                <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="TotalPages" [totalCount]="TotalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
             </div>
         </div>
     </section>
@@ -81,12 +86,12 @@
             <div class="table-head-summary">
                 <div class="meta-pill">
                     <i class="uil uil-files-landscapes-alt"></i>
-                    <span>صفحة {{currentPage}} من {{totalPages}}</span>
+                    <span>صفحة {{PagingFilter.currentpage}} من {{TotalPages}}</span>
                 </div>
             </div>
         </div>
 
-        <ng-container *ngIf="pagedRows.length; else emptyState">
+        <ng-container *ngIf="SalesData.length; else emptyState">
             <div class="table-responsive report-table-wrap">
                 <table class="report-table">
                     <thead>
@@ -97,14 +102,13 @@
                             <th>نوع الطلب</th>
                             <th>الحالة</th>
                             <th>الكاشير</th>
-                            <th>طريقة الدفع</th>
                             <th>الأصناف</th>
                             <th>الرسوم</th>
                             <th>الإجمالي</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of pagedRows; trackBy: trackByOrder">
+                        <tr *ngFor="let item of SalesData; trackBy: trackByOrder">
                             <td data-label="رقم الطلب">
                                 <div class="table-identity">
                                     <strong>#{{item.orderNumber}}</strong>
@@ -113,29 +117,24 @@
                             <td class="table-date" data-label="التاريخ">{{item.createdDate | arabicDateWithTime}}</td>
                             <td data-label="العميل">
                                 <div class="table-identity">
-                                    <strong>{{item.customerName}}</strong>
-                                    <span>{{item.itemsCount}} صنف</span>
+                                    <strong>{{item.fullName}}</strong>
+                                    <span>{{item.quantityCount}} صنف</span>
                                 </div>
                             </td>
                             <td data-label="نوع الطلب">
                                 <span class="table-pill table-pill--type" [ngClass]="'table-pill--' + item.orderType">
-                                    {{getOrderTypeLabel(item.orderType)}}
+                                    {{item.orderTypeAr}}
                                 </span>
                             </td>
                             <td data-label="الحالة">
-                                <span class="table-pill table-pill--status" [ngClass]="'table-pill--' + item.status">
-                                    {{getStatusLabel(item.status)}}
+                                <span class="table-pill table-pill--status" [ngClass]="'table-pill--' + item.orderStatus">
+                                    {{item.orderStatusAr}}
                                 </span>
                             </td>
                             <td data-label="الكاشير">{{item.cashierName}}</td>
-                            <td data-label="طريقة الدفع">
-                                <span class="table-pill table-pill--payment">
-                                    {{getPaymentMethodLabel(item.paymentMethod)}}
-                                </span>
-                            </td>
-                            <td data-label="الأصناف">{{item.itemsCount}}</td>
-                            <td>{{item.deliveryFee | number : '1.0-0'}} ل.س</td>
-                            <td class="table-total">{{item.totalAmount | number : '1.0-0'}} ل.س</td>
+                            <td data-label="الأصناف">{{item.quantityCount}}</td>
+                            <td data-label="الرسوم">{{item.orderType == 2 ? '10000 ل.س' : '-'}}</td>
+                            <td class="table-total" data-label="الإجمالي">{{item.totalAmount | number : '1.0-0'}} ل.س</td>
                         </tr>
                     </tbody>
                 </table>
@@ -143,11 +142,10 @@
 
             <div class="table-footer">
                 <div class="table-footer__summary">
-                    <strong>{{totalCount}}</strong>
+                    <strong>{{TotalCount}}</strong>
                     <span>إجمالي السجلات بعد التصفية</span>
                 </div>
-
-                <app-admin-pagination [currentPage]="currentPage" [pageSize]="pageSize" [totalPages]="totalPages" [totalCount]="totalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
+                <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="TotalPages" [totalCount]="TotalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
             </div>
         </ng-container>
 

@@ -1,13 +1,48 @@
-<div class="container py-5">
-    <div class="row">
-        <div class="col-md-2 text-center">
-            <p><i class="fa fa-exclamation-triangle fa-5x"></i><br />غير مصرح</p>
-        </div>
-        <div class="col-md-10">
-            <h3>أوبسسس!!!! آسف...</h3>
-            <p style="font-size: 25px;">عذرًا، تم رفض وصولك لأسباب أمنية تتعلق بخادمنا وأيضًا بسبب البيانات الحساسة لدينا. 
-                <br />يرجى العودة إلى الصفحة السابقة لمواصلة التصفح.</p>
-            <a class="btn btn-danger" (click)="Logout()">تسجيل الدخول</a>
+<section class="not-authorized-page">
+    <div class="not-authorized-shell">
+        <div class="not-authorized-panel">
+            <div class="not-authorized-visual">
+                <div class="status-badge">403</div>
+                <div class="visual-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h1>غير مصرح بالوصول</h1>
+                <p>
+                    هذه الصفحة أو العملية غير متاحة للحساب الحالي. تم تقييد الوصول للحفاظ على أمان النظام
+                    وصلاحيات المستخدمين.
+                </p>
+            </div>
+
+            <div class="not-authorized-content">
+                <span class="content-kicker">تنبيه صلاحيات</span>
+                <h2 class="content-title">لا يمكنك إكمال هذا الإجراء حالياً</h2>
+                <p class="content-text">
+                    إذا كنت تعتقد أن هذا الوصول يجب أن يكون متاحاً لك، يمكنك الرجوع إلى لوحة التحكم أو
+                    التواصل مع المسؤول عن النظام لمراجعة الصلاحيات.
+                </p>
+
+                <div class="info-card">
+                    <div class="info-row">
+                        <span class="info-label">اسم المستخدم</span>
+                        <strong>{{ UserModel?.userNameAr || UserModel?.userName || 'غير معروف' }}</strong>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">الدور الحالي</span>
+                        <strong>{{ UserModel?.roleNameAr || 'بدون صلاحية معرّفة' }}</strong>
+                    </div>
+                </div>
+
+                <div class="action-group">
+                    <button type="button" class="btn not-authorized-btn not-authorized-btn--primary" (click)="GoToDashboard()">
+                        <i class="fas fa-home"></i>
+                        <span>العودة إلى لوحة التحكم</span>
+                    </button>
+                    <button type="button" class="btn not-authorized-btn not-authorized-btn--ghost" (click)="Logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>تسجيل الخروج</span>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+</section>

@@ -10,6 +10,6 @@ export interface FilterModel {
     filterType?: string;
     isVisible?: boolean;
     filterItems?: FilterModel[];
-    rangeValue?: { startDate: any; endDate: any };
+    rangeValue?: { startDate: any; endDate: any } | null;
     displayOrder?: number;
 }

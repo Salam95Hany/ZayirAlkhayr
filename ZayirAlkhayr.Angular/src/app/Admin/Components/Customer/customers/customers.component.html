@@ -7,7 +7,7 @@
         </div>
 
         <div class="admin-crud-hero__actions">
-            <div class="admin-crud-summary-card">
+            <div class="admin-crud-summary-card d-flex align-items-center justify-content-between">
                 <span class="admin-crud-summary-card__label">إجمالي العملاء</span>
                 <strong class="admin-crud-summary-card__value">{{Total}}</strong>
             </div>
@@ -48,7 +48,9 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of Results">
-                        <td><div class="admin-crud-entity-cell"><span class="admin-crud-entity-avatar"><i class="uil uil-user"></i></span><strong>{{item.name}}</strong></div></td>
+                        <td>
+                            <div class="admin-crud-entity-cell"><span class="admin-crud-entity-avatar"><i class="uil uil-user"></i></span><strong>{{item.name}}</strong></div>
+                        </td>
                         <td>{{item.phone}}</td>
                         <td>{{item.address}}</td>
                         <td>

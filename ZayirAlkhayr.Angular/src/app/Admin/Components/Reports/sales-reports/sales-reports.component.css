@@ -21,10 +21,7 @@
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
-    background:
-        radial-gradient(circle at top right, rgba(230, 81, 0, 0.12), transparent 28%),
-        radial-gradient(circle at bottom left, rgba(255, 196, 92, 0.2), transparent 24%),
-        linear-gradient(180deg, #fffaf5 0%, #f7f8fb 48%, #eef2f7 100%);
+    background: radial-gradient(circle at top right, rgba(230, 81, 0, 0.12), transparent 28%), radial-gradient(circle at bottom left, rgba(255, 196, 92, 0.2), transparent 24%), linear-gradient(180deg, #fffaf5 0%, #f7f8fb 48%, #eef2f7 100%);
 }
 
 .report-hero,
@@ -197,6 +194,46 @@
 .meta-pill--soft {
     background: #f8fafc;
     color: #475569;
+}
+
+.report-export-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 44px;
+    padding: 0.75rem 1rem;
+    border: 0;
+    border-radius: 999px;
+    background: var(--main-color-gradient);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 800;
+    box-shadow: 0 16px 26px rgba(230, 81, 0, 0.18);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease, opacity 0.2s ease;
+}
+
+.report-export-btn:hover:not(:disabled) {
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 20px 32px rgba(230, 81, 0, 0.22);
+    filter: saturate(1.03);
+}
+
+.report-export-btn:disabled {
+    opacity: 0.72;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.report-export-btn__icon,
+.report-export-btn__spinner {
+    flex: 0 0 auto;
+}
+
+.report-export-btn__spinner {
+    width: 1rem;
+    height: 1rem;
 }
 
 .quick-range-list {
@@ -491,27 +528,22 @@
     border: 1px solid transparent;
 }
 
-.table-pill--status.table-pill--completed {
+.table-pill--status.table-pill--1 {
     background: rgba(22, 163, 74, 0.12);
     color: #15803d;
 }
 
-.table-pill--status.table-pill--pending {
-    background: rgba(245, 158, 11, 0.14);
-    color: #b45309;
-}
-
-.table-pill--status.table-pill--cancelled {
+.table-pill--status.table-pill--2 {
     background: rgba(239, 68, 68, 0.12);
     color: #b91c1c;
 }
 
-.table-pill--type.table-pill--delivery {
+.table-pill--type.table-pill--2 {
     background: rgba(13, 110, 253, 0.12);
     color: #0d6efd;
 }
 
-.table-pill--type.table-pill--takeaway {
+.table-pill--type.table-pill--1 {
     background: rgba(230, 81, 0, 0.12);
     color: var(--main-color);
 }
@@ -625,40 +657,32 @@
     .sales-report-page {
         padding: 1rem;
     }
-
     .report-hero,
     .section-head {
         flex-direction: column;
         align-items: stretch;
     }
-
     .report-hero__actions {
         justify-content: stretch;
     }
-
     .hero-badge,
     .hero-btn {
         width: 100%;
     }
-
     .filters-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-
     .filter-field--wide {
         grid-column: span 2;
     }
-
     .table-footer {
         flex-direction: column;
         align-items: stretch;
     }
-
     .report-filters-toolbar {
         flex-direction: column;
         align-items: stretch;
     }
-
     .report-filters-toolbar__filters,
     .report-filters-toolbar__pagination,
     .report-filters-toolbar__pagination app-admin-pagination {
@@ -671,52 +695,43 @@
         padding: 0.85rem;
         gap: 1rem;
     }
-
     .report-hero,
     .report-surface {
         padding: 1rem;
         border-radius: 22px;
     }
-
     .overview-grid,
     .filters-grid {
         grid-template-columns: minmax(0, 1fr);
     }
-
     .filter-field--wide {
         grid-column: span 1;
     }
-
     .filter-summary,
     .quick-range-list,
     .section-head__meta {
         gap: 0.65rem;
     }
-
     .summary-chip,
-    .meta-pill {
+    .meta-pill,
+    .report-export-btn {
         width: 100%;
     }
-
     .quick-range-list {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-
     .quick-range-btn {
         width: 100%;
         justify-content: center;
     }
-
     .report-table {
         min-width: 880px;
     }
-
     .report-table thead th,
     .report-table tbody td {
         padding: 0.85rem 0.75rem;
     }
-
     .table-footer__summary {
         width: 100%;
         justify-content: space-between;
@@ -729,15 +744,12 @@
     .section-head__title {
         font-size: 1.28rem;
     }
-
     .quick-range-btn {
         width: 100%;
     }
-
     .quick-range-list {
         grid-template-columns: minmax(0, 1fr);
     }
-
     .report-table-wrap {
         overflow: visible;
         border: 0;
@@ -745,7 +757,6 @@
         box-shadow: none;
         background: transparent;
     }
-
     .report-table,
     .report-table tbody,
     .report-table tr,
@@ -753,21 +764,17 @@
         display: block;
         width: 100%;
     }
-
     .report-table {
         min-width: 0;
         background: transparent;
     }
-
     .report-table thead {
         display: none;
     }
-
     .report-table tbody {
         display: grid;
         gap: 0.85rem;
     }
-
     .report-table tbody tr {
         border: 1px solid rgba(148, 163, 184, 0.16);
         border-radius: 20px;
@@ -775,7 +782,6 @@
         background: #fff;
         box-shadow: var(--report-shadow-soft);
     }
-
     .report-table tbody td {
         display: flex;
         align-items: flex-start;
@@ -785,7 +791,6 @@
         white-space: normal;
         border-bottom: 1px solid rgba(148, 163, 184, 0.12);
     }
-
     .report-table tbody td::before {
         content: attr(data-label);
         min-width: 88px;
@@ -794,31 +799,25 @@
         font-weight: 800;
         line-height: 1.6;
     }
-
     .report-table tbody td:nth-child(9)::before {
         content: "الرسوم";
     }
-
     .report-table tbody td.table-total::before {
         content: "الإجمالي";
     }
-
     .report-table tbody td:last-child {
         border-bottom: 0;
         background: linear-gradient(180deg, #fff8f1 0%, #fff 100%);
     }
-
     .report-table tbody td .table-identity,
     .report-table tbody td .table-pill {
         margin-inline-start: auto;
     }
-
     .table-date,
     .report-table tbody td strong,
     .report-table tbody td span {
         text-align: left;
     }
-
     .table-footer__summary {
         flex-direction: column;
         align-items: flex-start;

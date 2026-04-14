@@ -7,7 +7,7 @@
         </div>
 
         <div class="admin-crud-hero__actions">
-            <div class="admin-crud-summary-card">
+            <div class="admin-crud-summary-card d-flex align-items-center justify-content-between">
                 <span class="admin-crud-summary-card__label">إجمالي العناصر</span>
                 <strong class="admin-crud-summary-card__value">{{Total}}</strong>
             </div>
@@ -51,7 +51,9 @@
                 <tbody>
                     <tr *ngFor="let item of Results">
                         <td><img src="{{item.image}}" (error)="$event.target.src = defaultImage" class="admin-crud-image-thumb"></td>
-                        <td><div class="admin-crud-entity-cell"><strong>{{item.productName}}</strong></div></td>
+                        <td>
+                            <div class="admin-crud-entity-cell"><strong>{{item.productName}}</strong></div>
+                        </td>
                         <td><span class="role-chip">{{item.categoryName}}</span></td>
                         <td>{{item.price}}</td>
                         <td>{{item.costPrice}}</td>

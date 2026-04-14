@@ -24,4 +24,13 @@ export class NotAuthorizedComponent implements OnInit {
     });
   }
 
+  GoToDashboard() {
+    if (this.UserModel) {
+      this.router.navigateByUrl('/admin/dashboard');
+      return;
+    }
+
+    this.router.navigateByUrl('/login');
+  }
+
 }

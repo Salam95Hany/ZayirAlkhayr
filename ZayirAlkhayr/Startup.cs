@@ -18,11 +18,13 @@ using ZayirAlkhayr.Interface.Auth;
 using ZayirAlkhayr.Interface.Common;
 using ZayirAlkhayr.Interface.Customer;
 using ZayirAlkhayr.Interface.POS;
+using ZayirAlkhayr.Interface.Report;
 using ZayirAlkhayr.Interface.Repositories;
 using ZayirAlkhayr.Service.Auth;
 using ZayirAlkhayr.Service.Common;
 using ZayirAlkhayr.Service.Customer;
 using ZayirAlkhayr.Service.POS;
+using ZayirAlkhayr.Service.Report;
 using ZayirAlkhayr.Service.Repositories;
 
 namespace ZayirAlkhayr
@@ -106,7 +108,10 @@ namespace ZayirAlkhayr
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IDashboardService, DashboardService>();
+            services.AddScoped<ISalesReportService, SalesReportService>();
             
+
+
 
             services.AddMvc(options =>
                 {

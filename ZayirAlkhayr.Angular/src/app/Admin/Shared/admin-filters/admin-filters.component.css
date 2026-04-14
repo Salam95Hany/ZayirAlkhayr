@@ -4,6 +4,80 @@
     justify-content: space-between;
 }
 
+.admin-filter-search {
+    position: relative;
+}
+
+.admin-filter-search__shell {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    min-height: 48px;
+    padding: 0rem 0.4rem 0rem 0.85rem;
+    border: 1px solid rgba(148, 163, 184, 0.28);
+    border-radius: 20px;
+    background: linear-gradient(180deg, #ffffff 0%, #fffaf5 100%);
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.06);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.admin-filter-search__shell:focus-within {
+    border-color: rgba(230, 81, 0, 0.35);
+    box-shadow: 0 0 0 0.22rem rgba(230, 81, 0, 0.08), 0 18px 32px rgba(15, 23, 42, 0.08);
+}
+
+.admin-filter-search__icon {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(230, 81, 0, 0.14), rgba(255, 226, 199, 0.95));
+    color: var(--main-color);
+    font-size: 0.95rem;
+}
+
+.admin-filter-search__input {
+    flex: 1;
+    min-width: 0;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0.6rem 0;
+    color: #1f2937;
+    font-size: 0.95rem;
+}
+
+.admin-filter-search__input::placeholder {
+    color: #94a3b8;
+}
+
+.admin-filter-search__button {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 14px;
+    color: #fff;
+    background: var(--main-color-gradient);
+    box-shadow: 0 14px 24px rgba(230, 81, 0, 0.24);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.admin-filter-search__button:hover {
+    color: #fff;
+    transform: translateY(-1px);
+    filter: saturate(1.05);
+}
+
+.admin-filter-search__button:focus,
+.admin-filter-search__button:active {
+    color: #fff;
+}
+
 .fs-15 {
     font-size: 15px;
 }
@@ -39,4 +113,23 @@
 
 .width-420 {
     width: 420px;
+}
+
+.width-362 {
+    width: 362px;
+}
+
+@media (max-width: 575px) {
+    .admin-filter-search__shell {
+        min-height: 52px;
+        padding: 0.3rem 0.35rem 0.3rem 0.7rem;
+        border-radius: 18px;
+    }
+    .admin-filter-search__icon,
+    .admin-filter-search__button {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        border-radius: 12px;
+    }
 }

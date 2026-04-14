@@ -33,11 +33,7 @@
     background-color: #f9fafd;
 }
 
-::ng-deep
-    .pagination-container
-    ul.pagination
-    .page-item:first-child
-    .page-link {
+::ng-deep .pagination-container ul.pagination .page-item:first-child .page-link {
     border-top-left-radius: 0.21rem;
     border-bottom-left-radius: 0.21rem;
 }
@@ -55,7 +51,7 @@
     border-color: #ddd;
 }
 
-::ng-deep .active > .page-link,
+::ng-deep .active>.page-link,
 .page-link.active {
     background-color: var(--main-color) !important;
     border-color: var(--main-color) !important;
@@ -63,17 +59,15 @@
 }
 
 @media (max-width: 575px) {
-    ::ng-deep .pagination-container {
+     ::ng-deep .pagination-container {
         justify-content: center !important;
     }
-
-    ::ng-deep .pagination-container > span {
+     ::ng-deep .pagination-container>span {
         width: 100%;
         margin: 0 !important;
         text-align: center;
     }
-
-    ::ng-deep .pagination-container ul.pagination .page-link {
+     ::ng-deep .pagination-container ul.pagination .page-link {
         padding: 0.28rem 0.42rem;
         font-size: 0.74rem;
     }

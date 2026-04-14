@@ -1310,6 +1310,7 @@ select {
     color: #1f2937;
     font-size: 1.9rem;
     font-weight: 800;
+    width: 500px;
 }
 
 .users-hero__text,
@@ -1332,7 +1333,7 @@ select {
 .users-summary-card,
 .admin-crud-summary-card {
     min-width: 160px;
-    padding: 0.95rem 1.1rem;
+    padding: 0.6rem;
     border-radius: 20px;
     background: #fff;
     border: 1px solid rgba(230, 81, 0, 0.14);
@@ -1349,7 +1350,6 @@ select {
 .users-summary-card__value,
 .admin-crud-summary-card__value {
     display: block;
-    margin-top: 0.25rem;
     color: #1f2937;
     font-size: 1.6rem;
     font-weight: 800;
@@ -1886,5 +1886,50 @@ select {
         width: 36px;
         height: 36px;
         border-radius: 12px;
+    }
+    .btn,
+    button {
+        white-space: normal;
+    }
+    .modal-header,
+    .modal-body,
+    .modal-footer {
+        padding-left: 0.95rem !important;
+        padding-right: 0.95rem !important;
+    }
+    .modal-header {
+        align-items: flex-start !important;
+        gap: 0.75rem;
+    }
+    .modal-footer {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+    }
+    .modal-footer .btn,
+    .modal-footer button {
+        width: 100%;
+        justify-content: center;
+    }
+    .offcanvas-header,
+    .offcanvas-body {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+    .offcanvas .table-wrap,
+    .offcanvas .table-responsive {
+        overflow-x: auto;
+    }
+    .offcanvas .table {
+        min-width: 620px;
+    }
+    .form-floating>.form-control,
+    .form-floating>.form-select {
+        min-height: 52px;
+        height: calc(3rem + 2px);
+    }
+    .form-floating>label {
+        display: flex;
+        align-items: center;
     }
 }

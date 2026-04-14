@@ -1999,6 +1999,16 @@
         min-width: 90px;
         font-size: 0.9rem;
     }
+
+    .pos-toolbar__identity > .d-flex.align-items-center {
+        flex-direction: column;
+        align-items: stretch !important;
+        gap: 0.85rem;
+    }
+
+    .pay-background {
+        margin-inline-end: 0 !important;
+    }
 }
 
 @media (max-width: 575px) {
@@ -2033,6 +2043,32 @@
     .label-text {
         min-width: 0;
         margin-bottom: 0.4rem;
+    }
+
+    :host ::ng-deep .modal-body .d-flex.align-items-center {
+        flex-wrap: wrap;
+    }
+
+    :host ::ng-deep .modal-body .justify-content-between {
+        gap: 0.75rem;
+    }
+
+    :host ::ng-deep .modal-body [style*="height: 400px"] {
+        height: min(48vh, 400px) !important;
+    }
+
+    :host ::ng-deep .offcanvas-body [style*="padding:1rem 1.5rem"],
+    :host ::ng-deep .offcanvas-header[style*="padding: 1.25rem 1.5rem 1rem"] {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+
+    :host ::ng-deep .offcanvas-body .table-wrap {
+        overflow-x: auto;
+    }
+
+    :host ::ng-deep .offcanvas-body .table-wrap table {
+        min-width: 620px;
     }
 }
 

@@ -1,10 +1,16 @@
 <div class="d-flex align-items-center flex-wrap gap-2 mb-2">
     <ng-container *ngFor="let filter of FilterList">
         <!-- TEXT FILTER -->
-        <div *ngIf="filter.filterType === 'SearchText'" class="position-relative">
-            <input type="text" [(ngModel)]="filter.itemId" (keyup.enter)="updateFilters(filter)" class="form-control border" [ngClass]="{'width-250': Page == '', 'width-420': Page == 'PatientsSearch'}" [placeholder]="'بحث  ' + (filter.categoryDisplayName) + '...'"
-            />
-            <i class="fas fa-search search-icon-input" (click)="updateFilters(filter)"></i>
+        <div *ngIf="filter.filterType === 'SearchText'" class="admin-filter-search width-362">
+            <div class="admin-filter-search__shell">
+                <span class="admin-filter-search__icon" aria-hidden="true">
+                    <i class="fas fa-search"></i>
+                </span>
+                <input type="text" [(ngModel)]="filter.itemId" (keyup.enter)="updateFilters(filter)" class="form-control admin-filter-search__input" [placeholder]="'بحث ' + (filter.categoryDisplayName) + '...'" autocomplete="off" />
+                <button type="button" class="btn admin-filter-search__button" (click)="updateFilters(filter)" [attr.aria-label]="'بحث ' + (filter.categoryDisplayName)">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
         </div>
 
         <!-- DATE FILTER -->
@@ -65,7 +71,7 @@
 <div class="d-flex align-items-center flex-wrap gap-2 mt-2">
     <div class="badge badge-success round fs-15" *ngFor="let selected of SelectedFilter; let i = index">
         <span class="me-1">
-            {{selected.filterType == 'SearchText'?'مربع البحث': selected.categoryDisplayName}} :
+            {{selected.filterType == 'SearchText' ? 'مربع البحث' : selected.categoryDisplayName}} :
             <ng-container *ngIf="selected.from; else normalFilter">
                 {{selected.from}} - {{selected.to}}
             </ng-container>

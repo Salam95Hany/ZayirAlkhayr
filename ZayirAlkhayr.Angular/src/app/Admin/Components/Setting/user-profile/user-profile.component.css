@@ -12,6 +12,8 @@
     --text: #0f172a;
     --bg-light: #f1f5f9;
     font-family: 'DM Sans', 'Segoe UI', sans-serif;
+    display: block;
+    padding: 1rem;
 }
 
 :host ::ng-deep {
@@ -209,6 +211,7 @@ div {
     font-weight: 600;
     font-size: 16px;
     text-align: right;
+    overflow-wrap: anywhere;
 }
 
 .badge-status {
@@ -287,6 +290,7 @@ div {
     letter-spacing: 0.3px;
     position: relative;
     overflow: hidden;
+    justify-content: center;
 }
 
 .action-buttons button::before {
@@ -347,8 +351,12 @@ div {
 /* Responsive Design */
 
 @media (max-width: 768px) {
+    :host {
+        padding: 0.75rem;
+    }
+
     .profile-card {
-        margin: 20px;
+        margin: 0;
         border-radius: 20px;
     }
     .profile-header {
@@ -371,6 +379,7 @@ div {
     }
     .info-value {
         text-align: left;
+        width: 100%;
     }
     .section-title {
         font-size: 16px;
@@ -388,8 +397,12 @@ div {
 }
 
 @media (max-width: 480px) {
+    :host {
+        padding: 0.5rem;
+    }
+
     .profile-card {
-        margin: 12px;
+        margin: 0;
         border-radius: 16px;
     }
     .profile-header {
@@ -419,6 +432,12 @@ div {
     .info-value {
         font-size: 14px;
     }
+
+    .badge-status {
+        width: 100%;
+        justify-content: center;
+    }
+
     .action-buttons {
         flex-direction: column;
         gap: 10px;
