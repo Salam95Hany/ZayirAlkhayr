@@ -24,7 +24,11 @@ import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { TimeAgoTodayPipe } from './Pipes/time-ago-today.pipe';
 import { SharedModule } from './Shared/shared.module';
 import { UserProfileComponent } from './Components/Setting/user-profile/user-profile.component';
-import { SalesReportsComponent } from './Components/Reports/sales-reports/sales-reports.component';
+import { SalesReportsComponent } from './Components/Reports/sales/sales-reports/sales-reports.component';
+import { ItemsReportComponent } from './Components/Reports/sales/items-report/items-report.component';
+import { OrdertypeReportComponent } from './Components/Reports/sales/ordertype-report/ordertype-report.component';
+import { CustomerReportComponent } from './Components/Reports/sales/customer-report/customer-report.component';
+import { SalesbytimeReportComponent } from './Components/Reports/sales/salesbytime-report/salesbytime-report.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +48,11 @@ import { SalesReportsComponent } from './Components/Reports/sales-reports/sales-
     EnumTextPipe,
     TimeAgoTodayPipe,
     UserProfileComponent,
-    SalesReportsComponent
+    SalesReportsComponent,
+    ItemsReportComponent,
+    OrdertypeReportComponent,
+    CustomerReportComponent,
+    SalesbytimeReportComponent
   ],
   imports: [
     CommonModule,

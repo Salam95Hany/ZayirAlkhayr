@@ -1,0 +1,143 @@
+<div class="sales-report-page">
+    <section class="overview-grid">
+        <article class="report-surface overview-card overview-card--primary">
+            <div class="overview-card__icon">
+                <i class="uil uil-money-withdraw"></i>
+            </div>
+            <div class="overview-card__label">إيرادات الصباح</div>
+            <div class="overview-card__value">{{StatisticData?.morningSales ?? 0 | number : '1.0-0'}} ل.س</div>
+            <div class="overview-card__meta">عدد الطلبات {{StatisticData?.morningOrdersCount ?? 0}} </div>
+        </article>
+
+        <article class="report-surface overview-card">
+            <div class="overview-card__icon overview-card__icon--blue">
+                <i class="uil uil-receipt"></i>
+            </div>
+            <div class="overview-card__label">إيرادات المساء</div>
+            <div class="overview-card__value">{{StatisticData?.eveningSales ?? 0 | number : '1.0-0'}} ل.س</div>
+            <div class="overview-card__meta">عدد الطلبات {{StatisticData?.eveningOrdersCount ?? 0}} </div>
+        </article>
+
+        <article class="report-surface overview-card">
+            <div class="overview-card__icon overview-card__icon--green">
+                <i class="uil uil-truck"></i>
+            </div>
+            <div class="overview-card__label">ساعة الذروة</div>
+            <div class="overview-card__value">{{StatisticData?.peakHour ?? 0}}</div>
+            <div class="overview-card__meta">مبيعات ساعة الذروة {{StatisticData?.peakHourSales ?? 0 | number : '1.0-0'}} ل.س</div>
+        </article>
+
+        <article class="report-surface overview-card">
+            <div class="overview-card__icon overview-card__icon--slate">
+                <i class="uil uil-chart-growth"></i>
+            </div>
+            <div class="overview-card__label">عدد طلبات ساعة الذروة</div>
+            <div class="overview-card__value">{{StatisticData?.peakHourOrdersCount ?? 0}}</div>
+            <div class="overview-card__meta">إجمالي الطلبات {{StatisticData?.totalOrders ?? 0}} | إجمالي المبيعات {{StatisticData?.totalSales ?? 0 | number : '1.0-0'}} ل.س</div>
+        </article>
+    </section>
+
+    <section class="report-surface report-filters">
+        <div class="section-head">
+            <div>
+                <div class="section-head__kicker">الفلاتر</div>
+                <h2 class="section-head__title">تخصيص عرض التقرير</h2>
+            </div>
+
+            <div class="section-head__meta">
+                <div class="meta-pill">
+                    <i class="uil uil-database"></i>
+                    <span>{{TotalCount}} سجل</span>
+                </div>
+                <div class="meta-pill meta-pill--soft">
+                    <i class="uil uil-clock-three"></i>
+                    <span>{{lastUpdated | arabicDateWithTime}}</span>
+                </div>
+                <button type="button" class="report-export-btn" (click)="ExportSalesReport()" [disabled]="isExporting || !canExport">
+                    <span *ngIf="isExporting" class="spinner-border spinner-border-sm report-export-btn__spinner" aria-hidden="true"></span>
+                    <i *ngIf="!isExporting" class="uil uil-export report-export-btn__icon"></i>
+                    <span>{{isExporting ? 'جاري التصدير...' : 'تصدير التقرير'}}</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="quick-range-list">
+            <button *ngFor="let item of quickRanges" type="button" class="quick-range-btn" [class.active]="selectedRange === item.type" (click)="RangeFilterClicked(item.type)">
+                {{item.label}}
+            </button>
+        </div>
+        <div class="report-filters-toolbar" *ngIf="FilterList.length > 0">
+            <div class="report-filters-toolbar__filters">
+                <app-admin-filters [FilterList]="FilterList" [AppliedFilters]="PagingFilter.filterList" (FilterChecked)="FilterChecked($event)"></app-admin-filters>
+            </div>
+            <div class="report-filters-toolbar__pagination">
+                <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="TotalPages" [totalCount]="TotalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
+            </div>
+        </div>
+    </section>
+
+    <section class="report-surface report-table-card">
+        <div class="section-head section-head--compact">
+            <div>
+                <div class="section-head__kicker">النتائج</div>
+                <h2 class="section-head__title">جدول تقارير المبيعات</h2>
+            </div>
+
+            <div class="table-head-summary">
+                <div class="meta-pill">
+                    <i class="uil uil-files-landscapes-alt"></i>
+                    <span>صفحة {{PagingFilter.currentpage}} من {{TotalPages}}</span>
+                </div>
+            </div>
+        </div>
+
+        <ng-container *ngIf="SalesData.length; else emptyState">
+            <div class="table-responsive report-table-wrap">
+                <table class="report-table">
+                    <thead>
+                        <tr>
+                            <th>الساعة</th>
+                            <th>اسم الفترة</th>
+                            <th>عدد الطلبات</th>
+                            <th>إجمالي المبيعات</th>
+                            <th>متوسط ​​قيمة الطلب</th>
+                            <th>نسبة المبيعات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of SalesData; trackBy: trackByOrder">
+                            <td data-label="الساعة">
+                                <div class="table-identity">
+                                    <strong>{{item.hourLabel}}</strong>
+                                </div>
+                            </td>
+                            <td data-label="اسم الفترة">{{item.periodName}}</td>
+                            <td data-label="عدد الطلبات">{{item.ordersCount}}</td>
+                            <td class="table-total" data-label="إجمالي المبيعات">{{item.totalSales | number : '1.0-0'}} ل.س</td>
+                            <td data-label="متوسط ​​قيمة الطلب">{{item.avgOrderValue | number : '1.0-0'}} ل.س</td>
+                            <td data-label="نسبة المبيعات">{{item.salesPercentage}}%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-footer">
+                <div class="table-footer__summary">
+                    <strong>{{TotalCount}}</strong>
+                    <span>إجمالي السجلات بعد التصفية</span>
+                </div>
+                <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="TotalPages" [totalCount]="TotalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
+            </div>
+        </ng-container>
+
+        <ng-template #emptyState>
+            <div class="empty-state">
+                <div class="empty-state__icon">
+                    <i class="uil uil-folder-open"></i>
+                </div>
+                <h3 class="empty-state__title">لا توجد نتائج مطابقة</h3>
+                <p class="empty-state__text">جرّب تعديل الفلاتر أو إعادة ضبط النطاق الزمني لإظهار نتائج أكثر.</p>
+            </div>
+        </ng-template>
+    </section>
+</div>

@@ -46,7 +46,7 @@ export class OrderListComponent {
   PagingFilter: PagingFilterModel = {
     filterList: [],
     currentpage: 1,
-    pagesize: 10
+    pagesize: 20
   }
 
 

@@ -147,6 +147,16 @@
     box-shadow: var(--report-shadow);
 }
 
+.report-filters,
+.report-filters-toolbar,
+.report-filters-toolbar__filters {
+    overflow: visible;
+}
+
+.report-filters {
+    z-index: 6;
+}
+
 .report-surface::before {
     content: "";
     position: absolute;

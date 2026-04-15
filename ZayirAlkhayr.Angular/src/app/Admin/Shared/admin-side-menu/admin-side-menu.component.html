@@ -105,6 +105,31 @@
                                 <span class="side-menu-text">المبيعات اليومية</span>
                             </a>
                         </li>
+                        <li appRole [roles]="['Admin']">
+                            <a class="side-menu-list-link sub-link" routerLink="./items-reports" routerLinkActive="active">
+                                <span class="menu-bullet"></span>
+                                <span class="side-menu-text">العناصر</span>
+                            </a>
+                        </li>
+                        <li appRole [roles]="['Admin']">
+                            <a class="side-menu-list-link sub-link" routerLink="./ordertype-reports" routerLinkActive="active">
+                                <span class="menu-bullet"></span>
+                                <span class="side-menu-text">نوع الطلب</span>
+                            </a>
+                        </li>
+                        <li appRole [roles]="['Admin']">
+                            <a class="side-menu-list-link sub-link" routerLink="./customers-reports" routerLinkActive="active">
+                                <span class="menu-bullet"></span>
+                                <span class="side-menu-text">العملاء</span>
+                            </a>
+                        </li>
+                        <li appRole [roles]="['Admin']">
+                            <a class="side-menu-list-link sub-link" routerLink="./salesbytime-reports" routerLinkActive="active">
+                                <span class="menu-bullet"></span>
+                                <span class="side-menu-text">المبيعات حسب الوقت</span>
+                            </a>
+                        </li>
+
                     </ul>
                 </section>
 

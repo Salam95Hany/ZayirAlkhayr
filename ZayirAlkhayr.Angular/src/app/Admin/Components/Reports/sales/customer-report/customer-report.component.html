@@ -1,0 +1,141 @@
+<div class="sales-report-page">
+    <section class="overview-grid">
+        <article class="report-surface overview-card overview-card--primary">
+            <div class="overview-card__icon">
+                <i class="uil uil-money-withdraw"></i>
+            </div>
+            <div class="overview-card__label">إجمالي العملاء</div>
+            <div class="overview-card__value">{{StatisticData?.totalCustomers ?? 0}}</div>
+            <div class="overview-card__meta">إجمالي الايرادات {{StatisticData?.totalRevenue ?? 0}} ل.س</div>
+        </article>
+
+        <article class="report-surface overview-card">
+            <div class="overview-card__icon overview-card__icon--blue">
+                <i class="uil uil-receipt"></i>
+            </div>
+            <div class="overview-card__label">إجمالي طلبات العملاء</div>
+            <div class="overview-card__value">{{StatisticData?.totalOrders ?? 0}}</div>
+            <div class="overview-card__meta">إجمالي الايرادات {{StatisticData?.totalRevenue ?? 0}} ل.س</div>
+        </article>
+
+        <article class="report-surface overview-card">
+            <div class="overview-card__icon overview-card__icon--green">
+                <i class="uil uil-truck"></i>
+            </div>
+            <div class="overview-card__label">أكثر العملاء طلبًا</div>
+            <div class="overview-card__value">{{StatisticData?.mostOrderingCustomerName ?? '-'}}</div>
+            <div class="overview-card__meta">{{StatisticData?.mostOrderingCustomerOrdersCount ?? 0}} عدد الطلبات | {{StatisticData?.mostOrderingCustomerSpending ?? 0}} إجمالي الانفاق ل.س</div>
+        </article>
+
+        <article class="report-surface overview-card">
+            <div class="overview-card__icon overview-card__icon--slate">
+                <i class="uil uil-chart-growth"></i>
+            </div>
+            <div class="overview-card__label">أعلى عميل إنفاقًا</div>
+            <div class="overview-card__value">{{StatisticData?.topSpenderCustomerName ?? '-'}}</div>
+            <div class="overview-card__meta">{{StatisticData?.topSpenderOrdersCount ?? 0}} عدد الطلبات | {{StatisticData?.topSpenderTotalSpending ?? 0}} إجمالي الانفاق ل.س</div>
+        </article>
+    </section>
+
+    <section class="report-surface report-filters">
+        <div class="section-head">
+            <div>
+                <div class="section-head__kicker">الفلاتر</div>
+                <h2 class="section-head__title">تخصيص عرض التقرير</h2>
+            </div>
+
+            <div class="section-head__meta">
+                <div class="meta-pill">
+                    <i class="uil uil-database"></i>
+                    <span>{{TotalCount}} سجل</span>
+                </div>
+                <div class="meta-pill meta-pill--soft">
+                    <i class="uil uil-clock-three"></i>
+                    <span>{{lastUpdated | arabicDateWithTime}}</span>
+                </div>
+                <button type="button" class="report-export-btn" (click)="ExportSalesReport()" [disabled]="isExporting || !canExport">
+                    <span *ngIf="isExporting" class="spinner-border spinner-border-sm report-export-btn__spinner" aria-hidden="true"></span>
+                    <i *ngIf="!isExporting" class="uil uil-export report-export-btn__icon"></i>
+                    <span>{{isExporting ? 'جاري التصدير...' : 'تصدير التقرير'}}</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="quick-range-list">
+            <button *ngFor="let item of quickRanges" type="button" class="quick-range-btn" [class.active]="selectedRange === item.type" (click)="RangeFilterClicked(item.type)">
+                {{item.label}}
+            </button>
+        </div>
+        <div class="report-filters-toolbar" *ngIf="FilterList.length > 0">
+            <div class="report-filters-toolbar__filters">
+                <app-admin-filters [FilterList]="FilterList" [AppliedFilters]="PagingFilter.filterList" (FilterChecked)="FilterChecked($event)"></app-admin-filters>
+            </div>
+            <div class="report-filters-toolbar__pagination">
+                <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="TotalPages" [totalCount]="TotalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
+            </div>
+        </div>
+    </section>
+
+    <section class="report-surface report-table-card">
+        <div class="section-head section-head--compact">
+            <div>
+                <div class="section-head__kicker">النتائج</div>
+                <h2 class="section-head__title">جدول تقارير المبيعات</h2>
+            </div>
+
+            <div class="table-head-summary">
+                <div class="meta-pill">
+                    <i class="uil uil-files-landscapes-alt"></i>
+                    <span>صفحة {{PagingFilter.currentpage}} من {{TotalPages}}</span>
+                </div>
+            </div>
+        </div>
+
+        <ng-container *ngIf="SalesData.length; else emptyState">
+            <div class="table-responsive report-table-wrap">
+                <table class="report-table">
+                    <thead>
+                        <tr>
+                            <th>اسم العميل</th>
+                            <th>عدد الطلبات</th>
+                            <th>إجمالي الانفاق</th>
+                            <th>متوسط ​​قيمة الطلب</th>
+                            <th>تاريخ آخر طلب</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of SalesData; trackBy: trackByOrder">
+                            <td data-label="اسم العميل">
+                                <div class="table-identity">
+                                    <strong>{{item.customerName}}</strong>
+                                </div>
+                            </td>
+                            <td data-label="عدد الطلبات">{{item.ordersCount}}</td>
+                            <td class="table-total" data-label="إجمالي الانفاق">{{item.totalSpending | number : '1.0-0'}} ل.س</td>
+                            <td data-label="متوسط ​​قيمة الطلب">{{item.avgOrderValue | number : '1.0-0'}} ل.س</td>
+                            <td data-label="تاريخ آخر طلب">{{item.lastOrderDate | arabicDateWithTime}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-footer">
+                <div class="table-footer__summary">
+                    <strong>{{TotalCount}}</strong>
+                    <span>إجمالي السجلات بعد التصفية</span>
+                </div>
+                <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="TotalPages" [totalCount]="TotalCount" (pageChanged)="PageChange($event)"></app-admin-pagination>
+            </div>
+        </ng-container>
+
+        <ng-template #emptyState>
+            <div class="empty-state">
+                <div class="empty-state__icon">
+                    <i class="uil uil-folder-open"></i>
+                </div>
+                <h3 class="empty-state__title">لا توجد نتائج مطابقة</h3>
+                <p class="empty-state__text">جرّب تعديل الفلاتر أو إعادة ضبط النطاق الزمني لإظهار نتائج أكثر.</p>
+            </div>
+        </ng-template>
+    </section>
+</div>

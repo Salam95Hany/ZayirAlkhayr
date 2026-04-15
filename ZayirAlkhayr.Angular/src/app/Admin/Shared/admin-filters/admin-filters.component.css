@@ -1,3 +1,8 @@
+:host {
+    display: block;
+    overflow: visible;
+}
+
 .filter-content {
     display: flex;
     align-items: center;
@@ -87,6 +92,7 @@
 }
 
 .date-picker-flex {
+    position: relative;
     display: flex;
     align-items: center;
     border: 1px solid #ced4da;
@@ -94,6 +100,8 @@
     padding: 3px 8px;
     width: 250px;
     background-color: #fff;
+    overflow: visible;
+    z-index: 3;
 }
 
 .date-range-input {
@@ -109,6 +117,16 @@
     font-size: 16px;
     color: #555;
     cursor: pointer;
+}
+
+.filter-button {
+    position: relative;
+    z-index: 4;
+}
+
+:host ::ng-deep .md-drppicker,
+:host ::ng-deep .dropdown-menu {
+    z-index: 1080 !important;
 }
 
 .width-420 {

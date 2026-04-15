@@ -38,5 +38,47 @@ namespace ZayirAlkhayr.Controllers.Report
             var results = await _salesReportService.GetReportSalesFilter(PagingFilter);
             return results;
         }
+
+        [HttpPost("GetReportSalesItemStatistics")]
+        public async Task<ApiResponseModel<DataSet>> GetReportSalesItemStatistics(PagingFilterModel PagingFilter)
+        {
+            var results = await _salesReportService.GetReportSalesItemStatistics(PagingFilter);
+            return results;
+        }
+
+        [HttpPost("GetReportSalesItemData")]
+        public async Task<ApiResponseModel<DataTable>> GetReportSalesItemData(PagingFilterModel PagingFilter)
+        {
+            var results = await _salesReportService.GetReportSalesItemData(PagingFilter);
+            return results;
+        }
+
+        [HttpPost("GetReportSalesItemFilter")]
+        public async Task<ApiResponseModel<List<FilterModel>>> GetReportSalesItemFilter(PagingFilterModel PagingFilter)
+        {
+            var results = await _salesReportService.GetReportSalesItemFilter(PagingFilter);
+            return results;
+        }
+
+        [HttpPost("GetOrderTypeSalesReport")]
+        public async Task<ApiResponseModel<DataSet>> GetOrderTypeSalesReport(PagingFilterModel PagingFilter)
+        {
+            var results = await _salesReportService.GetOrderTypeSalesReport(PagingFilter);
+            return results;
+        }
+
+        [HttpPost("GetCustomerSalesReport")]
+        public async Task<ApiResponseModel<DataSet>> GetCustomerSalesReport(PagingFilterModel PagingFilter)
+        {
+            var results = await _salesReportService.GetCustomerSalesReport(PagingFilter);
+            return results;
+        }
+
+        [HttpPost("GetSalesReportByTimeReport")]
+        public async Task<ApiResponseModel<DataSet>> GetSalesReportByTimeReport(PagingFilterModel PagingFilter)
+        {
+            var results = await _salesReportService.GetSalesReportByTimeReport(PagingFilter);
+            return results;
+        }
     }
 }

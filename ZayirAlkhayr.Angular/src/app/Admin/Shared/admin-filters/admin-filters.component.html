@@ -33,7 +33,7 @@
         </div>
 
         <!-- CHECKBOX FILTER -->
-        <div *ngIf="filter.filterType === 'Checkbox'" class="filter-button" ngbDropdown #dd="ngbDropdown" display="dynamic" [autoClose]="'outside'">
+        <div *ngIf="filter.filterType === 'Checkbox'" class="filter-button" ngbDropdown #dd="ngbDropdown" display="dynamic" container="body" [autoClose]="'outside'">
             <button class="btn main-filter-button d-flex align-items-center gap-2" ngbDropdownToggle>
                 <i class="fas fa-filter"></i>
                 <span class="navbar-brand m-0">{{filter.categoryDisplayName}}</span>

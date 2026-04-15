@@ -21,7 +21,7 @@
     --carousel_height: calc(100vh - var(--header_height));
     /* ADMIN VARIABLE  */
     --admin-header-height: 56px;
-    --admin-side-menu-width: 250px;
+    --admin-side-menu-width: 260px;
     --collapse-menu: 80px;
     /* FONT SIZE */
     --nav-link-fs: 16px;

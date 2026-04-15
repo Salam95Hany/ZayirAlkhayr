@@ -13,5 +13,15 @@ namespace ZayirAlkhayr.Interface.Report
         Task<ApiResponseModel<DataTable>> GetSalesReportStatistics(PagingFilterModel PagingFilter);
         Task<ApiResponseModel<DataTable>> GetReportSalesData(PagingFilterModel PagingFilter);
         Task<ApiResponseModel<List<FilterModel>>> GetReportSalesFilter(PagingFilterModel PagingFilter);
+
+        Task<ApiResponseModel<DataSet>> GetReportSalesItemStatistics(PagingFilterModel PagingFilter);
+        Task<ApiResponseModel<DataTable>> GetReportSalesItemData(PagingFilterModel PagingFilter);
+        Task<ApiResponseModel<List<FilterModel>>> GetReportSalesItemFilter(PagingFilterModel PagingFilter);
+
+        Task<ApiResponseModel<DataSet>> GetOrderTypeSalesReport(PagingFilterModel PagingFilter);
+
+        Task<ApiResponseModel<DataSet>> GetCustomerSalesReport(PagingFilterModel PagingFilter);
+
+        Task<ApiResponseModel<DataSet>> GetSalesReportByTimeReport(PagingFilterModel PagingFilter);
     }
 }
