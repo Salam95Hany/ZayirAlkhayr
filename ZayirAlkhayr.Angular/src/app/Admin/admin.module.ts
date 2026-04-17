@@ -6,6 +6,7 @@ import { AdminComponent } from './admin.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { AdminUserComponent } from './Components/Setting/admin-user/admin-user.component';
+import { BackupComponent } from './Components/Setting/backup/backup.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RoleCheckerDirective } from './Directives/role-checker.directive';
 import { SearchArryPipe } from './Pipes/search-arry.pipe';
@@ -29,6 +30,10 @@ import { ItemsReportComponent } from './Components/Reports/sales/items-report/it
 import { OrdertypeReportComponent } from './Components/Reports/sales/ordertype-report/ordertype-report.component';
 import { CustomerReportComponent } from './Components/Reports/sales/customer-report/customer-report.component';
 import { SalesbytimeReportComponent } from './Components/Reports/sales/salesbytime-report/salesbytime-report.component';
+import { InventoryItemsComponent } from './Components/Inventory/inventory-items/inventory-items.component';
+import { SuppliersComponent } from './Components/Inventory/suppliers/suppliers.component';
+import { InventoryAdjustmentsComponent } from './Components/Inventory/inventory-adjustments/inventory-adjustments.component';
+import { PurchasesComponent } from './Components/Inventory/purchases/purchases.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +43,7 @@ import { SalesbytimeReportComponent } from './Components/Reports/sales/salesbyti
     AdminFiltersComponent,
     AdminPaginationComponent,
     AdminUserComponent,
+    BackupComponent,
     RoleCheckerDirective,
     SearchArryPipe,
     CustomersComponent,
@@ -52,7 +58,11 @@ import { SalesbytimeReportComponent } from './Components/Reports/sales/salesbyti
     ItemsReportComponent,
     OrdertypeReportComponent,
     CustomerReportComponent,
-    SalesbytimeReportComponent
+    SalesbytimeReportComponent,
+    InventoryItemsComponent,
+    SuppliersComponent,
+    InventoryAdjustmentsComponent,
+    PurchasesComponent
   ],
   imports: [
     CommonModule,

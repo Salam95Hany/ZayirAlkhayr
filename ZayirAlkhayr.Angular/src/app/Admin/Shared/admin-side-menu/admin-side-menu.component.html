@@ -50,7 +50,6 @@
                             </a>
                         </li>
                     </ul>
-
                     <ul class="list-unstyled m-0 menu-list-collapsed" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed_1">
                         <li appRole [roles]="['Admin']">
                             <a class="side-menu-list-link sub-link" routerLink="./categories" routerLinkActive="active">
@@ -84,11 +83,9 @@
                         </li>
                     </ul>
                 </section>
-
-                <section class="menu-section">
+                <section class="menu-section" appRole [roles]="['Admin']">
                     <div class="section-divider"></div>
                     <div class="side-menu-list-title side-menu-text">التقارير</div>
-
                     <ul class="side-menu-list list-unstyled p-0 m-0">
                         <li class="side-menu-list-item">
                             <a class="side-menu-list-link with-sub-menu" [class.expanded]="!isCollapsed_3" (click)="collapse3.toggle()" [attr.aria-expanded]="!isCollapsed_3">
@@ -97,42 +94,78 @@
                             </a>
                         </li>
                     </ul>
-
                     <ul class="list-unstyled m-0 menu-list-collapsed" #collapse3="ngbCollapse" [(ngbCollapse)]="isCollapsed_3">
-                        <li appRole [roles]="['Admin']">
+                        <li>
                             <a class="side-menu-list-link sub-link" routerLink="./sales-reports" routerLinkActive="active">
                                 <span class="menu-bullet"></span>
                                 <span class="side-menu-text">المبيعات اليومية</span>
                             </a>
                         </li>
-                        <li appRole [roles]="['Admin']">
+                        <li>
                             <a class="side-menu-list-link sub-link" routerLink="./items-reports" routerLinkActive="active">
                                 <span class="menu-bullet"></span>
                                 <span class="side-menu-text">العناصر</span>
                             </a>
                         </li>
-                        <li appRole [roles]="['Admin']">
+                        <li>
                             <a class="side-menu-list-link sub-link" routerLink="./ordertype-reports" routerLinkActive="active">
                                 <span class="menu-bullet"></span>
                                 <span class="side-menu-text">نوع الطلب</span>
                             </a>
                         </li>
-                        <li appRole [roles]="['Admin']">
+                        <li>
                             <a class="side-menu-list-link sub-link" routerLink="./customers-reports" routerLinkActive="active">
                                 <span class="menu-bullet"></span>
                                 <span class="side-menu-text">العملاء</span>
                             </a>
                         </li>
-                        <li appRole [roles]="['Admin']">
+                        <li>
                             <a class="side-menu-list-link sub-link" routerLink="./salesbytime-reports" routerLinkActive="active">
                                 <span class="menu-bullet"></span>
                                 <span class="side-menu-text">المبيعات حسب الوقت</span>
                             </a>
                         </li>
-
                     </ul>
                 </section>
+                <section class="menu-section" appRole [roles]="['Admin']">
+                    <div class="section-divider"></div>
+                    <div class="side-menu-list-title side-menu-text">المخزون</div>
 
+                    <ul class="side-menu-list list-unstyled p-0 m-0">
+                        <li class="side-menu-list-item">
+                            <a class="side-menu-list-link with-sub-menu" [class.expanded]="!isCollapsed_4" (click)="collapse4.toggle()" [attr.aria-expanded]="!isCollapsed_4">
+                                <span class="menu-icon"><i class="uil uil-box"></i></span>
+                                <span class="side-menu-text">إدارة المخزون</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="list-unstyled m-0 menu-list-collapsed" #collapse4="ngbCollapse" [(ngbCollapse)]="isCollapsed_4">
+                        <li>
+                            <a class="side-menu-list-link sub-link" routerLink="./inventory-items" routerLinkActive="active">
+                                <span class="menu-bullet"></span>
+                                <span class="side-menu-text">عناصر المخزون</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="side-menu-list-link sub-link" routerLink="./inventory-suppliers" routerLinkActive="active">
+                                <span class="menu-bullet"></span>
+                                <span class="side-menu-text">الموردون</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="side-menu-list-link sub-link" routerLink="./inventory-adjustments" routerLinkActive="active">
+                                <span class="menu-bullet"></span>
+                                <span class="side-menu-text">حركات المخزون</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="side-menu-list-link sub-link" routerLink="./inventory-purchases" routerLinkActive="active">
+                                <span class="menu-bullet"></span>
+                                <span class="side-menu-text">المشتريات</span>
+                            </a>
+                        </li>
+                    </ul>
+                </section>
                 <section class="menu-section" appRole [roles]="['Admin']">
                     <div class="section-divider"></div>
                     <div class="side-menu-list-title side-menu-text">الإعدادات</div>
@@ -145,12 +178,17 @@
                             </a>
                         </li>
                     </ul>
-
                     <ul class="list-unstyled m-0 menu-list-collapsed" #collapse2="ngbCollapse" [(ngbCollapse)]="isCollapsed_2">
                         <li>
                             <a class="side-menu-list-link sub-link" routerLink="./users" routerLinkActive="active">
                                 <span class="menu-bullet"></span>
                                 <span class="side-menu-text">المستخدمون</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="side-menu-list-link sub-link" routerLink="./backup" routerLinkActive="active">
+                                <span class="menu-bullet"></span>
+                                <span class="side-menu-text">النسخ الاحتياطية</span>
                             </a>
                         </li>
                     </ul>

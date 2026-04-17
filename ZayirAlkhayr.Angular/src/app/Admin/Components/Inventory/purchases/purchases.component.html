@@ -1,0 +1,218 @@
+<div class="admin-crud-page">
+    <section class="admin-crud-hero">
+        <div class="admin-crud-hero__content">
+            <div class="admin-crud-hero__eyebrow">إدارة المشتريات</div>
+            <h1 class="admin-crud-hero__title">فواتير الشراء وتحديث الكميات</h1>
+            <p class="admin-crud-hero__text">تسجيل عمليات الشراء من الموردين مع تفاصيل الأصناف والتكلفة، وربطها مباشرة بتحديث كميات المخزون.</p>
+        </div>
+
+        <div class="admin-crud-hero__actions">
+            <div class="admin-crud-summary-card d-flex align-items-center justify-content-between">
+                <span class="admin-crud-summary-card__label">إجمالي الفواتير</span>
+                <strong class="admin-crud-summary-card__value">{{Total}}</strong>
+            </div>
+
+            <div class="admin-crud-summary-card d-flex align-items-center justify-content-between">
+                <span class="admin-crud-summary-card__label">إجمالي المعروض</span>
+                <strong class="admin-crud-summary-card__value">{{CurrentPageAmount | number:'1.0-2'}}</strong>
+            </div>
+
+            <button class="btn main-button admin-crud-action-btn d-flex align-items-center gap-2" (click)="openAddItemModal(OpenItemModal,null)">
+                <i class="uil uil-plus-circle"></i>
+                <span>إضافة عملية شراء</span>
+            </button>
+            <button class="btn main-button admin-crud-action-btn admin-crud-action-btn--soft d-flex align-items-center gap-2" (click)="isFilter = !isFilter" [attr.aria-expanded]="!isFilter">
+                <i class="uil uil-filter"></i>
+                <span>{{ isFilter ? 'عرض الفلاتر' : 'إخفاء الفلاتر' }}</span>
+            </button>
+        </div>
+    </section>
+
+    <section class="admin-crud-panel">
+        <div class="admin-crud-head">
+            <div>
+                <div class="admin-crud-head__kicker">سجل المشتريات</div>
+                <h2 class="admin-crud-head__title">عمليات الشراء المسجلة</h2>
+            </div>
+            <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="0" [totalCount]="Total" (pageChanged)="PageChange($event)"></app-admin-pagination>
+        </div>
+
+        <div class="admin-crud-filters" #collapse="ngbCollapse" [(ngbCollapse)]="isFilter">
+            <app-admin-filters [FilterList]="FilterList" [AppliedFilters]="PagingFilter.filterList" (FilterChecked)="FilterChecked($event)"></app-admin-filters>
+        </div>
+
+        <div class="admin-crud-table-wrap table-responsive mb-2">
+            <table class="admin-crud-table">
+                <thead>
+                    <tr>
+                        <th>المورد</th>
+                        <th>عدد الأصناف</th>
+                        <th>الإجمالي</th>
+                        <th>التاريخ</th>
+                        <th class="text-center">الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of Results">
+                        <td>
+                            <div class="admin-crud-entity-cell">
+                                <span class="admin-crud-entity-avatar"><i class="uil uil-receipt"></i></span>
+                                <strong>{{item.supplierName}}</strong>
+                            </div>
+                        </td>
+                        <td>{{item.itemsCount}}</td>
+                        <td>{{item.totalAmount | number:'1.0-2'}}</td>
+                        <td>{{item.insertDate | arabicDateWithTime}}</td>
+                        <td>
+                            <div class="table-actions d-flex align-items-center justify-content-center gap-2">
+                                <button type="button" class="table-action table-action--edit" (click)="openAddItemModal(OpenItemModal,item)"><i class="uil uil-edit"></i></button>
+                                <button type="button" class="table-action table-action--delete" (click)="openDeleteItemModal(deleteItemModal,item)"><i class="uil uil-times-circle"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr *ngIf="Results.length === 0">
+                        <td colspan="5" class="text-center text-muted">لا توجد بيانات لعرضها حالياً.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="0" [totalCount]="Total" (pageChanged)="PageChange($event)"></app-admin-pagination>
+    </section>
+</div>
+
+<ng-template #OpenItemModal let-modal>
+    <div class="modal-header admin-modal-header d-flex align-items-center justify-content-between text-white">
+        <div class="modal-title-wrap d-flex align-items-center gap-3">
+            <span class="modal-title-icon"><i class="uil uil-bill"></i></span>
+            <div>
+                <div class="modal-kicker">إدارة المشتريات</div>
+                <div class="modal-title-text">إضافة أو تعديل عملية شراء</div>
+            </div>
+        </div>
+        <i class="fas fa-times cursor-pointer fa-2x modal-close-btn" (click)="modal.dismiss()"></i>
+    </div>
+    <div class="modal-body admin-modal-body">
+        <div class="admin-modal-card">
+            <form [formGroup]="PurchaseForm" autocomplete="off">
+                <div class="row g-3 align-items-start">
+                    <div class="col-lg-8">
+                        <div ngbDropdown class="dropdown-with-search overflow-hidden admin-user-role-dropdown" container="body">
+                            <button class="dropdown-with-search-btn btn border h-58 w-100 d-flex align-items-center justify-content-between selector-padding" id="purchaseSupplierDropdown" ngbDropdownToggle>
+                                {{GetSupplierName(PurchaseForm.controls['supplierId'].value)}}
+                            </button>
+                            <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu aria-labelledby="purchaseSupplierDropdown">
+                                <ul class="dropdown-list-box list-unstyled max-height-220 overflow-auto px-1 py-1 m-0">
+                                    <ng-container *ngFor="let item of Suppliers">
+                                        <li class="dropdown-item cursor-pointer rounded" [ngClass]="{'DropDownSelected': PurchaseForm.controls['supplierId'].value === item.supplierId}" (click)="onSupplierClicked(item)">
+                                            {{item.name}}
+                                        </li>
+                                    </ng-container>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="text-danger pt-2" *ngIf="PurchaseForm.controls['supplierId']?.invalid && (PurchaseForm.controls['supplierId']?.dirty || PurchaseForm.controls['supplierId']?.touched)">هذا الحقل مطلوب</div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="purchase-total-box">
+                            <span class="purchase-total-box__label">الإجمالي الحالي</span>
+                            <strong class="purchase-total-box__value">{{GetPurchaseTotal() | number:'1.0-2'}}</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div formArrayName="items" class="purchase-lines mt-4">
+                    <div class="purchase-line-card" *ngFor="let itemGroup of PurchaseItemsFormArray.controls; let i = index" [formGroupName]="i">
+                        <div class="purchase-line-card__header">
+                            <div>
+                                <div class="modal-kicker">صنف الشراء {{i + 1}}</div>
+                                <strong>{{GetInventoryItemName(GetPurchaseItemGroup(i).controls['inventoryItemId'].value)}}</strong>
+                            </div>
+                            <button type="button" class="purchase-remove-btn" (click)="RemovePurchaseLine(i)">
+                                <i class="uil uil-trash-alt"></i>
+                            </button>
+                        </div>
+
+                        <div class="row g-3 align-items-start">
+                            <div class="col-lg-5">
+                                <div ngbDropdown class="dropdown-with-search overflow-hidden admin-user-role-dropdown" container="body">
+                                    <button class="dropdown-with-search-btn btn border h-58 w-100 d-flex align-items-center justify-content-between selector-padding" [id]="'purchaseInventoryItemDropdown_' + i" ngbDropdownToggle>
+                                        {{GetInventoryItemName(GetPurchaseItemGroup(i).controls['inventoryItemId'].value)}}
+                                    </button>
+                                    <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu [attr.aria-labelledby]="'purchaseInventoryItemDropdown_' + i">
+                                        <ul class="dropdown-list-box list-unstyled max-height-220 overflow-auto px-1 py-1 m-0">
+                                            <ng-container *ngFor="let item of InventoryItems">
+                                                <li class="dropdown-item cursor-pointer rounded" [ngClass]="{'DropDownSelected': GetPurchaseItemGroup(i).controls['inventoryItemId'].value === item.inventoryItemId}" (click)="onInventoryItemClicked(i, item)">
+                                                    {{item.name}}
+                                                </li>
+                                            </ng-container>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="text-danger pt-2" *ngIf="GetPurchaseItemGroup(i).controls['inventoryItemId']?.invalid && (GetPurchaseItemGroup(i).controls['inventoryItemId']?.dirty || GetPurchaseItemGroup(i).controls['inventoryItemId']?.touched)">هذا الحقل مطلوب</div>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="form-floating">
+                                    <input type="number" class="form-control" formControlName="quantity" [id]="'purchase_quantity_' + i" placeholder="purchase-quantity" min="1" required>
+                                    <label [for]="'purchase_quantity_' + i">الكمية</label>
+                                    <div *ngIf="GetPurchaseItemGroup(i).controls['quantity']?.invalid && (GetPurchaseItemGroup(i).controls['quantity']?.dirty || GetPurchaseItemGroup(i).controls['quantity']?.touched)" class="text-danger pt-2">
+                                        <div *ngIf="GetPurchaseItemGroup(i).controls['quantity'].errors?.['required']">هذا الحقل مطلوب</div>
+                                        <div *ngIf="GetPurchaseItemGroup(i).controls['quantity'].errors?.['min']">يجب أن تكون القيمة أكبر من صفر</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="form-floating">
+                                    <input type="number" class="form-control" formControlName="costPrice" [id]="'purchase_cost_price_' + i" placeholder="purchase-cost-price" min="0" required>
+                                    <label [for]="'purchase_cost_price_' + i">سعر التكلفة</label>
+                                    <div *ngIf="GetPurchaseItemGroup(i).controls['costPrice']?.invalid && (GetPurchaseItemGroup(i).controls['costPrice']?.dirty || GetPurchaseItemGroup(i).controls['costPrice']?.touched)" class="text-danger pt-2">
+                                        <div *ngIf="GetPurchaseItemGroup(i).controls['costPrice'].errors?.['required']">هذا الحقل مطلوب</div>
+                                        <div *ngIf="GetPurchaseItemGroup(i).controls['costPrice'].errors?.['min']">القيمة غير صالحة</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="purchase-line-total">
+                                    <span class="purchase-line-total__label">إجمالي الصنف</span>
+                                    <strong class="purchase-line-total__value">{{GetPurchaseItemTotal(i) | number:'1.0-2'}}</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-wrap gap-2 mt-3">
+                    <button type="button" class="btn main-button admin-crud-action-btn admin-crud-action-btn--soft d-flex align-items-center gap-2" (click)="AddPurchaseLine()">
+                        <i class="uil uil-plus-circle"></i>
+                        <span>إضافة صنف للفاتورة</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer admin-modal-footer justify-content-start gap-2">
+        <button type="submit" class="btn main-button d-flex align-items-center gap-2" (click)="AddNewItem()"><i class="uil uil-save"></i><span>حفظ عملية الشراء</span></button>
+        <button class="btn btn-outline-secondary rounded-25 d-flex align-items-center gap-2" (click)="modal.close()"><i class="uil uil-times-circle"></i><span>إلغاء</span></button>
+    </div>
+</ng-template>
+
+<ng-template #deleteItemModal let-modal>
+    <div class="modal-header admin-modal-header admin-modal-header--danger text-white">
+        <div class="modal-title-wrap d-flex align-items-center gap-3">
+            <span class="modal-title-icon modal-title-icon--danger"><i class="uil uil-trash-alt"></i></span>
+            <div>
+                <div class="modal-kicker">حذف عملية الشراء</div>
+                <div class="modal-title-text">تأكيد عملية الحذف</div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body admin-modal-body">
+        <p class="fs-5 m-0">هل أنت متأكد أنك تريد حذف عملية الشراء المحددة؟ سيتم خصم كمياتها من المخزون الحالي.</p>
+    </div>
+    <div class="modal-footer admin-modal-footer justify-content-start gap-2">
+        <button type="button" class="btn btn-success rounded-25 d-flex align-items-center gap-2" (click)="DeleteItem()"><i class="fas fa-check"></i><span>نعم</span></button>
+        <button type="button" class="btn btn-danger rounded-25 d-flex align-items-center gap-2" (click)="modal.close('cancel')"><i class="fas fa-times"></i><span>لا</span></button>
+    </div>
+</ng-template>
+
+<ngx-loading [show]="showLoader"></ngx-loading>

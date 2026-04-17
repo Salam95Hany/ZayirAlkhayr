@@ -20,8 +20,9 @@ export class AdminSideMenuComponent implements OnInit {
     { nameEn: 'Cashier', nameAr: 'كاشير' }
   ];
   POS = ['categories', 'items', 'order-list', 'customers'];
-  Settings = ['users'];
-  Reports = ['sales-reports'];
+  Inventory = ['inventory-items', 'inventory-suppliers', 'inventory-adjustments', 'inventory-purchases'];
+  Settings = ['users', 'backup'];
+  Reports = ['sales-reports', 'items-reports', 'ordertype-reports', 'customers-reports', 'salesbytime-reports'];
   constructor(private router: Router) { }
 
   ngOnInit(): void {
@@ -30,6 +31,8 @@ export class AdminSideMenuComponent implements OnInit {
     let url = this.router.url.split('/')[2];
     if (this.POS.includes(url))
       this.isCollapsed_1 = false;
+    else if (this.Inventory.includes(url))
+      this.isCollapsed_4 = false;
     else if (this.Settings.includes(url))
       this.isCollapsed_2 = false;
     else if (this.Reports.includes(url))
