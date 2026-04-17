@@ -1,0 +1,221 @@
+<div class="admin-crud-page factory-reset-page">
+    <section class="admin-crud-hero factory-reset-hero">
+        <div class="admin-crud-hero__content">
+            <div class="admin-crud-hero__eyebrow">إعدادات النظام</div>
+            <h1 class="admin-crud-hero__title">إعادة ضبط المصنع</h1>
+            <p class="admin-crud-hero__text">
+                حذف البيانات التشغيلية الحساسة من الجداول المستهدفة بشكل مرحلي وآمن، مع تتبع مباشر لكل خطوة ورسالة واضحة أثناء التنفيذ.
+            </p>
+        </div>
+
+        <div class="admin-crud-hero__actions">
+            <div class="admin-crud-summary-card d-flex align-items-center justify-content-between">
+                <span class="admin-crud-summary-card__label">الجداول المستهدفة</span>
+                <strong class="admin-crud-summary-card__value">{{totalStepsCount}}</strong>
+            </div>
+
+            <div class="admin-crud-summary-card d-flex align-items-center justify-content-between">
+                <span class="admin-crud-summary-card__label">السجلات الحالية</span>
+                <strong class="admin-crud-summary-card__value">{{totalRecordsCount}}</strong>
+            </div>
+
+            <div class="admin-crud-summary-card d-flex align-items-center justify-content-between">
+                <span class="admin-crud-summary-card__label">السجلات المحذوفة</span>
+                <strong class="admin-crud-summary-card__value">{{deletedRecordsTotal}}</strong>
+            </div>
+        </div>
+    </section>
+
+    <section class="admin-crud-panel factory-reset-panel">
+        <div class="factory-reset-warning">
+            <div class="factory-reset-warning__icon">
+                <i class="uil uil-exclamation-triangle"></i>
+            </div>
+
+            <div class="factory-reset-warning__content">
+                <strong>تحذير مهم</strong>
+                <p class="m-0">
+                    هذه العملية تحذف البيانات نهائيًا من الجداول التالية فقط:
+                    <span class="factory-reset-warning__targets">حركات المخزون, الطلبات, تفاصيل الطلبات, المشتريات, عناصر المشتريات</span> ولن يمكن التراجع عنها بعد التنفيذ.
+                </p>
+            </div>
+        </div>
+
+        <div class="factory-reset-progress-card">
+            <div class="factory-reset-progress-card__head">
+                <div>
+                    <div class="admin-crud-head__kicker">تقدم التنفيذ</div>
+                    <h2 class="admin-crud-head__title">متابعة الحذف خطوة بخطوة</h2>
+                </div>
+
+                <button type="button" class="btn main-button admin-crud-action-btn d-flex align-items-center gap-2" (click)="openConfirmationModal(FactoryResetConfirmModal)" [disabled]="!canStartReset || !hasDataToDelete">
+                    <i class="uil" [ngClass]="isResetting ? 'uil-spinner-alt factory-spin' : 'uil-trash-alt'"></i>
+                    <span>{{isResetting ? 'جارٍ التنفيذ...' : 'بدء إعادة الضبط'}}</span>
+                </button>
+            </div>
+
+            <div class="factory-reset-progress-card__status">
+                <div class="factory-reset-progress-card__label">الحالة الحالية</div>
+                <div class="factory-reset-progress-card__text">{{currentActionText}}</div>
+            </div>
+
+            <div class="factory-reset-progress">
+                <div class="factory-reset-progress__bar">
+                    <div class="factory-reset-progress__value" [style.width.%]="progressPercent"></div>
+                </div>
+
+                <div class="factory-reset-progress__meta">
+                    <span>{{progressPercent}}%</span>
+                    <span>{{completedStepsCount}} / {{totalStepsCount}} مراحل مكتملة</span>
+                </div>
+            </div>
+
+            <div class="factory-reset-last-response" *ngIf="lastApiResponse">
+                <span class="factory-reset-last-response__label">آخر رد من الخادم</span>
+                <strong>{{lastApiResponse}}</strong>
+            </div>
+        </div>
+
+        <div class="admin-crud-table-wrap factory-reset-table-wrap">
+            <div class="table-responsive">
+                <table class="admin-crud-table factory-reset-table">
+                    <thead>
+                        <tr>
+                            <th>الترتيب</th>
+                            <th>المرحلة</th>
+                            <th>الوصف</th>
+                            <th>السجلات الحالية</th>
+                            <th>المحذوف</th>
+                            <th>الحالة</th>
+                            <th>رد الخادم</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let step of steps">
+                            <td>{{step.executionOrder}}</td>
+                            <td>
+                                <div class="factory-reset-entity">
+                                    <span class="factory-reset-entity__icon"><i class="uil uil-database"></i></span>
+                                    <strong>{{step.displayName}}</strong>
+                                </div>
+                            </td>
+                            <td>{{step.description}}</td>
+                            <td>{{step.recordsCount}}</td>
+                            <td>{{step.deletedRecordsCount}}</td>
+                            <td>
+                                <span class="factory-reset-status factory-reset-status--idle" *ngIf="step.status === 'idle'">في الانتظار</span>
+                                <span class="factory-reset-status factory-reset-status--running" *ngIf="step.status === 'running'">قيد التنفيذ</span>
+                                <span class="factory-reset-status factory-reset-status--completed" *ngIf="step.status === 'completed'">تم بنجاح</span>
+                                <span class="factory-reset-status factory-reset-status--failed" *ngIf="step.status === 'failed'">فشل</span>
+                            </td>
+                            <td class="factory-reset-table__message">{{step.apiMessage || '-'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="factory-reset-bottom-grid">
+            <div class="factory-reset-activity">
+                <div class="factory-reset-activity__head">
+                    <div>
+                        <div class="admin-crud-head__kicker">السجل المباشر</div>
+                        <h3 class="factory-reset-activity__title">ما الذي يحدث الآن؟</h3>
+                    </div>
+                </div>
+
+                <div class="factory-reset-log-list" *ngIf="activityLogs.length; else emptyLogs">
+                    <div class="factory-reset-log-item" *ngFor="let item of activityLogs" [ngClass]="'factory-reset-log-item--' + item.tone">
+                        <div class="factory-reset-log-item__time">{{item.timestamp}}</div>
+                        <div class="factory-reset-log-item__message">{{item.message}}</div>
+                    </div>
+                </div>
+
+                <ng-template #emptyLogs>
+                    <div class="factory-reset-empty-state">
+                        ستظهر هنا الرسائل المباشرة مثل: يتم الآن حذف الطلبات، تم حذف تفاصيل الطلبات، ثم الانتقال للمرحلة التالية.
+                    </div>
+                </ng-template>
+            </div>
+
+            <div class="factory-reset-guide">
+                <div class="factory-reset-guide__head">
+                    <div class="admin-crud-head__kicker">آلية العمل</div>
+                    <h3 class="factory-reset-activity__title">كيف يعمل التنفيذ؟</h3>
+                </div>
+
+                <div class="factory-reset-guide__list">
+                    <div class="factory-reset-guide__item">
+                        <span class="factory-reset-guide__number">1</span>
+                        <p class="m-0">يعرض النظام عدد السجلات الحالية في كل جدول قبل الحذف.</p>
+                    </div>
+                    <div class="factory-reset-guide__item">
+                        <span class="factory-reset-guide__number">2</span>
+                        <p class="m-0">بعد التأكيد، يبدأ الحذف على مراحل مع تحديث شريط التقدم والرسائل الحية.</p>
+                    </div>
+                    <div class="factory-reset-guide__item">
+                        <span class="factory-reset-guide__number">3</span>
+                        <p class="m-0">يُعرض رد الخادم بعد كل مرحلة ويُوقف التنفيذ فور حدوث أي خطأ.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<ngx-loading [show]="showLoader && !isResetting"></ngx-loading>
+
+<ng-template #FactoryResetConfirmModal let-modal>
+    <div class="modal-header admin-modal-header admin-modal-header--danger d-flex align-items-center justify-content-between text-white">
+        <div class="modal-title-wrap d-flex align-items-center gap-3">
+            <span class="modal-title-icon modal-title-icon--danger"><i class="uil uil-exclamation-triangle"></i></span>
+            <div>
+                <div class="modal-kicker">تأكيد نهائي</div>
+                <div class="modal-title-text">تأكيد إعادة ضبط المصنع</div>
+            </div>
+        </div>
+        <i class="fas fa-times cursor-pointer modal-close-btn" (click)="modal.dismiss()"></i>
+    </div>
+
+    <div class="modal-body admin-modal-body">
+        <div class="admin-modal-card">
+            <div class="factory-reset-confirmation-copy">
+                <strong>سيتم حذف البيانات من الجداول التشغيلية المحددة نهائيًا.</strong>
+                <p class="m-0">للمتابعة، فعّل مربع التأكيد ثم اكتب <span dir="ltr">{{confirmationPhrase}}</span> كما هي.</p>
+            </div>
+
+            <form [formGroup]="confirmResetForm" autocomplete="off" class="factory-reset-confirmation-form">
+                <div class="form-check factory-reset-confirmation-check">
+                    <input class="form-check-input" type="checkbox" id="confirm_factory_reset_checkbox" formControlName="confirmDeletion">
+                    <label class="form-check-label" for="confirm_factory_reset_checkbox">
+                        أفهم أن هذه العملية نهائية ولا يمكن التراجع عنها.
+                    </label>
+                </div>
+                <div *ngIf="confirmResetForm.controls['confirmDeletion']?.invalid && (confirmResetForm.controls['confirmDeletion']?.dirty || confirmResetForm.controls['confirmDeletion']?.touched)" class="text-danger pt-2">
+                    يجب الموافقة على التحذير قبل المتابعة.
+                </div>
+
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="factory_reset_phrase" placeholder="RESET" formControlName="confirmationText">
+                    <label for="factory_reset_phrase">اكتب كلمة التأكيد</label>
+                </div>
+                <div *ngIf="confirmResetForm.controls['confirmationText']?.invalid && (confirmResetForm.controls['confirmationText']?.dirty || confirmResetForm.controls['confirmationText']?.touched)" class="text-danger pt-2">
+                    <div *ngIf="confirmResetForm.controls['confirmationText'].errors?.['required']">هذا الحقل مطلوب.</div>
+                    <div *ngIf="confirmResetForm.controls['confirmationText'].errors?.['pattern']">يجب كتابة كلمة RESET بشكل صحيح.</div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-footer admin-modal-footer justify-content-start gap-2">
+        <button type="button" class="btn btn-danger rounded-25 d-flex align-items-center gap-2" (click)="startFactoryReset()">
+            <i class="uil uil-trash-alt"></i>
+            <span>تأكيد وبدء الحذف</span>
+        </button>
+        <button type="button" class="btn btn-outline-secondary rounded-25 d-flex align-items-center gap-2" (click)="modal.dismiss()">
+            <i class="uil uil-times-circle"></i>
+            <span>إلغاء</span>
+        </button>
+    </div>
+</ng-template>

@@ -1,0 +1,348 @@
+:host {
+    display: block;
+}
+
+.factory-reset-page {
+    gap: 1.5rem;
+}
+
+.factory-reset-hero {
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 90% 20%, rgba(220, 38, 38, 0.12), transparent 18%),
+        radial-gradient(circle at 12% 18%, rgba(230, 81, 0, 0.16), transparent 24%),
+        linear-gradient(135deg, rgba(255, 247, 245, 0.99), rgba(255, 255, 255, 0.98));
+}
+
+.factory-reset-panel {
+    display: grid;
+    gap: 1.25rem;
+}
+
+.factory-reset-warning {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 1.1rem;
+    border-radius: 22px;
+    border: 1px solid rgba(220, 38, 38, 0.16);
+    background: linear-gradient(135deg, rgba(254, 242, 242, 0.96), rgba(255, 255, 255, 0.98));
+}
+
+.factory-reset-warning__icon {
+    width: 52px;
+    height: 52px;
+    display: grid;
+    place-items: center;
+    border-radius: 18px;
+    background: rgba(220, 38, 38, 0.12);
+    color: #dc2626;
+    font-size: 1.45rem;
+}
+
+.factory-reset-warning__content {
+    display: grid;
+    gap: 0.35rem;
+    color: #374151;
+    line-height: 1.8;
+}
+
+.factory-reset-warning__targets {
+    display: inline-block;
+    margin-inline-start: 0.2rem;
+    color: #991b1b;
+    font-weight: 700;
+}
+
+.factory-reset-progress-card,
+.factory-reset-activity,
+.factory-reset-guide {
+    padding: 1.1rem;
+    border-radius: 24px;
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    background: #fff;
+    box-shadow: 0 18px 34px rgba(15, 23, 42, 0.05);
+}
+
+.factory-reset-progress-card {
+    display: grid;
+    gap: 1rem;
+}
+
+.factory-reset-progress-card__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.factory-reset-progress-card__status {
+    display: grid;
+    gap: 0.35rem;
+}
+
+.factory-reset-progress-card__label,
+.factory-reset-last-response__label {
+    color: #6b7280;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.factory-reset-progress-card__text {
+    color: #1f2937;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.8;
+}
+
+.factory-reset-progress {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.factory-reset-progress__bar {
+    width: 100%;
+    height: 14px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #f1f5f9;
+}
+
+.factory-reset-progress__value {
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #e65100 0%, #ef4444 100%);
+    transition: width 0.3s ease;
+}
+
+.factory-reset-progress__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    color: #374151;
+    font-weight: 700;
+}
+
+.factory-reset-last-response {
+    display: grid;
+    gap: 0.35rem;
+    padding: 0.95rem 1rem;
+    border-radius: 18px;
+    background: linear-gradient(180deg, #fffaf5 0%, #ffffff 100%);
+    border: 1px dashed rgba(230, 81, 0, 0.22);
+}
+
+.factory-reset-table-wrap {
+    overflow: hidden;
+}
+
+.factory-reset-table td,
+.factory-reset-table th {
+    vertical-align: middle;
+}
+
+.factory-reset-entity {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+}
+
+.factory-reset-entity__icon {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    background: rgba(230, 81, 0, 0.1);
+    color: var(--main-color);
+    font-size: 1.1rem;
+}
+
+.factory-reset-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.84rem;
+    font-weight: 700;
+}
+
+.factory-reset-status--idle {
+    color: #475569;
+    background: rgba(71, 85, 105, 0.12);
+}
+
+.factory-reset-status--running {
+    color: #1d4ed8;
+    background: rgba(37, 99, 235, 0.12);
+}
+
+.factory-reset-status--completed {
+    color: #15803d;
+    background: rgba(22, 163, 74, 0.12);
+}
+
+.factory-reset-status--failed {
+    color: #b91c1c;
+    background: rgba(239, 68, 68, 0.12);
+}
+
+.factory-reset-table__message {
+    color: #374151;
+    min-width: 220px;
+    line-height: 1.8;
+}
+
+.factory-reset-bottom-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr);
+    gap: 1rem;
+}
+
+.factory-reset-activity__head,
+.factory-reset-guide__head {
+    margin-bottom: 1rem;
+}
+
+.factory-reset-activity__title {
+    margin: 0.25rem 0 0;
+    color: #1f2937;
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+.factory-reset-log-list {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.factory-reset-log-item {
+    display: grid;
+    gap: 0.35rem;
+    padding: 0.95rem 1rem;
+    border-radius: 18px;
+    border: 1px solid rgba(148, 163, 184, 0.14);
+}
+
+.factory-reset-log-item__time {
+    color: #6b7280;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.factory-reset-log-item__message {
+    color: #1f2937;
+    line-height: 1.8;
+    font-weight: 700;
+}
+
+.factory-reset-log-item--info {
+    background: linear-gradient(180deg, #eff6ff 0%, #ffffff 100%);
+    border-color: rgba(37, 99, 235, 0.12);
+}
+
+.factory-reset-log-item--success {
+    background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%);
+    border-color: rgba(22, 163, 74, 0.12);
+}
+
+.factory-reset-log-item--error {
+    background: linear-gradient(180deg, #fef2f2 0%, #ffffff 100%);
+    border-color: rgba(239, 68, 68, 0.16);
+}
+
+.factory-reset-empty-state {
+    padding: 1rem;
+    border-radius: 18px;
+    background: linear-gradient(180deg, #fffaf5 0%, #ffffff 100%);
+    border: 1px dashed rgba(230, 81, 0, 0.18);
+    color: #6b7280;
+    line-height: 1.8;
+}
+
+.factory-reset-guide__list {
+    display: grid;
+    gap: 0.85rem;
+}
+
+.factory-reset-guide__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    padding: 0.95rem;
+    border-radius: 18px;
+    background: linear-gradient(180deg, #fffaf5 0%, #ffffff 100%);
+    border: 1px solid rgba(148, 163, 184, 0.14);
+}
+
+.factory-reset-guide__number {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    background: rgba(230, 81, 0, 0.12);
+    color: var(--main-color);
+    font-weight: 800;
+}
+
+.factory-reset-confirmation-copy {
+    display: grid;
+    gap: 0.35rem;
+    margin-bottom: 1rem;
+    color: #374151;
+    line-height: 1.8;
+}
+
+.factory-reset-confirmation-form {
+    display: grid;
+    gap: 1rem;
+}
+
+.factory-reset-confirmation-check {
+    margin: 0;
+    padding: 1rem 1rem 1rem 0;
+    border-radius: 18px;
+    background: linear-gradient(180deg, #fff5f5 0%, #ffffff 100%);
+    border: 1px solid rgba(239, 68, 68, 0.12);
+}
+
+.factory-spin {
+    animation: factory-spin 0.9s linear infinite;
+}
+
+@keyframes factory-spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 1199px) {
+    .factory-reset-bottom-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 767px) {
+    .factory-reset-warning,
+    .factory-reset-progress-card,
+    .factory-reset-activity,
+    .factory-reset-guide {
+        padding: 1rem;
+        border-radius: 20px;
+    }
+
+    .factory-reset-progress-card__head,
+    .factory-reset-progress__meta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

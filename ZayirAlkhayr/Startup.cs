@@ -118,6 +118,7 @@ namespace ZayirAlkhayr
             services.AddScoped<IInventoryAdjustmentService, InventoryAdjustmentService>();
             services.AddScoped<ISupplierService, SupplierService>();
             services.AddScoped<IBackupService, BackupService>();
+            services.AddScoped<IFactoryResetService, FactoryResetService>();
 
             services.AddMvc(options =>
                 {

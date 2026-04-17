@@ -10,6 +10,7 @@ import { CustomersComponent } from './Components/Customer/customers/customers.co
 import { AdminUserComponent } from './Components/Setting/admin-user/admin-user.component';
 import { BackupComponent } from './Components/Setting/backup/backup.component';
 import { UserProfileComponent } from './Components/Setting/user-profile/user-profile.component';
+import { FactoryResetComponent } from './Components/Setting/factory-reset/factory-reset.component';
 import { SalesReportsComponent } from './Components/Reports/sales/sales-reports/sales-reports.component';
 import { ItemsReportComponent } from './Components/Reports/sales/items-report/items-report.component';
 import { OrdertypeReportComponent } from './Components/Reports/sales/ordertype-report/ordertype-report.component';
@@ -120,6 +121,12 @@ const routes: Routes = [
       {
         path: 'backup',
         component: BackupComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ["Admin"] },
+      },
+      {
+        path: 'factory-reset',
+        component: FactoryResetComponent,
         canActivate: [AuthGuard],
         data: { roles: ["Admin"] },
       },

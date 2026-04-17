@@ -168,4 +168,14 @@ export class AdminService {
     return this.http.get<ApiResponseModel<any[]>>(this.apiURL + 'Dashboard/GetCustomerDeliveryInsights');
   }
 
+  // ============================= Factory Reset ==============================
+
+  GetFactoryResetPreview() {
+    return this.http.get<ApiResponseModel<any[]>>(this.apiURL + 'FactoryReset/GetFactoryResetPreview');
+  }
+
+  DeleteFactoryResetTarget(targetKey: string) {
+    return this.http.post<ApiResponseModel<any>>(this.apiURL + 'FactoryReset/DeleteTargetData', { targetKey });
+  }
+
 }
