@@ -10,9 +10,9 @@ namespace ZayirAlkhayr.Interface.Report
 {
     public interface ISalesReportService
     {
-        Task<ApiResponseModel<DataTable>> GetSalesReportStatistics(PagingFilterModel PagingFilter);
-        Task<ApiResponseModel<DataTable>> GetReportSalesData(PagingFilterModel PagingFilter);
-        Task<ApiResponseModel<List<FilterModel>>> GetReportSalesFilter(PagingFilterModel PagingFilter);
+        Task<ApiResponseModel<DataTable>> GetReportDailySalesSummary(PagingFilterModel PagingFilter);
+        Task<ApiResponseModel<DataTable>> ReportDailySalesDetailsData(PagingFilterModel PagingFilter);
+        Task<ApiResponseModel<List<FilterModel>>> ReportDailySalesDetailsFilter(PagingFilterModel PagingFilter);
 
         Task<ApiResponseModel<DataSet>> GetReportSalesItemStatistics(PagingFilterModel PagingFilter);
         Task<ApiResponseModel<DataTable>> GetReportSalesItemData(PagingFilterModel PagingFilter);

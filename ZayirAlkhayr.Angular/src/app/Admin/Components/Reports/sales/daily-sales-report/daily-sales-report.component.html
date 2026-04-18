@@ -6,7 +6,6 @@
             </div>
             <div class="overview-card__label">إجمالي المبيعات</div>
             <div class="overview-card__value">{{StatisticData?.totalSales ?? 0 | number : '1.0-0'}} ل.س</div>
-            <div class="overview-card__meta">{{StatisticData?.completedOrders ?? 0}} طلب منتهي ضمن النطاق الحالي</div>
         </article>
 
         <article class="report-surface overview-card">
@@ -15,7 +14,6 @@
             </div>
             <div class="overview-card__label">إجمالي الطلبات</div>
             <div class="overview-card__value">{{StatisticData?.totalOrders ?? 0}}</div>
-            <div class="overview-card__meta">{{StatisticData?.cancelledOrders ?? 0}} طلب ملغي و {{StatisticData?.completedOrdersCount ?? 0}} منتهي</div>
         </article>
 
         <article class="report-surface overview-card">
@@ -24,7 +22,6 @@
             </div>
             <div class="overview-card__label">مبيعات التوصيل</div>
             <div class="overview-card__value">{{StatisticData?.deliverySales ?? 0 | number : '1.0-0'}} ل.س</div>
-            <div class="overview-card__meta">{{StatisticData?.deliveryOrdersPercentage ?? 0}}% من إجمالي المبيعات المحققة</div>
         </article>
 
         <article class="report-surface overview-card">
@@ -33,7 +30,6 @@
             </div>
             <div class="overview-card__label">متوسط قيمة الطلب</div>
             <div class="overview-card__value">{{StatisticData?.averageOrderValue ?? 0 | number : '1.0-0'}} ل.س</div>
-            <div class="overview-card__meta">{{StatisticData?.cashiersCount ?? 0}} كاشير نشط ساهموا في هذه النتائج</div>
         </article>
     </section>
 

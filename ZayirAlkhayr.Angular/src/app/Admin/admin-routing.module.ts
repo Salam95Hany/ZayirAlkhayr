@@ -11,7 +11,6 @@ import { AdminUserComponent } from './Components/Setting/admin-user/admin-user.c
 import { BackupComponent } from './Components/Setting/backup/backup.component';
 import { UserProfileComponent } from './Components/Setting/user-profile/user-profile.component';
 import { FactoryResetComponent } from './Components/Setting/factory-reset/factory-reset.component';
-import { SalesReportsComponent } from './Components/Reports/sales/sales-reports/sales-reports.component';
 import { ItemsReportComponent } from './Components/Reports/sales/items-report/items-report.component';
 import { OrdertypeReportComponent } from './Components/Reports/sales/ordertype-report/ordertype-report.component';
 import { CustomerReportComponent } from './Components/Reports/sales/customer-report/customer-report.component';
@@ -20,6 +19,7 @@ import { InventoryItemsComponent } from './Components/Inventory/inventory-items/
 import { SuppliersComponent } from './Components/Inventory/suppliers/suppliers.component';
 import { InventoryAdjustmentsComponent } from './Components/Inventory/inventory-adjustments/inventory-adjustments.component';
 import { PurchasesComponent } from './Components/Inventory/purchases/purchases.component';
+import { DailySalesReportComponent } from './Components/Reports/sales/daily-sales-report/daily-sales-report.component';
 
 const routes: Routes = [
   {
@@ -83,8 +83,8 @@ const routes: Routes = [
         data: { roles: ["Admin"] },
       },
       {
-        path: 'sales-reports',
-        component: SalesReportsComponent,
+        path: 'daily-sales-reports',
+        component: DailySalesReportComponent,
         canActivate: [AuthGuard],
         data: { roles: ["Admin"] },
       },

@@ -1,230 +1,432 @@
-<div class="page-wrapper">
-    <!-- STAT CARDS -->
-    <div class="stat-cards">
-        <div class="stat-card">
-            <div class="stat-icon"><i class="uil uil-receipt"></i></div>
-            <div class="stat-label">طلبات اليوم</div>
-            <div class="stat-value">{{StatisticsData?.todayOrders ?? 0}}</div>
-            <div class="stat-delta"><i class="uil uil-arrow-{{StatisticsData?.ordersTrend}} {{StatisticsData?.ordersTrend}}"></i><span class="{{StatisticsData?.ordersTrend}}">{{StatisticsData?.ordersPercent ?? 0}}%</span> مقارنة بالأمس</div>
-            <div class="stat-bar">
-                <div class="stat-bar-fill" [style.width.%]="StatisticsData?.ordersPercent ?? 0"></div>
-            </div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon"><i class="uil uil-plus-circle"></i></div>
-            <div class="stat-label">طلبات التوصيل</div>
-            <div class="stat-value">{{StatisticsData?.todayDelivery ?? 0}}</div>
-            <div class="stat-delta"><i class="uil uil-arrow-{{StatisticsData?.deliveryTrend}} {{StatisticsData?.deliveryTrend}}"></i><span class="{{StatisticsData?.deliveryTrend}}">{{StatisticsData?.deliveryPercent ?? 0}}%</span> مقارنة بالأمس</div>
-            <div class="stat-bar">
-                <div class="stat-bar-fill" [style.width.%]="StatisticsData?.deliveryPercent ?? 0" style="background: var(--accent2)"></div>
-            </div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon"><i class="uil uil-hourglass"></i></div>
-            <div class="stat-label">الطلبات الخارجية</div>
-            <div class="stat-value">{{StatisticsData?.todayTakeAway ?? 0}}</div>
-            <div class="stat-delta"><i class="uil uil-arrow-{{StatisticsData?.takeAwayTrend}} {{StatisticsData?.takeAwayTrend}}"></i><span class="{{StatisticsData?.takeAwayTrend}}">{{StatisticsData?.takeAwayPercent ?? 0}}%</span> مقارنة بالأمس</div>
-            <div class="stat-bar">
-                <div class="stat-bar-fill" [style.width.%]="StatisticsData?.takeAwayPercent ?? 0" style="background: var(--accent3)"></div>
-            </div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon"><i class="uil uil-check-circle"></i></div>
-            <div class="stat-label">الطلبات المنتهية</div>
-            <div class="stat-value">{{StatisticsData?.todayCompleted ?? 0}}</div>
-            <div class="stat-delta"><i class="uil uil-arrow-{{StatisticsData?.completedTrend}} {{StatisticsData?.completedTrend}}"></i><span class="{{StatisticsData?.completedTrend}}">{{StatisticsData?.completedPercent ?? 0}}%</span> مقارنة بالأمس</div>
-            <div class="stat-bar">
-                <div class="stat-bar-fill" [style.width.%]="StatisticsData?.completedPercent ?? 0" style="background: #16a34a"></div>
-            </div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon"><i class="uil uil-times-circle"></i></div>
-            <div class="stat-label">الطلبات الملغية</div>
-            <div class="stat-value">{{StatisticsData?.todayCancelled ?? 0}}</div>
-            <div class="stat-delta"><i class="uil uil-arrow-{{StatisticsData?.cancelTrend}} {{StatisticsData?.cancelTrend}}"></i><span class="{{StatisticsData?.cancelTrend}}">{{StatisticsData?.cancelPercent ?? 0}}%</span> مقارنة بالأمس</div>
-            <div class="stat-bar">
-                <div class="stat-bar-fill" [style.width.%]="StatisticsData?.cancelPercent ?? 0" style="background: var(--danger)"></div>
-            </div>
-        </div>
-    </div>
-    <!-- /stat-cards -->
+<div class="admin-crud-page dashboard-page">
+    <section class="admin-crud-hero dashboard-hero">
+        <div class="admin-crud-hero__content dashboard-hero__content">
+            <div class="admin-crud-hero__eyebrow">لوحة التحكم</div>
+            <h1 class="admin-crud-hero__title">متابعة التشغيل اليومي بصورة أوضح وأكثر احترافية</h1>
+            <p class="admin-crud-hero__text">
+                نظرة سريعة على الطلبات والمبيعات والعملاء خلال اليوم مع بطاقات منظمة، مؤشرات واضحة، وتجربة متجاوبة
+                تحافظ على نفس وظائف النظام الحالية.
+            </p>
 
-    <!-- MAIN GRID -->
-    <div class="main-grid">
-        <!-- LIVE ORDERS -->
-        <div class="card">
-            <div class="card-header-custom">
-                <div class="card-title"><i class="uil uil-receipt text-warning me-1"></i>الطلبات الحالية</div>
-                <span class="badge-pill badge-live">● مباشر</span>
-            </div>
-            <div class="order-row" *ngFor="let item of TopOrderData">
-                <div class="order-dot dot-{{item?.orderStatus == 1 ? 'new':'progress'}}"></div>
-                <div class="order-num">#{{item?.orderNumber}}</div>
-                <div>
-                    <div class="order-status-badge status-new" *ngIf="item?.orderStatus == 1">منتهي</div>
-                    <div class="order-status-badge badge-live" *ngIf="item?.orderStatus == 2">ملغي</div>
+            <div class="dashboard-hero__meta">
+                <div class="dashboard-meta-chip">
+                    <i class="uil uil-chart-line"></i>
+                    <span>متابعة مباشرة لأداء اليوم ونِسَب الإنجاز</span>
                 </div>
-                <div class="order-time"><i class="uil uil-arrow-up me-1"></i>{{item?.insertDate | timeAgoToday}}</div>
-            </div>
-            <div class="order-row order-row-link">
-                <a class="order-link" routerLink="/admin/order-list">عرض جميع الطلبات <i class="uil uil-arrow-right"></i></a>
+                <div class="dashboard-meta-chip dashboard-meta-chip--soft">
+                    <i class="uil uil-clock-three"></i>
+                    <span>آخر حالة مكتملة {{ normalizePercent(TodayOrdersStats?.completedPercent) }}%</span>
+                </div>
             </div>
         </div>
 
-        <!-- TOP SELLING -->
-        <div class="card">
-            <div class="card-header-custom">
-                <div class="card-title"><i class="uil uil-fire text-danger me-1"></i> المنتجات الأكثر مبيعاً</div>
-                <span class="badge-pill badge-top">اليوم</span>
+        <div class="admin-crud-hero__actions dashboard-hero__actions">
+            <div class="admin-crud-summary-card dashboard-summary-card">
+                <span class="admin-crud-summary-card__label">طلبات اليوم</span>
+                <strong class="admin-crud-summary-card__value">{{StatisticsData?.todayOrders ?? 0}}</strong>
+                <span class="dashboard-summary-card__hint">إجمالي الحركة الحالية</span>
             </div>
-            <div class="selling-item" *ngFor="let item of TopSellingItems">
-                <div class="selling-rank silver">{{item?.rowNum}}</div>
-                <div class="selling-content">
-                    <div class="selling-name">{{item?.itemName}}</div>
-                    <div class="selling-sub">{{item?.totalQuantity ?? 0}} مباع - {{item?.totalSales ?? 0}} ل.س</div>
+
+            <div class="admin-crud-summary-card dashboard-summary-card">
+                <span class="admin-crud-summary-card__label">مكتمل اليوم</span>
+                <strong class="admin-crud-summary-card__value">{{StatisticsData?.todayCompleted ?? 0}}</strong>
+                <span class="dashboard-summary-card__hint">{{ normalizePercent(TodayOrdersStats?.completedPercent) }}% من الطلبات</span>
+            </div>
+
+            <div class="admin-crud-summary-card dashboard-summary-card">
+                <span class="admin-crud-summary-card__label">عملاء التوصيل</span>
+                <strong class="admin-crud-summary-card__value">{{CustomerDelivery?.todayDeliveryCustomers ?? 0}}</strong>
+                <span class="dashboard-summary-card__hint">ذروة اليوم: {{CustomerDelivery?.peakTimeRange ?? '-'}}</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="dashboard-overview-grid">
+        <article class="dashboard-stat-card dashboard-stat-card--orders">
+            <div class="dashboard-stat-card__head">
+                <div class="dashboard-stat-card__icon">
+                    <i class="uil uil-receipt"></i>
                 </div>
-                <div class="selling-meter">
-                    <div class="selling-bar-wrap">
-                        <div class="selling-bar-inner" style="width:95%;background:linear-gradient(90deg,#f59e0b,#fbbf24)"></div>
+                <div class="dashboard-stat-card__trend" [ngClass]="getTrendClass(StatisticsData?.ordersTrend)">
+                    <i class="uil" [ngClass]="getTrendIcon(StatisticsData?.ordersTrend)"></i>
+                    <span>{{StatisticsData?.ordersPercent ?? 0}}%</span>
+                </div>
+            </div>
+
+            <div class="dashboard-stat-card__label">طلبات اليوم</div>
+            <div class="dashboard-stat-card__value">{{StatisticsData?.todayOrders ?? 0}}</div>
+            <div class="dashboard-stat-card__meta">مقارنة بيوم أمس</div>
+
+            <div class="dashboard-progress">
+                <div class="dashboard-progress__bar" [style.width.%]="normalizePercent(StatisticsData?.ordersPercent)"></div>
+            </div>
+        </article>
+
+        <article class="dashboard-stat-card dashboard-stat-card--delivery">
+            <div class="dashboard-stat-card__head">
+                <div class="dashboard-stat-card__icon">
+                    <i class="uil uil-motorcycle"></i>
+                </div>
+                <div class="dashboard-stat-card__trend" [ngClass]="getTrendClass(StatisticsData?.deliveryTrend)">
+                    <i class="uil" [ngClass]="getTrendIcon(StatisticsData?.deliveryTrend)"></i>
+                    <span>{{StatisticsData?.deliveryPercent ?? 0}}%</span>
+                </div>
+            </div>
+
+            <div class="dashboard-stat-card__label">طلبات التوصيل</div>
+            <div class="dashboard-stat-card__value">{{StatisticsData?.todayDelivery ?? 0}}</div>
+            <div class="dashboard-stat-card__meta">الطلبات المرسلة للتوصيل</div>
+
+            <div class="dashboard-progress">
+                <div class="dashboard-progress__bar dashboard-progress__bar--green" [style.width.%]="normalizePercent(StatisticsData?.deliveryPercent)"></div>
+            </div>
+        </article>
+
+        <article class="dashboard-stat-card dashboard-stat-card--takeaway">
+            <div class="dashboard-stat-card__head">
+                <div class="dashboard-stat-card__icon">
+                    <i class="uil uil-store"></i>
+                </div>
+                <div class="dashboard-stat-card__trend" [ngClass]="getTrendClass(StatisticsData?.takeAwayTrend)">
+                    <i class="uil" [ngClass]="getTrendIcon(StatisticsData?.takeAwayTrend)"></i>
+                    <span>{{StatisticsData?.takeAwayPercent ?? 0}}%</span>
+                </div>
+            </div>
+
+            <div class="dashboard-stat-card__label">الطلبات الخارجية</div>
+            <div class="dashboard-stat-card__value">{{StatisticsData?.todayTakeAway ?? 0}}</div>
+            <div class="dashboard-stat-card__meta">الطلبات التي تم استلامها مباشرة</div>
+
+            <div class="dashboard-progress">
+                <div class="dashboard-progress__bar dashboard-progress__bar--amber" [style.width.%]="normalizePercent(StatisticsData?.takeAwayPercent)"></div>
+            </div>
+        </article>
+
+        <article class="dashboard-stat-card dashboard-stat-card--completed">
+            <div class="dashboard-stat-card__head">
+                <div class="dashboard-stat-card__icon">
+                    <i class="uil uil-check-circle"></i>
+                </div>
+                <div class="dashboard-stat-card__trend" [ngClass]="getTrendClass(StatisticsData?.completedTrend)">
+                    <i class="uil" [ngClass]="getTrendIcon(StatisticsData?.completedTrend)"></i>
+                    <span>{{StatisticsData?.completedPercent ?? 0}}%</span>
+                </div>
+            </div>
+
+            <div class="dashboard-stat-card__label">الطلبات المنتهية</div>
+            <div class="dashboard-stat-card__value">{{StatisticsData?.todayCompleted ?? 0}}</div>
+            <div class="dashboard-stat-card__meta">الطلبات التي أُغلقت بنجاح</div>
+
+            <div class="dashboard-progress">
+                <div class="dashboard-progress__bar dashboard-progress__bar--success" [style.width.%]="normalizePercent(StatisticsData?.completedPercent)"></div>
+            </div>
+        </article>
+
+        <article class="dashboard-stat-card dashboard-stat-card--cancelled">
+            <div class="dashboard-stat-card__head">
+                <div class="dashboard-stat-card__icon">
+                    <i class="uil uil-times-circle"></i>
+                </div>
+                <div class="dashboard-stat-card__trend" [ngClass]="getTrendClass(StatisticsData?.cancelTrend)">
+                    <i class="uil" [ngClass]="getTrendIcon(StatisticsData?.cancelTrend)"></i>
+                    <span>{{StatisticsData?.cancelPercent ?? 0}}%</span>
+                </div>
+            </div>
+
+            <div class="dashboard-stat-card__label">الطلبات الملغية</div>
+            <div class="dashboard-stat-card__value">{{StatisticsData?.todayCancelled ?? 0}}</div>
+            <div class="dashboard-stat-card__meta">الحالات التي تم إيقافها اليوم</div>
+
+            <div class="dashboard-progress">
+                <div class="dashboard-progress__bar dashboard-progress__bar--danger" [style.width.%]="normalizePercent(StatisticsData?.cancelPercent)"></div>
+            </div>
+        </article>
+    </section>
+
+    <section class="admin-crud-panel dashboard-surface">
+        <div class="dashboard-grid">
+            <article class="dashboard-panel dashboard-panel--span-2">
+                <div class="dashboard-panel__header">
+                    <div>
+                        <div class="section-kicker">التنفيذ المباشر</div>
+                        <h2 class="section-title dashboard-panel__title">الطلبات الحالية</h2>
+                    </div>
+
+                    <div class="dashboard-panel__header-side">
+                        <span class="dashboard-inline-badge dashboard-inline-badge--danger">
+                            {{TopOrderData?.length ?? 0}} عناصر
+                        </span>
+                        <a class="dashboard-link-btn" routerLink="/admin/order-list">
+                            عرض جميع الطلبات
+                            <i class="uil uil-arrow-left"></i>
+                        </a>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- STOCK ALERTS -->
-        <div class="card">
-            <div class="card-header-custom">
-                <div class="card-title"><i class="uil uil-exclamation-triangle text-warning me-1"></i> تنبيهات المخزون المنخفض</div>
-                <span class="badge-pill badge-stock">5 عناصر</span>
-            </div>
-            <div class="stock-section-label">مخزون منخفض</div>
-            <div class="stock-item">
-                <div class="stock-dot" style="background:#ef4444"></div>
-                <div class="stock-name">سكر</div>
-                <div class="stock-level level-low">منخفض</div>
-            </div>
-            <div class="stock-item">
-                <div class="stock-dot" style="background:#f97316"></div>
-                <div class="stock-name">قهوة</div>
-                <div class="stock-level level-low">منخفض</div>
-            </div>
-            <div class="stock-item">
-                <div class="stock-dot" style="background:#eab308"></div>
-                <div class="stock-name">حليب</div>
-                <div class="stock-level level-low">منخفض</div>
-            </div>
-            <div class="stock-section-label">نفد من المخزون</div>
-            <div class="stock-item">
-                <div class="stock-dot" style="background:#1e293b"></div>
-                <div class="stock-name">شاي</div>
-                <div class="stock-level level-out">نفد</div>
-            </div>
-            <div class="stock-item">
-                <div class="stock-dot" style="background:#1e293b"></div>
-                <div class="stock-name">جبنة</div>
-                <div class="stock-level level-out">نفد</div>
-            </div>
-        </div>
+                <div class="dashboard-list" *ngIf="TopOrderData?.length; else emptyOrdersState">
+                    <div class="dashboard-order-row" *ngFor="let item of TopOrderData">
+                        <div class="dashboard-order-row__main">
+                            <span class="dashboard-order-dot" [ngClass]="getOrderDotClass(item?.orderStatus)"></span>
 
-        <!-- ORDER STATUS DONUT -->
-        <div class="card">
-            <div class="card-header-custom">
-                <div class="card-title"><i class="uil uil-chart-pie me-1" style="color:var(--accent)"></i> حالة الطلبات</div>
-                <span class="badge-pill badge-chart">● مباشر</span>
-            </div>
-            <div class="donut-wrap">
-                <svg class="donut-svg" width="110" height="110" viewBox="0 0 110 110">
-            <circle cx="55" cy="55" r="42" fill="none" stroke="#f1f5f9" stroke-width="14"/>
-            <circle cx="55" cy="55" r="42" fill="none" stroke="#10b981" stroke-width="14"
-                [attr.stroke-dasharray]="(TodayOrdersStats?.completedPercent / 100) * 264 + ' 264'"
-                stroke-dashoffset="0"
-                stroke-linecap="round"
-                transform="rotate(-90 55 55)"/>
-            <circle cx="55" cy="55" r="42" fill="none" stroke="#ef4444" stroke-width="14"
-                [attr.stroke-dasharray]="(TodayOrdersStats?.cancelledPercent / 100) * 264 + ' 264'"
-                [attr.stroke-dashoffset]="-((TodayOrdersStats?.completedPercent / 100) * 264)"
-                stroke-linecap="round"
-                transform="rotate(-90 55 55)"/>
-            <text x="55" y="59" text-anchor="middle"
-                  font-family="Syne,sans-serif"
-                  font-weight="800"
-                  font-size="16"
-                  fill="#0f172a">
-                {{ TodayOrdersStats?.completedPercent ?? 0 }}%
-            </text>
-        </svg>
-                <div class="donut-legend">
-                    <div class="donut-legend-item">
-                        <div class="legend-dot" style="background:#10b981"></div>
-                        <div>
-                            <div class="legend-label">منتهي</div>
-                            <div class="legend-val" style="color:#10b981">
-                                {{ TodayOrdersStats?.completedPercent ?? 0 }}%
+                            <div class="dashboard-order-info">
+                                <div class="dashboard-order-info__top">
+                                    <span class="dashboard-order-number">#{{item?.orderNumber}}</span>
+                                    <span class="dashboard-status-chip" [ngClass]="getOrderStatusClass(item?.orderStatus)">
+                                        {{ getOrderStatusLabel(item?.orderStatus) }}
+                                    </span>
+                                </div>
+                                <div class="dashboard-order-info__sub">آخر تحديث مسجل للطلب داخل النظام</div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-order-time">
+                            <i class="uil uil-clock-three"></i>
+                            <span>{{item?.insertDate | timeAgoToday}}</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="dashboard-panel">
+                <div class="dashboard-panel__header">
+                    <div>
+                        <div class="section-kicker">الأصناف</div>
+                        <h2 class="section-title dashboard-panel__title">الأكثر مبيعاً</h2>
+                    </div>
+
+                    <span class="dashboard-inline-badge dashboard-inline-badge--amber">اليوم</span>
+                </div>
+
+                <div class="dashboard-list" *ngIf="TopSellingItems?.length; else emptySellingState">
+                    <div class="dashboard-selling-row" *ngFor="let item of TopSellingItems">
+                        <div class="dashboard-rank-chip">{{item?.rowNum}}</div>
+
+                        <div class="dashboard-selling-row__content">
+                            <div class="dashboard-selling-row__top">
+                                <span class="dashboard-selling-name">{{item?.itemName}}</span>
+                                <span class="dashboard-selling-value">{{item?.totalSales ?? 0}} ل.س</span>
+                            </div>
+
+                            <div class="dashboard-selling-sub">{{item?.totalQuantity ?? 0}} مبيع اليوم</div>
+
+                            <div class="dashboard-progress dashboard-progress--compact">
+                                <div class="dashboard-progress__bar dashboard-progress__bar--amber" [style.width.%]="getTopSellingWidth(item?.totalQuantity)"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="donut-legend-item">
-                        <div class="legend-dot" style="background:#ef4444"></div>
-                        <div>
-                            <div class="legend-label">ملغي</div>
-                            <div class="legend-val" style="color:#ef4444">
-                                {{ TodayOrdersStats?.cancelledPercent ?? 0 }}%
+                </div>
+            </article>
+
+            <article class="dashboard-panel">
+                <div class="dashboard-panel__header">
+                    <div>
+                        <div class="section-kicker">المخزون</div>
+                        <h2 class="section-title dashboard-panel__title">تنبيهات المخزون</h2>
+                    </div>
+
+                    <span class="dashboard-inline-badge dashboard-inline-badge--warning">{{stockAlerts.length}} عناصر</span>
+                </div>
+
+                <div class="dashboard-stock-groups">
+                    <div class="dashboard-stock-group">
+                        <div class="dashboard-stock-group__title">مخزون منخفض</div>
+
+                        <div class="dashboard-stock-item" *ngFor="let item of lowStockAlerts">
+                            <div class="dashboard-stock-item__main">
+                                <span class="dashboard-stock-dot" [style.background]="item.color"></span>
+                                <span class="dashboard-stock-name">{{item.name}}</span>
+                            </div>
+
+                            <span class="dashboard-status-chip dashboard-status-chip--low">{{item.level}}</span>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-stock-group">
+                        <div class="dashboard-stock-group__title">نفد من المخزون</div>
+
+                        <div class="dashboard-stock-item" *ngFor="let item of outOfStockAlerts">
+                            <div class="dashboard-stock-item__main">
+                                <span class="dashboard-stock-dot" [style.background]="item.color"></span>
+                                <span class="dashboard-stock-name">{{item.name}}</span>
+                            </div>
+
+                            <span class="dashboard-status-chip dashboard-status-chip--cancelled">{{item.level}}</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="dashboard-panel">
+                <div class="dashboard-panel__header">
+                    <div>
+                        <div class="section-kicker">الحالة</div>
+                        <h2 class="section-title dashboard-panel__title">توزيع الطلبات</h2>
+                    </div>
+
+                    <span class="dashboard-inline-badge dashboard-inline-badge--green">مباشر</span>
+                </div>
+
+                <div class="dashboard-donut">
+                    <div class="dashboard-donut__visual">
+                        <svg class="dashboard-donut__svg" viewBox="0 0 110 110" aria-hidden="true">
+                            <circle cx="55" cy="55" r="42" fill="none" stroke="#f1f5f9" stroke-width="14"></circle>
+                            <circle
+                                cx="55"
+                                cy="55"
+                                r="42"
+                                fill="none"
+                                stroke="#16a34a"
+                                stroke-width="14"
+                                [attr.stroke-dasharray]="getDonutDasharray(TodayOrdersStats?.completedPercent)"
+                                stroke-dashoffset="0"
+                                stroke-linecap="round"
+                                transform="rotate(-90 55 55)">
+                            </circle>
+                            <circle
+                                cx="55"
+                                cy="55"
+                                r="42"
+                                fill="none"
+                                stroke="#dc2626"
+                                stroke-width="14"
+                                [attr.stroke-dasharray]="getDonutDasharray(TodayOrdersStats?.cancelledPercent)"
+                                [attr.stroke-dashoffset]="getDonutDashoffset(TodayOrdersStats?.completedPercent)"
+                                stroke-linecap="round"
+                                transform="rotate(-90 55 55)">
+                            </circle>
+                            <text x="55" y="59" text-anchor="middle" class="dashboard-donut__value">
+                                {{ normalizePercent(TodayOrdersStats?.completedPercent) }}%
+                            </text>
+                        </svg>
+                    </div>
+
+                    <div class="dashboard-donut__legend">
+                        <div class="dashboard-legend-item">
+                            <span class="dashboard-legend-dot dashboard-legend-dot--success"></span>
+                            <div>
+                                <div class="dashboard-legend-label">منتهي</div>
+                                <div class="dashboard-legend-value">{{ normalizePercent(TodayOrdersStats?.completedPercent) }}%</div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-legend-item">
+                            <span class="dashboard-legend-dot dashboard-legend-dot--danger"></span>
+                            <div>
+                                <div class="dashboard-legend-label">ملغي</div>
+                                <div class="dashboard-legend-value dashboard-legend-value--danger">{{ normalizePercent(TodayOrdersStats?.cancelledPercent) }}%</div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </article>
+
+            <article class="dashboard-panel dashboard-panel--span-2">
+                <div class="dashboard-panel__header">
+                    <div>
+                        <div class="section-kicker">العملاء</div>
+                        <h2 class="section-title dashboard-panel__title">حركة العملاء</h2>
+                    </div>
+
+                    <span class="dashboard-inline-badge dashboard-inline-badge--green">مباشر</span>
+                </div>
+
+                <div class="dashboard-customer-grid">
+                    <div class="dashboard-customer-card">
+                        <div class="dashboard-customer-card__icon">
+                            <i class="uil uil-user-check"></i>
+                        </div>
+                        <div class="dashboard-customer-card__label">عملاء الطلبات اليوم</div>
+                        <div class="dashboard-customer-card__value">{{CustomerDelivery?.todayDeliveryCustomers ?? 0}}</div>
+                        <div class="dashboard-customer-card__sub">عدد العملاء الذين أجروا طلبات اليوم</div>
+                    </div>
+
+                    <div class="dashboard-customer-card dashboard-customer-card--soft">
+                        <div class="dashboard-customer-card__icon">
+                            <i class="uil uil-user-plus"></i>
+                        </div>
+                        <div class="dashboard-customer-card__label">عملاء جدد</div>
+                        <div class="dashboard-customer-card__value">+{{CustomerDelivery?.newCustomersToday ?? 0}}</div>
+                        <div class="dashboard-customer-card__sub">أول زيارة شراء مسجلة اليوم</div>
+                    </div>
+
+                    <div class="dashboard-customer-card dashboard-customer-card--accent">
+                        <div class="dashboard-customer-card__icon">
+                            <i class="uil uil-wallet"></i>
+                        </div>
+                        <div class="dashboard-customer-card__label">متوسط صرف العميل</div>
+                        <div class="dashboard-customer-card__value">{{CustomerDelivery?.avgCustomerSpend ?? 0}} ل.س</div>
+                        <div class="dashboard-customer-card__sub">معدل الإنفاق لكل عميل</div>
+                    </div>
+                </div>
+
+                <div class="dashboard-customer-metrics">
+                    <div class="dashboard-metric">
+                        <div class="dashboard-metric__label">العملاء العائدون</div>
+                        <div class="dashboard-metric__value">{{CustomerDelivery?.returningCustomersPercent ?? 0}}%</div>
+                    </div>
+
+                    <div class="dashboard-metric">
+                        <div class="dashboard-metric__label">ذروة الطلب</div>
+                        <div class="dashboard-metric__value">{{CustomerDelivery?.peakTimeRange ?? '-'}}</div>
+                    </div>
+
+                    <div class="dashboard-metric">
+                        <div class="dashboard-metric__label">كفاءة اليوم</div>
+                        <div class="dashboard-metric__value">{{ normalizePercent(TodayOrdersStats?.completedPercent) }}%</div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="admin-crud-panel dashboard-actions-panel">
+        <div class="dashboard-panel__header dashboard-panel__header--compact">
+            <div>
+                <div class="section-kicker">اختصارات</div>
+                <h2 class="section-title dashboard-panel__title">إجراءات سريعة</h2>
             </div>
         </div>
 
-        <!-- CUSTOMER ACTIVITY -->
-        <div class="card dashboard-card-wide">
-            <div class="card-header-custom">
-                <div class="card-title"><i class="uil uil-users-alt me-1" style="color:var(--accent2)"></i> حركة العملاء</div>
-                <span class="badge-pill badge-cust">● مباشر</span>
-            </div>
-            <div class="cust-row">
-                <div class="cust-icon"><i class="uil uil-user-check"></i></div>
-                <div>
-                    <div class="cust-label">نشاط العملاء</div>
-                    <div class="cust-sub">طلبت اليوم</div>
-                </div>
-                <div class="cust-val">{{CustomerDelivery?.todayDeliveryCustomers ?? 0}}</div>
-            </div>
-            <div class="cust-row">
-                <div class="cust-icon cust-icon-secondary"><i class="uil uil-user-plus"></i></div>
-                <div>
-                    <div class="cust-label">عملاء جدد</div>
-                    <div class="cust-sub">أول مرة تطلب</div>
-                </div>
-                <div class="cust-chip">+{{CustomerDelivery?.newCustomersToday ?? 0}} جديد</div>
-            </div>
-            <div class="cust-row cust-row-summary">
-                <div class="customer-metrics">
-                    <div class="metric-item">
-                        <div class="metric-label">متوسط صرف العميل</div>
-                        <div class="metric-value">{{CustomerDelivery?.avgCustomerSpend ?? 0}} ل.س</div>
-                    </div>
-                    <div class="metric-item">
-                        <div class="metric-label">العملاء العائدين</div>
-                        <div class="metric-value">{{CustomerDelivery?.returningCustomersPercent ?? 0}}%</div>
-                    </div>
-                    <div class="metric-item">
-                        <div class="metric-label">وقت الذروة</div>
-                        <div class="metric-value">{{CustomerDelivery?.peakTimeRange ?? '-'}}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="dashboard-actions-grid">
+            <button type="button" class="dashboard-action-btn dashboard-action-btn--primary" routerLink="/create-order">
+                <i class="uil uil-plus"></i>
+                <span>إنشاء طلب</span>
+            </button>
 
+            <button type="button" class="dashboard-action-btn dashboard-action-btn--success" appRole [roles]="['Admin']">
+                <i class="uil uil-shopping-cart"></i>
+                <span>إضافة فاتورة</span>
+            </button>
+
+            <button type="button" class="dashboard-action-btn dashboard-action-btn--danger" appRole [roles]="['Admin']">
+                <i class="uil uil-exclamation-triangle"></i>
+                <span>عرض المخزون المنخفض</span>
+            </button>
+
+            <button type="button" class="dashboard-action-btn dashboard-action-btn--neutral" routerLink="/admin/customers">
+                <i class="uil uil-user-plus"></i>
+                <span>إضافة عميل</span>
+            </button>
+        </div>
+    </section>
+</div>
+
+<ng-template #emptyOrdersState>
+    <div class="dashboard-empty-state">
+        <div class="dashboard-empty-state__icon">
+            <i class="uil uil-receipt"></i>
+        </div>
+        <h3 class="dashboard-empty-state__title">لا توجد طلبات معروضة حالياً</h3>
+        <p class="dashboard-empty-state__text">ستظهر أحدث الطلبات هنا فور توفر بيانات جديدة خلال اليوم.</p>
     </div>
-    <!-- /main-grid -->
-</div>
-<!-- /page-wrapper -->
+</ng-template>
 
-<!-- BOTTOM ACTION BAR -->
-<div class="bottom-bar">
-    <button class="action-btn btn-blue" routerLink="/create-order"><i class="uil uil-plus"></i> إنشاء طلب</button>
-    <button class="action-btn btn-green" appRole [roles]="['Admin']"><i class="uil uil-shopping-cart"></i> إضافة فاتورة</button>
-    <button class="action-btn btn-red" appRole [roles]="['Admin']"><i class="uil uil-exclamation-triangle"></i> عرض المخزون المنخفض</button>
-    <button class="action-btn btn-indigo" routerLink="/admin/customers"><i class="uil uil-user-plus"></i> إضافة عميل</button>
-</div>
+<ng-template #emptySellingState>
+    <div class="dashboard-empty-state">
+        <div class="dashboard-empty-state__icon">
+            <i class="uil uil-box"></i>
+        </div>
+        <h3 class="dashboard-empty-state__title">لا توجد مبيعات مسجلة بعد</h3>
+        <p class="dashboard-empty-state__text">عند بدء حركة البيع ستظهر الأصناف الأكثر نشاطاً في هذا القسم.</p>
+    </div>
+</ng-template>

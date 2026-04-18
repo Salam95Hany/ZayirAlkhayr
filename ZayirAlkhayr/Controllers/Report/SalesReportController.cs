@@ -18,24 +18,24 @@ namespace ZayirAlkhayr.Controllers.Report
             _salesReportService = salesReportService;
         }
 
-        [HttpPost("GetSalesReportStatistics")]
-        public async Task<ApiResponseModel<DataTable>> GetSalesReportStatistics(PagingFilterModel PagingFilter)
+        [HttpPost("GetReportDailySalesSummary")]
+        public async Task<ApiResponseModel<DataTable>> GetReportDailySalesSummary(PagingFilterModel PagingFilter)
         {
-            var results = await _salesReportService.GetSalesReportStatistics(PagingFilter);
+            var results = await _salesReportService.GetReportDailySalesSummary(PagingFilter);
             return results;
         }
 
-        [HttpPost("GetReportSalesData")]
-        public async Task<ApiResponseModel<DataTable>> GetReportSalesData(PagingFilterModel PagingFilter)
+        [HttpPost("ReportDailySalesDetailsData")]
+        public async Task<ApiResponseModel<DataTable>> ReportDailySalesDetailsData(PagingFilterModel PagingFilter)
         {
-            var results = await _salesReportService.GetReportSalesData(PagingFilter);
+            var results = await _salesReportService.ReportDailySalesDetailsData(PagingFilter);
             return results;
         }
 
-        [HttpPost("GetReportSalesFilter")]
-        public async Task<ApiResponseModel<List<FilterModel>>> GetReportSalesFilter(PagingFilterModel PagingFilter)
+        [HttpPost("ReportDailySalesDetailsFilter")]
+        public async Task<ApiResponseModel<List<FilterModel>>> ReportDailySalesDetailsFilter(PagingFilterModel PagingFilter)
         {
-            var results = await _salesReportService.GetReportSalesFilter(PagingFilter);
+            var results = await _salesReportService.ReportDailySalesDetailsFilter(PagingFilter);
             return results;
         }
 

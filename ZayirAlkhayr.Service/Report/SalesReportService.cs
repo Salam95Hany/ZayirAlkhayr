@@ -20,8 +20,8 @@ namespace ZayirAlkhayr.Service.Report
             _sQLHelper = sQLHelper;
         }
 
-        #region SalesReport
-        public async Task<ApiResponseModel<DataTable>> GetSalesReportStatistics(PagingFilterModel PagingFilter)
+        #region DailySalesReport
+        public async Task<ApiResponseModel<DataTable>> GetReportDailySalesSummary(PagingFilterModel PagingFilter)
         {
             var FromDate = PagingFilter.FilterList.FirstOrDefault(i => i.CategoryName == "DateRange")?.From;
             var ToDate = PagingFilter.FilterList.FirstOrDefault(i => i.CategoryName == "DateRange")?.To;
@@ -30,11 +30,11 @@ namespace ZayirAlkhayr.Service.Report
             Params[0] = new SqlParameter("@FilterList", FilterDt);
             Params[1] = new SqlParameter("@FromDate", FromDate);
             Params[2] = new SqlParameter("@ToDate", ToDate);
-            var dt = await _sQLHelper.ExecuteDataTableAsync("[Report].[SP_GetSalesReportStatistics]", Params);
+            var dt = await _sQLHelper.ExecuteDataTableAsync("[Report].SP_GetReportDailySalesSummary", Params);
             return ApiResponseModel<DataTable>.Success(GenericErrors.GetSuccess, dt);
         }
 
-        public async Task<ApiResponseModel<DataTable>> GetReportSalesData(PagingFilterModel PagingFilter)
+        public async Task<ApiResponseModel<DataTable>> ReportDailySalesDetailsData(PagingFilterModel PagingFilter)
         {
             var FromDate = PagingFilter.FilterList.FirstOrDefault(i => i.CategoryName == "DateRange")?.From;
             var ToDate = PagingFilter.FilterList.FirstOrDefault(i => i.CategoryName == "DateRange")?.To;
@@ -46,11 +46,11 @@ namespace ZayirAlkhayr.Service.Report
             Params[3] = new SqlParameter("@FilterList", FilterDt);
             Params[4] = new SqlParameter("@FromDate", FromDate);
             Params[5] = new SqlParameter("@ToDate", ToDate);
-            var dt = await _sQLHelper.ExecuteDataTableAsync("[Report].[SP_GetReportSalesDataWithFilter]", Params);
+            var dt = await _sQLHelper.ExecuteDataTableAsync("[Report].[SP_ReportDailySalesDetails]", Params);
             return ApiResponseModel<DataTable>.Success(GenericErrors.GetSuccess, dt);
         }
 
-        public async Task<ApiResponseModel<List<FilterModel>>> GetReportSalesFilter(PagingFilterModel PagingFilter)
+        public async Task<ApiResponseModel<List<FilterModel>>> ReportDailySalesDetailsFilter(PagingFilterModel PagingFilter)
         {
             var FromDate = PagingFilter.FilterList.FirstOrDefault(i => i.CategoryName == "DateRange")?.From;
             var ToDate = PagingFilter.FilterList.FirstOrDefault(i => i.CategoryName == "DateRange")?.To;
@@ -62,7 +62,7 @@ namespace ZayirAlkhayr.Service.Report
             Params[3] = new SqlParameter("@FilterList", FilterDt);
             Params[4] = new SqlParameter("@FromDate", FromDate);
             Params[5] = new SqlParameter("@ToDate", ToDate);
-            var dt = await _sQLHelper.ExecuteDataTableAsync("[Report].[SP_GetReportSalesDataWithFilter]", Params);
+            var dt = await _sQLHelper.ExecuteDataTableAsync("[Report].[SP_ReportDailySalesDetails]", Params);
             var Filters = dt.ToGroupedFilters();
             return ApiResponseModel<List<FilterModel>>.Success(GenericErrors.GetSuccess, Filters);
         }

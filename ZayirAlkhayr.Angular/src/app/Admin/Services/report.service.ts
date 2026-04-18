@@ -13,17 +13,31 @@ export class ReportService {
 
   // ============================= SalesReport ==============================
 
-  GetSalesReportStatistics(Model: PagingFilterModel) {
-    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'SalesReport/GetSalesReportStatistics', Model);
+  GetReportDailySalesSummary(Model: PagingFilterModel) {
+    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'SalesReport/GetReportDailySalesSummary', Model);
   }
 
-  GetReportSalesData(Model: PagingFilterModel) {
-    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'SalesReport/GetReportSalesData', Model);
+  ReportDailySalesDetailsData(Model: PagingFilterModel) {
+    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'SalesReport/ReportDailySalesDetailsData', Model);
   }
 
-  GetReportSalesFilter(Model: PagingFilterModel) {
-    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'SalesReport/GetReportSalesFilter', Model);
+  ReportDailySalesDetailsFilter(Model: PagingFilterModel) {
+    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'SalesReport/ReportDailySalesDetailsFilter', Model);
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 
   GetReportSalesItemStatistics(Model: PagingFilterModel) {
     return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'SalesReport/GetReportSalesItemStatistics', Model);

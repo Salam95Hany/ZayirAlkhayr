@@ -1,18 +1,18 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { finalize } from 'rxjs/operators';
+import { finalize } from 'rxjs';
 import { FilterModel } from 'src/app/Admin/Models/FilterModel';
 import { PagingFilterModel } from 'src/app/Admin/Models/PagingFilterModel';
 import { ReportService } from 'src/app/Admin/Services/report.service';
 
 @Component({
-  selector: 'app-sales-reports',
-  templateUrl: './sales-reports.component.html',
-  styleUrls: ['./sales-reports.component.css']
+  selector: 'app-daily-sales-report',
+  templateUrl: './daily-sales-report.component.html',
+  styleUrls: ['./daily-sales-report.component.css']
 })
-export class SalesReportsComponent implements OnInit {
-  StatisticData: any;
+export class DailySalesReportComponent implements OnInit {
+StatisticData: any;
   SalesData: any[] = [];
   FilterList: FilterModel[] = [];
   AllFilterList: FilterModel[] = [];
@@ -50,27 +50,27 @@ export class SalesReportsComponent implements OnInit {
   }
 
   LoadData() {
-    this.GetSalesReportStatistics();
-    this.GetReportSalesData();
-    this.GetReportSalesFilter();
+    this.GetReportDailySalesSummary();
+    this.ReportDailySalesDetailsData();
+    this.ReportDailySalesDetailsFilter();
   }
 
-  GetSalesReportStatistics() {
-    this.reportService.GetSalesReportStatistics(this.PagingFilter).subscribe(data => {
+  GetReportDailySalesSummary() {
+    this.reportService.GetReportDailySalesSummary(this.PagingFilter).subscribe(data => {
       this.StatisticData = data.results[0];
     });
   }
 
-  GetReportSalesData() {
-    this.reportService.GetReportSalesData(this.PagingFilter).subscribe(data => {
+  ReportDailySalesDetailsData() {
+    this.reportService.ReportDailySalesDetailsData(this.PagingFilter).subscribe(data => {
       this.SalesData = data.results;
       this.TotalCount = data.totalCount;
       this.TotalPages = Math.ceil(this.TotalCount / this.PagingFilter.pagesize!);
     });
   }
 
-  GetReportSalesFilter() {
-    this.reportService.GetReportSalesFilter(this.PagingFilter).subscribe(data => {
+  ReportDailySalesDetailsFilter() {
+    this.reportService.ReportDailySalesDetailsFilter(this.PagingFilter).subscribe(data => {
       this.FilterList = (data.results || []).map(filter => {
         if (filter.filterType !== 'DateRange') {
           return filter;
@@ -245,7 +245,7 @@ export class SalesReportsComponent implements OnInit {
       pagesize: Math.max(this.TotalCount || this.SalesData.length, this.PagingFilter.pagesize || 20)
     };
 
-    this.reportService.GetReportSalesData(exportFilter)
+    this.reportService.ReportDailySalesDetailsData(exportFilter)
       .pipe(finalize(() => this.isExporting = false))
       .subscribe({
         next: (data) => {
@@ -263,5 +263,4 @@ export class SalesReportsComponent implements OnInit {
         }
       });
   }
-
 }

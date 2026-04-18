@@ -245,7 +245,7 @@ export class ItemsReportComponent implements OnInit {
       pagesize: Math.max(this.TotalCount || this.SalesData.length, this.PagingFilter.pagesize || 20)
     };
 
-    this.reportService.GetReportSalesData(exportFilter)
+    this.reportService.ReportDailySalesDetailsData(exportFilter)
       .pipe(finalize(() => this.isExporting = false))
       .subscribe({
         next: (data) => {
