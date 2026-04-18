@@ -4,36 +4,40 @@
             <div class="overview-card__icon">
                 <i class="uil uil-money-withdraw"></i>
             </div>
-            <div class="overview-card__label">إجمالي العملاء</div>
-            <div class="overview-card__value">{{StatisticData?.totalCustomers ?? 0}}</div>
-            <div class="overview-card__meta">إجمالي الايرادات {{StatisticData?.totalRevenue ?? 0}} ل.س</div>
+            <div class="overview-card__content">
+                <div class="overview-card__label">إجمالي المبيعات</div>
+                <div class="overview-card__value">{{StatisticData?.netSales ?? 0 | number : '1.0-0'}} ل.س</div>
+            </div>
         </article>
 
-        <article class="report-surface overview-card">
+        <article class="report-surface overview-card overview-card--info">
             <div class="overview-card__icon overview-card__icon--blue">
                 <i class="uil uil-receipt"></i>
             </div>
-            <div class="overview-card__label">إجمالي طلبات العملاء</div>
-            <div class="overview-card__value">{{StatisticData?.totalOrders ?? 0}}</div>
-            <div class="overview-card__meta">إجمالي الايرادات {{StatisticData?.totalRevenue ?? 0}} ل.س</div>
+            <div class="overview-card__content">
+                <div class="overview-card__label">إجمالي الطلبات</div>
+                <div class="overview-card__value">{{StatisticData?.totalOrders ?? 0}}</div>
+            </div>
         </article>
 
-        <article class="report-surface overview-card">
+        <article class="report-surface overview-card overview-card--success">
             <div class="overview-card__icon overview-card__icon--green">
                 <i class="uil uil-truck"></i>
             </div>
-            <div class="overview-card__label">أكثر العملاء طلبًا</div>
-            <div class="overview-card__value">{{StatisticData?.mostOrderingCustomerName ?? '-'}}</div>
-            <div class="overview-card__meta">{{StatisticData?.mostOrderingCustomerOrdersCount ?? 0}} عدد الطلبات | {{StatisticData?.mostOrderingCustomerSpending ?? 0}} إجمالي الانفاق ل.س</div>
+            <div class="overview-card__content">
+                <div class="overview-card__label">أفضل يوم مبيعات</div>
+                <div class="overview-card__value">{{StatisticData?.bestSalesValue ?? 0 | number : '1.0-0'}} ل.س | {{StatisticData?.bestSalesDay | arabicDate}}</div>
+            </div>
         </article>
 
-        <article class="report-surface overview-card">
+        <article class="report-surface overview-card overview-card--slate">
             <div class="overview-card__icon overview-card__icon--slate">
                 <i class="uil uil-chart-growth"></i>
             </div>
-            <div class="overview-card__label">أعلى عميل إنفاقًا</div>
-            <div class="overview-card__value">{{StatisticData?.topSpenderCustomerName ?? '-'}}</div>
-            <div class="overview-card__meta">{{StatisticData?.topSpenderOrdersCount ?? 0}} عدد الطلبات | {{StatisticData?.topSpenderTotalSpending ?? 0}} إجمالي الانفاق ل.س</div>
+            <div class="overview-card__content">
+                <div class="overview-card__label">أقل يوم مبيعات</div>
+                <div class="overview-card__value">{{StatisticData?.lowestSalesValue ?? 0 | number : '1.0-0'}} ل.س | {{StatisticData?.lowestSalesDay | arabicDate}}</div>
+            </div>
         </article>
     </section>
 
@@ -96,24 +100,32 @@
                 <table class="report-table">
                     <thead>
                         <tr>
-                            <th>اسم العميل</th>
-                            <th>عدد الطلبات</th>
-                            <th>إجمالي الانفاق</th>
-                            <th>متوسط ​​قيمة الطلب</th>
-                            <th>تاريخ آخر طلب</th>
+                            <th>مبيعات شهر</th>
+                            <th>إجمالي الطلبات</th>
+                            <th>الطلبات الملغية</th>
+                            <th>الطلبات المنتهية</th>
+                            <th>إجمالي العملاء</th>
+                            <th>إجمالي المبيعات</th>
+                            <th>صافي المبيعات</th>
+                            <th>إجمالي التكلفة</th>
+                            <th>رسوم التوصيل</th>
+                            <th>متوسط قيمة الطلبات</th>
+                            <th>صافي الربح</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of SalesData; trackBy: trackByOrder">
-                            <td data-label="اسم العميل">
-                                <div class="table-identity">
-                                    <strong>{{item.customerName}}</strong>
-                                </div>
-                            </td>
-                            <td data-label="عدد الطلبات">{{item.ordersCount}}</td>
-                            <td class="table-total" data-label="إجمالي الانفاق">{{item.totalSpending | number : '1.0-0'}} ل.س</td>
-                            <td data-label="متوسط ​​قيمة الطلب">{{item.avgOrderValue | number : '1.0-0'}} ل.س</td>
-                            <td data-label="تاريخ آخر طلب">{{item.lastOrderDate | arabicDateWithTime}}</td>
+                            <td class="table-date" data-label="التاريخ">{{item.salesMonth | arabicDateWithTime}}</td>
+                            <td data-label="إجمالي الطلبات">{{item.totalOrders}}</td>
+                            <td data-label="الطلبات الملغية">{{item.cancelledOrders}}</td>
+                            <td data-label="الطلبات المنتهية">{{item.validOrders}}</td>
+                            <td data-label="إجمالي العملاء">{{item.totalCustomers}}</td>
+                            <td data-label="إجمالي المبيعات">{{item.grossSales | number: '1.0-0'}} ل.س</td>
+                            <td class="table-total" data-label="صافي المبيعات">{{item.netSales | number: '1.0-0'}} ل.س</td>
+                            <td class="table-total" data-label="إجمالي التكلفة">{{item.estimatedProfitSum | number: '1.0-0'}} ل.س</td>
+                            <td data-label="رسوم التوصيل">{{item.totalDelivery | number: '1.0-0'}} ل.س</td>
+                            <td data-label="متوسط قيمة الطلبات">{{item.avgOrderValue ?? 0 | number : '1.0-0'}} ل.س</td>
+                            <td class="table-total" data-label="صافي الربح">{{item.estimatedProfit | number : '1.0-0'}} ل.س</td>
                         </tr>
                     </tbody>
                 </table>

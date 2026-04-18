@@ -4,36 +4,40 @@
             <div class="overview-card__icon">
                 <i class="uil uil-money-withdraw"></i>
             </div>
-            <div class="overview-card__label">المنتج الأكثر مبيعاً</div>
-            <div class="overview-card__value">{{StatisticData?.table[0]?.itemName ?? '-'}}</div>
-            <div class="overview-card__meta">{{StatisticData?.table[0]?.totalQuantity ?? 0}} قطعة | {{StatisticData?.table[0]?.totalSales ?? 0 | number : '1.0-0'}} ل.س</div>
+            <div class="overview-card__content">
+                <div class="overview-card__label">العناصر التي لم يتم بيعها</div>
+                <div class="overview-card__value">{{StatisticData?.neverSoldItemsCount ?? 0 | number : '1.0-0'}} ل.س</div>
+            </div>
         </article>
 
-        <article class="report-surface overview-card">
+        <article class="report-surface overview-card overview-card--info">
             <div class="overview-card__icon overview-card__icon--blue">
                 <i class="uil uil-receipt"></i>
             </div>
-            <div class="overview-card__label">المنتج الأقل مبيعا</div>
-            <div class="overview-card__value">{{StatisticData?.table1[0]?.itemName ?? '-'}}</div>
-            <div class="overview-card__meta">{{StatisticData?.table1[0]?.totalQuantity ?? 0}} قطعة | {{StatisticData?.table1[0]?.totalSales ?? 0 | number : '1.0-0'}} ل.س</div>
+            <div class="overview-card__content">
+                <div class="overview-card__label">العناصر النشطة غير المباعة</div>
+                <div class="overview-card__value">{{StatisticData?.activeNeverSoldItems ?? 0}}</div>
+            </div>
         </article>
 
-        <article class="report-surface overview-card">
+        <article class="report-surface overview-card overview-card--success">
             <div class="overview-card__icon overview-card__icon--green">
                 <i class="uil uil-truck"></i>
             </div>
-            <div class="overview-card__label">إجمالي الأرباح</div>
-            <div class="overview-card__value">{{StatisticData?.table2[0]?.totalProfit ?? 0 | number : '1.0-0'}} ل.س</div>
-            <div class="overview-card__meta">المبيعات {{StatisticData?.table2[0]?.totalSales ?? 0}} ل.س | التكلفة {{StatisticData?.table2[0]?.totalCost ?? 0}} ل.س</div>
+            <div class="overview-card__content">
+                <div class="overview-card__label">العناصر غير النشطة التي لم يتم بيعها</div>
+                <div class="overview-card__value">{{StatisticData?.inactiveNeverSoldItems ?? 0 | number : '1.0-0'}}</div>
+            </div>
         </article>
 
-        <article class="report-surface overview-card">
+        <article class="report-surface overview-card overview-card--slate">
             <div class="overview-card__icon overview-card__icon--slate">
                 <i class="uil uil-chart-growth"></i>
             </div>
-            <div class="overview-card__label">إجمالي الكمية المباعة</div>
-            <div class="overview-card__value">{{StatisticData?.table3[0]?.totalQuantity ?? 0}}</div>
-            <div class="overview-card__meta">{{StatisticData?.table3[0]?.totalItemsCount ?? 0}} أصناف</div>
+            <div class="overview-card__content">
+                <div class="overview-card__label">نسبة العناصر غير المباعة</div>
+                <div class="overview-card__value">{{StatisticData?.neverSoldItemsPct ?? 0 | number : '1.0-0'}}%</div>
+            </div>
         </article>
     </section>
 
@@ -80,7 +84,7 @@
         <div class="section-head section-head--compact">
             <div>
                 <div class="section-head__kicker">النتائج</div>
-                <h2 class="section-head__title">جدول تقارير مبيعات العناصر</h2>
+                <h2 class="section-head__title">جدول تقارير المبيعات</h2>
             </div>
 
             <div class="table-head-summary">
@@ -96,32 +100,28 @@
                 <table class="report-table">
                     <thead>
                         <tr>
-                            <th>اسم العنصر</th>
-                            <th>اسم الفئة</th>
-                            <th>عدد الطلبات</th>
-                            <th>الكمية المباعة</th>
-                            <th>متوسط ​​سعر البيع</th>
-                            <th>إجمالي المبيعات</th>
-                            <th>إجمالي التكلفة</th>
-                            <th>إجمالي الربح</th>
-                            <th>تاريخ آخر عملية بيع</th>
+                            <th>الاسم</th>
+                            <th>الفئة</th>
+                            <th>السعر</th>
+                            <th>التكلفة</th>
+                            <th>الحالة</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of SalesData; trackBy: trackByOrder">
-                            <td data-label="اسم العنصر">
+                            <td data-label="الاسم">
                                 <div class="table-identity">
                                     <strong>{{item.itemName}}</strong>
                                 </div>
                             </td>
-                            <td class="table-date" data-label="اسم الفئة">{{item.categoryName}}</td>
-                            <td data-label="عدد الطلبات">{{item.totalOrdersCount | number:'1.0-0'}}</td>
-                            <td data-label="الكمية المباعة">{{item.totalQuantitySold | number:'1.0-0'}}</td>
-                            <td data-label="متوسط ​​سعر البيع">{{item.avgSellPrice | number:'1.0-0'}} ل.س</td>
-                            <td data-label="إجمالي المبيعات">{{item.totalSales | number:'1.0-0'}} ل.س</td>
-                            <td data-label="إجمالي التكلفة">{{item.totalCost | number:'1.0-0'}} ل.س</td>
-                            <td class="table-total" data-label="إجمالي الربح">{{item.totalProfit | number:'1.0-0'}} ل.س</td>
-                            <td data-label="تاريخ آخر عملية بيع">{{item.lastSaleDate | arabicDateWithTime}}</td>
+                            <td class="table-date" data-label="الفئة">{{item.categoryName}}</td>
+                            <td data-label="السعر">{{item.price}}</td>
+                            <td data-label="التكلفة">{{item.costPrice}}</td>
+                            <td data-label="الحالة">
+                                <span class="table-pill table-pill--status" [ngClass]="'table-pill--' + (item.statusName == 'نشط' ? '1':'2')">
+                                    {{item.statusName}}
+                                </span>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

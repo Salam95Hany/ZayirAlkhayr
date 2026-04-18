@@ -7,24 +7,22 @@ import { PagingFilterModel } from 'src/app/Admin/Models/PagingFilterModel';
 import { ReportService } from 'src/app/Admin/Services/report.service';
 
 @Component({
-  selector: 'app-ordertype-report',
-  templateUrl: './ordertype-report.component.html',
-  styleUrls: ['./ordertype-report.component.css']
+  selector: 'app-top-selling-item-report',
+  templateUrl: './top-selling-item-report.component.html',
+  styleUrls: ['./top-selling-item-report.component.css']
 })
-export class OrdertypeReportComponent implements OnInit {
-  StatisticData: any;
+export class TopSellingItemReportComponent implements OnInit {
+StatisticData: any;
   SalesData: any[] = [];
   FilterList: FilterModel[] = [
     {
       categoryDisplayName: 'تاريخ الطلب',
       categoryName: 'DateRange',
-      itemId: '',
-      itemKey: '',
-      itemValue: '',
       filterType: 'DateRange',
       isVisible: true
     }
   ];
+  AllFilterList: FilterModel[] = [];
   lastUpdated: Date = new Date();
   TotalCount = 0;
   TotalPages = 0;
@@ -59,14 +57,20 @@ export class OrdertypeReportComponent implements OnInit {
   }
 
   LoadData() {
-    this.GetOrderTypeSalesReport();
+    this.GetReportTopSellingItemSummary();
+    this.GetReportTopSellingItemsData();
   }
 
-  GetOrderTypeSalesReport() {
-    this.reportService.GetOrderTypeSalesReport(this.PagingFilter).subscribe(data => {
-      this.StatisticData = data.results.table[0];
-      this.SalesData = data.results.table1;
-      this.TotalCount = 2;
+  GetReportTopSellingItemSummary() {
+    this.reportService.GetReportTopSellingItemSummary(this.PagingFilter).subscribe(data => {
+      this.StatisticData = data.results[0];
+    });
+  }
+
+  GetReportTopSellingItemsData() {
+    this.reportService.GetReportTopSellingItemsData(this.PagingFilter).subscribe(data => {
+      this.SalesData = data.results;
+      this.TotalCount = data.totalCount;
       this.TotalPages = Math.ceil(this.TotalCount / this.PagingFilter.pagesize!);
     });
   }
@@ -78,8 +82,8 @@ export class OrdertypeReportComponent implements OnInit {
     this.LoadData();
   }
 
-  PageChange(page: any) {
-    this.PagingFilter.currentpage = page;
+  PageChange(obj: any) {
+    this.PagingFilter.currentpage = obj.page;
     this.LoadData();
   }
 

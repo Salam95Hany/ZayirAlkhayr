@@ -7,14 +7,21 @@ import { PagingFilterModel } from 'src/app/Admin/Models/PagingFilterModel';
 import { ReportService } from 'src/app/Admin/Services/report.service';
 
 @Component({
-  selector: 'app-items-report',
-  templateUrl: './items-report.component.html',
-  styleUrls: ['./items-report.component.css']
+  selector: 'app-never-sold-item-report',
+  templateUrl: './never-sold-item-report.component.html',
+  styleUrls: ['./never-sold-item-report.component.css']
 })
-export class ItemsReportComponent implements OnInit {
-  StatisticData: any;
+export class NeverSoldItemReportComponent implements OnInit {
+StatisticData: any;
   SalesData: any[] = [];
-  FilterList: FilterModel[] = [];
+  FilterList: FilterModel[] = [
+    {
+      categoryDisplayName: 'باسم العنصر',
+      categoryName: 'SearchText',
+      filterType: 'SearchText',
+      isVisible: true
+    }
+  ];
   AllFilterList: FilterModel[] = [];
   lastUpdated: Date = new Date();
   TotalCount = 0;
@@ -50,39 +57,21 @@ export class ItemsReportComponent implements OnInit {
   }
 
   LoadData() {
-    this.GetReportSalesItemStatistics();
-    this.GetReportSalesItemData();
-    this.GetReportSalesItemFilter();
+    this.GetReportNeverSoldItemsSummary();
+    this.GetReportNeverSoldItemsData();
   }
 
-  GetReportSalesItemStatistics() {
-    this.reportService.GetReportSalesItemStatistics(this.PagingFilter).subscribe(data => {
-      this.StatisticData = data.results;
+  GetReportNeverSoldItemsSummary() {
+    this.reportService.GetReportNeverSoldItemsSummary(this.PagingFilter).subscribe(data => {
+      this.StatisticData = data.results[0];
     });
   }
 
-  GetReportSalesItemData() {
-    this.reportService.GetReportSalesItemData(this.PagingFilter).subscribe(data => {
+  GetReportNeverSoldItemsData() {
+    this.reportService.GetReportNeverSoldItemsData(this.PagingFilter).subscribe(data => {
       this.SalesData = data.results;
       this.TotalCount = data.totalCount;
       this.TotalPages = Math.ceil(this.TotalCount / this.PagingFilter.pagesize!);
-    });
-  }
-
-  GetReportSalesItemFilter() {
-    this.reportService.GetReportSalesItemFilter(this.PagingFilter).subscribe(data => {
-      this.FilterList = (data.results || []).map(filter => {
-        if (filter.filterType !== 'DateRange') {
-          return filter;
-        }
-
-        return {
-          ...filter,
-          rangeValue: this.getCurrentDateRangeValue()
-        };
-      });
-
-      this.FilterList = [...this.FilterList];
     });
   }
 
@@ -93,8 +82,8 @@ export class ItemsReportComponent implements OnInit {
     this.LoadData();
   }
 
-  PageChange(page: any) {
-    this.PagingFilter.currentpage = page;
+  PageChange(obj: any) {
+    this.PagingFilter.currentpage = obj.page;
     this.LoadData();
   }
 

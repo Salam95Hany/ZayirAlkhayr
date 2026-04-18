@@ -4,36 +4,40 @@
             <div class="overview-card__icon">
                 <i class="uil uil-money-withdraw"></i>
             </div>
-            <div class="overview-card__label">إيرادات الصباح</div>
-            <div class="overview-card__value">{{StatisticData?.morningSales ?? 0 | number : '1.0-0'}} ل.س</div>
-            <div class="overview-card__meta">عدد الطلبات {{StatisticData?.morningOrdersCount ?? 0}} </div>
+            <div class="overview-card__content">
+                <div class="overview-card__label">إجمالي المبيعات</div>
+                <div class="overview-card__value">{{StatisticData?.totalSales ?? 0 | number : '1.0-0'}} ل.س</div>
+            </div>
         </article>
 
-        <article class="report-surface overview-card">
+        <article class="report-surface overview-card overview-card--info">
             <div class="overview-card__icon overview-card__icon--blue">
                 <i class="uil uil-receipt"></i>
             </div>
-            <div class="overview-card__label">إيرادات المساء</div>
-            <div class="overview-card__value">{{StatisticData?.eveningSales ?? 0 | number : '1.0-0'}} ل.س</div>
-            <div class="overview-card__meta">عدد الطلبات {{StatisticData?.eveningOrdersCount ?? 0}} </div>
+            <div class="overview-card__content">
+                <div class="overview-card__label">إجمالي العناصر</div>
+                <div class="overview-card__value">{{StatisticData?.totalItems ?? 0}}</div>
+            </div>
         </article>
 
-        <article class="report-surface overview-card">
+        <article class="report-surface overview-card overview-card--success">
             <div class="overview-card__icon overview-card__icon--green">
                 <i class="uil uil-truck"></i>
             </div>
-            <div class="overview-card__label">ساعة الذروة</div>
-            <div class="overview-card__value">{{StatisticData?.peakHour ?? 0}}</div>
-            <div class="overview-card__meta">مبيعات ساعة الذروة {{StatisticData?.peakHourSales ?? 0 | number : '1.0-0'}} ل.س</div>
+            <div class="overview-card__content">
+                <div class="overview-card__label">إجمالي الكمية المباعة</div>
+                <div class="overview-card__value">{{StatisticData?.totalSoldQty ?? 0 | number : '1.0-0'}}</div>
+            </div>
         </article>
 
-        <article class="report-surface overview-card">
+        <article class="report-surface overview-card overview-card--slate">
             <div class="overview-card__icon overview-card__icon--slate">
                 <i class="uil uil-chart-growth"></i>
             </div>
-            <div class="overview-card__label">عدد طلبات ساعة الذروة</div>
-            <div class="overview-card__value">{{StatisticData?.peakHourOrdersCount ?? 0}}</div>
-            <div class="overview-card__meta">إجمالي الطلبات {{StatisticData?.totalOrders ?? 0}} | إجمالي المبيعات {{StatisticData?.totalSales ?? 0 | number : '1.0-0'}} ل.س</div>
+            <div class="overview-card__content">
+                <div class="overview-card__label">العناصر المباعة</div>
+                <div class="overview-card__value">{{StatisticData?.soldItems ?? 0 | number : '1.0-0'}}</div>
+            </div>
         </article>
     </section>
 
@@ -96,26 +100,38 @@
                 <table class="report-table">
                     <thead>
                         <tr>
-                            <th>الساعة</th>
-                            <th>اسم الفترة</th>
-                            <th>عدد الطلبات</th>
+                            <th>الاسم</th>
+                            <th>الفئة</th>
+                            <th>السعر</th>
+                            <th>التكلفة</th>
+                            <th>إجمالي الطلبات</th>
+                            <th>الحالة</th>
+                            <th>الكمية المباعة</th>
                             <th>إجمالي المبيعات</th>
-                            <th>متوسط ​​قيمة الطلب</th>
-                            <th>نسبة المبيعات</th>
+                            <th>صافي الربح</th>
+                            <th>تاريخ آخر عملية بيع</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of SalesData; trackBy: trackByOrder">
-                            <td data-label="الساعة">
+                            <td data-label="الاسم">
                                 <div class="table-identity">
-                                    <strong>{{item.hourLabel}}</strong>
+                                    <strong>{{item.itemName}}</strong>
                                 </div>
                             </td>
-                            <td data-label="اسم الفترة">{{item.periodName}}</td>
-                            <td data-label="عدد الطلبات">{{item.ordersCount}}</td>
-                            <td class="table-total" data-label="إجمالي المبيعات">{{item.totalSales | number : '1.0-0'}} ل.س</td>
-                            <td data-label="متوسط ​​قيمة الطلب">{{item.avgOrderValue | number : '1.0-0'}} ل.س</td>
-                            <td data-label="نسبة المبيعات">{{item.salesPercentage}}%</td>
+                            <td class="table-date" data-label="الفئة">{{item.categoryName}}</td>
+                            <td data-label="السعر">{{item.price}}</td>
+                            <td data-label="التكلفة">{{item.costPrice}}</td>
+                            <td data-label="إجمالي الطلبات">{{item.orderCount}}</td>
+                            <td data-label="الحالة">
+                                <span class="table-pill table-pill--status" [ngClass]="'table-pill--' + (item.statusName == 'نشط' ? '1':'2')">
+                                    {{item.statusName}}
+                                </span>
+                            </td>
+                            <td data-label="الكمية المباعة">{{item.totalQty}}</td>
+                            <td data-label="إجمالي المبيعات">{{item.totalSales | number: '1.0-0' ?? '-'}}</td>
+                            <td class="table-total" data-label="صافي الربح">{{item.estimatedProfit | number : '1.0-0'}} ل.س</td>
+                            <td data-label="تاريخ آخر عملية بيع">{{item.lastSoldDate | arabicDateWithTime}}</td>
                         </tr>
                     </tbody>
                 </table>

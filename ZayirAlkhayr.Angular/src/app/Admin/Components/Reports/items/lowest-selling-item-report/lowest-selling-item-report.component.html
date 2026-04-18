@@ -4,36 +4,40 @@
             <div class="overview-card__icon">
                 <i class="uil uil-money-withdraw"></i>
             </div>
-            <div class="overview-card__label">إجمالي إيرادات الخارجي</div>
-            <div class="overview-card__value">{{StatisticData?.takeAwayRevenue ?? 0 | number : '1.0-0'}} ل.س</div>
-            <div class="overview-card__meta">إجمالي الإيرادات {{StatisticData?.totalRevenue ?? 0 | number : '1.0-0'}} ل.س | {{StatisticData?.totalOrdersCount ?? 0}} عدد الطلبات</div>
+            <div class="overview-card__content">
+                <div class="overview-card__label">اسم الصنف</div>
+                <div class="overview-card__value">{{StatisticData?.itemName}}</div>
+            </div>
         </article>
 
-        <article class="report-surface overview-card">
+        <article class="report-surface overview-card overview-card--info">
             <div class="overview-card__icon overview-card__icon--blue">
                 <i class="uil uil-receipt"></i>
             </div>
-            <div class="overview-card__label">إجمالي إيرادات التوصيل</div>
-            <div class="overview-card__value">{{StatisticData?.deliveryRevenue ?? 0 | number : '1.0-0'}} ل.س</div>
-            <div class="overview-card__meta">إجمالي الإيرادات {{StatisticData?.totalRevenue ?? 0 | number : '1.0-0'}} ل.س | {{StatisticData?.totalOrdersCount ?? 0}} عدد الطلبات</div>
+            <div class="overview-card__content">
+                <div class="overview-card__label">إجمالي الطلبات</div>
+                <div class="overview-card__value">{{StatisticData?.orderCount ?? 0}}</div>
+            </div>
         </article>
 
-        <article class="report-surface overview-card">
+        <article class="report-surface overview-card overview-card--success">
             <div class="overview-card__icon overview-card__icon--green">
                 <i class="uil uil-truck"></i>
             </div>
-            <div class="overview-card__label">عدد طلبات الخارجي</div>
-            <div class="overview-card__value">{{StatisticData?.takeAwayOrdersCount ?? 0 | number : '1.0-0'}}</div>
-            <div class="overview-card__meta">إجمالي الإيرادات {{StatisticData?.totalRevenue ?? 0 | number : '1.0-0'}} ل.س | {{StatisticData?.totalOrdersCount ?? 0}} عدد الطلبات</div>
+            <div class="overview-card__content">
+                <div class="overview-card__label">الكمية المباعة</div>
+                <div class="overview-card__value">{{StatisticData?.totalQty}}</div>
+            </div>
         </article>
 
-        <article class="report-surface overview-card">
+        <article class="report-surface overview-card overview-card--slate">
             <div class="overview-card__icon overview-card__icon--slate">
                 <i class="uil uil-chart-growth"></i>
             </div>
-            <div class="overview-card__label">عدد طلبات التوصيل</div>
-            <div class="overview-card__value">{{StatisticData?.deliveryOrdersCount ?? 0 | number : '1.0-0'}}</div>
-            <div class="overview-card__meta">إجمالي الإيرادات {{StatisticData?.totalRevenue ?? 0 | number : '1.0-0'}} ل.س | {{StatisticData?.totalOrdersCount ?? 0}} عدد الطلبات</div>
+            <div class="overview-card__content">
+                <div class="overview-card__label">إجمالي المبيعات</div>
+                <div class="overview-card__value">{{StatisticData?.totalSales ?? 0 | number : '1.0-0'}} ل.س</div>
+            </div>
         </article>
     </section>
 
@@ -96,24 +100,38 @@
                 <table class="report-table">
                     <thead>
                         <tr>
-                            <th>نوع الطلب</th>
-                            <th>عدد الطلبات</th>
-                            <th>إجمالي الإيرادات</th>
-                            <th>متوسط قيمة الطلب</th>
-                            <th>نسبة الإيرادات</th>
+                            <th>الترتيب</th>
+                            <th>الاسم</th>
+                            <th>الفئة</th>
+                            <th>نسبة مساهمة الكمية</th>
+                            <th>نسبة مساهمة المبيعات</th>
+                            <th>إجمالي الطلبات</th>
+                            <th>الكمية المباعة</th>
+                            <th>إجمالي المبيعات</th>
+                            <th>صافي التكلفة</th>
+                            <th>صافي الربح</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of SalesData; trackBy: trackByOrder">
-                            <td data-label="نوع الطلب">
-                                <span class="table-pill table-pill--type" [ngClass]="'table-pill--' + item.orderType">
-                                    {{item.orderTypeName}}
-                                </span>
+                            <td data-label="الاسم">
+                                <div class="table-identity">
+                                    <strong>{{item.rankNo}}</strong>
+                                </div>
                             </td>
-                            <td data-label="عدد الطلبات">{{item.ordersCount}}</td>
-                            <td data-label="إجمالي الإيرادات">{{item.totalRevenue | number : '1.0-0'}} ل.س</td>
-                            <td data-label="متوسط قيمة الطلب">{{item.avgOrderValue | number : '1.0-0'}} ل.س</td>
-                            <td data-label="نسبة الإيرادات">{{item.revenuePercentage}}%</td>
+                            <td data-label="الاسم">
+                                <div class="table-identity">
+                                    <strong>{{item.itemName}}</strong>
+                                </div>
+                            </td>
+                            <td class="table-date" data-label="الفئة">{{item.categoryName}}</td>
+                            <td data-label="السعر">{{item.qtyContributionPct}}%</td>
+                            <td data-label="التكلفة">{{item.salesContributionPct}}%</td>
+                            <td data-label="إجمالي الطلبات">{{item.orderCount}}</td>
+                            <td data-label="الكمية المباعة">{{item.totalQty}}</td>
+                            <td data-label="إجمالي المبيعات">{{item.totalSales | number: '1.0-0' ?? '-'}}</td>
+                            <td class="table-total" data-label="صافي التكلفة">{{item.estimatedCost | number : '1.0-0'}} ل.س</td>
+                            <td data-label="تاريخ آخر عملية بيع">{{item.estimatedProfit | number : '1.0-0'}} ل.س</td>
                         </tr>
                     </tbody>
                 </table>

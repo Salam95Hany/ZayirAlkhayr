@@ -85,32 +85,6 @@
                 </section>
                 <section class="menu-section" appRole [roles]="['Admin']">
                     <div class="section-divider"></div>
-                    <div class="side-menu-list-title side-menu-text">التقارير</div>
-                    <ul class="side-menu-list list-unstyled p-0 m-0">
-                        <li class="side-menu-list-item">
-                            <a class="side-menu-list-link with-sub-menu" [class.expanded]="!isCollapsed_3" (click)="collapse3.toggle()" [attr.aria-expanded]="!isCollapsed_3">
-                                <span class="menu-icon"><i class="uil uil-chart-line"></i></span>
-                                <span class="side-menu-text">تقارير المبيعات</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="list-unstyled m-0 menu-list-collapsed" #collapse3="ngbCollapse" [(ngbCollapse)]="isCollapsed_3">
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./daily-sales-reports" routerLinkActive="active">
-                                <span class="menu-bullet"></span>
-                                <span class="side-menu-text">المبيعات اليومية</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./items-reports" routerLinkActive="active">
-                                <span class="menu-bullet"></span>
-                                <span class="side-menu-text">المبيعات الشهرية</span>
-                            </a>
-                        </li>
-                    </ul>
-                </section>
-                <section class="menu-section" appRole [roles]="['Admin']">
-                    <div class="section-divider"></div>
                     <div class="side-menu-list-title side-menu-text">المخزون</div>
 
                     <ul class="side-menu-list list-unstyled p-0 m-0">
@@ -144,6 +118,66 @@
                             <a class="side-menu-list-link sub-link" routerLink="./inventory-purchases" routerLinkActive="active">
                                 <span class="menu-bullet"></span>
                                 <span class="side-menu-text">المشتريات</span>
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+                <section class="menu-section" appRole [roles]="['Admin']">
+                    <div class="section-divider"></div>
+                    <div class="side-menu-list-title side-menu-text">التقارير</div>
+                    <ul class="side-menu-list list-unstyled p-0 m-0">
+                        <li class="side-menu-list-item">
+                            <a class="side-menu-list-link with-sub-menu" [class.expanded]="!isCollapsed_3" (click)="collapse3.toggle()" [attr.aria-expanded]="!isCollapsed_3">
+                                <span class="menu-icon"><i class="uil uil-chart-line"></i></span>
+                                <span class="side-menu-text">تقارير المبيعات</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="list-unstyled m-0 menu-list-collapsed" #collapse3="ngbCollapse" [(ngbCollapse)]="isCollapsed_3">
+                        <li>
+                            <a class="side-menu-list-link sub-link" routerLink="./daily-sales-reports" routerLinkActive="active">
+                                <span class="menu-bullet"></span>
+                                <span class="side-menu-text">المبيعات اليومية</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="side-menu-list-link sub-link" routerLink="./monthly-sales-reports" routerLinkActive="active">
+                                <span class="menu-bullet"></span>
+                                <span class="side-menu-text">المبيعات الشهرية</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="side-menu-list list-unstyled p-0 m-0">
+                        <li class="side-menu-list-item">
+                            <a class="side-menu-list-link with-sub-menu" [class.expanded]="!isCollapsed_5" (click)="collapse5.toggle()" [attr.aria-expanded]="!isCollapsed_5">
+                                <span class="menu-icon"><i class="uil uil-chart-line"></i></span>
+                                <span class="side-menu-text">العناصر</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="list-unstyled m-0 menu-list-collapsed" #collapse5="ngbCollapse" [(ngbCollapse)]="isCollapsed_5">
+                        <li>
+                            <a class="side-menu-list-link sub-link" routerLink="./all-item-reports" routerLinkActive="active">
+                                <span class="menu-bullet"></span>
+                                <span class="side-menu-text">كل العناصر</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="side-menu-list-link sub-link" routerLink="./top-sellingitem-reports" routerLinkActive="active">
+                                <span class="menu-bullet"></span>
+                                <span class="side-menu-text">الأكثر مبيعًا</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="side-menu-list-link sub-link" routerLink="./lowest-sellingitem-reports" routerLinkActive="active">
+                                <span class="menu-bullet"></span>
+                                <span class="side-menu-text">الأقل مبيعًا</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="side-menu-list-link sub-link" routerLink="./never-solditem-reports" routerLinkActive="active">
+                                <span class="menu-bullet"></span>
+                                <span class="side-menu-text">غير المباعة</span>
                             </a>
                         </li>
                     </ul>

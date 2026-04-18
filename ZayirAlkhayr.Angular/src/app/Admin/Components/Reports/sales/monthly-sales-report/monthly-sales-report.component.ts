@@ -7,24 +7,15 @@ import { PagingFilterModel } from 'src/app/Admin/Models/PagingFilterModel';
 import { ReportService } from 'src/app/Admin/Services/report.service';
 
 @Component({
-  selector: 'app-salesbytime-report',
-  templateUrl: './salesbytime-report.component.html',
-  styleUrls: ['./salesbytime-report.component.css']
+  selector: 'app-monthly-sales-report',
+  templateUrl: './monthly-sales-report.component.html',
+  styleUrls: ['./monthly-sales-report.component.css']
 })
-export class SalesbytimeReportComponent implements OnInit {
-  StatisticData: any;
+export class MonthlySalesReportComponent implements OnInit {
+StatisticData: any;
   SalesData: any[] = [];
-  FilterList: FilterModel[] = [
-     {
-      categoryDisplayName: 'تاريخ الطلب',
-      categoryName: 'DateRange',
-      itemId: '',
-      itemKey: '',
-      itemValue: '',
-      filterType: 'DateRange',
-      isVisible: true
-    }
-  ];
+  FilterList: FilterModel[] = [];
+  AllFilterList: FilterModel[] = [];
   lastUpdated: Date = new Date();
   TotalCount = 0;
   TotalPages = 0;
@@ -59,15 +50,39 @@ export class SalesbytimeReportComponent implements OnInit {
   }
 
   LoadData() {
-    this.GetSalesReportByTimeReport();
+    this.GetReportMonthlySalesSummary();
+    this.GetReportMonthlySalesDetailsData();
+    this.GetReportMonthlySalesDetailsFilter();
   }
 
-  GetSalesReportByTimeReport() {
-    this.reportService.GetSalesReportByTimeReport(this.PagingFilter).subscribe(data => {
-      this.StatisticData = data.results.table[0];
-      this.SalesData = data.results.table1;
-      this.TotalCount = 2;
+  GetReportMonthlySalesSummary() {
+    this.reportService.GetReportMonthlySalesSummary(this.PagingFilter).subscribe(data => {
+      this.StatisticData = data.results[0];
+    });
+  }
+
+  GetReportMonthlySalesDetailsData() {
+    this.reportService.GetReportMonthlySalesDetailsData(this.PagingFilter).subscribe(data => {
+      this.SalesData = data.results;
+      this.TotalCount = data.totalCount;
       this.TotalPages = Math.ceil(this.TotalCount / this.PagingFilter.pagesize!);
+    });
+  }
+
+  GetReportMonthlySalesDetailsFilter() {
+    this.reportService.GetReportMonthlySalesDetailsFilter(this.PagingFilter).subscribe(data => {
+      this.FilterList = (data.results || []).map(filter => {
+        if (filter.filterType !== 'DateRange') {
+          return filter;
+        }
+
+        return {
+          ...filter,
+          rangeValue: this.getCurrentDateRangeValue()
+        };
+      });
+
+      this.FilterList = [...this.FilterList];
     });
   }
 
@@ -78,8 +93,8 @@ export class SalesbytimeReportComponent implements OnInit {
     this.LoadData();
   }
 
-  PageChange(page: any) {
-    this.PagingFilter.currentpage = page;
+  PageChange(obj: any) {
+    this.PagingFilter.currentpage = obj.page;
     this.LoadData();
   }
 

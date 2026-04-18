@@ -7,33 +7,22 @@ import { PagingFilterModel } from 'src/app/Admin/Models/PagingFilterModel';
 import { ReportService } from 'src/app/Admin/Services/report.service';
 
 @Component({
-  selector: 'app-customer-report',
-  templateUrl: './customer-report.component.html',
-  styleUrls: ['./customer-report.component.css']
+  selector: 'app-lowest-selling-item-report',
+  templateUrl: './lowest-selling-item-report.component.html',
+  styleUrls: ['./lowest-selling-item-report.component.css']
 })
-export class CustomerReportComponent implements OnInit {
-  StatisticData: any;
+export class LowestSellingItemReportComponent implements OnInit {
+StatisticData: any;
   SalesData: any[] = [];
   FilterList: FilterModel[] = [
     {
-      categoryDisplayName: 'باسم العميل',
-      categoryName: 'SearchText',
-      itemId: '',
-      itemKey: '',
-      itemValue: '',
-      filterType: 'SearchText',
-      isVisible: true
-    },
-    {
       categoryDisplayName: 'تاريخ الطلب',
       categoryName: 'DateRange',
-      itemId: '',
-      itemKey: '',
-      itemValue: '',
       filterType: 'DateRange',
       isVisible: true
     }
   ];
+  AllFilterList: FilterModel[] = [];
   lastUpdated: Date = new Date();
   TotalCount = 0;
   TotalPages = 0;
@@ -68,14 +57,20 @@ export class CustomerReportComponent implements OnInit {
   }
 
   LoadData() {
-    this.GetCustomerSalesReport();
+    this.GetReportLowestSellingItemsSummary();
+    this.GetReportLowestSellingItemsData();
   }
 
-  GetCustomerSalesReport() {
-    this.reportService.GetCustomerSalesReport(this.PagingFilter).subscribe(data => {
-      this.StatisticData = data.results.table[0];
-      this.SalesData = data.results.table1;
-      this.TotalCount = 2;
+  GetReportLowestSellingItemsSummary() {
+    this.reportService.GetReportLowestSellingItemsSummary(this.PagingFilter).subscribe(data => {
+      this.StatisticData = data.results[0];
+    });
+  }
+
+  GetReportLowestSellingItemsData() {
+    this.reportService.GetReportLowestSellingItemsData(this.PagingFilter).subscribe(data => {
+      this.SalesData = data.results;
+      this.TotalCount = data.totalCount;
       this.TotalPages = Math.ceil(this.TotalCount / this.PagingFilter.pagesize!);
     });
   }
@@ -87,8 +82,8 @@ export class CustomerReportComponent implements OnInit {
     this.LoadData();
   }
 
-  PageChange(page: any) {
-    this.PagingFilter.currentpage = page;
+  PageChange(obj: any) {
+    this.PagingFilter.currentpage = obj.page;
     this.LoadData();
   }
 

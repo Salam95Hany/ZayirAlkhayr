@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class ArabicDateWithTimePipe implements PipeTransform {
 
   transform(value: string | Date): string {
-    if (!value) return '';
+    if (!value) return '-';
 
     const date = new Date(value);
 

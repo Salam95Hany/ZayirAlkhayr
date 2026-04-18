@@ -7,14 +7,27 @@ import { PagingFilterModel } from 'src/app/Admin/Models/PagingFilterModel';
 import { ReportService } from 'src/app/Admin/Services/report.service';
 
 @Component({
-  selector: 'app-daily-sales-report',
-  templateUrl: './daily-sales-report.component.html',
-  styleUrls: ['./daily-sales-report.component.css']
+  selector: 'app-all-item-report',
+  templateUrl: './all-item-report.component.html',
+  styleUrls: ['./all-item-report.component.css']
 })
-export class DailySalesReportComponent implements OnInit {
-  StatisticData: any;
+export class AllItemReportComponent implements OnInit {
+StatisticData: any;
   SalesData: any[] = [];
-  FilterList: FilterModel[] = [];
+  FilterList: FilterModel[] = [
+    {
+      categoryDisplayName: 'باسم العنصر',
+      categoryName: 'SearchText',
+      filterType: 'SearchText',
+      isVisible: true
+    },
+    {
+      categoryDisplayName: 'تاريخ الطلب',
+      categoryName: 'DateRange',
+      filterType: 'DateRange',
+      isVisible: true
+    }
+  ];
   AllFilterList: FilterModel[] = [];
   lastUpdated: Date = new Date();
   TotalCount = 0;
@@ -50,39 +63,21 @@ export class DailySalesReportComponent implements OnInit {
   }
 
   LoadData() {
-    this.GetReportDailySalesSummary();
-    this.ReportDailySalesDetailsData();
-    this.ReportDailySalesDetailsFilter();
+    this.GetReportAllItemsSummary();
+    this.GetReportAllItemsData();
   }
 
-  GetReportDailySalesSummary() {
-    this.reportService.GetReportDailySalesSummary(this.PagingFilter).subscribe(data => {
+  GetReportAllItemsSummary() {
+    this.reportService.GetReportAllItemsSummary(this.PagingFilter).subscribe(data => {
       this.StatisticData = data.results[0];
     });
   }
 
-  ReportDailySalesDetailsData() {
-    this.reportService.ReportDailySalesDetailsData(this.PagingFilter).subscribe(data => {
+  GetReportAllItemsData() {
+    this.reportService.GetReportAllItemsData(this.PagingFilter).subscribe(data => {
       this.SalesData = data.results;
       this.TotalCount = data.totalCount;
       this.TotalPages = Math.ceil(this.TotalCount / this.PagingFilter.pagesize!);
-    });
-  }
-
-  ReportDailySalesDetailsFilter() {
-    this.reportService.ReportDailySalesDetailsFilter(this.PagingFilter).subscribe(data => {
-      this.FilterList = (data.results || []).map(filter => {
-        if (filter.filterType !== 'DateRange') {
-          return filter;
-        }
-
-        return {
-          ...filter,
-          rangeValue: this.getCurrentDateRangeValue()
-        };
-      });
-
-      this.FilterList = [...this.FilterList];
     });
   }
 

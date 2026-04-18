@@ -1,0 +1,30 @@
+<nav class="bread-crumb" aria-label="مسار التنقل" *ngIf="items.length">
+    <div class="bread-crumb__surface">
+        <div class="bread-crumb__main">
+            <ol class="bread-crumb__list list-unstyled mb-0">
+                <li class="bread-crumb__item" *ngFor="let item of items; let last = last; trackBy: trackByLabel">
+                    <a *ngIf="item.link && !item.active; else currentBreadCrumb" class="bread-crumb__link" [routerLink]="item.link">
+                        <i *ngIf="item.label === 'الرئيسية'" class="uil uil-estate"></i>
+                        <span>{{item.label}}</span>
+                    </a>
+
+                    <ng-template #currentBreadCrumb>
+                        <span class="bread-crumb__current" [attr.aria-current]="item.active ? 'page' : null">
+                            <i *ngIf="item.label === 'الرئيسية'" class="uil uil-estate"></i>
+                            <span>{{item.label}}</span>
+                        </span>
+                    </ng-template>
+
+                    <span class="bread-crumb__separator" *ngIf="!last" aria-hidden="true">
+                        <i class="uil uil-angle-left"></i>
+                    </span>
+                </li>
+            </ol>
+        </div>
+
+        <div class="bread-crumb__badge">
+            <span class="bread-crumb__badge-label">القسم</span>
+            <strong class="bread-crumb__badge-value">{{pageSection}}</strong>
+        </div>
+    </div>
+</nav>

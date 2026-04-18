@@ -25,41 +25,49 @@ export class ReportService {
     return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'SalesReport/ReportDailySalesDetailsFilter', Model);
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  GetReportSalesItemStatistics(Model: PagingFilterModel) {
-    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'SalesReport/GetReportSalesItemStatistics', Model);
+  GetReportMonthlySalesSummary(Model: PagingFilterModel) {
+    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'SalesReport/GetReportMonthlySalesSummary', Model);
   }
 
-  GetReportSalesItemData(Model: PagingFilterModel) {
-    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'SalesReport/GetReportSalesItemData', Model);
+  GetReportMonthlySalesDetailsData(Model: PagingFilterModel) {
+    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'SalesReport/GetReportMonthlySalesDetailsData', Model);
   }
 
-  GetReportSalesItemFilter(Model: PagingFilterModel) {
-    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'SalesReport/GetReportSalesItemFilter', Model);
+  GetReportMonthlySalesDetailsFilter(Model: PagingFilterModel) {
+    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'SalesReport/GetReportMonthlySalesDetailsFilter', Model);
   }
 
-  GetOrderTypeSalesReport(Model: PagingFilterModel) {
-    return this.http.post<ApiResponseModel<any>>(this.apiURL + 'SalesReport/GetOrderTypeSalesReport', Model);
+  // ============================= ItemReport ==============================
+
+   GetReportAllItemsSummary(Model: PagingFilterModel) {
+    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'ItemReport/GetReportAllItemsSummary', Model);
   }
 
-  GetCustomerSalesReport(Model: PagingFilterModel) {
-    return this.http.post<ApiResponseModel<any>>(this.apiURL + 'SalesReport/GetCustomerSalesReport', Model);
+  GetReportAllItemsData(Model: PagingFilterModel) {
+    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'ItemReport/GetReportAllItemsData', Model);
   }
 
-  GetSalesReportByTimeReport(Model: PagingFilterModel) {
-    return this.http.post<ApiResponseModel<any>>(this.apiURL + 'SalesReport/GetSalesReportByTimeReport', Model);
+   GetReportNeverSoldItemsSummary(Model: PagingFilterModel) {
+    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'ItemReport/GetReportNeverSoldItemsSummary', Model);
+  }
+
+  GetReportNeverSoldItemsData(Model: PagingFilterModel) {
+    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'ItemReport/GetReportNeverSoldItemsData', Model);
+  }
+
+   GetReportTopSellingItemSummary(Model: PagingFilterModel) {
+    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'ItemReport/GetReportTopSellingItemSummary', Model);
+  }
+
+  GetReportTopSellingItemsData(Model: PagingFilterModel) {
+    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'ItemReport/GetReportTopSellingItemsData', Model);
+  }
+
+   GetReportLowestSellingItemsSummary(Model: PagingFilterModel) {
+    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'ItemReport/GetReportLowestSellingItemsSummary', Model);
+  }
+
+  GetReportLowestSellingItemsData(Model: PagingFilterModel) {
+    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'ItemReport/GetReportLowestSellingItemsData', Model);
   }
 }

@@ -21,8 +21,7 @@ import { SharedModule } from './Admin/Shared/shared.module';
     AppComponent,
     LoginComponent,
     NotAuthorizedComponent,
-    CreateOrderComponent,
-    ArabicDatePipe
+    CreateOrderComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +45,6 @@ import { SharedModule } from './Admin/Shared/shared.module';
     ReactiveFormsModule,
     FormsModule 
   ],
-  exports:[ArabicDatePipe],
   providers:[DatePipe],
   bootstrap: [AppComponent]
 })

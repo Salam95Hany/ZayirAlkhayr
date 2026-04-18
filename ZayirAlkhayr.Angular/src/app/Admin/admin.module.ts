@@ -26,21 +26,24 @@ import { TimeAgoTodayPipe } from './Pipes/time-ago-today.pipe';
 import { SharedModule } from './Shared/shared.module';
 import { UserProfileComponent } from './Components/Setting/user-profile/user-profile.component';
 import { FactoryResetComponent } from './Components/Setting/factory-reset/factory-reset.component';
-import { ItemsReportComponent } from './Components/Reports/sales/items-report/items-report.component';
-import { OrdertypeReportComponent } from './Components/Reports/sales/ordertype-report/ordertype-report.component';
-import { CustomerReportComponent } from './Components/Reports/sales/customer-report/customer-report.component';
-import { SalesbytimeReportComponent } from './Components/Reports/sales/salesbytime-report/salesbytime-report.component';
 import { InventoryItemsComponent } from './Components/Inventory/inventory-items/inventory-items.component';
 import { SuppliersComponent } from './Components/Inventory/suppliers/suppliers.component';
 import { InventoryAdjustmentsComponent } from './Components/Inventory/inventory-adjustments/inventory-adjustments.component';
 import { PurchasesComponent } from './Components/Inventory/purchases/purchases.component';
 import { DailySalesReportComponent } from './Components/Reports/sales/daily-sales-report/daily-sales-report.component';
+import { MonthlySalesReportComponent } from './Components/Reports/sales/monthly-sales-report/monthly-sales-report.component';
+import { AllItemReportComponent } from './Components/Reports/items/all-item-report/all-item-report.component';
+import { NeverSoldItemReportComponent } from './Components/Reports/items/never-sold-item-report/never-sold-item-report.component';
+import { TopSellingItemReportComponent } from './Components/Reports/items/top-selling-item-report/top-selling-item-report.component';
+import { LowestSellingItemReportComponent } from './Components/Reports/items/lowest-selling-item-report/lowest-selling-item-report.component';
+import { BreadCrumbComponent } from './Shared/bread-crumb/bread-crumb.component';
 
 @NgModule({
   declarations: [
     AdminComponent,
     AdminHeaderComponent,
     AdminSideMenuComponent,
+    BreadCrumbComponent,
     AdminFiltersComponent,
     AdminPaginationComponent,
     AdminUserComponent,
@@ -56,15 +59,16 @@ import { DailySalesReportComponent } from './Components/Reports/sales/daily-sale
     TimeAgoTodayPipe,
     UserProfileComponent,
     FactoryResetComponent,
-    ItemsReportComponent,
-    OrdertypeReportComponent,
-    CustomerReportComponent,
-    SalesbytimeReportComponent,
     InventoryItemsComponent,
     SuppliersComponent,
     InventoryAdjustmentsComponent,
     PurchasesComponent,
-    DailySalesReportComponent
+    DailySalesReportComponent,
+    MonthlySalesReportComponent,
+    AllItemReportComponent,
+    NeverSoldItemReportComponent,
+    TopSellingItemReportComponent,
+    LowestSellingItemReportComponent
   ],
   imports: [
     CommonModule,
