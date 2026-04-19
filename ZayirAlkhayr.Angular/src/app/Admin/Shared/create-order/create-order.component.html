@@ -13,7 +13,7 @@
                 </button>
                     <div class="pay-total-box">
                         <div class="pay-total-box__label">المبلغ المطلوب</div>
-                        <div class="pay-total-box__value">{{payableTotal}} ل.س</div>
+                        <div class="pay-total-box__value">{{payableTotal | number:'1.0-0'}} ل.س</div>
                     </div>
                 </div>
                 <div class="toolbar-user">
@@ -81,7 +81,7 @@
                                     </div>
                                     <div class="product-card__content">
                                         <div class="product-card__name">{{item.name}}</div>
-                                        <div class="product-card__price">{{item.price}} ل.س</div>
+                                        <div class="product-card__price">{{item.price | number:'1.0-0'}} ل.س</div>
                                     </div>
                                     <div class="choosed-cat-result-add">
                                         <img src="../../../../assets/add-square.png" loading="lazy" alt="add-item" />
@@ -149,7 +149,7 @@
                     </div>
                     <div class="hero-stat">
                         <span class="hero-stat__label">القيمة الحالية</span>
-                        <strong>{{payableTotal}} ل.س</strong>
+                        <strong>{{payableTotal | number:'1.0-0'}} ل.س</strong>
                     </div>
                 </div>
             </div>
@@ -231,11 +231,11 @@
                                 </div>
                                 <div class="order-list-item__details">
                                     <div class="order-list-item__name">{{item.productName}}</div>
-                                    <div class="order-list-item__meta">{{item.quantity}} × {{item.price}} ل.س</div>
+                                    <div class="order-list-item__meta">{{item.quantity}} × {{item.price | number:'1.0-0'}} ل.س</div>
                                 </div>
                             </div>
                             <div class="order-list-item__side">
-                                <div class="order-list-item__total">{{item.totalValue}} ل.س</div>
+                                <div class="order-list-item__total">{{item.totalValue | number:'1.0-0'}} ل.س</div>
                                 <div class="order-list-item__qty">الكمية {{item.quantity}}</div>
                                 <button type="button" class="delete-order-list-item-btn" (click)="removeItem(i)">
                                     <i class="fas fa-times-circle"></i>
@@ -264,15 +264,15 @@
                 <div class="totals-list">
                     <div class="totals-row">
                         <span>إجمالي الأصناف</span>
-                        <strong>{{orderModel?.totalValue ?? 0}} ل.س</strong>
+                        <strong>{{orderModel?.totalValue ?? 0 | number:'1.0-0'}} ل.س</strong>
                     </div>
                     <div class="totals-row" *ngIf="OrderTypeId == 2">
                         <span>رسوم التوصيل</span>
-                        <strong>{{deliveryFee}} ل.س</strong>
+                        <strong>{{deliveryFee | number:'1.0-0'}} ل.س</strong>
                     </div>
                     <div class="totals-row totals-row--grand">
                         <span>الإجمالي النهائي</span>
-                        <strong>{{payableTotal}} ل.س</strong>
+                        <strong>{{payableTotal | number:'1.0-0'}} ل.س</strong>
                     </div>
                 </div>
             </div>
@@ -295,7 +295,7 @@
                 <div>
                     <label class="form-check-label text-danger fw-bold fs-5" for="regular-type">السعر</label>
                 </div>
-                <div class="main-color fw-bold fs-5">{{addSelectedFoodItem.price}} ل.س</div>
+                <div class="main-color fw-bold fs-5">{{addSelectedFoodItem.price | number:'1.0-0'}} ل.س</div>
             </div>
         </div>
     </div>
@@ -338,7 +338,7 @@
             <div class="d-flex align-items-center fs-5 position-relative main-color fw-bold">
                 صافى القيمة
             </div>
-            <div class="fw-bold fs-5">{{payableTotal | number : '1.2-2'}} ل.س</div>
+            <div class="fw-bold fs-5">{{payableTotal | number : '1.0-0'}} ل.س</div>
         </div>
         <hr class="border-dark">
         <div class="mb-2">
@@ -375,7 +375,7 @@
                         <p class="m-0 fs-5">المتبقي للعميل</p>
                     </div>
                     <div class="col-lg-6">
-                        <div class="text-dark fw-bold text-end">{{remaining | number : '1.2-2'}} ل.س
+                        <div class="text-dark fw-bold text-end">{{remaining | number : '1.0-0'}} ل.س
                         </div>
                     </div>
                 </div>
@@ -414,12 +414,12 @@
                         </div>
                         <div>
                             <div class="fw-bold fs-5">{{item.productName}}</div>
-                            <div class="text-muted">{{item.quantity}} x {{item.price}} ل.س</div>
+                            <div class="text-muted">{{item.quantity}} x {{item.price | number:'1.0-0'}} ل.س</div>
                         </div>
                     </div>
                     <div class="order-list-text d-flex align-items-center gap-4">
                         <div>
-                            <div class="main-color fw-bold fs-6">{{item.totalValue}} ل.س</div>
+                            <div class="main-color fw-bold fs-6">{{item.totalValue | number:'1.0-0'}} ل.س</div>
                             <div class="fw-bold text-muted fs-6">{{item.quantity}} الكمية</div>
                         </div>
                         <i *ngIf="item.addonItemId != 0" (click)="removeItem(item,i)" class="fas fa-times-circle delete-order-list-item-btn cursor-pointer fs-6"></i>
@@ -673,7 +673,7 @@
                         </span>
                                                 </td>
                                                 <td style="padding:7px 10px;border-bottom:0.5px solid #dee2e6;font-weight:500;color:#185FA5;">
-                                                    {{detail.totalValue}} ل.س
+                                                    {{detail.totalValue | number:'1.0-0'}} ل.س
                                                 </td>
                                             </tr>
                                         </tbody>

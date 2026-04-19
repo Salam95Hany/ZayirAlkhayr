@@ -7,8 +7,8 @@ import { ActivatedRoute } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ValidationFormService } from '../../Services/validation-form.service';
-import { QzPrintService } from '../../Services/qz-print.service';
 import { ReceiptModel } from '../../Models/ReceiptModel';
+import { QzPrintService } from '../../Services/qz-print.service';
 
 @Component({
   selector: 'app-create-order',
@@ -387,7 +387,8 @@ export class CreateOrderComponent {
           this.modalService.dismissAll();
         }).catch(err => {
           console.error('Print failed', err);
-          this.toaster.error('حدث خطأ أثناء الطباعة');
+          this.resetOrderModel();
+          this.modalService.dismissAll();
         }).finally(() => {
           this.showLoader = false;
         });
