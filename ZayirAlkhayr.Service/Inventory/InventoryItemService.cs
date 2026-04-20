@@ -125,8 +125,10 @@ namespace ZayirAlkhayr.Service.Inventory
                                                      .AnyAsync(i => i.InventoryItemId == inventoryItemId);
                 var hasPurchaseItem = await _unitOfWork.Repository<PurchaseItem>()
                                                        .AnyAsync(i => i.InventoryItemId == inventoryItemId);
+                var hasRecipe = await _unitOfWork.Repository<ItemRecipe>()
+                                                 .AnyAsync(i => i.InventoryItemId == inventoryItemId);
 
-                if (hasAdjustment || hasPurchaseItem)
+                if (hasAdjustment || hasPurchaseItem || hasRecipe)
                     return ApiResponseModel<string>.Failure(GenericErrors.DeleteRelationRow);
 
                 _unitOfWork.Repository<InventoryItem>().Delete(entity);

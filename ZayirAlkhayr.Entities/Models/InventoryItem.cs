@@ -19,5 +19,6 @@ namespace ZayirAlkhayr.Entities.Models
         public DateTime? InsertDate { get; set; }
         public string UpdateUser { get; set; }
         public DateTime? UpdateDate { get; set; }
+        public ICollection<ItemRecipe> ItemRecipes { get; set; } = new List<ItemRecipe>();
     }
 }

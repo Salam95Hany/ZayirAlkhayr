@@ -3,6 +3,41 @@ using System.Collections.Generic;
 
 namespace ZayirAlkhayr.Entities.Contracts.DTOs.Inventory
 {
+    public class ItemRecipeUpsertDto
+    {
+        public int ItemId { get; set; }
+        public string UserId { get; set; }
+        public List<ItemRecipeLineUpsertDto> Recipes { get; set; } = new List<ItemRecipeLineUpsertDto>();
+    }
+
+    public class ItemRecipeLineUpsertDto
+    {
+        public int? ItemRecipeId { get; set; }
+        public int InventoryItemId { get; set; }
+        public double QuantityNeeded { get; set; }
+    }
+
+    public class ItemRecipeDetailsDto
+    {
+        public int ItemId { get; set; }
+        public string ItemName { get; set; }
+        public int RecipesCount { get; set; }
+        public string IngredientsSummary { get; set; }
+        public string InsertUser { get; set; }
+        public DateTime? InsertDate { get; set; }
+        public string UpdateUser { get; set; }
+        public DateTime? UpdateDate { get; set; }
+        public List<ItemRecipeLineDetailsDto> Recipes { get; set; } = new List<ItemRecipeLineDetailsDto>();
+    }
+
+    public class ItemRecipeLineDetailsDto
+    {
+        public int ItemRecipeId { get; set; }
+        public int InventoryItemId { get; set; }
+        public string InventoryItemName { get; set; }
+        public double QuantityNeeded { get; set; }
+    }
+
     public class InventoryAdjustmentDetailsDto
     {
         public int InventoryAdjustmentId { get; set; }

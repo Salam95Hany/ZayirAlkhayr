@@ -28,5 +28,6 @@ namespace ZayirAlkhayr.Entities.Models
         public IFormFile Files { get; set; }
         public virtual Category Category { get; set; }
         public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+        public ICollection<ItemRecipe> ItemRecipes { get; set; } = new List<ItemRecipe>();
     }
 }
