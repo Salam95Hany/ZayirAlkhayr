@@ -18,6 +18,7 @@ export class QzPrintService {
   private readonly storePhones = '0998222283 - 0998222286';
   private readonly storeAddress = 'درعا جاسم شرق المركز الثقافي 200 م';
   private logoBase64 = '';
+  private qzSecurityInitialized = false;
   private logoLoadPromise: Promise<void>;
   private qzConnectionPromise?: Promise<void>;
 
@@ -30,6 +31,7 @@ export class QzPrintService {
 
     try {
       await this.logoLoadPromise;
+      this.setupQzSecurity();
       await this.InitQZ();
 
       const printer = await this.resolvePrinterName();
@@ -291,7 +293,7 @@ export class QzPrintService {
 
   private renderReceipt(container: HTMLElement): Promise<HTMLCanvasElement> {
     return html2canvas(container, {
-      scale: 1,
+      scale: 2,
       useCORS: true,
       backgroundColor: '#ffffff',
       width: this.receiptWidth,
@@ -506,4 +508,44 @@ export class QzPrintService {
       maximumFractionDigits: 0
     }).format(numericValue);
   }
+
+private setupQzSecurity(): void {
+  if (this.qzSecurityInitialized) {
+    return;
+  }
+
+  qz.security.setCertificatePromise((resolve, reject) => {
+    fetch('/assets/qz/digital-certificate.txt', { cache: 'no-store' })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`Failed to load certificate: ${res.status} ${res.statusText}`);
+        }
+        return res.text();
+      })
+      .then(resolve)
+      .catch(reject);
+  });
+
+  qz.security.setSignatureAlgorithm('SHA512');
+
+  qz.security.setSignaturePromise((toSign) => {
+    return (resolve, reject) => {
+      fetch('http://127.0.0.1:3000/sign', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ data: toSign })
+      })
+        .then(res => {
+          if (!res.ok) {
+            throw new Error(`Signing server error: ${res.status}`);
+          }
+          return res.text();
+        })
+        .then(resolve)
+        .catch(reject);
+    };
+  });
+
+  this.qzSecurityInitialized = true;
+}
 }

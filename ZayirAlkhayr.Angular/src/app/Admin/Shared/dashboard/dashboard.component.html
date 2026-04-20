@@ -4,8 +4,7 @@
             <div class="admin-crud-hero__eyebrow">لوحة التحكم</div>
             <h1 class="admin-crud-hero__title">متابعة التشغيل اليومي بصورة أوضح وأكثر احترافية</h1>
             <p class="admin-crud-hero__text">
-                نظرة سريعة على الطلبات والمبيعات والعملاء خلال اليوم مع بطاقات منظمة، مؤشرات واضحة، وتجربة متجاوبة
-                تحافظ على نفس وظائف النظام الحالية.
+                نظرة سريعة على الطلبات والمبيعات والعملاء خلال اليوم مع بطاقات منظمة، مؤشرات واضحة، وتجربة متجاوبة تحافظ على نفس وظائف النظام الحالية.
             </p>
 
             <div class="dashboard-hero__meta">
@@ -204,7 +203,7 @@
                         <div class="dashboard-selling-row__content">
                             <div class="dashboard-selling-row__top">
                                 <span class="dashboard-selling-name">{{item?.itemName}}</span>
-                                <span class="dashboard-selling-value">{{item?.totalSales ?? 0}} ل.س</span>
+                                <span class="dashboard-selling-value">{{item?.totalSales ?? 0 | number:'1.0-0'}} ل.س</span>
                             </div>
 
                             <div class="dashboard-selling-sub">{{item?.totalQuantity ?? 0}} مبيع اليوم</div>
@@ -354,7 +353,7 @@
                             <i class="uil uil-wallet"></i>
                         </div>
                         <div class="dashboard-customer-card__label">متوسط صرف العميل</div>
-                        <div class="dashboard-customer-card__value">{{CustomerDelivery?.avgCustomerSpend ?? 0}} ل.س</div>
+                        <div class="dashboard-customer-card__value">{{CustomerDelivery?.avgCustomerSpend ?? 0 | number:'1.0-0'}} ل.س</div>
                         <div class="dashboard-customer-card__sub">معدل الإنفاق لكل عميل</div>
                     </div>
                 </div>
