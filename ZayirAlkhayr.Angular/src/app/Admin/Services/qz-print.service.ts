@@ -30,10 +30,11 @@ export class QzPrintService {
   private readonly storeName = 'صبح و مسا';
   private readonly storePhones = '0998222283 - 0998222286';
   private readonly storeAddress = 'درعا جاسم شرق المركز الثقافي 200 م';
-  private readonly baseFontSizePx = 14;
+  private readonly baseFontSizePx = 20;
   private readonly logoDisplayWidthPx = 190;
   private readonly logoOutputPaddingPx = 24;
   private readonly minRenderScale = 3;
+  private readonly printBottomPaddingPx = 48;
   private logoBase64 = '';
   private qzSecurityInitialized = false;
   private logoLoadPromise: Promise<void>;
@@ -48,7 +49,7 @@ export class QzPrintService {
 
     try {
       await this.logoLoadPromise;
-      // this.setupQzSecurity();
+      this.setupQzSecurity();
       await this.InitQZ();
 
       const printer = await this.resolvePrinterName();
@@ -532,9 +533,10 @@ export class QzPrintService {
       return canvas;
     }
 
+    const resizedHeight = Math.max(1, Math.ceil(canvas.height * (this.receiptWidth / canvas.width)));
     const outputCanvas = document.createElement('canvas');
     outputCanvas.width = this.receiptWidth;
-    outputCanvas.height = Math.max(1, Math.round(canvas.height * (this.receiptWidth / canvas.width)));
+    outputCanvas.height = resizedHeight + this.printBottomPaddingPx;
 
     const context = outputCanvas.getContext('2d');
     if (!context) {
@@ -545,7 +547,7 @@ export class QzPrintService {
     context.fillRect(0, 0, outputCanvas.width, outputCanvas.height);
     context.imageSmoothingEnabled = true;
     context.imageSmoothingQuality = 'high';
-    context.drawImage(canvas, 0, 0, outputCanvas.width, outputCanvas.height);
+    context.drawImage(canvas, 0, 0, outputCanvas.width, resizedHeight);
 
     return outputCanvas;
   }
@@ -581,11 +583,11 @@ export class QzPrintService {
   }
 
   private calculatePaperHeight(heightPx: number): number {
-    const extraFeedMm = 10;
+    const extraFeedMm = 12;
     const minHeightMm = 40;
     const contentHeightMm = heightPx / this.printerDensityDpmm;
 
-    return Math.max(minHeightMm, Number((contentHeightMm + extraFeedMm).toFixed(2)));
+    return Math.max(minHeightMm, Number((Math.ceil(contentHeightMm) + extraFeedMm).toFixed(2)));
   }
 
   private buildItemsTable(items: ReceiptItemsModel[]): string {

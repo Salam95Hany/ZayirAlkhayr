@@ -143,7 +143,7 @@ namespace ZayirAlkhayr.Service.POS
                 }
 
                 await _unitOfWork.CompleteAsync();
-                return ApiResponseModel<string>.Success(GenericErrors.AddSuccess, OrderNumber.ToString());
+                return ApiResponseModel<string>.Success(GenericErrors.AddSuccess, order.OrderNumber.ToString());
             }
             catch (Exception)
             {
