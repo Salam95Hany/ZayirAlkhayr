@@ -1261,9 +1261,12 @@ select {
 
 .admin-user-page,
 .admin-crud-page {
-    display: grid;
-    gap: 1.5rem;
     padding: 1rem;
+}
+
+.admin-user-page > section + section,
+.admin-crud-page:not(.profile-page) > section + section {
+    margin-top: 1.5rem;
 }
 
 .users-hero,
