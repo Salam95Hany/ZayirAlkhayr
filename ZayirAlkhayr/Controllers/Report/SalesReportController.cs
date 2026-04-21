@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Data;
@@ -8,6 +9,7 @@ using ZayirAlkhayr.Interface.Report;
 
 namespace ZayirAlkhayr.Controllers.Report
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class SalesReportController : ControllerBase
