@@ -87,10 +87,6 @@
     font-size: 15px;
 }
 
-.form-check .form-check-input {
-    float: left;
-}
-
 .date-picker-flex {
     position: relative;
     display: flex;
@@ -98,7 +94,8 @@
     border: 1px solid #ced4da;
     border-radius: 6px;
     padding: 3px 8px;
-    width: 250px;
+    width: min(100%, 250px);
+    max-width: 100%;
     background-color: #fff;
     overflow: visible;
     z-index: 3;
@@ -129,12 +126,19 @@
     z-index: 1080 !important;
 }
 
-.width-420 {
-    width: 420px;
+.width-362 {
+    width: min(100%, 362px);
+    max-width: 100%;
 }
 
-.width-362 {
-    width: 362px;
+@media (max-width: 767px) {
+    .admin-filter-search,
+    .date-picker-flex,
+    .custom-date-input,
+    .filter-button {
+        width: 100%;
+        max-width: 100%;
+    }
 }
 
 @media (max-width: 575px) {
