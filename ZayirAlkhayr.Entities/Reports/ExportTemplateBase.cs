@@ -1,12 +1,10 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZayirAlkhayr.Entities.Common;
 
-namespace PosSystem.Entities.Common
+namespace ZayirAlkhayr.Entities.Reports
 {
     public class ExportTemplateBase
     {
@@ -14,7 +12,6 @@ namespace PosSystem.Entities.Common
         public string UserName { get; set; }
         public string TemplateName { get; set; }
         public string SheetName { get; set; }
-        public ExportHeaders Header { get; set; }
         public Dictionary<string, string> SubstitutionDictionary()
         {
             var parameter = new Dictionary<string, string>
@@ -26,11 +23,5 @@ namespace PosSystem.Entities.Common
             };
             return parameter;
         }
-    }
-
-    public class ExportHeaders
-    {
-        public IList<string> TblHeaders { get; set; }
-        
     }
 }

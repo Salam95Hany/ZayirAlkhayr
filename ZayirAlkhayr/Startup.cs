@@ -11,6 +11,8 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using QuestPDF.Infrastructure;
+using RazorLight;
+using System.IO;
 using System.Text;
 using ZayirAlkhayr.Entities.Auth;
 using ZayirAlkhayr.Entities.Models;
@@ -22,6 +24,8 @@ using ZayirAlkhayr.Interface.POS;
 using ZayirAlkhayr.Interface.Report;
 using ZayirAlkhayr.Interface.Repositories;
 using ZayirAlkhayr.Interface.Setting;
+using ZayirAlkhayr.Reports.Interface;
+using ZayirAlkhayr.Reports.Service;
 using ZayirAlkhayr.Service.Auth;
 using ZayirAlkhayr.Service.Common;
 using ZayirAlkhayr.Service.Customer;
@@ -104,7 +108,6 @@ namespace ZayirAlkhayr
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ISQLHelper, SQLHelper>();
             services.AddScoped<IManageFileService, ManageFileService>();
-            services.AddScoped<IExportManagerService, ExportManagerService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IJwtProvider, JwtProvider>();
             services.AddScoped<IItemService, ItemService>();
@@ -121,6 +124,28 @@ namespace ZayirAlkhayr
             services.AddScoped<IItemRecipeService, ItemRecipeService>();
             services.AddScoped<IBackupService, BackupService>();
             services.AddScoped<IFactoryResetService, FactoryResetService>();
+
+            #region ReportsDI
+
+            services.AddSingleton<IRazorLightEngine>(serviceProvider =>
+            {
+                var env = serviceProvider.GetRequiredService<IWebHostEnvironment>();
+                var templatePath = Path.Combine(env.WebRootPath, "TemplatesHTML");
+                return new RazorLightEngineBuilder()
+                    .UseFileSystemProject(templatePath)
+                    .UseMemoryCachingProvider()
+                    .Build();
+            });
+            services.Scan(scan => scan
+            .FromApplicationDependencies()
+            .AddClasses(c => c.AssignableTo<IReportGenerator>()).AsImplementedInterfaces().WithTransientLifetime());
+            QuestPDF.Settings.License = LicenseType.Community;
+            services.AddScoped<IReportGeneratorFactory, ReportGeneratorFactory>();
+            services.AddScoped<IExportManagerService, ExportManagerService>();
+            services.AddSingleton<IPDFHelper, PDFHelper>();
+
+
+            #endregion
 
             services.AddMvc(options =>
                 {

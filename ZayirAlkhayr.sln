@@ -32,6 +32,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZayirAlkhayr.Interface", "Z
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZayirAlkhayr.Service", "ZayirAlkhayr.Service\ZayirAlkhayr.Service.csproj", "{017892D1-F7FB-4024-BEB5-CE433DCA17DA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZayirAlkhayr.Reports", "ZayirAlkhayr.Reports\ZayirAlkhayr.Reports.csproj", "{A995279C-F3AE-4641-82AD-258F5CC12211}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,10 @@ Global
 		{017892D1-F7FB-4024-BEB5-CE433DCA17DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{017892D1-F7FB-4024-BEB5-CE433DCA17DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{017892D1-F7FB-4024-BEB5-CE433DCA17DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A995279C-F3AE-4641-82AD-258F5CC12211}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A995279C-F3AE-4641-82AD-258F5CC12211}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A995279C-F3AE-4641-82AD-258F5CC12211}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A995279C-F3AE-4641-82AD-258F5CC12211}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

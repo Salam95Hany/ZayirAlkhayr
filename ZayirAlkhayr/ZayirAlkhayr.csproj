@@ -15,11 +15,13 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="Scrutor" Version="7.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ZayirAlkhayr.Interface\ZayirAlkhayr.Interface.csproj" />
+    <ProjectReference Include="..\ZayirAlkhayr.Reports\ZayirAlkhayr.Reports.csproj" />
     <ProjectReference Include="..\ZayirAlkhayr.Service\ZayirAlkhayr.Service.csproj" />
   </ItemGroup>
 
@@ -27,6 +29,7 @@
     <Folder Include="wwwroot\ExportFiles\" />
     <Folder Include="wwwroot\Images\Categories\" />
     <Folder Include="wwwroot\Images\Items\" />
+    <Folder Include="wwwroot\Reports\" />
   </ItemGroup>
 
 </Project>
