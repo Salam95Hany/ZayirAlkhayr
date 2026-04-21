@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ZayirAlkhayr.Entities.Common;
+using ZayirAlkhayr.Entities.Contracts.DTOs.Inventory;
 using ZayirAlkhayr.Entities.Models;
 using ZayirAlkhayr.Interface.Inventory;
 using ZayirAlkhayr.Interface.Repositories;
@@ -14,6 +15,7 @@ namespace ZayirAlkhayr.Service.Inventory
     public class InventoryItemService : IInventoryItemService
     {
         private static readonly Error InvalidInventoryQuantity = new Error("\u0644\u0627 \u064A\u0645\u0643\u0646 \u0623\u0646 \u062A\u0643\u0648\u0646 \u0627\u0644\u0643\u0645\u064A\u0629 \u0627\u0644\u0645\u062A\u0627\u062D\u0629 \u0623\u0642\u0644 \u0645\u0646 \u0635\u0641\u0631");
+        private static readonly Error InvalidUnit = new Error("\u0627\u0644\u0648\u062D\u062F\u0629 \u0627\u0644\u0645\u062D\u062F\u062F\u0629 \u063A\u064A\u0631 \u0645\u0648\u062C\u0648\u062F\u0629");
         private readonly IUnitOfWork _unitOfWork;
 
         public InventoryItemService(IUnitOfWork unitOfWork)
@@ -21,17 +23,15 @@ namespace ZayirAlkhayr.Service.Inventory
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ApiResponseModel<List<InventoryItem>>> GetAllInventoryItems(PagingFilterModel model)
+        public async Task<ApiResponseModel<List<InventoryItemDetailsDto>>> GetAllInventoryItems(PagingFilterModel model)
         {
             var searchText = GetFilterValue(model, "SearchText");
             var lowStockOnly = IsFilterChecked(model, "LowStockOnly") || IsFilterChecked(model, "BelowMinOnly");
 
-            var query = _unitOfWork.Repository<InventoryItem>()
-                                   .GetAllAsQueryable()
-                                   .AsNoTracking();
+            var query = BuildInventoryItemDetailsQuery();
 
             if (!string.IsNullOrWhiteSpace(searchText))
-                query = query.Where(i => i.Name.Contains(searchText));
+                query = query.Where(i => i.Name.Contains(searchText) || i.UnitName.Contains(searchText));
 
             if (lowStockOnly)
                 query = query.Where(i => i.CurrentQuantity <= i.MinQuantity);
@@ -40,32 +40,28 @@ namespace ZayirAlkhayr.Service.Inventory
             var totalCount = await query.CountAsync();
             var results = await ApplyPaging(query, model).ToListAsync();
 
-            return ApiResponseModel<List<InventoryItem>>.Success(GenericErrors.GetSuccess, results, totalCount);
+            return ApiResponseModel<List<InventoryItemDetailsDto>>.Success(GenericErrors.GetSuccess, results, totalCount);
         }
 
-        public async Task<ApiResponseModel<InventoryItem>> GetInventoryItemById(int inventoryItemId)
+        public async Task<ApiResponseModel<InventoryItemDetailsDto>> GetInventoryItemById(int inventoryItemId)
         {
-            var entity = await _unitOfWork.Repository<InventoryItem>()
-                                          .GetAllAsQueryable()
-                                          .AsNoTracking()
-                                          .FirstOrDefaultAsync(i => i.InventoryItemId == inventoryItemId);
+            var entity = await BuildInventoryItemDetailsQuery()
+                .FirstOrDefaultAsync(i => i.InventoryItemId == inventoryItemId);
 
             if (entity == null)
-                return ApiResponseModel<InventoryItem>.Failure(GenericErrors.NotFound);
+                return ApiResponseModel<InventoryItemDetailsDto>.Failure(GenericErrors.NotFound);
 
-            return ApiResponseModel<InventoryItem>.Success(GenericErrors.GetSuccess, entity);
+            return ApiResponseModel<InventoryItemDetailsDto>.Success(GenericErrors.GetSuccess, entity);
         }
 
-        public async Task<ApiResponseModel<List<InventoryItem>>> GetLowStockInventoryItems()
+        public async Task<ApiResponseModel<List<InventoryItemDetailsDto>>> GetLowStockInventoryItems()
         {
-            var results = await _unitOfWork.Repository<InventoryItem>()
-                                           .GetAllAsQueryable()
-                                           .AsNoTracking()
-                                           .Where(i => i.CurrentQuantity <= i.MinQuantity)
-                                           .OrderBy(i => i.Name)
-                                           .ToListAsync();
+            var results = await BuildInventoryItemDetailsQuery()
+                .Where(i => i.CurrentQuantity <= i.MinQuantity)
+                .OrderBy(i => i.Name)
+                .ToListAsync();
 
-            return ApiResponseModel<List<InventoryItem>>.Success(GenericErrors.GetSuccess, results);
+            return ApiResponseModel<List<InventoryItemDetailsDto>>.Success(GenericErrors.GetSuccess, results);
         }
 
         public async Task<ApiResponseModel<string>> AddNewInventoryItem(InventoryItem model)
@@ -74,6 +70,9 @@ namespace ZayirAlkhayr.Service.Inventory
             {
                 if (model.CurrentQuantity < 0 || model.MinQuantity < 0)
                     return ApiResponseModel<string>.Failure(InvalidInventoryQuantity);
+
+                if (!await UnitExistsAsync(model.UnitId))
+                    return ApiResponseModel<string>.Failure(InvalidUnit);
 
                 model.InsertDate = DateTime.Now;
                 await _unitOfWork.Repository<InventoryItem>().AddAsync(model);
@@ -96,6 +95,9 @@ namespace ZayirAlkhayr.Service.Inventory
                 var entity = await _unitOfWork.Repository<InventoryItem>().GetByIdAsync(model.InventoryItemId);
                 if (entity == null)
                     return ApiResponseModel<string>.Failure(GenericErrors.NotFound);
+
+                if (!await UnitExistsAsync(model.UnitId))
+                    return ApiResponseModel<string>.Failure(InvalidUnit);
 
                 entity.Name = model.Name;
                 entity.UnitId = model.UnitId;
@@ -146,6 +148,34 @@ namespace ZayirAlkhayr.Service.Inventory
             var currentPage = model?.Currentpage > 0 ? model.Currentpage : 1;
             var pageSize = model?.Pagesize > 0 ? model.Pagesize : 20;
             return query.Skip((currentPage - 1) * pageSize).Take(pageSize);
+        }
+
+        private IQueryable<InventoryItemDetailsDto> BuildInventoryItemDetailsQuery()
+        {
+            return _unitOfWork.Repository<InventoryItem>()
+                .GetAllAsQueryable()
+                .AsNoTracking()
+                .Select(i => new InventoryItemDetailsDto
+                {
+                    InventoryItemId = i.InventoryItemId,
+                    UnitId = i.UnitId,
+                    UnitName = i.Unit != null ? i.Unit.Name : string.Empty,
+                    Name = i.Name,
+                    CurrentQuantity = i.CurrentQuantity,
+                    MinQuantity = i.MinQuantity,
+                    InsertUser = i.InsertUser,
+                    InsertDate = i.InsertDate,
+                    UpdateUser = i.UpdateUser,
+                    UpdateDate = i.UpdateDate
+                });
+        }
+
+        private async Task<bool> UnitExistsAsync(int unitId)
+        {
+            if (unitId <= 0)
+                return false;
+
+            return await _unitOfWork.Repository<Unit>().AnyAsync(i => i.UnitId == unitId);
         }
 
         private static string GetFilterValue(PagingFilterModel model, string categoryName)

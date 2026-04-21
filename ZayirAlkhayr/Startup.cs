@@ -115,6 +115,7 @@ namespace ZayirAlkhayr
             services.AddScoped<ISalesReportService, SalesReportService>();
             services.AddScoped<IItemReportService, ItemReportService>();
             services.AddScoped<IPurchaseService, PurchaseService>();
+            services.AddScoped<IUnitService, UnitService>();
             services.AddScoped<IInventoryItemService, InventoryItemService>();
             services.AddScoped<IInventoryAdjustmentService, InventoryAdjustmentService>();
             services.AddScoped<ISupplierService, SupplierService>();

@@ -11,6 +11,7 @@ import { AdminUserComponent } from './Components/Setting/admin-user/admin-user.c
 import { BackupComponent } from './Components/Setting/backup/backup.component';
 import { UserProfileComponent } from './Components/Setting/user-profile/user-profile.component';
 import { FactoryResetComponent } from './Components/Setting/factory-reset/factory-reset.component';
+import { UnitsComponent } from './Components/Inventory/units/units.component';
 import { InventoryItemsComponent } from './Components/Inventory/inventory-items/inventory-items.component';
 import { ItemRecipesComponent } from './Components/Inventory/item-recipes/item-recipes.component';
 import { SuppliersComponent } from './Components/Inventory/suppliers/suppliers.component';
@@ -59,6 +60,12 @@ const routes: Routes = [
         component: CustomersComponent,
         canActivate: [AuthGuard],
         data: { roles: ['Admin', 'Cashier'], breadcrumb: ['النظام', 'إدارة المطعم', 'العملاء'] },
+      },
+      {
+        path: 'inventory-units',
+        component: UnitsComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['Admin'], breadcrumb: ['المخزون', 'إدارة المخزون', 'الوحدات'] },
       },
       {
         path: 'inventory-items',

@@ -31,6 +31,7 @@ namespace ZayirAlkhayr.Entities.Models
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Unit> Units { get; set; }
         public DbSet<InventoryItem> InventoryItems { get; set; }
         public DbSet<ItemRecipe> ItemRecipes { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
@@ -54,6 +55,7 @@ namespace ZayirAlkhayr.Entities.Models
 
             modelBuilder.Entity<Item>().HasOne(i => i.Category).WithMany(c => c.Items).HasForeignKey(i => i.CategoryId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Order>().HasOne(i => i.Customers).WithMany(c => c.Orders).HasForeignKey(i => i.CustomerId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<InventoryItem>().HasOne(i => i.Unit).WithMany(u => u.InventoryItems).HasForeignKey(i => i.UnitId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<ItemRecipe>().HasOne(i => i.Item).WithMany(i => i.ItemRecipes).HasForeignKey(i => i.ItemId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<ItemRecipe>().HasOne(i => i.InventoryItem).WithMany(i => i.ItemRecipes).HasForeignKey(i => i.InventoryItemId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<ItemRecipe>().HasIndex(i => new { i.ItemId, i.InventoryItemId }).IsUnique();

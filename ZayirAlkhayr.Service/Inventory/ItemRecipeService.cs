@@ -66,6 +66,7 @@ namespace ZayirAlkhayr.Service.Inventory
                             ItemRecipeId = i.ItemRecipeId,
                             InventoryItemId = i.InventoryItemId,
                             InventoryItemName = i.InventoryItemName,
+                            InventoryItemUnitName = i.InventoryItemUnitName,
                             QuantityNeeded = i.QuantityNeeded
                         })
                         .ToList()
@@ -211,6 +212,7 @@ namespace ZayirAlkhayr.Service.Inventory
                        ItemName = item != null ? item.Name : string.Empty,
                        InventoryItemId = itemRecipe.InventoryItemId,
                        InventoryItemName = inventoryItem != null ? inventoryItem.Name : string.Empty,
+                       InventoryItemUnitName = inventoryItem != null && inventoryItem.Unit != null ? inventoryItem.Unit.Name : string.Empty,
                        QuantityNeeded = itemRecipe.QuantityNeeded,
                        InsertUser = itemRecipe.InsertUser,
                        InsertDate = itemRecipe.InsertDate,
@@ -236,6 +238,7 @@ namespace ZayirAlkhayr.Service.Inventory
                     ItemRecipeId = i.ItemRecipeId,
                     InventoryItemId = i.InventoryItemId,
                     InventoryItemName = i.InventoryItemName,
+                    InventoryItemUnitName = i.InventoryItemUnitName,
                     QuantityNeeded = i.QuantityNeeded
                 }).ToList()
             };
@@ -306,6 +309,7 @@ namespace ZayirAlkhayr.Service.Inventory
             public string ItemName { get; set; }
             public int InventoryItemId { get; set; }
             public string InventoryItemName { get; set; }
+            public string InventoryItemUnitName { get; set; }
             public double QuantityNeeded { get; set; }
             public string InsertUser { get; set; }
             public DateTime? InsertDate { get; set; }

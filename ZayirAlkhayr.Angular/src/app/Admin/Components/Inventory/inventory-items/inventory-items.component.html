@@ -3,7 +3,7 @@
         <div class="admin-crud-hero__content">
             <div class="admin-crud-hero__eyebrow">إدارة المخزون</div>
             <h1 class="admin-crud-hero__title">عناصر المخزون والكميات الحالية</h1>
-            <p class="admin-crud-hero__text">متابعة الأصناف الداخلية، الحد الأدنى للتنبيه، والكميات المتاحة من واجهة متناسقة مع بقية صفحات الإدارة.</p>
+            <p class="admin-crud-hero__text">متابعة الأصناف الداخلية والحد الأدنى للتنبيه والكميات المتاحة من واجهة متناسقة مع بقية صفحات الإدارة.</p>
         </div>
 
         <div class="admin-crud-hero__actions">
@@ -46,7 +46,7 @@
                 <thead>
                     <tr>
                         <th>العنصر</th>
-                        <th>رقم الوحدة</th>
+                        <th>الوحدة</th>
                         <th>الكمية الحالية</th>
                         <th>الحد الأدنى</th>
                         <th>الحالة</th>
@@ -61,7 +61,7 @@
                                 <strong>{{item.name}}</strong>
                             </div>
                         </td>
-                        <td>{{item.unitId}}</td>
+                        <td>{{item.unitName || GetUnitName(item.unitId)}}</td>
                         <td>{{item.currentQuantity}}</td>
                         <td>{{item.minQuantity}}</td>
                         <td>
@@ -113,12 +113,22 @@
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        <div class="form-floating">
-                            <input type="number" class="form-control" formControlName="unitId" id="inventory_item_unit" placeholder="inventory-item-unit" required>
-                            <label for="inventory_item_unit">رقم الوحدة</label>
-                            <div *ngIf="ItemForm.controls['unitId']?.invalid && (ItemForm.controls['unitId']?.dirty || ItemForm.controls['unitId']?.touched)" class="text-danger pt-2">
-                                <div *ngIf="ItemForm.controls['unitId'].errors?.['required']">هذا الحقل مطلوب</div>
+                        <div ngbDropdown class="dropdown-with-search overflow-hidden admin-user-role-dropdown" container="body">
+                            <button class="dropdown-with-search-btn btn border h-58 w-100 d-flex align-items-center justify-content-between selector-padding" id="inventoryItemUnitDropdown" ngbDropdownToggle>
+                                {{GetUnitName(ItemForm.controls['unitId'].value)}}
+                            </button>
+                            <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu aria-labelledby="inventoryItemUnitDropdown">
+                                <ul class="dropdown-list-box list-unstyled max-height-220 overflow-auto px-1 py-1 m-0">
+                                    <ng-container *ngFor="let unit of Units">
+                                        <li class="dropdown-item cursor-pointer rounded" [ngClass]="{'DropDownSelected': ItemForm.controls['unitId'].value === unit.unitId}" (click)="onUnitClicked(unit)">
+                                            {{unit.name}}
+                                        </li>
+                                    </ng-container>
+                                </ul>
                             </div>
+                        </div>
+                        <div *ngIf="ItemForm.controls['unitId']?.invalid && (ItemForm.controls['unitId']?.dirty || ItemForm.controls['unitId']?.touched)" class="text-danger pt-2">
+                            <div *ngIf="ItemForm.controls['unitId'].errors?.['required']">هذا الحقل مطلوب</div>
                         </div>
                     </div>
                     <div class="col-lg-6">

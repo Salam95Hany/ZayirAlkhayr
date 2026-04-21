@@ -26,6 +26,7 @@ import { TimeAgoTodayPipe } from './Pipes/time-ago-today.pipe';
 import { SharedModule } from './Shared/shared.module';
 import { UserProfileComponent } from './Components/Setting/user-profile/user-profile.component';
 import { FactoryResetComponent } from './Components/Setting/factory-reset/factory-reset.component';
+import { UnitsComponent } from './Components/Inventory/units/units.component';
 import { InventoryItemsComponent } from './Components/Inventory/inventory-items/inventory-items.component';
 import { ItemRecipesComponent } from './Components/Inventory/item-recipes/item-recipes.component';
 import { SuppliersComponent } from './Components/Inventory/suppliers/suppliers.component';
@@ -60,6 +61,7 @@ import { BreadCrumbComponent } from './Shared/bread-crumb/bread-crumb.component'
     TimeAgoTodayPipe,
     UserProfileComponent,
     FactoryResetComponent,
+    UnitsComponent,
     InventoryItemsComponent,
     ItemRecipesComponent,
     SuppliersComponent,
