@@ -1,8 +1,4 @@
-﻿using OfficeOpenXml.Table.PivotTable;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using ZayirAlkhayr.Entities.Reports;
 using ZayirAlkhayr.Reports.Model;
@@ -12,6 +8,7 @@ namespace ZayirAlkhayr.Reports.Interface
     public interface IReportGenerator
     {
         ReportType ReportType { get; }
-        Task<string> Generate(SearchReportModel Model);
+        ExportFormat Format { get; }
+        Task<ReportFileResult> GenerateAsync(SearchReportModel model, CancellationToken cancellationToken = default);
     }
 }

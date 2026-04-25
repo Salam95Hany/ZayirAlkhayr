@@ -20,7 +20,17 @@ export class CustomersComponent {
   Total = 0;
   CustomerId: any;
   Results: any[] = [];
-  // [PlaceHolder]="'بالاسم, رقم التلفون'"
+  FilterList: FilterModel[] = [
+    {
+      "categoryName": "SearchText",
+      "categoryDisplayName": "بالاسم, رقم التلفون",
+      "itemId": null,
+      "itemKey": null,
+      "itemValue": null,
+      "filterType": "SearchText",
+      "isVisible": false
+    }
+  ];
   PagingFilter: PagingFilterModel = {
     filterList: [],
     currentpage: 1,

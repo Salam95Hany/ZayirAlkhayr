@@ -1,9 +1,11 @@
 import { DatePipe } from '@angular/common';
+import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { FilterModel } from 'src/app/Admin/Models/FilterModel';
 import { PagingFilterModel } from 'src/app/Admin/Models/PagingFilterModel';
+import { ReportExportRequestModel } from 'src/app/Admin/Models/ReportExportRequestModel';
 import { ReportService } from 'src/app/Admin/Services/report.service';
 
 @Component({
@@ -12,6 +14,10 @@ import { ReportService } from 'src/app/Admin/Services/report.service';
   styleUrls: ['./daily-sales-report.component.css']
 })
 export class DailySalesReportComponent implements OnInit {
+  private readonly reportType = 'DailySalesReport';
+  private readonly exportFormat = 'Excel';
+  private readonly fallbackFileName = 'daily-sales-report.xlsx';
+
   StatisticData: any;
   SalesData: any[] = [];
   FilterList: FilterModel[] = [];
@@ -25,8 +31,9 @@ export class DailySalesReportComponent implements OnInit {
     filterList: [],
     currentpage: 1,
     pagesize: 20
-  }
-  quickRanges: { label: string, type: string, startDate: string, endDate: string }[] = [
+  };
+
+  quickRanges: { label: string; type: string; startDate: string | null; endDate: string | null }[] = [
     { label: 'كل الفترات', type: 'all', startDate: null, endDate: null },
     { label: 'اليوم', type: 'day', startDate: '', endDate: '' },
     { label: 'آخر 7 أيام', type: 'week', startDate: '', endDate: '' },
@@ -49,19 +56,20 @@ export class DailySalesReportComponent implements OnInit {
     return (this.TotalCount || 0) > 0 || this.SalesData.length > 0;
   }
 
-  LoadData() {
+  LoadData(): void {
     this.GetReportDailySalesSummary();
     this.ReportDailySalesDetailsData();
     this.ReportDailySalesDetailsFilter();
+    this.lastUpdated = new Date();
   }
 
-  GetReportDailySalesSummary() {
+  GetReportDailySalesSummary(): void {
     this.reportService.GetReportDailySalesSummary(this.PagingFilter).subscribe(data => {
       this.StatisticData = data.results[0];
     });
   }
 
-  ReportDailySalesDetailsData() {
+  ReportDailySalesDetailsData(): void {
     this.reportService.ReportDailySalesDetailsData(this.PagingFilter).subscribe(data => {
       this.SalesData = data.results;
       this.TotalCount = data.totalCount;
@@ -69,7 +77,7 @@ export class DailySalesReportComponent implements OnInit {
     });
   }
 
-  ReportDailySalesDetailsFilter() {
+  ReportDailySalesDetailsFilter(): void {
     this.reportService.ReportDailySalesDetailsFilter(this.PagingFilter).subscribe(data => {
       this.FilterList = (data.results || []).map(filter => {
         if (filter.filterType !== 'DateRange') {
@@ -86,19 +94,19 @@ export class DailySalesReportComponent implements OnInit {
     });
   }
 
-  FilterChecked(filters: FilterModel[]) {
+  FilterChecked(filters: FilterModel[]): void {
     this.PagingFilter.filterList = filters;
     this.selectedRange = this.detectSelectedRange(filters);
     this.PagingFilter.currentpage = 1;
     this.LoadData();
   }
 
-  PageChange(obj: any) {
+  PageChange(obj: any): void {
     this.PagingFilter.currentpage = obj.page;
     this.LoadData();
   }
 
-  RangeFilterClicked(type: string) {
+  RangeFilterClicked(type: string): void {
     this.selectedRange = type;
 
     this.FilterList = this.FilterList.map(filter => {
@@ -113,8 +121,7 @@ export class DailySalesReportComponent implements OnInit {
     });
 
     this.PagingFilter.currentpage = 1;
-
-    this.PagingFilter.filterList = this.PagingFilter.filterList.filter(i => i.filterType !== 'DateRange');
+    this.PagingFilter.filterList = this.PagingFilter.filterList.filter(item => item.filterType !== 'DateRange');
 
     const dateRangeFilter = this.createDateRangeFilter(type);
     if (dateRangeFilter) {
@@ -124,43 +131,78 @@ export class DailySalesReportComponent implements OnInit {
     this.LoadData();
   }
 
-  setQuickRange() {
-    this.quickRanges.forEach(i => {
-      if (i.type === 'day') {
+  setQuickRange(): void {
+    this.quickRanges.forEach(range => {
+      if (range.type === 'day') {
         const today = new Date();
-        i.startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate()).toISOString();
-        i.endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59).toISOString();
+        range.startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate()).toISOString();
+        range.endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59).toISOString();
       }
-      if (i.type === 'week') {
+
+      if (range.type === 'week') {
         const today = new Date();
-        i.endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59).toISOString();
+        range.endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59).toISOString();
         const startDate = new Date(today);
         startDate.setDate(today.getDate() - 6);
-        i.startDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()).toISOString();
+        range.startDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()).toISOString();
       }
-      if (i.type === 'month') {
+
+      if (range.type === 'month') {
         const today = new Date();
-        i.endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59).toISOString();
+        range.endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59).toISOString();
         const startDate = new Date(today.getFullYear(), today.getMonth(), 1);
-        i.startDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()).toISOString();
+        range.startDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()).toISOString();
       }
-      if (i.type === 'quarter') {
+
+      if (range.type === 'quarter') {
         const today = new Date();
-        i.endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59).toISOString();
+        range.endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59).toISOString();
         const startDate = new Date(today);
         startDate.setDate(today.getDate() - 89);
-        i.startDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()).toISOString();
+        range.startDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()).toISOString();
       }
     });
   }
 
+  ExportSalesReport(): void {
+    if (this.isExporting) {
+      return;
+    }
+
+    if (!this.canExport) {
+      this.toaster.warning('لا توجد بيانات متاحة للتصدير');
+      return;
+    }
+
+    this.isExporting = true;
+
+    this.reportService.CreateGeneralReport(this.buildExportRequest()).pipe(finalize(() => this.isExporting = false)).subscribe({
+      next: (response) => {
+        if (!response.body || response.body.size === 0) {
+          this.toaster.warning('لا توجد بيانات متاحة للتصدير');
+          return;
+        }
+
+        this.downloadReportFile(response);
+        this.toaster.success('تم تصدير التقرير بنجاح');
+      },
+      error: () => {
+        this.toaster.error('حدث خطأ أثناء تصدير التقرير');
+      }
+    });
+  }
+
+  trackByOrder(index: number, item: any): string | number {
+    return item?.orderId ?? item?.orderNumber ?? index;
+  }
+
   private createDateRangeFilter(type: string): FilterModel | null {
-    const quickRange = this.quickRanges.find(r => r.type === type);
+    const quickRange = this.quickRanges.find(range => range.type === type);
     if (!quickRange || type === 'all') {
       return null;
     }
 
-    const existingFilter = this.FilterList.find(i => i.filterType === 'DateRange');
+    const existingFilter = this.FilterList.find(item => item.filterType === 'DateRange');
     const from = this.formatRangeDate(quickRange.startDate);
     const to = this.formatRangeDate(quickRange.endDate);
 
@@ -177,8 +219,8 @@ export class DailySalesReportComponent implements OnInit {
     };
   }
 
-  private getRangeValue(type: string): { startDate: any; endDate: any } | null {
-    const quickRange = this.quickRanges.find(r => r.type === type);
+  private getRangeValue(type: string): { startDate: string | null; endDate: string | null } | null {
+    const quickRange = this.quickRanges.find(range => range.type === type);
     const startDate = this.formatRangeDate(quickRange?.startDate ?? null);
     const endDate = this.formatRangeDate(quickRange?.endDate ?? null);
 
@@ -192,8 +234,8 @@ export class DailySalesReportComponent implements OnInit {
     };
   }
 
-  private getCurrentDateRangeValue(): { startDate: any; endDate: any } | null {
-    const appliedDateRange = this.PagingFilter.filterList.find(i => i.filterType === 'DateRange');
+  private getCurrentDateRangeValue(): { startDate: string | null; endDate: string | null } | null {
+    const appliedDateRange = this.PagingFilter.filterList.find(item => item.filterType === 'DateRange');
 
     if (appliedDateRange?.from && appliedDateRange?.to) {
       return {
@@ -206,7 +248,7 @@ export class DailySalesReportComponent implements OnInit {
   }
 
   private detectSelectedRange(filters: FilterModel[]): string {
-    const dateRangeFilter = filters.find(i => i.filterType === 'DateRange');
+    const dateRangeFilter = filters.find(item => item.filterType === 'DateRange');
     if (!dateRangeFilter?.from || !dateRangeFilter?.to) {
       return 'all';
     }
@@ -227,40 +269,70 @@ export class DailySalesReportComponent implements OnInit {
     return this.datePipe.transform(value, 'yyyy-MM-dd');
   }
 
-  ExportSalesReport() {
-    if (this.isExporting) {
-      return;
-    }
+  private buildExportRequest(): ReportExportRequestModel {
+    const userModel = this.getStoredUser();
 
-    if (!this.canExport) {
-      this.toaster.warning('لا توجد بيانات متاحة للتصدير');
-      return;
-    }
-
-    this.isExporting = true;
-
-    const exportFilter: PagingFilterModel = {
-      ...this.PagingFilter,
-      currentpage: 1,
-      pagesize: Math.max(this.TotalCount || this.SalesData.length, this.PagingFilter.pagesize || 20)
+    return {
+      reportType: this.reportType,
+      outputFormat: this.exportFormat,
+      userName: userModel?.userNameAr || userModel?.userName || 'System',
+      culture: 'ar-EG',
+      dateFormat: 'yyyy-MM-dd HH:mm',
+      fileNamePrefix: 'DailySalesReport',
+      queryString: [],
+      filterList: this.mapExportFilters(this.PagingFilter.filterList)
     };
+  }
 
-    this.reportService.ReportDailySalesDetailsData(exportFilter)
-      .pipe(finalize(() => this.isExporting = false))
-      .subscribe({
-        next: (data) => {
-          const rows = data?.results || [];
+  private mapExportFilters(filters: FilterModel[]): FilterModel[] {
+    return (filters || []).map(filter => ({
+      categoryName: filter.categoryName,
+      categoryDisplayName: filter.categoryDisplayName,
+      itemId: filter.itemId,
+      itemKey: filter.itemKey,
+      itemValue: filter.itemValue,
+      isChecked: filter.isChecked,
+      from: filter.from,
+      to: filter.to,
+      filterType: filter.filterType,
+      isVisible: filter.isVisible,
+      displayOrder: filter.displayOrder,
+      filterItems: filter.filterItems ? this.mapExportFilters(filter.filterItems) : undefined
+    }));
+  }
 
-          if (!rows.length) {
-            this.toaster.warning('لا توجد بيانات متاحة للتصدير');
-            return;
-          }
+  private downloadReportFile(response: HttpResponse<Blob>): void {
+    const fileName = this.resolveFileName(response);
+    const fileBlob = new Blob([response.body as BlobPart], {
+      type: response.body?.type || 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    });
+    const objectUrl = window.URL.createObjectURL(fileBlob);
+    const link = document.createElement('a');
 
-          this.toaster.success('تم تصدير التقرير بنجاح');
-        },
-        error: () => {
-          this.toaster.error('حدث خطأ أثناء تصدير التقرير');
-        }
-      });
+    link.href = objectUrl;
+    link.download = fileName;
+    link.click();
+
+    window.setTimeout(() => window.URL.revokeObjectURL(objectUrl), 1000);
+  }
+
+  private resolveFileName(response: HttpResponse<Blob>): string {
+    const contentDisposition = response.headers.get('content-disposition');
+    const fileNameMatch = contentDisposition?.match(/filename\*?=(?:UTF-8''|")?([^\";]+)/i);
+
+    if (fileNameMatch?.[1]) {
+      return decodeURIComponent(fileNameMatch[1].replace(/"/g, '').trim());
+    }
+
+    return this.fallbackFileName;
+  }
+
+  private getStoredUser(): any | null {
+    try {
+      const userModel = localStorage.getItem('UserModel');
+      return userModel ? JSON.parse(userModel) : null;
+    } catch {
+      return null;
+    }
   }
 }

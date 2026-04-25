@@ -1,38 +1,80 @@
-﻿using RazorLight;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Globalization;
+using System.Threading;
 using System.Threading.Tasks;
+using ZayirAlkhayr.Entities.Reports;
+using ZayirAlkhayr.Reports.Configuration;
 using ZayirAlkhayr.Reports.Interface;
 using ZayirAlkhayr.Reports.Model;
 
 namespace ZayirAlkhayr.Reports.Service
 {
-    public abstract class ReportGenerator
+    public abstract class ReportGeneratorBase : IReportGenerator
     {
-        public abstract ReportType ReportType { get; }
-        private readonly IRazorLightEngine _razorEngine;
-        private readonly IPDFHelper _pDFHelper;
+        private readonly ReportOptions _options;
+        protected readonly ILogger Logger;
 
-        protected ReportGenerator(IRazorLightEngine razorEngine, IPDFHelper pDFHelper)
+        protected ReportGeneratorBase(IOptions<ReportOptions> options, ILoggerFactory loggerFactory)
         {
-            _razorEngine = razorEngine;
-            _pDFHelper = pDFHelper;
+            _options = options?.Value ?? new ReportOptions();
+            Logger = loggerFactory.CreateLogger(GetType());
         }
 
-        public async Task<string> Build(object Model)
+        public abstract ReportType ReportType { get; }
+        public abstract ExportFormat Format { get; }
+        public abstract Task<ReportFileResult> GenerateAsync(SearchReportModel model, CancellationToken cancellationToken = default);
+
+        protected ReportRequestContext BuildContext(SearchReportModel request,string reportDisplayName,string fileNamePrefix,string sheetName,string templateKey = "")
         {
+            var cultureName = !string.IsNullOrWhiteSpace(request.Culture)
+                ? request.Culture
+                : request.GetQueryValue("Culture");
+
+            if (string.IsNullOrWhiteSpace(cultureName))
+            {
+                cultureName = _options.DefaultCulture;
+            }
+
+            CultureInfo culture;
             try
             {
-                var html = await _razorEngine.CompileRenderAsync(ReportType.ToString(), Model);
-                var FilePath = _pDFHelper.SaveHTMLResult(html);
-                return FilePath;
+                culture = CultureInfo.GetCultureInfo(cultureName);
             }
-            catch (Exception ex)
+            catch (CultureNotFoundException)
             {
-                return "";
+                Logger.LogWarning("Unknown report culture '{CultureName}', fallback to default culture '{DefaultCulture}'.",
+                    cultureName,
+                    _options.DefaultCulture);
+                culture = CultureInfo.GetCultureInfo(_options.DefaultCulture);
             }
+
+            var dateFormat = !string.IsNullOrWhiteSpace(request.DateFormat)
+                ? request.DateFormat
+                : request.GetQueryValue("DateFormat");
+
+            if (string.IsNullOrWhiteSpace(dateFormat))
+            {
+                dateFormat = _options.DefaultDateFormat;
+            }
+
+            var resolvedFileNamePrefix = !string.IsNullOrWhiteSpace(request.FileNamePrefix)
+                ? request.FileNamePrefix
+                : fileNamePrefix;
+
+            return new ReportRequestContext(
+                ReportType,
+                Format,
+                culture,
+                dateFormat,
+                reportDisplayName,
+                resolvedFileNamePrefix,
+                sheetName,
+                templateKey ?? string.Empty,
+                string.IsNullOrWhiteSpace(request.UserName) ? "System" : request.UserName!,
+                culture.TextInfo.IsRightToLeft,
+                DateTimeOffset.Now);
         }
     }
 }

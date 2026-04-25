@@ -22,18 +22,18 @@ type RgbColor = {
 })
 export class QzPrintService {
   private readonly paperWidthMm = 80;
-  private readonly printableWidthMm = 72;
+  private readonly printableWidthMm = 76;
   private readonly printerDensityDpmm = 8;
   private readonly receiptWidth = this.printableWidthMm * this.printerDensityDpmm;
-  private readonly logoPath = 'assets/POS_Logo3.png';
+  private readonly logoPath = 'assets/POS_PrinterLogo.png';
   private readonly preferredPrinterKeywords = ['xp-q810k', 'xprinter'];
   private readonly storeName = 'صبح و مسا';
   private readonly storePhones = '0998222283 - 0998222286';
   private readonly storeAddress = 'درعا جاسم شرق المركز الثقافي 200 م';
-  private readonly baseFontSizePx = 20;
+  private readonly baseFontSizePx = 26;
   private readonly logoDisplayWidthPx = 190;
   private readonly logoOutputPaddingPx = 24;
-  private readonly minRenderScale = 3;
+  private readonly minRenderScale = 5;
   private readonly printBottomPaddingPx = 48;
   private logoBase64 = '';
   private qzSecurityInitialized = false;
@@ -72,14 +72,6 @@ export class QzPrintService {
     } finally {
       container?.remove();
     }
-  }
-
-  GetPrinters() {
-    return this.InitQZ().then(() => qz.printers.find());
-  }
-
-  GetDefaultPrinter() {
-    return this.InitQZ().then(() => qz.printers.getDefault());
   }
 
   handlePrintError(error: any): string {
@@ -174,8 +166,8 @@ export class QzPrintService {
               ">
                 ${this.escapeHtml(this.storeName)}
               </div>
-              <div style="font-size:14px;font-weight:700;margin-top:10px;">الهاتف: ${this.escapeHtml(this.storePhones)}</div>
-              <div style="font-size:14px;font-weight:600;margin-top:4px;word-break:break-word;">العنوان: ${this.escapeHtml(this.storeAddress)}</div>
+              <div style="font-size:20px;font-weight:700;margin-top:10px;">الهاتف: ${this.escapeHtml(this.storePhones)}</div>
+              <div style="font-size:20px;font-weight:600;margin-top:4px;word-break:break-word;">العنوان: ${this.escapeHtml(this.storeAddress)}</div>
             </div>
           </div>
 
@@ -209,8 +201,8 @@ export class QzPrintService {
           </div>
 
           <div style="margin-top:14px;border-top:1px dashed #000;padding-top:12px;text-align:center;">
-            <div style="font-size:14px;font-weight:700;">شكراً لزيارتكم</div>
-            <div style="font-size:13px;margin-top:4px;">نتشرف بخدمتكم دائماً</div>
+            <div style="font-size:20px;font-weight:700;">شكراً لزيارتكم</div>
+            <div style="font-size:18px;margin-top:4px;">نتشرف بخدمتكم دائماً</div>
           </div>
         </div>
       </div>
@@ -284,8 +276,8 @@ export class QzPrintService {
         }
 
         const luminance = (data[index] * 0.299) + (data[index + 1] * 0.587) + (data[index + 2] * 0.114);
-        const inverted = 255 - luminance;
-        const contrasted = this.clampColor(((inverted - 128) * 1.55) + 128 + 8);
+        // const inverted = 255 - luminance;
+        const contrasted = this.clampColor(((luminance - 128) * 1.55) + 128 + 8);
         const tone = contrasted > 242 ? 255 : contrasted < 18 ? 0 : contrasted;
 
         data[index] = tone;
@@ -593,13 +585,13 @@ export class QzPrintService {
   private buildItemsTable(items: ReceiptItemsModel[]): string {
     if (!items.length) {
       return `
-        <div style="border:1.5px solid #000;border-radius:10px;padding:16px 12px;text-align:center;font-size:14px;font-weight:700;">
+        <div style="border:1.5px solid #000;border-radius:10px;padding:16px 12px;text-align:center;font-size:20px;font-weight:700;">
           لا توجد أصناف في الفاتورة
         </div>
       `;
     }
 
-    const headerCellStyle = 'border:1px solid #000;padding:8px 5px;background:#f2f2f2;font-size:13px;font-weight:800;text-align:center;';
+    const headerCellStyle = 'border:1px solid #000;padding:8px 5px;background:#f2f2f2;font-size:18px;font-weight:800;text-align:center;';
     const rowsHtml = items.map((item, index) => {
       const itemTotal = this.getItemTotal(item);
       const priceText = item.price == null ? '-' : this.formatAmount(item.price);
@@ -607,16 +599,16 @@ export class QzPrintService {
 
       return `
         <tr style="background:${rowBackground};">
-          <td style="border:1px solid #000;padding:8px 6px;font-size:14px;font-weight:700;vertical-align:top;word-break:break-word;">
+          <td style="border:1px solid #000;padding:8px 6px;font-size:20px;font-weight:700;vertical-align:top;word-break:break-word;">
             ${this.escapeHtml(item.name)}
           </td>
-          <td style="border:1px solid #000;padding:8px 5px;font-size:13px;text-align:center;vertical-align:middle;">
+          <td style="border:1px solid #000;padding:8px 5px;font-size:18px;text-align:center;vertical-align:middle;">
             ${this.escapeHtml(item.qty)}
           </td>
-          <td style="border:1px solid #000;padding:8px 5px;font-size:13px;text-align:center;vertical-align:middle;">
+          <td style="border:1px solid #000;padding:8px 5px;font-size:18px;text-align:center;vertical-align:middle;">
             ${this.escapeHtml(priceText)}
           </td>
-          <td style="border:1px solid #000;padding:8px 5px;font-size:13px;font-weight:800;text-align:center;vertical-align:middle;">
+          <td style="border:1px solid #000;padding:8px 5px;font-size:18px;font-weight:800;text-align:center;vertical-align:middle;">
             ${this.escapeHtml(this.formatAmount(itemTotal))}
           </td>
         </tr>
@@ -625,7 +617,7 @@ export class QzPrintService {
 
     return `
       <div style="border:1.5px solid #000;border-radius:10px;overflow:hidden;background:#fff;">
-        <table style="width:100%;border-collapse:collapse;table-layout:fixed;font-size:13px;">
+        <table style="width:100%;border-collapse:collapse;table-layout:fixed;font-size:18px;">
           <thead>
             <tr>
               <th style="${headerCellStyle}width:44%;">الصنف</th>
@@ -645,14 +637,14 @@ export class QzPrintService {
   private buildInfoRow(label: string, value: unknown): string {
     return `
       <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:5px 2px;border-bottom:1px dashed #d6d6d6;">
-        <span style="font-size:14px;font-weight:800;">${this.escapeHtml(label)}</span>
-        <span style="font-size:14px;font-weight:600;text-align:left;word-break:break-word;">${this.escapeHtml(value)}</span>
+        <span style="font-size:20px;font-weight:800;">${this.escapeHtml(label)}</span>
+        <span style="font-size:20px;font-weight:600;text-align:left;word-break:break-word;">${this.escapeHtml(value)}</span>
       </div>
     `;
   }
 
   private buildSummaryRow(label: string, value: string, emphasized = false): string {
-    const fontSize = emphasized ? '18px' : '16px';
+    const fontSize = emphasized ? '20px' : '18px';
     const fontWeight = emphasized ? '800' : '700';
 
     return `

@@ -24,6 +24,7 @@ using ZayirAlkhayr.Interface.POS;
 using ZayirAlkhayr.Interface.Report;
 using ZayirAlkhayr.Interface.Repositories;
 using ZayirAlkhayr.Interface.Setting;
+using ZayirAlkhayr.Reports.Configuration;
 using ZayirAlkhayr.Reports.Interface;
 using ZayirAlkhayr.Reports.Service;
 using ZayirAlkhayr.Service.Auth;
@@ -40,13 +41,14 @@ namespace ZayirAlkhayr
     public class Startup
     {
         public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
+
         readonly string MyAllowSpecificOrigins = "_POSRestaurant";
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             var URLLists = Configuration.GetSection("URLList").Get<string[]>();
@@ -60,11 +62,15 @@ namespace ZayirAlkhayr
                                .AllowAnyMethod();
                     });
             });
+
             services.Configure<AppSettings>(Configuration);
+            services.Configure<ReportOptions>(Configuration.GetSection("Reports"));
             services.AddSingleton<IAppSettings>(sp => sp.GetRequiredService<IOptions<AppSettings>>().Value);
             services.AddControllers();
             services.AddDbContext<POSDbContext>();
+
             QuestPDF.Settings.License = LicenseType.Community;
+
             services.AddIdentity<AdminUser, IdentityRole>(options =>
             {
                 options.Password.RequiredLength = 8;
@@ -84,7 +90,7 @@ namespace ZayirAlkhayr
             {
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = false;
-                x.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                x.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
@@ -103,7 +109,7 @@ namespace ZayirAlkhayr
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "POSRestaurant", Version = "v1" });
             });
-            //QuestPDF.Settings.License = LicenseType.Community;
+
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ISQLHelper, SQLHelper>();
@@ -130,20 +136,28 @@ namespace ZayirAlkhayr
             services.AddSingleton<IRazorLightEngine>(serviceProvider =>
             {
                 var env = serviceProvider.GetRequiredService<IWebHostEnvironment>();
-                var templatePath = Path.Combine(env.WebRootPath, "TemplatesHTML");
+                var reportOptions = serviceProvider.GetRequiredService<IOptions<ReportOptions>>().Value;
+                var templatePath = Path.Combine(env.WebRootPath, reportOptions.HtmlTemplateFolder);
+
                 return new RazorLightEngineBuilder()
                     .UseFileSystemProject(templatePath)
                     .UseMemoryCachingProvider()
                     .Build();
             });
+
+            services.AddSingleton<IReportFileStorage, ReportFileStorage>();
+            services.AddSingleton<IReportTemplateRenderer, ReportTemplateRenderer>();
+            services.AddScoped<IDailySalesReportDataSource, DailySalesReportDataSource>();
+
             services.Scan(scan => scan
-            .FromApplicationDependencies()
-            .AddClasses(c => c.AssignableTo<IReportGenerator>()).AsImplementedInterfaces().WithTransientLifetime());
-            QuestPDF.Settings.License = LicenseType.Community;
+                .FromAssemblies(typeof(IReportGenerator).Assembly)
+                .AddClasses(classes => classes.AssignableTo<IReportGenerator>())
+                .AsImplementedInterfaces()
+                .WithTransientLifetime());
+
             services.AddScoped<IReportGeneratorFactory, ReportGeneratorFactory>();
             services.AddScoped<IExportManagerService, ExportManagerService>();
             services.AddSingleton<IPDFHelper, PDFHelper>();
-
 
             #endregion
 
@@ -160,7 +174,6 @@ namespace ZayirAlkhayr
                 });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

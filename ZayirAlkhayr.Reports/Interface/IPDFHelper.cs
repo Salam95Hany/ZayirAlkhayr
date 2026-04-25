@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using ZayirAlkhayr.Reports.Model;
 
 namespace ZayirAlkhayr.Reports.Interface
 {
     public interface IPDFHelper
     {
-        string SaveHTMLResult(string HTML);
+        Task<ReportFileResult> SaveHtmlResultAsync(string html, ReportRequestContext context, CancellationToken cancellationToken = default);
     }
 }

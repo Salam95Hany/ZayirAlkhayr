@@ -1,0 +1,112 @@
+﻿@using ZayirAlkhayr.Reports.Model
+
+@{
+    PdfDataReports _Model = Model;
+}
+
+<table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;font-family:'Cairo',Tahoma;font-size:13px;direction:rtl">
+
+    <!-- ===== HEADER ===== -->
+    <tr>
+        <td>
+            <table width="100%" style="border-bottom:2px solid #e07b00;padding:10px">
+                <tr>
+
+                    <!-- اللوجو -->
+                    <td width="50%" align="left">
+                        <img src="@_Model.ImageSrc" style="width:80px;height:80px" />
+                        <div style="font-size:20px;font-weight:bold;color:#7a3a00">مطعم النخبة</div>
+                    </td>
+
+                    <!-- الهاتف -->
+                    <td width="50%" align="right">
+                        <div style="font-weight:bold;color:#e07b00">رقم الهاتف:</div>
+                        <div style="border-bottom:1px solid #000;width:150px;height:20px"></div>
+                    </td>
+
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <!-- ===== INFO ===== -->
+    <tr>
+        <td style="padding-top:10px">
+            <table width="100%">
+                <tr>
+                    <td><b>فاتورة إلى:</b></td>
+                    <td>@_Model.GetDataFieldValue("CustomerName")</td>
+                </tr>
+                <tr>
+                    <td><b>التاريخ:</b></td>
+                    <td>@_Model.GetDataFieldValue("Date")</td>
+                </tr>
+                <tr>
+                    <td><b>رقم الفاتورة:</b></td>
+                    <td>@_Model.GetDataFieldValue("InvoiceNumber")</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <!-- ===== ITEMS ===== -->
+    <tr>
+        <td style="padding-top:15px">
+            <table width="100%" border="1" style="border-collapse:collapse;text-align:center">
+                <thead style="background:#e07b00;color:#fff">
+                    <tr>
+                        <th>م</th>
+                        <th>اسم الصنف</th>
+                        <th>السعر</th>
+                        <th>الكمية</th>
+                        <th>الإجمالي</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @{
+                        int i = 1;
+                        foreach (System.Data.DataRow row in _Model.Data.Rows)
+                        {
+                            <tr>
+                                <td>@i</td>
+                                <td style="text-align:right">@row["ItemName"]</td>
+                                <td>@row["Price"]</td>
+                                <td>@row["Qty"]</td>
+                                <td>@row["Total"]</td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                </tbody>
+            </table>
+        </td>
+    </tr>
+
+    <!-- ===== TOTAL ===== -->
+    <tr>
+        <td style="padding-top:15px;padding-bottom: 15px;">
+            <table width="100%">
+                <tr>
+                    <td width="60%">
+                        <b>المجموع بالحروف:</b>
+                        @_Model.GetDataFieldValue("TotalInWords")
+                    </td>
+
+                    <td width="40%" align="left">
+                        <b>الإجمالي:</b>
+                        @_Model.GetDataFieldValue("GrandTotal")
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <!-- ===== FOOTER ===== -->
+    <tr>
+        <td style="padding-top:20px;background:#e07b00;color:#fff;text-align:center;padding:10px">
+            @_Model.GetDataFieldValue("FooterText")
+        </td>
+    </tr>
+
+</table>

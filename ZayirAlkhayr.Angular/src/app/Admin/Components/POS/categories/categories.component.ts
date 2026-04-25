@@ -15,7 +15,7 @@ import { ValidationFormService } from 'src/app/Admin/Services/validation-form.se
 export class CategoriesComponent {
   @ViewChild('InputFile') InputFile: ElementRef;
   UserModel: any;
-  isFilter = false;
+  isFilter = true;
   showLoader = false;
   ItemForm: FormGroup;
   Total = 0;
@@ -24,11 +24,21 @@ export class CategoriesComponent {
   ImageFile: any;
   Results: any[] = [];
   fileURL: any[] = [];
-  // [PlaceHolder]="'بالاسم'"
+  FilterList: FilterModel[] = [
+    {
+      "categoryName": "SearchText",
+      "categoryDisplayName": "بالاسم",
+      "itemId": null,
+      "itemKey": null,
+      "itemValue": null,
+      "filterType": "SearchText",
+      "isVisible": false
+    }
+  ];
   PagingFilter: PagingFilterModel = {
     filterList: [],
     currentpage: 1,
-    pagesize: 10
+    pagesize: 20
   }
 
 
@@ -107,10 +117,12 @@ export class CategoriesComponent {
 
   PageChange(obj: any) {
     this.PagingFilter.currentpage = obj.page;
+    this.GetAllCategories();
   }
 
   FilterChecked(filterList: FilterModel[]) {
     this.PagingFilter.filterList = filterList;
+    this.GetAllCategories();
   }
 
   onFileChange(event: any) {

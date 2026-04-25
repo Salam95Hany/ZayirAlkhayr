@@ -3,13 +3,12 @@ using Microsoft.Extensions.Options;
 using ZayirAlkhayr.Reports.Configuration;
 using ZayirAlkhayr.Reports.Interface;
 using ZayirAlkhayr.Reports.Model;
-using ZayirAlkhayr.Reports.Service;
 
-namespace ZayirAlkhayr.Reports.ExcelTemplate
+namespace ZayirAlkhayr.Reports.Service
 {
-    public class DailySalesReportExcelTempGenerator : DailySalesTabularReportGeneratorBase
+    public class DailySalesCsvReportGenerator : DailySalesTabularReportGeneratorBase
     {
-        public DailySalesReportExcelTempGenerator(
+        public DailySalesCsvReportGenerator(
             IExportManagerService exportManagerService,
             IDailySalesReportDataSource dataSource,
             IOptions<ReportOptions> options,
@@ -18,6 +17,6 @@ namespace ZayirAlkhayr.Reports.ExcelTemplate
         {
         }
 
-        public override ExportFormat Format => ExportFormat.Excel;
+        public override ExportFormat Format => ExportFormat.Csv;
     }
 }

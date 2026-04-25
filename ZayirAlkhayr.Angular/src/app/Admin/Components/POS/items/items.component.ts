@@ -15,7 +15,7 @@ import { ValidationFormService } from 'src/app/Admin/Services/validation-form.se
 export class ItemsComponent {
 @ViewChild('InputFile') InputFile: ElementRef;
   UserModel: any;
-  isFilter = false;
+  isFilter = true;
   showLoader = false;
   ItemForm: FormGroup;
   defaultImage = '../../../../assets/PosLogo.jpeg';
@@ -28,7 +28,17 @@ export class ItemsComponent {
   CategoryName = 'اختر فئة';
   CategoryValidation = false;
   ImageFile: any;
-  // [PlaceHolder]="'بالاسم'"
+  FilterList: FilterModel[] = [
+    {
+      "categoryName": "SearchText",
+      "categoryDisplayName": "بالاسم",
+      "itemId": null,
+      "itemKey": null,
+      "itemValue": null,
+      "filterType": "SearchText",
+      "isVisible": false
+    }
+  ];
   CategoryPagingFilter: PagingFilterModel = {
     filterList: [],
     currentpage: 1,
@@ -37,7 +47,7 @@ export class ItemsComponent {
   PagingFilter: PagingFilterModel = {
     filterList: [],
     currentpage: 1,
-    pagesize: 10
+    pagesize: 20
   }
 
 

@@ -18,7 +18,7 @@ export class OrderListComponent {
   isFilter = true;
   showLoader = false;
   ItemForm: FormGroup;
-  defaultImage = 'balena-2.jpeg';
+  defaultImage = '../../../../assets/PosLogo.jpeg';
   Total = 0;
   CategoryId: any;
   ProductId: any;
@@ -112,6 +112,7 @@ export class OrderListComponent {
     this.adminService.GetAllOrders(this.PagingFilter).subscribe(data => {
       this.showLoader = false;
       this.Results = data.results;
+      this.Total = data.totalCount;
     });
   }
 

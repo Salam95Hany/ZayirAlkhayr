@@ -1,49 +1,44 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using RazorLight;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using System.Threading;
 using System.Threading.Tasks;
 using ZayirAlkhayr.Entities.Reports;
+using ZayirAlkhayr.Reports.Configuration;
 using ZayirAlkhayr.Reports.Interface;
 using ZayirAlkhayr.Reports.Model;
 using ZayirAlkhayr.Reports.Service;
 
 namespace ZayirAlkhayr.Reports.PdfTemplate
 {
-    public class PurshaseTempGenerator: ReportGenerator, IReportGenerator
+    public class DailySalesPdfReportGenerator : ReportGeneratorBase
     {
-        private readonly IWebHostEnvironment _environment;
-        public override ReportType ReportType => ReportType.DailySalesReport;
+        private readonly IReportTemplateRenderer _reportTemplateRenderer;
+        private readonly IPDFHelper _pdfHelper;
+        private readonly IDailySalesReportDataSource _dailySalesReportDataSource;
 
-        public PurshaseTempGenerator(IWebHostEnvironment environment, IRazorLightEngine razorEngine, IPDFHelper pDFHelper) : base(razorEngine, pDFHelper)
+        public DailySalesPdfReportGenerator(
+            IReportTemplateRenderer reportTemplateRenderer,
+            IPDFHelper pdfHelper,
+            IDailySalesReportDataSource dailySalesReportDataSource,
+            IOptions<ReportOptions> options,
+            ILoggerFactory loggerFactory)
+            : base(options, loggerFactory)
         {
-            _environment = environment;
+            _reportTemplateRenderer = reportTemplateRenderer;
+            _pdfHelper = pdfHelper;
+            _dailySalesReportDataSource = dailySalesReportDataSource;
         }
 
+        public override ReportType ReportType => ReportType.DailySalesReport;
+        public override ExportFormat Format => ExportFormat.Pdf;
 
-        public async Task<string> Generate(SearchReportModel Model)
+        public override async Task<ReportFileResult> GenerateAsync(SearchReportModel model, CancellationToken cancellationToken = default)
         {
-            var PatientId = Model.QueryString.FirstOrDefault(i => i.Key == "PatientId")?.Value;
-            var AdmissionId = Model.QueryString.FirstOrDefault(i => i.Key == "AdmissionId")?.Value;
-            var SurgicalId = Model.QueryString.FirstOrDefault(i => i.Key == "SurgicalId")?.Value;
-            if (!string.IsNullOrEmpty(PatientId) && !string.IsNullOrEmpty(AdmissionId) && !string.IsNullOrEmpty(SurgicalId))
-            {
-                //var Results = await _reportsDataService.GetAdmissionTempData(int.Parse(PatientId), int.Parse(AdmissionId), int.Parse(SurgicalId));
-                var Data = new PdfDataReports
-                {
-                    Data = new System.Data.DataTable(),
-                    ImageSrc = Path.Combine(_environment.WebRootPath, "Template", "Logo.png")
-                };
+            var context = BuildContext(model,reportDisplayName: "تقرير المبيعات اليومية",fileNamePrefix: "DailySalesReport",sheetName: "DailySales",templateKey: "DailySalesReport.cshtml");
 
-                var FullPath = await this.Build(Data);
-                return FullPath;
-            }
-            else
-                return string.Empty;
-
+            var templateModel = await _dailySalesReportDataSource.BuildPdfModelAsync(model, context, cancellationToken);
+            var html = await _reportTemplateRenderer.RenderAsync(context.TemplateKey, templateModel, cancellationToken);
+            return await _pdfHelper.SaveHtmlResultAsync(html, context, cancellationToken);
         }
     }
 }

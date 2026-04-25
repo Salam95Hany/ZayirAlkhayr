@@ -1,8 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { PagingFilterModel } from '../Models/PagingFilterModel';
 import { ApiResponseModel } from '../Models/ApiResponseModel';
+import { ReportExportRequestModel } from '../Models/ReportExportRequestModel';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +12,13 @@ import { ApiResponseModel } from '../Models/ApiResponseModel';
 export class ReportService {
   apiURL = environment.apiUrl;
   constructor(private http: HttpClient) { }
+
+  CreateGeneralReport(model: ReportExportRequestModel): Observable<HttpResponse<Blob>> {
+    return this.http.post(this.apiURL + 'CreateReport/CreateGeneralReport', model, {
+      responseType: 'blob',
+      observe: 'response'
+    });
+  }
 
   // ============================= SalesReport ==============================
 

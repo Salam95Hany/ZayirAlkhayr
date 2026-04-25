@@ -1,196 +1,170 @@
-﻿using Microsoft.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Data;
+using System.Data.Common;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using ZayirAlkhayr.Interface.Common;
-using System.Reflection;
 
 namespace ZayirAlkhayr.Service.Common
 {
     public class SQLHelper : ISQLHelper
     {
         private readonly IAppSettings _appSettings;
-        int Timeout = 9999;
-        private string ConnectionString;
+        private readonly int _timeout = 9999;
+        private readonly string _connectionString;
+
         public SQLHelper(IAppSettings appSettings)
         {
             _appSettings = appSettings;
-            ConnectionString = appSettings.ConnectionStrings.DBConnection;
-
+            _connectionString = appSettings.ConnectionStrings.DBConnection;
         }
+
         public async Task<List<TElement>> SQLQueryAsync<TElement>(string commandText, params SqlParameter[] parameters)
         {
-            using (SqlConnection sqlConn = new SqlConnection(ConnectionString))
+            return await ExecuteReaderAsync(commandText, reader =>
             {
-                using (SqlCommand cmd = new SqlCommand(commandText, sqlConn))
-                {
-                    cmd.CommandText = commandText;
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandTimeout = (int)TimeSpan.FromMinutes(5).TotalSeconds;
-
-                    foreach (var parameter in parameters)
-                    {
-                        var paramter = cmd.CreateParameter();
-                        paramter.ParameterName = parameter.ParameterName;
-                        paramter.Value = parameter.Value;
-                        if (!string.IsNullOrEmpty(parameter.TypeName))
-                        {
-                            paramter.SqlDbType = SqlDbType.Structured;
-                            paramter.TypeName = parameter.TypeName;
-                        }
-                        cmd.Parameters.Add(paramter);
-                    }
-
-                    await sqlConn.OpenAsync();
-
-                    using (var reader = await cmd.ExecuteReaderAsync())
-                    {
-                        var result = MapToList<TElement>(reader);
-                        return result;
-                    }
-                }
-            }
+                var result = MapToList<TElement>(reader);
+                return Task.FromResult(result);
+            }, parameters);
         }
 
         public async Task<DataTable> ExecuteDataTableAsync(string commandText, params SqlParameter[] parameters)
         {
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            return await ExecuteReaderAsync(commandText, reader =>
+            {
+                DataTable dataTable = new DataTable();
+                dataTable.Load(reader);
+                return Task.FromResult(dataTable);
+            }, parameters);
+        }
+
+        public async Task<TResult> ExecuteReaderAsync<TResult>(string commandText, Func<DbDataReader, Task<TResult>> handler, params SqlParameter[] parameters)
+        {
+            if (handler == null)
+            {
+                throw new ArgumentNullException(nameof(handler));
+            }
+
+            using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
 
-                using (SqlCommand command = new SqlCommand(commandText, connection))
+                using (SqlCommand command = CreateStoredProcedureCommand(connection, commandText, parameters))
+                using (DbDataReader reader = await command.ExecuteReaderAsync(CommandBehavior.SequentialAccess))
                 {
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.CommandTimeout = Timeout;
-
-                    if (parameters != null && parameters.Length > 0)
-                    {
-                        command.Parameters.AddRange(parameters);
-                    }
-
-                    using (var reader = await command.ExecuteReaderAsync())
-                    {
-                        DataTable dt = new DataTable();
-                        dt.Load(reader);
-                        return dt;
-                    }
+                    return await handler(reader);
                 }
             }
         }
 
         public async Task<DataSet> ExecuteDatasetAsync(string commandText, SqlParameter[] commandParameters)
         {
-            try
+            using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                await connection.OpenAsync();
+
+                using (SqlCommand command = CreateStoredProcedureCommand(connection, commandText, commandParameters))
+                using (DbDataReader reader = await command.ExecuteReaderAsync())
                 {
-                    await connection.OpenAsync();
-
-                    using (SqlCommand sqlCommand = new SqlCommand())
-                    {
-                        PrepareCommand(connection, sqlCommand, transaction: null, CommandType.StoredProcedure, commandText, commandParameters);
-                        sqlCommand.CommandTimeout = Timeout;
-
-                        using (var reader = await sqlCommand.ExecuteReaderAsync())
-                        {
-                            DataSet dataSet = new DataSet();
-                            dataSet.Load(reader, LoadOption.PreserveChanges, new string[] { "Table", "Table1","Table2","Table3" });
-                            sqlCommand.Parameters.Clear();
-                            return dataSet;
-                        }
-                    }
+                    DataSet dataSet = new DataSet();
+                    dataSet.Load(reader, LoadOption.PreserveChanges, new[] { "Table", "Table1", "Table2", "Table3" });
+                    return dataSet;
                 }
-            }
-            catch (Exception ex)
-            {
-                throw;
             }
         }
 
         public async Task<int> ExecuteScalarAsync(string procName, params SqlParameter[] sqlParameters)
         {
-            using (var con = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(_connectionString))
+            using (SqlCommand command = CreateStoredProcedureCommand(connection, procName, sqlParameters))
             {
-                using (SqlCommand sqlCommand = new SqlCommand())
-                {
-                    if (sqlParameters != null && sqlParameters.Length > 0)
-                        sqlCommand.Parameters.AddRange(sqlParameters);
+                await connection.OpenAsync();
 
-                    sqlCommand.Connection = con;
-                    sqlCommand.CommandType = CommandType.StoredProcedure;
-                    sqlCommand.CommandText = procName;
-
-                    await con.OpenAsync();
-
-                    object result = await sqlCommand.ExecuteScalarAsync();
-
-                    return result != null ? Convert.ToInt32(result) : 0;
-                }
+                object result = await command.ExecuteScalarAsync();
+                return result != null ? Convert.ToInt32(result) : 0;
             }
-        }
-
-        private void PrepareCommand(SqlConnection connection, SqlCommand command, SqlTransaction transaction, CommandType commandType, string commandText, SqlParameter[] commandParameters)
-        {
-            if (connection.State != ConnectionState.Open)
-                connection.Open();
-            command.Connection = connection;
-            command.CommandTimeout = Timeout;
-            command.CommandText = commandText;
-            if (transaction != null)
-                command.Transaction = transaction;
-            command.CommandType = commandType;
-            if (commandParameters == null)
-                return;
-            SQLHelper.AttachParameters(command, commandParameters);
-        }
-
-        private static void AttachParameters(SqlCommand command, SqlParameter[] commandParameters)
-        {
-            foreach (SqlParameter sqlParameter in commandParameters)
-            {
-                if (sqlParameter.Direction == ParameterDirection.InputOutput && sqlParameter.Value == null)
-                    sqlParameter.Value = (object)DBNull.Value;
-                command.Parameters.Add(sqlParameter);
-            }
-        }
-
-        private List<T> MapToList<T>(DbDataReader dr)
-        {
-            var objList = new List<T>();
-            var props = typeof(T).GetRuntimeProperties();
-
-            List<string> drColumnsName = new List<string>();
-            for (int i = 0; i < dr.FieldCount; i++)
-            {
-                drColumnsName.Add(dr.GetName(i));
-            }
-
-
-            if (dr.HasRows)
-            {
-                while (dr.Read())
-                {
-                    T obj = Activator.CreateInstance<T>();
-                    foreach (var prop in props)
-                    {
-                        if (drColumnsName.Contains(prop.Name))
-                        {
-                            var ordinal = dr.GetOrdinal(prop.Name);
-                            var val = dr.GetValue(ordinal);
-                            prop.SetValue(obj, val == DBNull.Value ? null : val);
-                        }
-                    }
-                    objList.Add(obj);
-                }
-            }
-            return objList;
         }
 
         public async Task<int> GenerateCode(string procName)
         {
             return await ExecuteScalarAsync(procName, Array.Empty<SqlParameter>());
+        }
+
+        private SqlCommand CreateStoredProcedureCommand(SqlConnection connection, string commandText, SqlParameter[] parameters)
+        {
+            var command = new SqlCommand(commandText, connection)
+            {
+                CommandTimeout = _timeout,
+                CommandType = CommandType.StoredProcedure
+            };
+
+            AttachParameters(command, CloneParameters(parameters));
+            return command;
+        }
+
+        private static SqlParameter[] CloneParameters(IEnumerable<SqlParameter>? parameters)
+        {
+            if (parameters == null)
+            {
+                return Array.Empty<SqlParameter>();
+            }
+
+            return parameters.Select(parameter =>
+            {
+                var clone = (SqlParameter)((ICloneable)parameter).Clone();
+                if (clone.Value == null)
+                {
+                    clone.Value = DBNull.Value;
+                }
+
+                return clone;
+            }).ToArray();
+        }
+
+        private static void AttachParameters(SqlCommand command, IEnumerable<SqlParameter> parameters)
+        {
+            foreach (var parameter in parameters)
+            {
+                command.Parameters.Add(parameter);
+            }
+        }
+
+        private List<T> MapToList<T>(DbDataReader reader)
+        {
+            var objectList = new List<T>();
+            var properties = typeof(T).GetRuntimeProperties().ToArray();
+            var columnNames = Enumerable.Range(0, reader.FieldCount)
+                .Select(reader.GetName)
+                .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+            if (!reader.HasRows)
+            {
+                return objectList;
+            }
+
+            while (reader.Read())
+            {
+                T instance = Activator.CreateInstance<T>();
+
+                foreach (var property in properties)
+                {
+                    if (!columnNames.Contains(property.Name))
+                    {
+                        continue;
+                    }
+
+                    var ordinal = reader.GetOrdinal(property.Name);
+                    var value = reader.GetValue(ordinal);
+                    property.SetValue(instance, value == DBNull.Value ? null : value);
+                }
+
+                objectList.Add(instance);
+            }
+
+            return objectList;
         }
     }
 }

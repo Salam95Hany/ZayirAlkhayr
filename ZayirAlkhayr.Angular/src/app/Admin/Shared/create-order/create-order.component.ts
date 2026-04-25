@@ -215,6 +215,7 @@ export class CreateOrderComponent {
     if (this.addSelectedFoodItem.masterQuantity && this.addSelectedFoodItem.masterQuantity > 0) {
       let obj = {
         productId: this.addSelectedFoodItem.itemId,
+        categoryId: this.addSelectedFoodItem.categoryId,
         productName: this.addSelectedFoodItem.name,
         image: this.addSelectedFoodItem.image,
         quantity: this.addSelectedFoodItem.masterQuantity,
@@ -362,7 +363,7 @@ export class CreateOrderComponent {
 
         time = time.replace('AM', 'ص').replace('am', 'ص').replace('PM', 'م').replace('pm', 'م');
         const formatted = `${date}  ${time}`;
-
+        
         let OrderPrinterObj: ReceiptModel = {
           orderNo: data.results,
           orderType: this.OrderTypeId == 1 ? 'خارجي' : 'توصيل',
