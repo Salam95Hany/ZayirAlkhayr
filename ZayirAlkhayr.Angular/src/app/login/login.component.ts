@@ -1,20 +1,25 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../Auth/auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   @ViewChild('LoginForm') LoginForm: any;
   isShowPassword = false;
   LoginModel: LoginModel = {} as LoginModel;
   ErrorMessage = '';
   ButtonDisabled = false;
-  constructor(private authService: AuthService, private router: Router) {
+  returnUrl = '/';
+  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) {
 
+  }
+
+  ngOnInit(): void {
+    this.returnUrl = this.authService.resolveReturnUrl(this.route.snapshot.queryParamMap.get('returnUrl'));
   }
 
   Login() {
@@ -28,7 +33,7 @@ export class LoginComponent {
       this.ButtonDisabled = false;
       if (data.isSuccess) {
         localStorage.setItem('UserModel', JSON.stringify(data.results));
-        this.router.navigateByUrl('/admin');
+        this.router.navigateByUrl(this.returnUrl);
       } else
         this.ErrorMessage = data.message;
     });

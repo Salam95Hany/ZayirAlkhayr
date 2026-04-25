@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using ZayirAlkhayr.Interface.Setting;
 
 namespace ZayirAlkhayr.Controllers.Setting
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class FactoryResetController : ControllerBase

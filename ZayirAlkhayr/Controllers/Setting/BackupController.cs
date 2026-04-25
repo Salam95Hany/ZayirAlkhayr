@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
@@ -7,6 +8,7 @@ using ZayirAlkhayr.Interface.Setting;
 
 namespace ZayirAlkhayr.Controllers.Setting
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class BackupController : ControllerBase

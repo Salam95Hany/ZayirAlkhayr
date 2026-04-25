@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using ZayirAlkhayr.Interface.Customer;
 
 namespace ZayirAlkhayr.Controllers.Customer
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CustomerController : ControllerBase

@@ -10,6 +10,7 @@ using ZayirAlkhayr.Interface.Auth;
 
 namespace ZayirAlkhayr.Controllers.Auth
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
@@ -30,6 +31,7 @@ namespace ZayirAlkhayr.Controllers.Auth
 
         [HttpPost]
         [Route("AdminLogin")]
+        [AllowAnonymous]
         public async Task<ApiResponseModel<ApplicationUserRespone>> AdminLogin(LoginModel model)
         {
             var results = await _authService.AdminLogin(model);

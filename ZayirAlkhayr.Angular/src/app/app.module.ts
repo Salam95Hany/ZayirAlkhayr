@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppComponent } from './app.component';
@@ -15,6 +15,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { CreateOrderComponent } from './Admin/Shared/create-order/create-order.component';
 import { ArabicDatePipe } from './Admin/Pipes/arabic-date.pipe';
 import { SharedModule } from './Admin/Shared/shared.module';
+import { AuthInterceptor } from './Auth/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,14 @@ import { SharedModule } from './Admin/Shared/shared.module';
     ReactiveFormsModule,
     FormsModule 
   ],
-  providers:[DatePipe],
+  providers: [
+    DatePipe,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

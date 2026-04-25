@@ -96,6 +96,8 @@ namespace ZayirAlkhayr
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
                     ValidateAudience = false,
+                    ValidateLifetime = true,
+                    RequireExpirationTime = true,
                     ClockSkew = System.TimeSpan.Zero
                 };
             });

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using ZayirAlkhayr.Interface.POS;
 
 namespace ZayirAlkhayr.Controllers.POS
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class DashboardController : ControllerBase

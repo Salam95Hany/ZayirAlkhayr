@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Threading.Tasks;
 using ZayirAlkhayr.Entities.Common;
@@ -6,6 +7,7 @@ using ZayirAlkhayr.Interface.Report;
 
 namespace ZayirAlkhayr.Controllers.Report
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ItemReportController : ControllerBase
