@@ -62,7 +62,7 @@ export class AuthService {
     localStorage.removeItem('UserModel');
   }
 
-  resolveReturnUrl(returnUrl?: string | null, fallbackUrl = '/'): string {
+  resolveReturnUrl(returnUrl?: string | null, fallbackUrl = '/admin'): string {
     const localReturnUrl = this.getLocalReturnUrl(returnUrl);
     if (!localReturnUrl)
       return fallbackUrl;

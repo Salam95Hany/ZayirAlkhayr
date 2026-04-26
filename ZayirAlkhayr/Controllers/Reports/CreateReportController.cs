@@ -17,12 +17,10 @@ namespace ZayirAlkhayr.Controllers.Reports
     public class CreateReportController : ControllerBase
     {
         private readonly IReportGeneratorFactory _factory;
-        private readonly ILogger<CreateReportController> _logger;
 
-        public CreateReportController(IReportGeneratorFactory factory, ILogger<CreateReportController> logger)
+        public CreateReportController(IReportGeneratorFactory factory)
         {
             _factory = factory;
-            _logger = logger;
         }
 
         [HttpPost("CreateGeneralReport")]
@@ -66,12 +64,10 @@ namespace ZayirAlkhayr.Controllers.Reports
             }
             catch (NotSupportedException exception)
             {
-                _logger.LogWarning(exception, "Unsupported report request. ReportType: {ReportType}, Format: {Format}", reportType, exportFormat);
                 return BadRequest(exception.Message);
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                _logger.LogError(exception, "Unexpected failure while generating report. ReportType: {ReportType}, Format: {Format}", reportType, exportFormat);
                 return StatusCode(StatusCodes.Status500InternalServerError, "حدث خطأ أثناء إنشاء التقرير.");
             }
         }

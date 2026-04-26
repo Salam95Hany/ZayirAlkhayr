@@ -43,7 +43,7 @@ namespace ZayirAlkhayr.Service.Auth
             return (token: new JwtSecurityTokenHandler().WriteToken(token), expiresIn: _appSettings.Jwt.ExpiryMinutes * 60);
         }
 
-        public string? ValidateToken(string token)
+        public string ValidateToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
 
@@ -55,8 +55,8 @@ namespace ZayirAlkhayr.Service.Auth
                 {
                     IssuerSigningKey = symmetricSecurityKey,
                     ValidateIssuerSigningKey = true,
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
                     ClockSkew = TimeSpan.Zero
                 }, out SecurityToken validatedToken);
 

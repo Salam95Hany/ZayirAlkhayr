@@ -25,7 +25,7 @@ export class QzPrintService {
   private readonly printableWidthMm = 76;
   private readonly printerDensityDpmm = 8;
   private readonly receiptWidth = this.printableWidthMm * this.printerDensityDpmm;
-  private readonly logoPath = 'assets/POS_PrinterLogo.png';
+  private readonly logoPath = 'assets/Logo22.png';
   private readonly preferredPrinterKeywords = ['xp-q810k', 'xprinter'];
   private readonly storeName = 'صبح و مسا';
   private readonly storePhones = '0998222283 - 0998222286';
@@ -133,18 +133,18 @@ export class QzPrintService {
       <div style="width:${this.receiptWidth}px;background:#fff;color:#000;box-sizing:border-box;">
         <div style="
           width:100%;
-          padding:16px 16px 28px;
+          padding:5px 10px 5px 10px;
           box-sizing:border-box;
           font-family:'Tahoma', 'Arial', 'Segoe UI', sans-serif;
           direction:rtl;
           text-align:right;
-          line-height:1.65;
+          line-height:1.3;
           background:#fff;
           font-size:${this.baseFontSizePx}px;
         ">
-          <div style="border:2px solid #000;border-radius:16px;padding:16px 14px 14px;background:#fff;">
+          <div style="border:2px solid #000;border-radius:16px;padding:0px 10px 5px;background:#fff;">
             ${this.logoBase64 ? `
-              <div style="display:flex;justify-content:center;align-items:center;margin-bottom:8px;padding:4px 0 6px;">
+              <div style="display:flex;justify-content:center;align-items:center;padding:1px 0 0px;">
                 <img
                   src="${this.logoBase64}"
                   alt="logo"
@@ -153,7 +153,7 @@ export class QzPrintService {
               </div>
             ` : ''}
 
-            <div style="margin-top:6px;text-align:center;">
+            <div style="text-align:center;">
               <div style="
                 font-size:36px;
                 font-weight:800;
@@ -166,13 +166,13 @@ export class QzPrintService {
               ">
                 ${this.escapeHtml(this.storeName)}
               </div>
-              <div style="font-size:20px;font-weight:700;margin-top:10px;">الهاتف: ${this.escapeHtml(this.storePhones)}</div>
-              <div style="font-size:20px;font-weight:600;margin-top:4px;word-break:break-word;">العنوان: ${this.escapeHtml(this.storeAddress)}</div>
+              <div style="font-size:20px;font-weight:700;">الهاتف: ${this.escapeHtml(this.storePhones)}</div>
+              <div style="font-size:20px;font-weight:600;word-break:break-word;">العنوان: ${this.escapeHtml(this.storeAddress)}</div>
             </div>
           </div>
 
-          <div style="margin-top:12px;border:1.5px solid #000;border-radius:12px;padding:12px;background:#fff;">
-            <div style="font-size:15px;font-weight:800;text-align:center;background:#f3f3f3;border:1px solid #000;border-radius:9px;padding:6px 10px;margin-bottom:10px;">
+          <div style="margin-top:6px;border:1.5px solid #000;border-radius:12px;padding:12px;background:#fff;">
+            <div style="font-size:15px;font-weight:800;text-align:center;background:#f3f3f3;border:1px solid #000;border-radius:9px;padding:4px 8px;margin-bottom:6px;">
               بيانات الطلب
             </div>
             ${this.buildInfoRow('رقم الطلب', order.orderNo)}
@@ -182,7 +182,7 @@ export class QzPrintService {
             ${customerHtml}
           </div>
 
-          <div style="margin-top:12px;">
+          <div style="margin-top:6px;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;padding:0 2px;font-size:16px;font-weight:800;">
               <span>تفاصيل الأصناف</span>
               <span>${this.escapeHtml(itemsCount)} صنف</span>
@@ -190,8 +190,8 @@ export class QzPrintService {
             ${this.buildItemsTable(items)}
           </div>
 
-          <div style="margin-top:12px;border:2px solid #000;border-radius:12px;padding:12px 14px;background:#fff;">
-            <div style="font-size:15px;font-weight:800;text-align:center;background:#f3f3f3;border:1px solid #000;border-radius:9px;padding:6px 10px;margin-bottom:10px;">
+          <div style="margin-top:6px;border:2px solid #000;border-radius:12px;padding:8px 10px;background:#fff;">
+            <div style="font-size:15px;font-weight:800;text-align:center;background:#f3f3f3;border:1px solid #000;border-radius:9px;padding:4px 8px;margin-bottom:6px;">
               ملخص الحساب
             </div>
             ${this.buildSummaryRow('إجمالي الأصناف', `${this.formatAmount(itemsTotal)} ل.س`)}
@@ -200,9 +200,9 @@ export class QzPrintService {
             ${this.buildSummaryRow('الإجمالي النهائي', `${this.formatAmount(grandTotal)} ل.س`, true)}
           </div>
 
-          <div style="margin-top:14px;border-top:1px dashed #000;padding-top:12px;text-align:center;">
+          <div style="margin-top:6px;border-top:1px dashed #000;padding-top:6px;text-align:center;">
             <div style="font-size:20px;font-weight:700;">شكراً لزيارتكم</div>
-            <div style="font-size:18px;margin-top:4px;">نتشرف بخدمتكم دائماً</div>
+            <div style="font-size:18px;">نتشرف بخدمتكم دائماً</div>
           </div>
         </div>
       </div>
@@ -599,7 +599,7 @@ export class QzPrintService {
 
       return `
         <tr style="background:${rowBackground};">
-          <td style="border:1px solid #000;padding:8px 6px;font-size:20px;font-weight:700;vertical-align:top;word-break:break-word;">
+          <td style="border:1px solid #000;padding:5px 4px;font-size:20px;font-weight:700;vertical-align:top;word-break:break-word;">
             ${this.escapeHtml(item.name)}
           </td>
           <td style="border:1px solid #000;padding:8px 5px;font-size:18px;text-align:center;vertical-align:middle;">
@@ -636,7 +636,7 @@ export class QzPrintService {
 
   private buildInfoRow(label: string, value: unknown): string {
     return `
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:5px 2px;border-bottom:1px dashed #d6d6d6;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:3px 2px;border-bottom:1px dashed #d6d6d6;">
         <span style="font-size:20px;font-weight:800;">${this.escapeHtml(label)}</span>
         <span style="font-size:20px;font-weight:600;text-align:left;word-break:break-word;">${this.escapeHtml(value)}</span>
       </div>
