@@ -4,57 +4,50 @@ using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Font;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using ZayirAlkhayr.Reports.Configuration;
 using ZayirAlkhayr.Reports.Interface;
-using ZayirAlkhayr.Reports.Model;
 
 namespace ZayirAlkhayr.Reports.Service
 {
     public class PDFHelper : IPDFHelper
     {
-        private static readonly Regex AngularAttributesRegex = new Regex(@"(\s_nghost-[a-zA-Z0-9\-]+=""[^""]*"")|(\s_ngcontent-[a-zA-Z0-9\-]+=""[^""]*"")", RegexOptions.Compiled);
-        private static readonly Regex HtmlCommentsRegex = new Regex(@"<!--(.*?)-->", RegexOptions.Compiled | RegexOptions.Singleline);
-
         private readonly IWebHostEnvironment _environment;
-        private readonly IReportFileStorage _reportFileStorage;
-        private readonly ILogger<PDFHelper> _logger;
         private readonly PdfFont _pdfFont;
 
-        public PDFHelper(IWebHostEnvironment environment,IReportFileStorage reportFileStorage,ILogger<PDFHelper> logger)
+        public PDFHelper(IWebHostEnvironment environment)
         {
             _environment = environment;
-            _reportFileStorage = reportFileStorage;
-            _logger = logger;
-            var fontPath = Path.Combine(_environment.WebRootPath, "Fonts", "Cairo-Regular.ttf");
+            var fontPath = System.IO.Path.Combine(_environment.WebRootPath, "Fonts", "Cairo-Regular.ttf");
             _pdfFont = PdfFontFactory.CreateFont(fontPath, iText.IO.Font.PdfEncodings.IDENTITY_H);
         }
 
-        public Task<ReportFileResult> SaveHtmlResultAsync(string html, ReportRequestContext context, CancellationToken cancellationToken = default)
-        {
-            var filePath = _reportFileStorage.CreateReportPath(context, ".pdf");
-            ConvertHtmlToPdf(ClearAngularAttributes(html), filePath, cancellationToken);
-
-            return Task.FromResult(new ReportFileResult
-            {
-                FilePath = filePath,
-                ContentType = "application/pdf",
-                DownloadFileName = Path.GetFileName(filePath)
-            });
-        }
-
-        private void ConvertHtmlToPdf(string html, string outputPath, CancellationToken cancellationToken)
+        public string SaveHTMLResult(string HTMLContent)
         {
             try
             {
-                cancellationToken.ThrowIfCancellationRequested();
+                //HTMLContent = ClearAngularAttrFromHTML(HTMLContent);
+                var FolderPath = System.IO.Path.Combine(_environment.WebRootPath, "Reports");
 
+                if (!Directory.Exists(FolderPath))
+                    Directory.CreateDirectory(FolderPath);
+
+                var FilePath = System.IO.Path.Combine(FolderPath, "Report_" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".pdf");
+                ConvertHtmlToPdf(HTMLContent, FilePath);
+
+                return FilePath;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private void ConvertHtmlToPdf(string html, string outputPath)
+        {
+            try
+            {
                 var wrappedHtml = $@"
                 <!DOCTYPE html>
                 <html>
@@ -110,21 +103,29 @@ namespace ZayirAlkhayr.Reports.Service
             }
             catch (Exception exception)
             {
-                _logger.LogError(exception, "Failed to export report PDF to '{OutputPath}'.", outputPath);
                 throw;
             }
         }
 
-        private static string ClearAngularAttributes(string html)
-        {
-            if (string.IsNullOrWhiteSpace(html))
-            {
-                return string.Empty;
-            }
 
-            var result = AngularAttributesRegex.Replace(html, string.Empty);
-            result = HtmlCommentsRegex.Replace(result, string.Empty);
-            return result.Replace("&#x27;", "'", StringComparison.Ordinal);
+        public string ClearAngularAttrFromHTML(string HTML)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(HTML))
+                    return HTML;
+
+                HTML = Regex.Replace(HTML, "( _nghost-ng-cli-universal-c| _ngcontent-ng-cli-universal-c)[1-9]*=\"\"", "");
+                HTML = Regex.Replace(HTML, "<!--([a-z]+)(?![^>]*\\/>)[^>]*-->", "");
+                HTML = Regex.Replace(HTML, @"\s_ngcontent-[a-zA-Z0-9\-]+?=""[^""]*""", "");
+                HTML = HTML.Replace("&#x27;", "");
+
+                return HTML;
+            }
+            catch (Exception)
+            {
+                return HTML;
+            }
         }
     }
 }

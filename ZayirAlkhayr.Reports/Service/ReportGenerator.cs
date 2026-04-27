@@ -1,80 +1,35 @@
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using RazorLight;
 using System;
-using System.Globalization;
-using System.Threading;
 using System.Threading.Tasks;
-using ZayirAlkhayr.Entities.Reports;
-using ZayirAlkhayr.Reports.Configuration;
 using ZayirAlkhayr.Reports.Interface;
 using ZayirAlkhayr.Reports.Model;
 
 namespace ZayirAlkhayr.Reports.Service
 {
-    public abstract class ReportGeneratorBase : IReportGenerator
+    public abstract class ReportGenerator
     {
-        private readonly ReportOptions _options;
-        protected readonly ILogger Logger;
+        public abstract ReportType ReportType { get; }
+        private readonly IRazorLightEngine _razorEngine;
+        private readonly IPDFHelper _pDFHelper;
 
-        protected ReportGeneratorBase(IOptions<ReportOptions> options, ILoggerFactory loggerFactory)
+        protected ReportGenerator(IRazorLightEngine razorEngine, IPDFHelper pDFHelper)
         {
-            _options = options?.Value ?? new ReportOptions();
-            Logger = loggerFactory.CreateLogger(GetType());
+            _razorEngine = razorEngine;
+            _pDFHelper = pDFHelper;
         }
 
-        public abstract ReportType ReportType { get; }
-        public abstract ExportFormat Format { get; }
-        public abstract Task<ReportFileResult> GenerateAsync(SearchReportModel model, CancellationToken cancellationToken = default);
-
-        protected ReportRequestContext BuildContext(SearchReportModel request,string reportDisplayName,string fileNamePrefix,string sheetName,string templateKey = "")
+        public async Task<string> Build(object Model)
         {
-            var cultureName = !string.IsNullOrWhiteSpace(request.Culture)
-                ? request.Culture
-                : request.GetQueryValue("Culture");
-
-            if (string.IsNullOrWhiteSpace(cultureName))
-            {
-                cultureName = _options.DefaultCulture;
-            }
-
-            CultureInfo culture;
             try
             {
-                culture = CultureInfo.GetCultureInfo(cultureName);
+                var html = await _razorEngine.CompileRenderAsync(ReportType.ToString(), Model);
+                var FilePath = _pDFHelper.SaveHTMLResult(html);
+                return FilePath;
             }
-            catch (CultureNotFoundException)
+            catch (Exception ex)
             {
-                Logger.LogWarning("Unknown report culture '{CultureName}', fallback to default culture '{DefaultCulture}'.",
-                    cultureName,
-                    _options.DefaultCulture);
-                culture = CultureInfo.GetCultureInfo(_options.DefaultCulture);
+                return "";
             }
-
-            var dateFormat = !string.IsNullOrWhiteSpace(request.DateFormat)
-                ? request.DateFormat
-                : request.GetQueryValue("DateFormat");
-
-            if (string.IsNullOrWhiteSpace(dateFormat))
-            {
-                dateFormat = _options.DefaultDateFormat;
-            }
-
-            var resolvedFileNamePrefix = !string.IsNullOrWhiteSpace(request.FileNamePrefix)
-                ? request.FileNamePrefix
-                : fileNamePrefix;
-
-            return new ReportRequestContext(
-                ReportType,
-                Format,
-                culture,
-                dateFormat,
-                reportDisplayName,
-                resolvedFileNamePrefix,
-                sheetName,
-                templateKey ?? string.Empty,
-                string.IsNullOrWhiteSpace(request.UserName) ? "System" : request.UserName!,
-                culture.TextInfo.IsRightToLeft,
-                DateTimeOffset.Now);
         }
     }
 }

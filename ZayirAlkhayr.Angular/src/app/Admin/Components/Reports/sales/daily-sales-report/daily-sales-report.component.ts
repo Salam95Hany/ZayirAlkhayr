@@ -1,12 +1,12 @@
 import { DatePipe } from '@angular/common';
-import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { finalize } from 'rxjs';
 import { FilterModel } from 'src/app/Admin/Models/FilterModel';
 import { PagingFilterModel } from 'src/app/Admin/Models/PagingFilterModel';
-import { ReportExportRequestModel } from 'src/app/Admin/Models/ReportExportRequestModel';
+import { SearchReportModel } from 'src/app/Admin/Models/SearchReportModel';
+import { DownloadFileService } from 'src/app/Admin/Services/download-file.service';
 import { ReportService } from 'src/app/Admin/Services/report.service';
+import { AuthService } from 'src/app/Auth/auth.service';
 
 @Component({
   selector: 'app-daily-sales-report',
@@ -14,10 +14,6 @@ import { ReportService } from 'src/app/Admin/Services/report.service';
   styleUrls: ['./daily-sales-report.component.css']
 })
 export class DailySalesReportComponent implements OnInit {
-  private readonly reportType = 'DailySalesReport';
-  private readonly exportFormat = 'Excel';
-  private readonly fallbackFileName = 'daily-sales-report.xlsx';
-
   StatisticData: any;
   SalesData: any[] = [];
   FilterList: FilterModel[] = [];
@@ -32,6 +28,11 @@ export class DailySalesReportComponent implements OnInit {
     currentpage: 1,
     pagesize: 20
   };
+  ReportModel: SearchReportModel = {
+    reportType: '',
+    queryString: [],
+    filterList: []
+  };
 
   quickRanges: { label: string; type: string; startDate: string | null; endDate: string | null }[] = [
     { label: 'كل الفترات', type: 'all', startDate: null, endDate: null },
@@ -44,7 +45,9 @@ export class DailySalesReportComponent implements OnInit {
   constructor(
     private reportService: ReportService,
     private datePipe: DatePipe,
-    private toaster: ToastrService
+    private toaster: ToastrService,
+    private authService: AuthService,
+    private fileService: DownloadFileService
   ) { }
 
   ngOnInit(): void {
@@ -96,6 +99,7 @@ export class DailySalesReportComponent implements OnInit {
 
   FilterChecked(filters: FilterModel[]): void {
     this.PagingFilter.filterList = filters;
+    this.ReportModel.filterList = filters;
     this.selectedRange = this.detectSelectedRange(filters);
     this.PagingFilter.currentpage = 1;
     this.LoadData();
@@ -127,7 +131,7 @@ export class DailySalesReportComponent implements OnInit {
     if (dateRangeFilter) {
       this.PagingFilter.filterList.push(dateRangeFilter);
     }
-
+    this.ReportModel.filterList = this.PagingFilter.filterList;
     this.LoadData();
   }
 
@@ -162,38 +166,6 @@ export class DailySalesReportComponent implements OnInit {
         range.startDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()).toISOString();
       }
     });
-  }
-
-  ExportSalesReport(): void {
-    if (this.isExporting) {
-      return;
-    }
-
-    if (!this.canExport) {
-      this.toaster.warning('لا توجد بيانات متاحة للتصدير');
-      return;
-    }
-
-    this.isExporting = true;
-
-    this.reportService.CreateGeneralReport(this.buildExportRequest()).pipe(finalize(() => this.isExporting = false)).subscribe({
-      next: (response) => {
-        if (!response.body || response.body.size === 0) {
-          this.toaster.warning('لا توجد بيانات متاحة للتصدير');
-          return;
-        }
-
-        this.downloadReportFile(response);
-        this.toaster.success('تم تصدير التقرير بنجاح');
-      },
-      error: () => {
-        this.toaster.error('حدث خطأ أثناء تصدير التقرير');
-      }
-    });
-  }
-
-  trackByOrder(index: number, item: any): string | number {
-    return item?.orderId ?? item?.orderNumber ?? index;
   }
 
   private createDateRangeFilter(type: string): FilterModel | null {
@@ -269,70 +241,19 @@ export class DailySalesReportComponent implements OnInit {
     return this.datePipe.transform(value, 'yyyy-MM-dd');
   }
 
-  private buildExportRequest(): ReportExportRequestModel {
-    const userModel = this.getStoredUser();
+  DownloadExcelFile() {
+    if (this.SalesData.length == 0) {
+      this.toaster.warning('لا يوجد بيانات للتصدير');
+      return;
+    }
 
-    return {
-      reportType: this.reportType,
-      outputFormat: this.exportFormat,
-      userName: userModel?.userNameAr || userModel?.userName || 'System',
-      culture: 'ar-EG',
-      dateFormat: 'yyyy-MM-dd HH:mm',
-      fileNamePrefix: 'DailySalesReport',
-      queryString: [],
-      filterList: this.mapExportFilters(this.PagingFilter.filterList)
-    };
-  }
-
-  private mapExportFilters(filters: FilterModel[]): FilterModel[] {
-    return (filters || []).map(filter => ({
-      categoryName: filter.categoryName,
-      categoryDisplayName: filter.categoryDisplayName,
-      itemId: filter.itemId,
-      itemKey: filter.itemKey,
-      itemValue: filter.itemValue,
-      isChecked: filter.isChecked,
-      from: filter.from,
-      to: filter.to,
-      filterType: filter.filterType,
-      isVisible: filter.isVisible,
-      displayOrder: filter.displayOrder,
-      filterItems: filter.filterItems ? this.mapExportFilters(filter.filterItems) : undefined
-    }));
-  }
-
-  private downloadReportFile(response: HttpResponse<Blob>): void {
-    const fileName = this.resolveFileName(response);
-    const fileBlob = new Blob([response.body as BlobPart], {
-      type: response.body?.type || 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    this.ReportModel.userName = this.authService.UserNameAr;
+    this.ReportModel.reportType = 'DailySalesReport';
+    let today = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    let fileName = 'تقرير المبيعات اليومية' + '_' + today;
+    this.isExporting = true;
+    this.fileService.DownloadFile(this.ReportModel, fileName + '.xlsx').subscribe(data => {
+      this.isExporting = false;
     });
-    const objectUrl = window.URL.createObjectURL(fileBlob);
-    const link = document.createElement('a');
-
-    link.href = objectUrl;
-    link.download = fileName;
-    link.click();
-
-    window.setTimeout(() => window.URL.revokeObjectURL(objectUrl), 1000);
-  }
-
-  private resolveFileName(response: HttpResponse<Blob>): string {
-    const contentDisposition = response.headers.get('content-disposition');
-    const fileNameMatch = contentDisposition?.match(/filename\*?=(?:UTF-8''|")?([^\";]+)/i);
-
-    if (fileNameMatch?.[1]) {
-      return decodeURIComponent(fileNameMatch[1].replace(/"/g, '').trim());
-    }
-
-    return this.fallbackFileName;
-  }
-
-  private getStoredUser(): any | null {
-    try {
-      const userModel = localStorage.getItem('UserModel');
-      return userModel ? JSON.parse(userModel) : null;
-    } catch {
-      return null;
-    }
   }
 }

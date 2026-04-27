@@ -57,7 +57,7 @@
                     <i class="uil uil-clock-three"></i>
                     <span>{{lastUpdated | arabicDateWithTime}}</span>
                 </div>
-                <button type="button" class="report-export-btn" (click)="ExportSalesReport()" [disabled]="isExporting || !canExport">
+                <button type="button" class="report-export-btn" (click)="DownloadExcelFile()" [disabled]="isExporting || !canExport">
                     <span *ngIf="isExporting" class="spinner-border spinner-border-sm report-export-btn__spinner" aria-hidden="true"></span>
                     <i *ngIf="!isExporting" class="uil uil-export report-export-btn__icon"></i>
                     <span>{{isExporting ? 'جاري التصدير...' : 'تصدير التقرير'}}</span>
@@ -114,7 +114,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of SalesData; trackBy: trackByOrder">
-                            <td data-label="الاسم">
+                            <td data-label="الترتيب">
                                 <div class="table-identity">
                                     <strong>{{item.rankNo}}</strong>
                                 </div>
@@ -125,13 +125,13 @@
                                 </div>
                             </td>
                             <td class="table-date" data-label="الفئة">{{item.categoryName}}</td>
-                            <td data-label="السعر">{{item.qtyContributionPct}}%</td>
-                            <td data-label="التكلفة">{{item.salesContributionPct}}%</td>
+                            <td data-label="نسبة مساهمة الكمية">{{item.qtyContributionPct}}%</td>
+                            <td data-label="نسبة مساهمة المبيعات">{{item.salesContributionPct}}%</td>
                             <td data-label="إجمالي الطلبات">{{item.orderCount}}</td>
                             <td data-label="الكمية المباعة">{{item.totalQty}}</td>
                             <td data-label="إجمالي المبيعات">{{item.totalSales | number: '1.0-0' ?? '-'}}</td>
                             <td class="table-total" data-label="صافي التكلفة">{{item.estimatedCost | number : '1.0-0'}} ل.س</td>
-                            <td data-label="تاريخ آخر عملية بيع">{{item.estimatedProfit | number : '1.0-0'}} ل.س</td>
+                            <td data-label="صافي الربح">{{item.estimatedProfit | number : '1.0-0'}} ل.س</td>
                         </tr>
                     </tbody>
                 </table>

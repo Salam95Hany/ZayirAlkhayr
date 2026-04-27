@@ -4,7 +4,10 @@ import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { FilterModel } from 'src/app/Admin/Models/FilterModel';
 import { PagingFilterModel } from 'src/app/Admin/Models/PagingFilterModel';
+import { SearchReportModel } from 'src/app/Admin/Models/SearchReportModel';
+import { DownloadFileService } from 'src/app/Admin/Services/download-file.service';
 import { ReportService } from 'src/app/Admin/Services/report.service';
+import { AuthService } from 'src/app/Auth/auth.service';
 
 @Component({
   selector: 'app-top-selling-item-report',
@@ -33,6 +36,11 @@ StatisticData: any;
     currentpage: 1,
     pagesize: 20
   }
+  ReportModel: SearchReportModel = {
+        reportType: '',
+        queryString: [],
+        filterList: []
+      };
   quickRanges: { label: string, type: string, startDate: string, endDate: string }[] = [
     { label: 'كل الفترات', type: 'all', startDate: null, endDate: null },
     { label: 'اليوم', type: 'day', startDate: '', endDate: '' },
@@ -44,7 +52,9 @@ StatisticData: any;
   constructor(
     private reportService: ReportService,
     private datePipe: DatePipe,
-    private toaster: ToastrService
+    private toaster: ToastrService,
+    private authService: AuthService,
+            private fileService: DownloadFileService
   ) { }
 
   ngOnInit(): void {
@@ -77,6 +87,7 @@ StatisticData: any;
 
   FilterChecked(filters: FilterModel[]) {
     this.PagingFilter.filterList = filters;
+    this.ReportModel.filterList = filters;
     this.selectedRange = this.detectSelectedRange(filters);
     this.PagingFilter.currentpage = 1;
     this.LoadData();
@@ -109,7 +120,7 @@ StatisticData: any;
     if (dateRangeFilter) {
       this.PagingFilter.filterList.push(dateRangeFilter);
     }
-
+this.ReportModel.filterList = this.PagingFilter.filterList;
     this.LoadData();
   }
 
@@ -216,40 +227,19 @@ StatisticData: any;
     return this.datePipe.transform(value, 'yyyy-MM-dd');
   }
 
-  ExportSalesReport() {
-    if (this.isExporting) {
+   DownloadExcelFile() {
+    if (this.SalesData.length == 0) {
+      this.toaster.warning('لا يوجد بيانات للتصدير');
       return;
     }
 
-    if (!this.canExport) {
-      this.toaster.warning('لا توجد بيانات متاحة للتصدير');
-      return;
-    }
-
+    this.ReportModel.userName = this.authService.UserNameAr;
+    this.ReportModel.reportType = 'TopSellingItemsReport';
+    let today = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    let fileName = 'تقرير العناصر الأكثر مبيعا' + '_' + today;
     this.isExporting = true;
-
-    const exportFilter: PagingFilterModel = {
-      ...this.PagingFilter,
-      currentpage: 1,
-      pagesize: Math.max(this.TotalCount || this.SalesData.length, this.PagingFilter.pagesize || 20)
-    };
-
-    this.reportService.ReportDailySalesDetailsData(exportFilter)
-      .pipe(finalize(() => this.isExporting = false))
-      .subscribe({
-        next: (data) => {
-          const rows = data?.results || [];
-
-          if (!rows.length) {
-            this.toaster.warning('لا توجد بيانات متاحة للتصدير');
-            return;
-          }
-
-          this.toaster.success('تم تصدير التقرير بنجاح');
-        },
-        error: () => {
-          this.toaster.error('حدث خطأ أثناء تصدير التقرير');
-        }
-      });
+    this.fileService.DownloadFile(this.ReportModel, fileName + '.xlsx').subscribe(data => {
+      this.isExporting = false;
+    });
   }
 }

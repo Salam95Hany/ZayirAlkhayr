@@ -12,11 +12,15 @@ namespace ZayirAlkhayr.Interface.Report
     {
         Task<ApiResponseModel<DataTable>> GetReportAllItemsSummary(PagingFilterModel PagingFilter);
         Task<ApiResponseModel<DataTable>> GetReportAllItemsData(PagingFilterModel PagingFilter);
+        Task<ApiResponseModel<DataTable>> GetExportReportAllItemsData(List<FilterModel> FilterList);
         Task<ApiResponseModel<DataTable>> GetReportNeverSoldItemsSummary(PagingFilterModel PagingFilter);
         Task<ApiResponseModel<DataTable>> GetReportNeverSoldItemsData(PagingFilterModel PagingFilter);
+        Task<ApiResponseModel<DataTable>> GetExportReportNeverSoldItems(List<FilterModel> FilterList);
         Task<ApiResponseModel<DataTable>> GetReportTopSellingItemSummary(PagingFilterModel PagingFilter);
         Task<ApiResponseModel<DataTable>> GetReportTopSellingItemsData(PagingFilterModel PagingFilter);
+        Task<ApiResponseModel<DataTable>> GetExportReportTopSellingItemsData(List<FilterModel> FilterList);
         Task<ApiResponseModel<DataTable>> GetReportLowestSellingItemsSummary(PagingFilterModel PagingFilter);
         Task<ApiResponseModel<DataTable>> GetReportLowestSellingItemsData(PagingFilterModel PagingFilter);
+        Task<ApiResponseModel<DataTable>> GetExportReportLowestSellingItems(List<FilterModel> FilterList);
     }
 }

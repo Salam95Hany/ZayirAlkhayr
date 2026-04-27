@@ -66,6 +66,19 @@ namespace ZayirAlkhayr.Service.Report
             var Filters = dt.ToGroupedFilters();
             return ApiResponseModel<List<FilterModel>>.Success(GenericErrors.GetSuccess, Filters);
         }
+
+        public async Task<ApiResponseModel<DataTable>> GetExportDailySalesDetailsData(List<FilterModel> FilterList)
+        {
+            var FromDate = FilterList.FirstOrDefault(i => i.CategoryName == "DateRange")?.From;
+            var ToDate = FilterList.FirstOrDefault(i => i.CategoryName == "DateRange")?.To;
+            var FilterDt = FilterList.ToDataTableFromFilterModel();
+            var Params = new SqlParameter[3];
+            Params[0] = new SqlParameter("@FilterList", FilterDt);
+            Params[1] = new SqlParameter("@FromDate", FromDate);
+            Params[2] = new SqlParameter("@ToDate", ToDate);
+            var dt = await _sQLHelper.ExecuteDataTableAsync("[Report].[SP_ExportReportDailySalesDetails]", Params);
+            return ApiResponseModel<DataTable>.Success(GenericErrors.GetSuccess, dt);
+        }
         #endregion
 
         #region MonthlySalesReport
@@ -113,6 +126,19 @@ namespace ZayirAlkhayr.Service.Report
             var dt = await _sQLHelper.ExecuteDataTableAsync("[Report].[SP_ReportMonthlySalesDetails]", Params);
             var Filters = dt.ToGroupedFilters();
             return ApiResponseModel<List<FilterModel>>.Success(GenericErrors.GetSuccess, Filters);
+        }
+
+        public async Task<ApiResponseModel<DataTable>> GetExportMonthlySalesDetailsData(List<FilterModel> FilterList)
+        {
+            var FromDate = FilterList.FirstOrDefault(i => i.CategoryName == "DateRange")?.From;
+            var ToDate = FilterList.FirstOrDefault(i => i.CategoryName == "DateRange")?.To;
+            var FilterDt = FilterList.ToDataTableFromFilterModel();
+            var Params = new SqlParameter[3];
+            Params[0] = new SqlParameter("@FilterList", FilterDt);
+            Params[1] = new SqlParameter("@FromDate", FromDate);
+            Params[2] = new SqlParameter("@ToDate", ToDate);
+            var dt = await _sQLHelper.ExecuteDataTableAsync("[Report].[SP_ExportReportMonthlySalesDetails]", Params);
+            return ApiResponseModel<DataTable>.Success(GenericErrors.GetSuccess, dt);
         }
         #endregion
 

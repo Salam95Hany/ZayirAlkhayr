@@ -1,6 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using ZayirAlkhayr.Entities.Reports;
 using ZayirAlkhayr.Interface.Report;
@@ -9,22 +10,22 @@ using ZayirAlkhayr.Reports.Model;
 
 namespace ZayirAlkhayr.Reports.ExcelTemplate
 {
-    public class DailySalesReportExcelTempGenerator : IReportGenerator
+    public class MonthlySalesReportExcelTempGenerator: IReportGenerator
     {
         private readonly IExportManagerService _exportManagerService;
         private readonly ISalesReportService _salesReportService;
-        public DailySalesReportExcelTempGenerator(IExportManagerService exportManagerService, ISalesReportService salesReportService)
+        public MonthlySalesReportExcelTempGenerator(IExportManagerService exportManagerService, ISalesReportService salesReportService)
         {
             _exportManagerService = exportManagerService;
             _salesReportService = salesReportService;
         }
 
-        public ReportType ReportType => ReportType.DailySalesReport;
+        public ReportType ReportType => ReportType.MonthlySalesReport;
 
         public async Task<string> Generate(SearchReportModel Model)
         {
-            var Data = await _salesReportService.GetExportDailySalesDetailsData(Model.FilterList);
-            var ExportTemplate = new ExportTemplateBase { Name = "المبيعات اليومية", SheetName = "المبيعات اليومية", TemplateName = "المبيعات اليومية", UserName = Model.UserName };
+            var Data = await _salesReportService.GetExportMonthlySalesDetailsData(Model.FilterList);
+            var ExportTemplate = new ExportTemplateBase { Name = "المبيعات الشهرية", SheetName = "المبيعات الشهرية", TemplateName = "المبيعات الشهرية", UserName = Model.UserName };
             var File = _exportManagerService.Export(ExportTemplate, Data.Results);
             return File;
         }

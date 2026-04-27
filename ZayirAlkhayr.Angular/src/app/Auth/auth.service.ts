@@ -19,6 +19,10 @@ export class AuthService {
     return this.http.get<any>(this.apiURL + 'Auth/AdminLogout?UserId=' + UserId);
   }
 
+  get UserNameAr(): string {
+    return this.getStoredUser()?.userNameAr ?? '';
+  }
+
   getAccessToken(): string | null {
     return this.getStoredUser()?.token ?? null;
   }

@@ -57,7 +57,7 @@
                     <i class="uil uil-clock-three"></i>
                     <span>{{lastUpdated | arabicDateWithTime}}</span>
                 </div>
-                <button type="button" class="report-export-btn" (click)="ExportSalesReport()" [disabled]="isExporting || !canExport">
+                <button type="button" class="report-export-btn" (click)="DownloadExcelFile()" [disabled]="isExporting || !canExport">
                     <span *ngIf="isExporting" class="spinner-border spinner-border-sm report-export-btn__spinner" aria-hidden="true"></span>
                     <i *ngIf="!isExporting" class="uil uil-export report-export-btn__icon"></i>
                     <span>{{isExporting ? 'جاري التصدير...' : 'تصدير التقرير'}}</span>
@@ -114,7 +114,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of SalesData; trackBy: trackByOrder">
+                        <tr *ngFor="let item of SalesData">
                             <td class="table-date" data-label="التاريخ">{{item.salesMonth | arabicDateWithTime}}</td>
                             <td data-label="إجمالي الطلبات">{{item.totalOrders}}</td>
                             <td data-label="الطلبات الملغية">{{item.cancelledOrders}}</td>

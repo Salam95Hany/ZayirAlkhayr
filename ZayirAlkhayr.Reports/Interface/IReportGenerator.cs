@@ -8,7 +8,6 @@ namespace ZayirAlkhayr.Reports.Interface
     public interface IReportGenerator
     {
         ReportType ReportType { get; }
-        ExportFormat Format { get; }
-        Task<ReportFileResult> GenerateAsync(SearchReportModel model, CancellationToken cancellationToken = default);
+        Task<string> Generate(SearchReportModel Model);
     }
 }

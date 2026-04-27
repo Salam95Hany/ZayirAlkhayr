@@ -33,7 +33,7 @@ export class QzPrintService {
   private readonly baseFontSizePx = 26;
   private readonly logoDisplayWidthPx = 190;
   private readonly logoOutputPaddingPx = 24;
-  private readonly minRenderScale = 5;
+  private readonly minRenderScale = 6;
   private readonly printBottomPaddingPx = 48;
   private logoBase64 = '';
   private qzSecurityInitialized = false;
@@ -49,7 +49,7 @@ export class QzPrintService {
 
     try {
       await this.logoLoadPromise;
-      this.setupQzSecurity();
+      // this.setupQzSecurity();
       await this.InitQZ();
 
       const printer = await this.resolvePrinterName();
@@ -133,9 +133,9 @@ export class QzPrintService {
       <div style="width:${this.receiptWidth}px;background:#fff;color:#000;box-sizing:border-box;">
         <div style="
           width:100%;
-          padding:5px 10px 5px 10px;
+          padding:5px 16px;
           box-sizing:border-box;
-          font-family:'Tahoma', 'Arial', 'Segoe UI', sans-serif;
+          font-family:'Tahoma', sans-serif;
           direction:rtl;
           text-align:right;
           line-height:1.3;
@@ -167,12 +167,12 @@ export class QzPrintService {
                 ${this.escapeHtml(this.storeName)}
               </div>
               <div style="font-size:20px;font-weight:700;">الهاتف: ${this.escapeHtml(this.storePhones)}</div>
-              <div style="font-size:20px;font-weight:600;word-break:break-word;">العنوان: ${this.escapeHtml(this.storeAddress)}</div>
+              <div style="font-size:20px;font-weight:700;word-break:break-word;">العنوان: ${this.escapeHtml(this.storeAddress)}</div>
             </div>
           </div>
 
           <div style="margin-top:6px;border:1.5px solid #000;border-radius:12px;padding:12px;background:#fff;">
-            <div style="font-size:15px;font-weight:800;text-align:center;background:#f3f3f3;border:1px solid #000;border-radius:9px;padding:4px 8px;margin-bottom:6px;">
+            <div style="font-size:15px;font-weight:800;text-align:center;background:#f3f3f3;border:2px solid #000;border-radius:9px;padding:4px 8px;margin-bottom:6px;">
               بيانات الطلب
             </div>
             ${this.buildInfoRow('رقم الطلب', order.orderNo)}
@@ -191,16 +191,16 @@ export class QzPrintService {
           </div>
 
           <div style="margin-top:6px;border:2px solid #000;border-radius:12px;padding:8px 10px;background:#fff;">
-            <div style="font-size:15px;font-weight:800;text-align:center;background:#f3f3f3;border:1px solid #000;border-radius:9px;padding:4px 8px;margin-bottom:6px;">
+            <div style="font-size:15px;font-weight:800;text-align:center;background:#f3f3f3;border:2px solid #000;border-radius:9px;padding:4px 8px;margin-bottom:6px;">
               ملخص الحساب
             </div>
             ${this.buildSummaryRow('إجمالي الأصناف', `${this.formatAmount(itemsTotal)} ل.س`)}
             ${deliveryFeeHtml}
-            <div style="border-top:1px dashed #000;margin:10px 0 8px;"></div>
+            <div style="border-top:2px dashed #000;margin:10px 0 8px;"></div>
             ${this.buildSummaryRow('الإجمالي النهائي', `${this.formatAmount(grandTotal)} ل.س`, true)}
           </div>
 
-          <div style="margin-top:6px;border-top:1px dashed #000;padding-top:6px;text-align:center;">
+          <div style="margin-top:6px;border-top:2px dashed #000;padding-top:6px;text-align:center;">
             <div style="font-size:20px;font-weight:700;">شكراً لزيارتكم</div>
             <div style="font-size:18px;">نتشرف بخدمتكم دائماً</div>
           </div>
@@ -591,7 +591,7 @@ export class QzPrintService {
       `;
     }
 
-    const headerCellStyle = 'border:1px solid #000;padding:8px 5px;background:#f2f2f2;font-size:18px;font-weight:800;text-align:center;';
+    const headerCellStyle = 'border:2px solid #000;padding:8px 5px;background:#f2f2f2;font-size:18px;font-weight:800;text-align:center;';
     const rowsHtml = items.map((item, index) => {
       const itemTotal = this.getItemTotal(item);
       const priceText = item.price == null ? '-' : this.formatAmount(item.price);
@@ -599,16 +599,16 @@ export class QzPrintService {
 
       return `
         <tr style="background:${rowBackground};">
-          <td style="border:1px solid #000;padding:5px 4px;font-size:20px;font-weight:700;vertical-align:top;word-break:break-word;">
+          <td style="border:2px solid #000;padding:5px 4px;font-size:20px;font-weight:700;vertical-align:top;word-break:break-word;">
             ${this.escapeHtml(item.name)}
           </td>
-          <td style="border:1px solid #000;padding:8px 5px;font-size:18px;text-align:center;vertical-align:middle;">
+          <td style="border:2px solid #000;padding:8px 5px;font-size:18px;text-align:center;vertical-align:middle;">
             ${this.escapeHtml(item.qty)}
           </td>
-          <td style="border:1px solid #000;padding:8px 5px;font-size:18px;text-align:center;vertical-align:middle;">
+          <td style="border:2px solid #000;padding:8px 5px;font-size:18px;text-align:center;vertical-align:middle;">
             ${this.escapeHtml(priceText)}
           </td>
-          <td style="border:1px solid #000;padding:8px 5px;font-size:18px;font-weight:800;text-align:center;vertical-align:middle;">
+          <td style="border:2px solid #000;padding:8px 5px;font-size:18px;font-weight:800;text-align:center;vertical-align:middle;">
             ${this.escapeHtml(this.formatAmount(itemTotal))}
           </td>
         </tr>
@@ -638,7 +638,7 @@ export class QzPrintService {
     return `
       <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:3px 2px;border-bottom:1px dashed #d6d6d6;">
         <span style="font-size:20px;font-weight:800;">${this.escapeHtml(label)}</span>
-        <span style="font-size:20px;font-weight:600;text-align:left;word-break:break-word;">${this.escapeHtml(value)}</span>
+        <span style="font-size:20px;font-weight:700;text-align:left;word-break:break-word;">${this.escapeHtml(value)}</span>
       </div>
     `;
   }

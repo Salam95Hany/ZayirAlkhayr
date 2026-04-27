@@ -24,52 +24,22 @@ namespace ZayirAlkhayr.Controllers.Reports
         }
 
         [HttpPost("CreateGeneralReport")]
-        public async Task<IActionResult> CreateGeneralReport([FromBody] SearchReportModel model, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateGeneralReport(SearchReportModel Model)
         {
-            if (model == null)
+            if (!Enum.TryParse<ReportType>(Model.ReportType, true, out var reportType))
             {
-                return BadRequest("بيانات التقرير مطلوبة.");
+                return BadRequest("Report Type Is Incorrect.");
             }
 
-            if (!Enum.TryParse<ReportType>(model.ReportType, true, out var reportType))
+            var generator = _factory.GetGenerator(reportType);
+            var FilePath = await generator.Generate(Model);
+            if (!System.IO.File.Exists(FilePath))
             {
-                return BadRequest("نوع التقرير غير صحيح.");
+                return null;
             }
 
-            var outputFormat = !string.IsNullOrWhiteSpace(model.OutputFormat)
-                ? model.OutputFormat
-                : model.GetQueryValue("Format");
-
-            if (!Enum.TryParse<ExportFormat>(outputFormat, true, out var exportFormat))
-            {
-                exportFormat = ExportFormat.Excel;
-            }
-
-            try
-            {
-                var generator = _factory.GetGenerator(reportType, exportFormat);
-                var generatedFile = await generator.GenerateAsync(model, cancellationToken);
-
-                if (generatedFile == null || string.IsNullOrWhiteSpace(generatedFile.FilePath) || !System.IO.File.Exists(generatedFile.FilePath))
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, "فشل إنشاء ملف التقرير.");
-                }
-
-                return new TempPhysicalFileResult(generatedFile.FilePath, generatedFile.ContentType)
-                {
-                    FileDownloadName = string.IsNullOrWhiteSpace(generatedFile.DownloadFileName)
-                        ? Path.GetFileName(generatedFile.FilePath)
-                        : generatedFile.DownloadFileName
-                };
-            }
-            catch (NotSupportedException exception)
-            {
-                return BadRequest(exception.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "حدث خطأ أثناء إنشاء التقرير.");
-            }
+            var FileExtenstion = Path.GetExtension(FilePath);
+            return new TempPhysicalFileResult(FilePath, $"application/{FileExtenstion}");
         }
     }
 }

@@ -4,109 +4,120 @@
     PdfDataReports _Model = Model;
 }
 
-<table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;font-family:'Cairo',Tahoma;font-size:13px;direction:rtl">
-
-    <!-- ===== HEADER ===== -->
+<table width="794" align="center" cellpadding="0" cellspacing="0"
+       style="border-collapse:collapse;font-family:'Segoe UI',Tahoma;direction:rtl;background:#fffdf9;border:1px solid #e0c097">
     <tr>
-        <td>
-            <table width="100%" style="border-bottom:2px solid #e07b00;padding:10px">
-                <tr>
-
-                    <!-- اللوجو -->
-                    <td width="50%" align="left">
-                        <img src="@_Model.ImageSrc" style="width:80px;height:80px" />
-                        <div style="font-size:20px;font-weight:bold;color:#7a3a00">مطعم النخبة</div>
-                    </td>
-
-                    <!-- الهاتف -->
-                    <td width="50%" align="right">
-                        <div style="font-weight:bold;color:#e07b00">رقم الهاتف:</div>
-                        <div style="border-bottom:1px solid #000;width:150px;height:20px"></div>
-                    </td>
-
-                </tr>
-            </table>
-        </td>
+        <td style="height:10px;background:#e07b00"></td>
     </tr>
-
-    <!-- ===== INFO ===== -->
+    <!-- HEADER -->
     <tr>
-        <td style="padding-top:10px">
+        <td style="padding:20px;border-bottom:2px solid #f0a040;background:#fff8ee">
             <table width="100%">
                 <tr>
-                    <td><b>فاتورة إلى:</b></td>
-                    <td>@_Model.GetDataFieldValue("CustomerName")</td>
-                </tr>
-                <tr>
-                    <td><b>التاريخ:</b></td>
-                    <td>@_Model.GetDataFieldValue("Date")</td>
-                </tr>
-                <tr>
-                    <td><b>رقم الفاتورة:</b></td>
-                    <td>@_Model.GetDataFieldValue("InvoiceNumber")</td>
+                    <td width="50%" align="right" style="vertical-align:top">
+                        <div style="font-size:26px;font-weight:bold;color:#7a3a00">
+                            مطعم صبح و مسا
+                        </div>
+                    </td>
+                    <td width="50%" align="left" style="vertical-align:top">
+                        <img src="@_Model.ImageSrc" style="width:68px;height:68px" />
+                    </td>
                 </tr>
             </table>
         </td>
     </tr>
-
-    <!-- ===== ITEMS ===== -->
+    <!-- INFO -->
     <tr>
-        <td style="padding-top:15px">
-            <table width="100%" border="1" style="border-collapse:collapse;text-align:center">
-                <thead style="background:#e07b00;color:#fff">
-                    <tr>
-                        <th>م</th>
-                        <th>اسم الصنف</th>
-                        <th>السعر</th>
-                        <th>الكمية</th>
-                        <th>الإجمالي</th>
+        <td style="padding:15px 30px">
+            <table width="100%">
+                <tr>
+                    <td width="140" style="color:#e07b00;font-weight:bold">فاتورة إلى :</td>
+                    <td style="border-bottom:1px solid #c8a060;height:20px"></td>
+                </tr>
+                <tr>
+                    <td style="color:#e07b00;font-weight:bold">رقم الهاتف:</td>
+                    <td style="border-bottom:1px solid #c8a060;height:20px"></td>
+                </tr>
+                <tr>
+                    <td style="color:#e07b00;font-weight:bold">التاريخ:</td>
+                    <td style="border-bottom:1px solid #c8a060;height:20px"></td>
+                </tr>
+                <tr>
+                    <td style="color:#e07b00;font-weight:bold">رقم الفاتورة:</td>
+                    <td style="border-bottom:1px solid #c8a060;height:20px"></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <!-- DIVIDER -->
+    <tr>
+        <td style="height:3px;background:#e07b00"></td>
+    </tr>
+    <!-- ITEMS -->
+    <tr>
+        <td style="padding:15px 30px">
+            <table width="100%" cellpadding="0" cellspacing="0" border="1"
+                   style="border-collapse:collapse;text-align:center">
+
+                <thead>
+                    <tr style="background:#e07b00;color:#fff">
+                        <th align="right">اسم الصنف</th>
+                        <th width="95">السعر</th>
+                        <th width="70">الكمية</th>
+                        <th width="95">الإجمالي</th>
                     </tr>
                 </thead>
-
                 <tbody>
-                    @{
-                        int i = 1;
-                        foreach (System.Data.DataRow row in _Model.Data.Rows)
-                        {
-                            <tr>
-                                <td>@i</td>
-                                <td style="text-align:right">@row["ItemName"]</td>
-                                <td>@row["Price"]</td>
-                                <td>@row["Qty"]</td>
-                                <td>@row["Total"]</td>
-                            </tr>
-                            i++;
-                        }
+                    @for (int i = 0; i < Model.Items.Count; i++)
+                    {
+                        var row = Model.Items[i];
+                        <tr style="background:@(i % 2 == 0 ? "#fffdf9" : "#fff4e0")">
+                            <td align="right" style="padding-right:10px">@row.Name</td>
+                            <td>@row.Price</td>
+                            <td>@row.Qty</td>
+                            <td>@row.Total</td>
+                        </tr>
                     }
                 </tbody>
             </table>
         </td>
     </tr>
-
-    <!-- ===== TOTAL ===== -->
+    <!-- TOTAL -->
     <tr>
-        <td style="padding-top:15px;padding-bottom: 15px;">
+        <td style="padding:15px 30px">
             <table width="100%">
                 <tr>
-                    <td width="60%">
-                        <b>المجموع بالحروف:</b>
-                        @_Model.GetDataFieldValue("TotalInWords")
+
+                    <td width="55%">
+                        <span style="font-weight:bold;color:#e07b00">المجموع بالحروف:</span>
+                        <span style="border-bottom:1px dashed #c8a060;display:inline-block;width:200px;height:20px"></span>
                     </td>
 
-                    <td width="40%" align="left">
-                        <b>الإجمالي:</b>
-                        @_Model.GetDataFieldValue("GrandTotal")
+                    <td width="45%" align="left">
+                        <span style="font-weight:bold;color:#e07b00">المجموع:</span>
+                        <span style="border-bottom:1px dashed #c8a060;display:inline-block;width:150px;height:20px"></span>
                     </td>
+
                 </tr>
             </table>
         </td>
     </tr>
-
-    <!-- ===== FOOTER ===== -->
+    <!-- FOOTER -->
     <tr>
-        <td style="padding-top:20px;background:#e07b00;color:#fff;text-align:center;padding:10px">
-            @_Model.GetDataFieldValue("FooterText")
+        <td>
+            <div style="height:12px;background:#7a3a00"></div>
+            <table width="100%" style="background:#c45e00;color:#fff">
+                <tr>
+                    <td width="30%" align="right" style="padding:8px;white-space:nowrap">
+                        📞 0998222283 - 0998222286
+                    </td>
+                    <td width="10%"></td>
+                    <td width="60%" align="left" style="padding:8px;word-break:break-word">
+                        📍 درعا جاسم شرق المركز الثقافي 200 م
+                    </td>
+                </tr>
+            </table>
+            <div style="height:12px;background:#e07b00"></div>
         </td>
     </tr>
-
 </table>

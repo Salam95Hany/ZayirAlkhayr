@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,7 +24,6 @@ using ZayirAlkhayr.Interface.POS;
 using ZayirAlkhayr.Interface.Report;
 using ZayirAlkhayr.Interface.Repositories;
 using ZayirAlkhayr.Interface.Setting;
-using ZayirAlkhayr.Reports.Configuration;
 using ZayirAlkhayr.Reports.Interface;
 using ZayirAlkhayr.Reports.Service;
 using ZayirAlkhayr.Service.Auth;
@@ -65,7 +63,6 @@ namespace ZayirAlkhayr
             });
 
             services.Configure<AppSettings>(Configuration);
-            services.Configure<ReportOptions>(Configuration.GetSection("Reports"));
             services.AddSingleton<IAppSettings>(sp => sp.GetRequiredService<IOptions<AppSettings>>().Value);
             services.AddControllers();
             services.AddDbContext<POSDbContext>();
@@ -139,28 +136,20 @@ namespace ZayirAlkhayr
             services.AddSingleton<IRazorLightEngine>(serviceProvider =>
             {
                 var env = serviceProvider.GetRequiredService<IWebHostEnvironment>();
-                var reportOptions = serviceProvider.GetRequiredService<IOptions<ReportOptions>>().Value;
-                var templatePath = Path.Combine(env.WebRootPath, reportOptions.HtmlTemplateFolder);
-
+                var templatePath = Path.Combine(env.WebRootPath, "TemplatesHTML");
                 return new RazorLightEngineBuilder()
                     .UseFileSystemProject(templatePath)
                     .UseMemoryCachingProvider()
                     .Build();
             });
-
-            services.AddSingleton<IReportFileStorage, ReportFileStorage>();
-            services.AddSingleton<IReportTemplateRenderer, ReportTemplateRenderer>();
-            services.AddScoped<IDailySalesReportDataSource, DailySalesReportDataSource>();
-
             services.Scan(scan => scan
-                .FromAssemblies(typeof(IReportGenerator).Assembly)
-                .AddClasses(classes => classes.AssignableTo<IReportGenerator>())
-                .AsImplementedInterfaces()
-                .WithTransientLifetime());
-
+            .FromApplicationDependencies()
+            .AddClasses(c => c.AssignableTo<IReportGenerator>()).AsImplementedInterfaces().WithTransientLifetime());
+            QuestPDF.Settings.License = LicenseType.Community;
             services.AddScoped<IReportGeneratorFactory, ReportGeneratorFactory>();
             services.AddScoped<IExportManagerService, ExportManagerService>();
             services.AddSingleton<IPDFHelper, PDFHelper>();
+
 
             #endregion
 

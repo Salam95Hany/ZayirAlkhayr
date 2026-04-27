@@ -6,6 +6,6 @@ namespace ZayirAlkhayr.Reports.Interface
 {
     public interface IPDFHelper
     {
-        Task<ReportFileResult> SaveHtmlResultAsync(string html, ReportRequestContext context, CancellationToken cancellationToken = default);
+        string SaveHTMLResult(string HTML);
     }
 }
