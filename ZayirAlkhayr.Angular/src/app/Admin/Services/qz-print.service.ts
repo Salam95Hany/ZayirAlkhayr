@@ -49,7 +49,7 @@ export class QzPrintService {
 
     try {
       await this.logoLoadPromise;
-      // this.setupQzSecurity();
+      this.setupQzSecurity();
       await this.InitQZ();
 
       const printer = await this.resolvePrinterName();
