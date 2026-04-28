@@ -21,7 +21,7 @@ export class AdminSideMenuComponent implements OnInit {
     { nameEn: 'Cashier', nameAr: 'كاشير' }
   ];
   POS = ['categories', 'items', 'order-list', 'customers'];
-  Inventory = ['inventory-items', 'inventory-suppliers', 'inventory-adjustments', 'inventory-purchases'];
+  Inventory = ['inventory-units', 'inventory-items', 'inventory-item-recipes', 'inventory-suppliers', 'inventory-adjustments', 'inventory-purchases'];
   Settings = ['users', 'backup','factory-reset'];
   SalesReports = ['daily-sales-reports', 'monthly-sales-reports'];
   ItemsReports = ['all-item-reports', 'top-sellingitem-reports', 'lowest-sellingitem-reports', 'never-solditem-reports'];

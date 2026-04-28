@@ -8,39 +8,26 @@ import { InventoryService } from 'src/app/Admin/Services/inventory.service';
 import { ValidationFormService } from 'src/app/Admin/Services/validation-form.service';
 
 @Component({
-  selector: 'app-inventory-items',
-  templateUrl: './inventory-items.component.html',
-  styleUrls: ['./inventory-items.component.css']
+  selector: 'app-units',
+  templateUrl: './units.component.html',
+  styleUrls: ['./units.component.css']
 })
-export class InventoryItemsComponent {
+export class UnitsComponent {
   UserModel: any;
   isFilter = false;
   showLoader = false;
   ItemForm: FormGroup;
   Total = 0;
-  LowStockCount = 0;
-  InventoryItemId: number | null = null;
+  UnitsInUseCount = 0;
+  UnitId: number | null = null;
   Results: any[] = [];
-  Units: any[] = [];
+  InventoryItems: any[] = [];
   FilterList: FilterModel[] = [
     {
       categoryName: 'SearchText',
-      categoryDisplayName: 'عنصر المخزون',
+      categoryDisplayName: 'الوحدة',
       filterType: 'SearchText',
       itemId: ''
-    },
-    {
-      categoryName: 'LowStockOnly',
-      categoryDisplayName: 'حالة المخزون',
-      filterType: 'Checkbox',
-      filterItems: [
-        {
-          itemId: '1',
-          itemKey: 'تحت الحد الأدنى',
-          itemValue: '',
-          isChecked: false
-        }
-      ]
     }
   ];
   PagingFilter: PagingFilterModel = {
@@ -48,7 +35,7 @@ export class InventoryItemsComponent {
     currentpage: 1,
     pagesize: 10
   };
-  UnitsPagingFilter: PagingFilterModel = {
+  InventoryItemsPagingFilter: PagingFilterModel = {
     filterList: [],
     currentpage: 1,
     pagesize: 1000
@@ -65,18 +52,14 @@ export class InventoryItemsComponent {
   ngOnInit(): void {
     this.UserModel = JSON.parse(localStorage.getItem('UserModel') || 'null');
     this.FormInit();
-    this.GetAllInventoryItems();
-    this.GetLowStockInventoryItemsCount();
-    this.GetUnits();
+    this.GetAllUnits();
+    this.GetInventoryItems();
   }
 
   FormInit() {
     this.ItemForm = this.fb.group({
-      inventoryItemId: 0,
+      unitId: 0,
       name: ['', [Validators.required, this.formService.noSpaceValidator]],
-      unitId: [null, [Validators.required]],
-      currentQuantity: [0, [Validators.required]],
-      minQuantity: [0, [Validators.required]],
       insertUser: null,
       updateUser: null
     });
@@ -85,9 +68,7 @@ export class InventoryItemsComponent {
   ResetForm() {
     this.ItemForm.reset();
     this.ItemForm.patchValue({
-      inventoryItemId: 0,
-      currentQuantity: 0,
-      minQuantity: 0,
+      unitId: 0,
       insertUser: this.UserModel?.userId,
       updateUser: this.UserModel?.userId
     });
@@ -95,11 +76,8 @@ export class InventoryItemsComponent {
 
   FillEditForm(item: any) {
     this.ItemForm.setValue({
-      inventoryItemId: item.inventoryItemId,
-      name: item.name,
       unitId: item.unitId,
-      currentQuantity: item.currentQuantity,
-      minQuantity: item.minQuantity,
+      name: item.name,
       insertUser: this.UserModel?.userId,
       updateUser: this.UserModel?.userId
     });
@@ -119,7 +97,7 @@ export class InventoryItemsComponent {
   }
 
   openDeleteItemModal(content: any, item: any) {
-    this.InventoryItemId = item.inventoryItemId;
+    this.UnitId = item.unitId;
     this.modalService.open(content, {
       size: 'md',
       scrollable: true,
@@ -127,9 +105,9 @@ export class InventoryItemsComponent {
     });
   }
 
-  GetAllInventoryItems() {
+  GetAllUnits() {
     this.showLoader = true;
-    this.inventoryService.GetAllInventoryItems(this.PagingFilter).subscribe({
+    this.inventoryService.GetAllUnits(this.PagingFilter).subscribe({
       next: (data) => {
         this.Results = data.results || [];
         this.Total = data.totalCount || 0;
@@ -137,39 +115,33 @@ export class InventoryItemsComponent {
       },
       error: () => {
         this.showLoader = false;
-        this.toaster.error('تعذر تحميل عناصر المخزون');
+        this.toaster.error('تعذر تحميل الوحدات');
       }
     });
   }
 
-  GetLowStockInventoryItemsCount() {
-    this.inventoryService.GetLowStockInventoryItems().subscribe({
-      next: (data) => this.LowStockCount = data.results?.length || 0,
-      error: () => this.LowStockCount = 0
-    });
-  }
-
-  GetUnits() {
-    this.inventoryService.GetAllUnits(this.UnitsPagingFilter).subscribe({
-      next: (data) => this.Units = data.results || [],
-      error: () => this.Units = []
+  GetInventoryItems() {
+    this.inventoryService.GetAllInventoryItems(this.InventoryItemsPagingFilter).subscribe({
+      next: (data) => {
+        this.InventoryItems = data.results || [];
+        this.UpdateUnitsInUseCount();
+      },
+      error: () => {
+        this.InventoryItems = [];
+        this.UpdateUnitsInUseCount();
+      }
     });
   }
 
   PageChange(obj: any) {
     this.PagingFilter.currentpage = obj.page;
-    this.GetAllInventoryItems();
+    this.GetAllUnits();
   }
 
   FilterChecked(filterList: FilterModel[]) {
     this.PagingFilter.currentpage = 1;
     this.PagingFilter.filterList = filterList;
-    this.GetAllInventoryItems();
-  }
-
-  onUnitClicked(unit: any) {
-    this.ItemForm.patchValue({ unitId: unit.unitId });
-    this.ItemForm.get('unitId')?.markAsTouched();
+    this.GetAllUnits();
   }
 
   AddNewItem() {
@@ -182,36 +154,33 @@ export class InventoryItemsComponent {
     const payload = {
       ...this.ItemForm.value,
       insertUser: this.UserModel?.userId,
-      updateUser: this.UserModel?.userId,
-      unitId: +this.ItemForm.value.unitId,
-      currentQuantity: +this.ItemForm.value.currentQuantity,
-      minQuantity: +this.ItemForm.value.minQuantity
+      updateUser: this.UserModel?.userId
     };
 
     this.showLoader = true;
-    if (payload.inventoryItemId === 0) {
-      this.inventoryService.AddNewInventoryItem(payload).subscribe(data => {
+    if (payload.unitId === 0) {
+      this.inventoryService.AddNewUnit(payload).subscribe(data => {
         this.HandleSaveResponse(data);
       });
       return;
     }
 
-    this.inventoryService.UpdateInventoryItem(payload).subscribe(data => {
+    this.inventoryService.UpdateUnit(payload).subscribe(data => {
       this.HandleSaveResponse(data);
     });
   }
 
   DeleteItem() {
-    if (!this.InventoryItemId) {
+    if (!this.UnitId) {
       return;
     }
 
     this.showLoader = true;
-    this.inventoryService.DeleteInventoryItem(this.InventoryItemId).subscribe(data => {
+    this.inventoryService.DeleteUnit(this.UnitId).subscribe(data => {
       if (data.isSuccess) {
         this.toaster.success(data.message || '');
-        this.GetAllInventoryItems();
-        this.GetLowStockInventoryItemsCount();
+        this.GetAllUnits();
+        this.GetInventoryItems();
         this.modalService.dismissAll();
       } else {
         this.toaster.error(data.message || '');
@@ -220,24 +189,23 @@ export class InventoryItemsComponent {
     });
   }
 
-  IsLowStock(item: any): boolean {
-    return (+item?.currentQuantity || 0) <= (+item?.minQuantity || 0);
+  GetLinkedItemsCount(unitId: number): number {
+    return this.InventoryItems.filter(item => item.unitId === unitId).length;
   }
 
-  GetUnitName(unitId: number): string {
-    const unit = this.Units.find(i => i.unitId === unitId);
-    if (unit) {
-      return unit.name;
-    }
-
-    return this.Results.find(i => i.unitId === unitId)?.unitName || 'اختر الوحدة';
+  private UpdateUnitsInUseCount() {
+    this.UnitsInUseCount = new Set(
+      this.InventoryItems
+        .map(item => item.unitId)
+        .filter((unitId: number | null | undefined) => !!unitId)
+    ).size;
   }
 
   private HandleSaveResponse(data: any) {
     if (data.isSuccess) {
       this.toaster.success(data.message || '');
-      this.GetAllInventoryItems();
-      this.GetLowStockInventoryItemsCount();
+      this.GetAllUnits();
+      this.GetInventoryItems();
       this.modalService.dismissAll();
     } else {
       this.toaster.error(data.message || '');

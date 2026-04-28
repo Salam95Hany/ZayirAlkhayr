@@ -11,7 +11,9 @@ import { AdminUserComponent } from './Components/Setting/admin-user/admin-user.c
 import { BackupComponent } from './Components/Setting/backup/backup.component';
 import { UserProfileComponent } from './Components/Setting/user-profile/user-profile.component';
 import { FactoryResetComponent } from './Components/Setting/factory-reset/factory-reset.component';
+import { UnitsComponent } from './Components/Inventory/units/units.component';
 import { InventoryItemsComponent } from './Components/Inventory/inventory-items/inventory-items.component';
+import { ItemRecipesComponent } from './Components/Inventory/item-recipes/item-recipes.component';
 import { SuppliersComponent } from './Components/Inventory/suppliers/suppliers.component';
 import { InventoryAdjustmentsComponent } from './Components/Inventory/inventory-adjustments/inventory-adjustments.component';
 import { PurchasesComponent } from './Components/Inventory/purchases/purchases.component';
@@ -27,121 +29,133 @@ const routes: Routes = [
     path: '',
     component: AdminComponent,
     canActivate: [AuthGuard],
-    data: { roles: ["Admin", "Cashier"] },
+    data: { roles: ['Admin', 'Cashier'] },
     children: [
       {
         path: 'dashboard',
         component: DashboardComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["Admin", "Cashier"], breadcrumb: ['لوحة التحكم'] },
+        data: { roles: ['Admin', 'Cashier'], breadcrumb: ['لوحة التحكم'] },
       },
       {
         path: 'items',
         component: ItemsComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["Admin", "Cashier"], breadcrumb: ['النظام', 'إدارة المطعم', 'العناصر'] },
+        data: { roles: ['Admin', 'Cashier'], breadcrumb: ['النظام', 'إدارة المطعم', 'العناصر'] },
       },
       {
         path: 'categories',
         component: CategoriesComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["Admin", "Cashier"], breadcrumb: ['النظام', 'إدارة المطعم', 'الفئات'] },
+        data: { roles: ['Admin', 'Cashier'], breadcrumb: ['النظام', 'إدارة المطعم', 'الفئات'] },
       },
       {
         path: 'order-list',
         component: OrderListComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["Admin", "Cashier"], breadcrumb: ['النظام', 'إدارة المطعم', 'قائمة الطلبات'] },
+        data: { roles: ['Admin', 'Cashier'], breadcrumb: ['النظام', 'إدارة المطعم', 'قائمة الطلبات'] },
       },
       {
         path: 'customers',
         component: CustomersComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["Admin", "Cashier"], breadcrumb: ['النظام', 'إدارة المطعم', 'العملاء'] },
+        data: { roles: ['Admin', 'Cashier'], breadcrumb: ['النظام', 'إدارة المطعم', 'العملاء'] },
+      },
+      {
+        path: 'inventory-units',
+        component: UnitsComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['Admin'], breadcrumb: ['المخزون', 'إدارة المخزون', 'الوحدات'] },
       },
       {
         path: 'inventory-items',
         component: InventoryItemsComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["Admin"], breadcrumb: ['المخزون', 'إدارة المخزون', 'عناصر المخزون'] },
+        data: { roles: ['Admin'], breadcrumb: ['المخزون', 'إدارة المخزون', 'عناصر المخزون'] },
+      },
+      {
+        path: 'inventory-item-recipes',
+        component: ItemRecipesComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['Admin'], breadcrumb: ['المخزون', 'إدارة المخزون', 'وصفات الأصناف'] },
       },
       {
         path: 'inventory-suppliers',
         component: SuppliersComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["Admin"], breadcrumb: ['المخزون', 'إدارة المخزون', 'الموردون'] },
+        data: { roles: ['Admin'], breadcrumb: ['المخزون', 'إدارة المخزون', 'الموردون'] },
       },
       {
         path: 'inventory-adjustments',
         component: InventoryAdjustmentsComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["Admin"], breadcrumb: ['المخزون', 'إدارة المخزون', 'حركة المخزون'] },
+        data: { roles: ['Admin'], breadcrumb: ['المخزون', 'إدارة المخزون', 'حركة المخزون'] },
       },
       {
         path: 'inventory-purchases',
         component: PurchasesComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["Admin"], breadcrumb: ['المخزون', 'إدارة المخزون', 'المشتريات'] },
+        data: { roles: ['Admin'], breadcrumb: ['المخزون', 'إدارة المخزون', 'المشتريات'] },
       },
       {
         path: 'daily-sales-reports',
         component: DailySalesReportComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["Admin"], breadcrumb: ['التقارير', 'تقارير المبيعات', 'المبيعات اليومية'] },
+        data: { roles: ['Admin'], breadcrumb: ['التقارير', 'تقارير المبيعات', 'المبيعات اليومية'] },
       },
       {
         path: 'monthly-sales-reports',
         component: MonthlySalesReportComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["Admin"], breadcrumb: ['التقارير', 'تقارير المبيعات', 'المبيعات الشهرية'] },
+        data: { roles: ['Admin'], breadcrumb: ['التقارير', 'تقارير المبيعات', 'المبيعات الشهرية'] },
       },
       {
         path: 'all-item-reports',
         component: AllItemReportComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["Admin"], breadcrumb: ['التقارير', 'تقارير العناصر', 'كل العناصر'] },
+        data: { roles: ['Admin'], breadcrumb: ['التقارير', 'تقارير العناصر', 'كل العناصر'] },
       },
       {
         path: 'never-solditem-reports',
         component: NeverSoldItemReportComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["Admin"], breadcrumb: ['التقارير', 'تقارير العناصر', 'غير المباعة'] },
+        data: { roles: ['Admin'], breadcrumb: ['التقارير', 'تقارير العناصر', 'غير المباعة'] },
       },
       {
         path: 'top-sellingitem-reports',
         component: TopSellingItemReportComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["Admin"], breadcrumb: ['التقارير', 'تقارير العناصر', 'الأكثر مبيعًا'] },
+        data: { roles: ['Admin'], breadcrumb: ['التقارير', 'تقارير العناصر', 'الأكثر مبيعًا'] },
       },
       {
         path: 'lowest-sellingitem-reports',
         component: LowestSellingItemReportComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["Admin"], breadcrumb: ['التقارير', 'تقارير العناصر', 'الأقل مبيعًا'] },
+        data: { roles: ['Admin'], breadcrumb: ['التقارير', 'تقارير العناصر', 'الأقل مبيعًا'] },
       },
       {
         path: 'users',
         component: AdminUserComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["Admin"], breadcrumb: ['إعدادات النظام', 'الإعدادات', 'المستخدمون'] },
+        data: { roles: ['Admin'], breadcrumb: ['إعدادات النظام', 'الإعدادات', 'المستخدمون'] },
       },
       {
         path: 'backup',
         component: BackupComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["Admin"], breadcrumb: ['إعدادات النظام', 'الإعدادات', 'النسخ الاحتياطية'] },
+        data: { roles: ['Admin'], breadcrumb: ['إعدادات النظام', 'الإعدادات', 'النسخ الاحتياطية'] },
       },
       {
         path: 'factory-reset',
         component: FactoryResetComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["Admin"], breadcrumb: ['إعدادات النظام', 'الإعدادات', 'إعادة ضبط المصنع'] },
+        data: { roles: ['Admin'], breadcrumb: ['إعدادات النظام', 'الإعدادات', 'إعادة ضبط المصنع'] },
       },
       {
         path: 'user-profile',
         component: UserProfileComponent,
         canActivate: [AuthGuard],
-        data: { roles: ["Admin", "Cashier"], breadcrumb: ['إعدادات النظام', 'الملف الشخصي'] },
+        data: { roles: ['Admin', 'Cashier'], breadcrumb: ['إعدادات النظام', 'الملف الشخصي'] },
       },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ]

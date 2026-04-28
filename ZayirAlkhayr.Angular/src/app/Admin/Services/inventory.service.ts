@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment.prod';
 import { PagingFilterModel } from '../Models/PagingFilterModel';
 import { ApiResponseModel } from '../Models/ApiResponseModel';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -56,6 +56,28 @@ export class InventoryService {
     return this.http.get<ApiResponseModel<any>>(this.apiURL + 'InventoryAdjustment/DeleteInventoryAdjustment?inventoryAdjustmentId=' + inventoryAdjustmentId);
   }
 
+  // ============================= Unit ==============================
+
+  GetAllUnits(Model: PagingFilterModel) {
+    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'Unit/GetAllUnits', Model);
+  }
+
+  GetUnitById(unitId: number) {
+    return this.http.get<ApiResponseModel<any>>(this.apiURL + 'Unit/GetUnitById?unitId=' + unitId);
+  }
+
+  AddNewUnit(Model: any) {
+    return this.http.post<ApiResponseModel<any>>(this.apiURL + 'Unit/AddNewUnit', Model);
+  }
+
+  UpdateUnit(Model: any) {
+    return this.http.post<ApiResponseModel<any>>(this.apiURL + 'Unit/UpdateUnit', Model);
+  }
+
+  DeleteUnit(unitId: number) {
+    return this.http.get<ApiResponseModel<any>>(this.apiURL + 'Unit/DeleteUnit?unitId=' + unitId);
+  }
+
   // ============================= InventoryItem ==============================
 
   GetAllInventoryItems(Model: PagingFilterModel) {
@@ -80,6 +102,28 @@ export class InventoryService {
 
   DeleteInventoryItem(inventoryItemId: number) {
     return this.http.get<ApiResponseModel<any>>(this.apiURL + 'InventoryItem/DeleteInventoryItem?inventoryItemId=' + inventoryItemId);
+  }
+
+  // ============================= ItemRecipe ==============================
+
+  GetAllItemRecipes(Model: PagingFilterModel) {
+    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'ItemRecipe/GetAllItemRecipes', Model);
+  }
+
+  GetItemRecipeById(itemId: number) {
+    return this.http.get<ApiResponseModel<any>>(this.apiURL + 'ItemRecipe/GetItemRecipeById?itemId=' + itemId);
+  }
+
+  AddItemRecipe(Model: any) {
+    return this.http.post<ApiResponseModel<any>>(this.apiURL + 'ItemRecipe/AddItemRecipe', Model);
+  }
+
+  UpdateItemRecipe(Model: any) {
+    return this.http.post<ApiResponseModel<any>>(this.apiURL + 'ItemRecipe/UpdateItemRecipe', Model);
+  }
+
+  DeleteItemRecipe(itemId: number) {
+    return this.http.get<ApiResponseModel<any>>(this.apiURL + 'ItemRecipe/DeleteItemRecipe?itemId=' + itemId);
   }
 
   // ============================= Supplier ==============================

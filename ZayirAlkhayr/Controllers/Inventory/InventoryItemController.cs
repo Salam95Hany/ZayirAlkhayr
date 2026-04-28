@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ZayirAlkhayr.Entities.Common;
+using ZayirAlkhayr.Entities.Contracts.DTOs.Inventory;
 using ZayirAlkhayr.Entities.Models;
 using ZayirAlkhayr.Interface.Inventory;
 
@@ -21,19 +22,19 @@ namespace ZayirAlkhayr.Controllers.Inventory
         }
 
         [HttpPost("GetAllInventoryItems")]
-        public async Task<ApiResponseModel<List<InventoryItem>>> GetAllInventoryItems(PagingFilterModel model)
+        public async Task<ApiResponseModel<List<InventoryItemDetailsDto>>> GetAllInventoryItems(PagingFilterModel model)
         {
             return await _inventoryItemService.GetAllInventoryItems(model);
         }
 
         [HttpGet("GetInventoryItemById")]
-        public async Task<ApiResponseModel<InventoryItem>> GetInventoryItemById(int inventoryItemId)
+        public async Task<ApiResponseModel<InventoryItemDetailsDto>> GetInventoryItemById(int inventoryItemId)
         {
             return await _inventoryItemService.GetInventoryItemById(inventoryItemId);
         }
 
         [HttpGet("GetLowStockInventoryItems")]
-        public async Task<ApiResponseModel<List<InventoryItem>>> GetLowStockInventoryItems()
+        public async Task<ApiResponseModel<List<InventoryItemDetailsDto>>> GetLowStockInventoryItems()
         {
             return await _inventoryItemService.GetLowStockInventoryItems();
         }

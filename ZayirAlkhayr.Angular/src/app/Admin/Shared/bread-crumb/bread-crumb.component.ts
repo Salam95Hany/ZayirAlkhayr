@@ -28,6 +28,7 @@ export class BreadCrumbComponent implements OnInit, OnDestroy {
     'order-list': ['النظام', 'إدارة المطعم', 'قائمة الطلبات'],
     customers: ['النظام', 'إدارة المطعم', 'العملاء'],
     'inventory-items': ['المخزون', 'إدارة المخزون', 'عناصر المخزون'],
+    'inventory-item-recipes': ['المخزون', 'إدارة المخزون', 'وصفات الأصناف'],
     'inventory-suppliers': ['المخزون', 'إدارة المخزون', 'الموردون'],
     'inventory-adjustments': ['المخزون', 'إدارة المخزون', 'حركة المخزون'],
     'inventory-purchases': ['المخزون', 'إدارة المخزون', 'المشتريات'],

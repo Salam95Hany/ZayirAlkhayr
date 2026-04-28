@@ -116,6 +116,12 @@ namespace ZayirAlkhayr.Service.POS
                 var Entity = await _unitOfWork.Repository<Item>().GetByIdAsync(ProductId);
                 if (Entity != null)
                 {
+                    var hasRecipe = await _unitOfWork.Repository<ItemRecipe>()
+                        .AnyAsync(i => i.ItemId == ProductId);
+
+                    if (hasRecipe)
+                        return ApiResponseModel<string>.Failure(GenericErrors.DeleteRelationRow);
+
                     _unitOfWork.Repository<Item>().Delete(Entity);
                     await _unitOfWork.CompleteAsync();
                     DeleteCategoryFile(Entity.Image);
