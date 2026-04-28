@@ -18,6 +18,7 @@ export class ItemRecipesComponent {
   isFilter = false;
   showLoader = false;
   RecipeForm: FormGroup;
+  SearchText = '';
   Total = 0;
   LinkedItemsCount = 0;
   LinkedInventoryItemsCount = 0;
@@ -87,11 +88,13 @@ export class ItemRecipesComponent {
     return this.fb.group({
       itemRecipeId: [item?.itemRecipeId ?? null],
       inventoryItemId: [item?.inventoryItemId ?? null, [Validators.required]],
-      quantityNeeded: [item?.quantityNeeded ?? 1, [Validators.required, Validators.min(0.0001)]]
+      quantityNeeded: [item?.quantityNeeded ?? null, [Validators.required, Validators.min(0.0001)]],
+      unitName: [{ value: item?.inventoryItemUnitName ?? null, disabled: true }]
     });
   }
 
   ResetForm() {
+    this.SearchText = '';
     this.EditingItemId = null;
     this.RecipeForm.reset();
     this.RecipeForm.setControl('recipes', this.fb.array([this.CreateRecipeLineForm()]));
@@ -209,7 +212,7 @@ export class ItemRecipesComponent {
   }
 
   onInventoryItemClicked(index: number, item: any) {
-    this.GetRecipeLineGroup(index).patchValue({ inventoryItemId: item.inventoryItemId });
+    this.GetRecipeLineGroup(index).patchValue({ inventoryItemId: item.inventoryItemId, unitName: item.unitName });
     this.GetRecipeLineGroup(index).get('inventoryItemId')?.markAsTouched();
   }
 
@@ -222,7 +225,7 @@ export class ItemRecipesComponent {
       this.RecipeLinesFormArray.at(0).reset({
         itemRecipeId: null,
         inventoryItemId: null,
-        quantityNeeded: 1
+        quantityNeeded: null
       });
       return;
     }
@@ -249,7 +252,7 @@ export class ItemRecipesComponent {
     }
 
     return recipes
-      .map((recipe: any) => `${recipe.inventoryItemName} (${recipe.quantityNeeded})`)
+      .map((recipe: any) => `${recipe.inventoryItemName} (${recipe.quantityNeeded} ${recipe.inventoryItemUnitName})`)
       .join('، ');
   }
 
@@ -327,5 +330,9 @@ export class ItemRecipesComponent {
     }
 
     this.showLoader = false;
+  }
+
+  NumbersOnly(key: any) {
+    return this.formService.NumbersOnly(key);
   }
 }

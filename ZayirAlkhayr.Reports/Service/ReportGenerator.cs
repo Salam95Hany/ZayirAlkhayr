@@ -22,7 +22,7 @@ namespace ZayirAlkhayr.Reports.Service
         {
             try
             {
-                var html = await _razorEngine.CompileRenderAsync(ReportType.ToString(), Model);
+                var html = await _razorEngine.CompileRenderAsync(ReportType.ToString() + ".cshtml", Model);
                 var FilePath = _pDFHelper.SaveHTMLResult(html);
                 return FilePath;
             }

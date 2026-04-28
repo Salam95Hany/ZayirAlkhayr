@@ -59,17 +59,23 @@
     font-weight: 800;
 }
 
+.width-705 {
+    width: 705px;
+}
+
+.width-420 {
+    width: 335px;
+}
+
 @media (max-width: 767px) {
     .purchase-line-card {
         padding: 0.85rem;
         border-radius: 18px;
     }
-
     .purchase-line-card__header {
         align-items: flex-start;
         flex-direction: column;
     }
-
     .purchase-remove-btn {
         width: 100%;
         height: 44px;

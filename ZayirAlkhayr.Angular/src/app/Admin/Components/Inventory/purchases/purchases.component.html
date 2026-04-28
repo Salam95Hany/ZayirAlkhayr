@@ -67,6 +67,7 @@
                             <div class="table-actions d-flex align-items-center justify-content-center gap-2">
                                 <button type="button" class="table-action table-action--edit" (click)="openAddItemModal(OpenItemModal,item)"><i class="uil uil-edit"></i></button>
                                 <button type="button" class="table-action table-action--delete" (click)="openDeleteItemModal(deleteItemModal,item)"><i class="uil uil-times-circle"></i></button>
+                                <button type="button" class="table-action table-action--success" (click)="DownloadPdfFile(item)"><i class="uil uil-download-alt"></i></button>
                             </div>
                         </td>
                     </tr>
@@ -101,9 +102,16 @@
                             <button class="dropdown-with-search-btn btn border h-58 w-100 d-flex align-items-center justify-content-between selector-padding" id="purchaseSupplierDropdown" ngbDropdownToggle>
                                 {{GetSupplierName(PurchaseForm.controls['supplierId'].value)}}
                             </button>
-                            <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu aria-labelledby="purchaseSupplierDropdown">
+                            <div class="width-705 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu aria-labelledby="purchaseSupplierDropdown">
+                                <!-- Search inside checkbox list -->
+                                <div class="filter-search p-2 gray-bgcolor border-bottom">
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control form-control-sm" [(ngModel)]="SearchText" placeholder="Search..." [ngModelOptions]="{standalone: true}" />
+                                        <i class="fas fa-search search-icon-input"></i>
+                                    </div>
+                                </div>
                                 <ul class="dropdown-list-box list-unstyled max-height-220 overflow-auto px-1 py-1 m-0">
-                                    <ng-container *ngFor="let item of Suppliers">
+                                    <ng-container *ngFor="let item of Suppliers | searchArry: SearchText:['name']">
                                         <li class="dropdown-item cursor-pointer rounded" [ngClass]="{'DropDownSelected': PurchaseForm.controls['supplierId'].value === item.supplierId}" (click)="onSupplierClicked(item)">
                                             {{item.name}}
                                         </li>
@@ -134,14 +142,21 @@
                         </div>
 
                         <div class="row g-3 align-items-start">
-                            <div class="col-lg-5">
+                            <div class="col-lg-4">
                                 <div ngbDropdown class="dropdown-with-search overflow-hidden admin-user-role-dropdown" container="body">
                                     <button class="dropdown-with-search-btn btn border h-58 w-100 d-flex align-items-center justify-content-between selector-padding" [id]="'purchaseInventoryItemDropdown_' + i" ngbDropdownToggle>
                                         {{GetInventoryItemName(GetPurchaseItemGroup(i).controls['inventoryItemId'].value)}}
                                     </button>
-                                    <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu [attr.aria-labelledby]="'purchaseInventoryItemDropdown_' + i">
+                                    <div class="width-420 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu [attr.aria-labelledby]="'purchaseInventoryItemDropdown_' + i">
+                                        <!-- Search inside checkbox list -->
+                                        <div class="filter-search p-2 gray-bgcolor border-bottom">
+                                            <div class="position-relative">
+                                                <input type="text" class="form-control form-control-sm" [(ngModel)]="itemGroup.searchText" placeholder="Search..." [ngModelOptions]="{standalone: true}" />
+                                                <i class="fas fa-search search-icon-input"></i>
+                                            </div>
+                                        </div>
                                         <ul class="dropdown-list-box list-unstyled max-height-220 overflow-auto px-1 py-1 m-0">
-                                            <ng-container *ngFor="let item of InventoryItems">
+                                            <ng-container *ngFor="let item of InventoryItems | searchArry: itemGroup.searchText:['name']">
                                                 <li class="dropdown-item cursor-pointer rounded" [ngClass]="{'DropDownSelected': GetPurchaseItemGroup(i).controls['inventoryItemId'].value === item.inventoryItemId}" (click)="onInventoryItemClicked(i, item)">
                                                     {{item.name}}
                                                 </li>
@@ -153,7 +168,7 @@
                             </div>
                             <div class="col-lg-2">
                                 <div class="form-floating">
-                                    <input type="number" class="form-control" formControlName="quantity" [id]="'purchase_quantity_' + i" placeholder="purchase-quantity" min="1" required>
+                                    <input type="text" class="form-control" formControlName="quantity" [id]="'purchase_quantity_' + i" placeholder="purchase-quantity" min="1" (keypress)="NumbersOnly($event.key)" required>
                                     <label [for]="'purchase_quantity_' + i">الكمية</label>
                                     <div *ngIf="GetPurchaseItemGroup(i).controls['quantity']?.invalid && (GetPurchaseItemGroup(i).controls['quantity']?.dirty || GetPurchaseItemGroup(i).controls['quantity']?.touched)" class="text-danger pt-2">
                                         <div *ngIf="GetPurchaseItemGroup(i).controls['quantity'].errors?.['required']">هذا الحقل مطلوب</div>
@@ -163,7 +178,7 @@
                             </div>
                             <div class="col-lg-2">
                                 <div class="form-floating">
-                                    <input type="number" class="form-control" formControlName="costPrice" [id]="'purchase_cost_price_' + i" placeholder="purchase-cost-price" min="0" required>
+                                    <input type="text" class="form-control" formControlName="costPrice" [id]="'purchase_cost_price_' + i" placeholder="purchase-cost-price" min="0" (keypress)="NumbersOnly($event.key)" required>
                                     <label [for]="'purchase_cost_price_' + i">سعر التكلفة</label>
                                     <div *ngIf="GetPurchaseItemGroup(i).controls['costPrice']?.invalid && (GetPurchaseItemGroup(i).controls['costPrice']?.dirty || GetPurchaseItemGroup(i).controls['costPrice']?.touched)" class="text-danger pt-2">
                                         <div *ngIf="GetPurchaseItemGroup(i).controls['costPrice'].errors?.['required']">هذا الحقل مطلوب</div>
@@ -171,7 +186,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-lg-2">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" formControlName="unitName" placeholder="purchase-unit">
+                                    <label>الوحدة</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
                                 <div class="purchase-line-total">
                                     <span class="purchase-line-total__label">إجمالي الصنف</span>
                                     <strong class="purchase-line-total__value">{{GetPurchaseItemTotal(i) | number:'1.0-2'}}</strong>

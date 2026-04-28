@@ -105,9 +105,16 @@
                             <button class="dropdown-with-search-btn btn border h-58 w-100 d-flex align-items-center justify-content-between selector-padding" id="inventoryAdjustmentItemDropdown" ngbDropdownToggle>
                                 {{GetInventoryItemName(ItemForm.controls['inventoryItemId'].value)}}
                             </button>
-                            <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu aria-labelledby="inventoryAdjustmentItemDropdown">
+                            <div class="width-725 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu aria-labelledby="inventoryAdjustmentItemDropdown">
+                                <!-- Search inside checkbox list -->
+                                <div class="filter-search p-2 gray-bgcolor border-bottom">
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control form-control-sm" [(ngModel)]="SearchText" placeholder="Search..." [ngModelOptions]="{standalone: true}" />
+                                        <i class="fas fa-search search-icon-input"></i>
+                                    </div>
+                                </div>
                                 <ul class="dropdown-list-box list-unstyled max-height-220 overflow-auto px-1 py-1 m-0">
-                                    <ng-container *ngFor="let item of InventoryItems">
+                                    <ng-container *ngFor="let item of InventoryItems | searchArry: SearchText:['name']">
                                         <li class="dropdown-item cursor-pointer rounded" [ngClass]="{'DropDownSelected': ItemForm.controls['inventoryItemId'].value === item.inventoryItemId}" (click)="onInventoryItemClicked(item)">
                                             {{item.name}}
                                         </li>

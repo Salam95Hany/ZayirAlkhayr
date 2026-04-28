@@ -62,8 +62,8 @@
                             </div>
                         </td>
                         <td>{{item.unitName || GetUnitName(item.unitId)}}</td>
-                        <td>{{item.currentQuantity}}</td>
-                        <td>{{item.minQuantity}}</td>
+                        <td>{{item.currentQuantity | number : '1.0-0'}}</td>
+                        <td>{{item.minQuantity | number : '1.0-0'}}</td>
                         <td>
                             <span class="status-chip" [ngClass]="IsLowStock(item) ? 'status-chip--inactive' : 'status-chip--active'">
                                 {{ IsLowStock(item) ? 'تنبيه مخزون' : 'متوازن' }}
@@ -117,7 +117,7 @@
                             <button class="dropdown-with-search-btn btn border h-58 w-100 d-flex align-items-center justify-content-between selector-padding" id="inventoryItemUnitDropdown" ngbDropdownToggle>
                                 {{GetUnitName(ItemForm.controls['unitId'].value)}}
                             </button>
-                            <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu aria-labelledby="inventoryItemUnitDropdown">
+                            <div class="width-355 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu aria-labelledby="inventoryItemUnitDropdown">
                                 <ul class="dropdown-list-box list-unstyled max-height-220 overflow-auto px-1 py-1 m-0">
                                     <ng-container *ngFor="let unit of Units">
                                         <li class="dropdown-item cursor-pointer rounded" [ngClass]="{'DropDownSelected': ItemForm.controls['unitId'].value === unit.unitId}" (click)="onUnitClicked(unit)">
@@ -133,7 +133,7 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="number" class="form-control" formControlName="currentQuantity" id="inventory_item_quantity" placeholder="inventory-item-quantity" required>
+                            <input type="text" class="form-control" formControlName="currentQuantity" id="inventory_item_quantity" placeholder="inventory-item-quantity" (keypress)="NumbersOnly($event.key)" required>
                             <label for="inventory_item_quantity">الكمية الحالية</label>
                             <div *ngIf="ItemForm.controls['currentQuantity']?.invalid && (ItemForm.controls['currentQuantity']?.dirty || ItemForm.controls['currentQuantity']?.touched)" class="text-danger pt-2">
                                 <div *ngIf="ItemForm.controls['currentQuantity'].errors?.['required']">هذا الحقل مطلوب</div>
@@ -142,7 +142,7 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="form-floating">
-                            <input type="number" class="form-control" formControlName="minQuantity" id="inventory_item_min_quantity" placeholder="inventory-item-min-quantity" required>
+                            <input type="text" class="form-control" formControlName="minQuantity" id="inventory_item_min_quantity" placeholder="inventory-item-min-quantity" (keypress)="NumbersOnly($event.key)" required>
                             <label for="inventory_item_min_quantity">الحد الأدنى</label>
                             <div *ngIf="ItemForm.controls['minQuantity']?.invalid && (ItemForm.controls['minQuantity']?.dirty || ItemForm.controls['minQuantity']?.touched)" class="text-danger pt-2">
                                 <div *ngIf="ItemForm.controls['minQuantity'].errors?.['required']">هذا الحقل مطلوب</div>

@@ -71,3 +71,11 @@
 .recipe-remove-btn:hover {
     background: rgba(220, 38, 38, 0.14);
 }
+
+.width-615 {
+    width: 615px;
+}
+
+.width-505 {
+    width: 505px;
+}

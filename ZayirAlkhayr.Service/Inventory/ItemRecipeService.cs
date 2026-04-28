@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using QuestPDF.Infrastructure;
 using ZayirAlkhayr.Entities.Common;
 using ZayirAlkhayr.Entities.Contracts.DTOs.Inventory;
 using ZayirAlkhayr.Entities.Models;
@@ -68,11 +69,8 @@ namespace ZayirAlkhayr.Service.Inventory
                             InventoryItemName = i.InventoryItemName,
                             InventoryItemUnitName = i.InventoryItemUnitName,
                             QuantityNeeded = i.QuantityNeeded
-                        })
-                        .ToList()
-                })
-                .OrderBy(i => i.ItemName)
-                .ToList();
+                        }).ToList()
+                }).OrderBy(i => i.ItemName).ToList();
 
             var totalCount = groupedResults.Count;
             var results = ApplyPaging(groupedResults, model).ToList();

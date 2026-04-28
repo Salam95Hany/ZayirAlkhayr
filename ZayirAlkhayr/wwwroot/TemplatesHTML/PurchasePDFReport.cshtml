@@ -1,7 +1,7 @@
 ﻿@using ZayirAlkhayr.Reports.Model
 
 @{
-    PdfDataReports _Model = Model;
+    PurchaseData _Model = Model;
 }
 
 <table width="794" align="center" cellpadding="0" cellspacing="0"
@@ -31,19 +31,19 @@
         <td style="padding:15px 30px">
             <table width="100%">
                 <tr>
-                    <td width="140" style="color:#e07b00;font-weight:bold">فاتورة إلى :</td>
+                    <td width="140" style="color:#e07b00;font-weight:bold">فاتورة إلى : @_Model.SupplierName</td>
                     <td style="border-bottom:1px solid #c8a060;height:20px"></td>
                 </tr>
                 <tr>
-                    <td style="color:#e07b00;font-weight:bold">رقم الهاتف:</td>
+                    <td style="color:#e07b00;font-weight:bold">رقم الهاتف: @_Model.SupplierPhone</td>
                     <td style="border-bottom:1px solid #c8a060;height:20px"></td>
                 </tr>
                 <tr>
-                    <td style="color:#e07b00;font-weight:bold">التاريخ:</td>
+                    <td style="color:#e07b00;font-weight:bold">التاريخ: @_Model.InsertDateAr</td>
                     <td style="border-bottom:1px solid #c8a060;height:20px"></td>
                 </tr>
                 <tr>
-                    <td style="color:#e07b00;font-weight:bold">رقم الفاتورة:</td>
+                    <td style="color:#e07b00;font-weight:bold">رقم الفاتورة: @_Model.PurchaseNumber</td>
                     <td style="border-bottom:1px solid #c8a060;height:20px"></td>
                 </tr>
             </table>
@@ -56,14 +56,13 @@
     <!-- ITEMS -->
     <tr>
         <td style="padding:15px 30px">
-            <table width="100%" cellpadding="0" cellspacing="0" border="1"
-                   style="border-collapse:collapse;text-align:center">
-
+            <table width="100%" cellpadding="0" cellspacing="0" border="1" style="border-collapse:collapse;text-align:center">
                 <thead>
                     <tr style="background:#e07b00;color:#fff">
                         <th align="right">اسم الصنف</th>
                         <th width="95">السعر</th>
                         <th width="70">الكمية</th>
+                        <th width="70">الوحدة</th>
                         <th width="95">الإجمالي</th>
                     </tr>
                 </thead>
@@ -72,9 +71,10 @@
                     {
                         var row = Model.Items[i];
                         <tr style="background:@(i % 2 == 0 ? "#fffdf9" : "#fff4e0")">
-                            <td align="right" style="padding-right:10px">@row.Name</td>
-                            <td>@row.Price</td>
-                            <td>@row.Qty</td>
+                            <td align="right" style="padding-right:10px">@row.InventoryItemName</td>
+                            <td>@row.CostPrice</td>
+                            <td>@row.Quantity</td>
+                            <td>@row.UnitName</td>
                             <td>@row.Total</td>
                         </tr>
                     }
@@ -87,17 +87,14 @@
         <td style="padding:15px 30px">
             <table width="100%">
                 <tr>
-
                     <td width="55%">
-                        <span style="font-weight:bold;color:#e07b00">المجموع بالحروف:</span>
+                        <span style="font-weight:bold;color:#e07b00">المجموع بالحروف: @_Model.TotalAmountAr</span>
                         <span style="border-bottom:1px dashed #c8a060;display:inline-block;width:200px;height:20px"></span>
                     </td>
-
                     <td width="45%" align="left">
-                        <span style="font-weight:bold;color:#e07b00">المجموع:</span>
+                        <span style="font-weight:bold;color:#e07b00">المجموع: @_Model.TotalAmount</span>
                         <span style="border-bottom:1px dashed #c8a060;display:inline-block;width:150px;height:20px"></span>
                     </td>
-
                 </tr>
             </table>
         </td>

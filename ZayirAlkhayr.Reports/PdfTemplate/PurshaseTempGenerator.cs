@@ -1,44 +1,44 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using RazorLight;
-using System.Data;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using ZayirAlkhayr.Entities.Reports;
+using ZayirAlkhayr.Interface.Inventory;
 using ZayirAlkhayr.Reports.Interface;
 using ZayirAlkhayr.Reports.Model;
 using ZayirAlkhayr.Reports.Service;
 
 namespace ZayirAlkhayr.Reports.PdfTemplate
 {
-    public class DailySalesPdfReportGenerator : ReportGenerator
+    public class DailySalesPdfReportGenerator : ReportGenerator, IReportGenerator
     {
         private readonly IWebHostEnvironment _environment;
+        private readonly IPurchaseService _purchaseService;
         public override ReportType ReportType => ReportType.PurchasePDFReport;
 
-        public DailySalesPdfReportGenerator(IWebHostEnvironment environment, IRazorLightEngine razorEngine, IPDFHelper pDFHelper) : base(razorEngine, pDFHelper)
+        public DailySalesPdfReportGenerator(IWebHostEnvironment environment, IRazorLightEngine razorEngine, IPDFHelper pDFHelper, IPurchaseService purchaseService) : base(razorEngine, pDFHelper)
         {
             _environment = environment;
+            _purchaseService = purchaseService;
         }
 
 
         public async Task<string> Generate(SearchReportModel Model)
         {
-            var PatientId = Model.QueryString.FirstOrDefault(i => i.Key == "PatientId")?.Value;
-            var AdmissionId = Model.QueryString.FirstOrDefault(i => i.Key == "AdmissionId")?.Value;
-            var SurgicalId = Model.QueryString.FirstOrDefault(i => i.Key == "SurgicalId")?.Value;
-            if (!string.IsNullOrEmpty(PatientId) && !string.IsNullOrEmpty(AdmissionId) && !string.IsNullOrEmpty(SurgicalId))
+            var PurchaseId = Model.QueryString.FirstOrDefault(i => i.Key == "PurchaseId")?.Value;
+            if (!string.IsNullOrEmpty(PurchaseId))
             {
-                var Results = new DataTable();
-                var Data = new PdfDataReports
-                {
-                    Data = Results,
-                    ImageSrc = Path.Combine(_environment.WebRootPath, "Template", "Logo.png")
-                };
+                var Results = await _purchaseService.GetPurchaseById(int.Parse(PurchaseId));
+                var Data = new PurchaseData();
 
+                Data.SupplierName = Results.Results.SupplierName;
+                Data.SupplierPhone = Results.Results.SupplierPhone;
+                Data.TotalAmount = Results.Results.TotalAmount;
+                Data.InsertDate = Results.Results.InsertDate;
+                Data.Items = Results.Results.Items;
+                Data.ImageSrc = Path.Combine(_environment.WebRootPath, "Template", "POS_Logo3.png");
+                Data.HandleData();
                 var FullPath = await this.Build(Data);
                 return FullPath;
             }

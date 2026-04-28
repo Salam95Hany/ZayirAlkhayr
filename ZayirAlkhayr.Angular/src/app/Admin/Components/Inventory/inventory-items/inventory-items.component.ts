@@ -75,8 +75,8 @@ export class InventoryItemsComponent {
       inventoryItemId: 0,
       name: ['', [Validators.required, this.formService.noSpaceValidator]],
       unitId: [null, [Validators.required]],
-      currentQuantity: [0, [Validators.required]],
-      minQuantity: [0, [Validators.required]],
+      currentQuantity: [null, [Validators.required]],
+      minQuantity: [null, [Validators.required]],
       insertUser: null,
       updateUser: null
     });
@@ -86,8 +86,8 @@ export class InventoryItemsComponent {
     this.ItemForm.reset();
     this.ItemForm.patchValue({
       inventoryItemId: 0,
-      currentQuantity: 0,
-      minQuantity: 0,
+      currentQuantity: null,
+      minQuantity: null,
       insertUser: this.UserModel?.userId,
       updateUser: this.UserModel?.userId
     });
@@ -244,5 +244,9 @@ export class InventoryItemsComponent {
     }
 
     this.showLoader = false;
+  }
+
+   NumbersOnly(key: any) {
+    return this.formService.NumbersOnly(key);
   }
 }

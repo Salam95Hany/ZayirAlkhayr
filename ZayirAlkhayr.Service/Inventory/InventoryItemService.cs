@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +14,8 @@ namespace ZayirAlkhayr.Service.Inventory
 {
     public class InventoryItemService : IInventoryItemService
     {
-        private static readonly Error InvalidInventoryQuantity = new Error("\u0644\u0627 \u064A\u0645\u0643\u0646 \u0623\u0646 \u062A\u0643\u0648\u0646 \u0627\u0644\u0643\u0645\u064A\u0629 \u0627\u0644\u0645\u062A\u0627\u062D\u0629 \u0623\u0642\u0644 \u0645\u0646 \u0635\u0641\u0631");
-        private static readonly Error InvalidUnit = new Error("\u0627\u0644\u0648\u062D\u062F\u0629 \u0627\u0644\u0645\u062D\u062F\u062F\u0629 \u063A\u064A\u0631 \u0645\u0648\u062C\u0648\u062F\u0629");
+        private static readonly Error InvalidInventoryQuantity = new Error("لا يمكن أن تكون الكمية المتاحة أقل من صفر");
+        private static readonly Error InvalidUnit = new Error("الوحدة المحددة غير موجودة");
         private readonly IUnitOfWork _unitOfWork;
 
         public InventoryItemService(IUnitOfWork unitOfWork)

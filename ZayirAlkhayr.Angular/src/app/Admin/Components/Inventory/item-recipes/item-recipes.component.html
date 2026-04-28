@@ -13,7 +13,7 @@
             </div>
 
             <div class="admin-crud-summary-card d-flex align-items-center justify-content-between">
-                <span class="admin-crud-summary-card__label">مكونات الصفحة الحالية</span>
+                <span class="admin-crud-summary-card__label">إجمالي المكونات</span>
                 <strong class="admin-crud-summary-card__value">{{LinkedInventoryItemsCount}}</strong>
             </div>
 
@@ -104,9 +104,16 @@
                                 <button class="dropdown-with-search-btn btn border h-58 w-100 d-flex align-items-center justify-content-between selector-padding" id="itemRecipeItemDropdown" ngbDropdownToggle>
                                     {{GetItemName(RecipeForm.controls['itemId'].value)}}
                                 </button>
-                                <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu aria-labelledby="itemRecipeItemDropdown">
+                                <div class="width-615 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu aria-labelledby="itemRecipeItemDropdown">
+                                    <!-- Search inside checkbox list -->
+                                    <div class="filter-search p-2 gray-bgcolor border-bottom">
+                                        <div class="position-relative">
+                                            <input type="text" class="form-control form-control-sm" [(ngModel)]="SearchText" placeholder="Search..." [ngModelOptions]="{standalone: true}" />
+                                            <i class="fas fa-search search-icon-input"></i>
+                                        </div>
+                                    </div>
                                     <ul class="dropdown-list-box list-unstyled max-height-220 overflow-auto px-1 py-1 m-0">
-                                        <ng-container *ngFor="let item of Items">
+                                        <ng-container *ngFor="let item of Items | searchArry: SearchText:['productName']">
                                             <li class="dropdown-item cursor-pointer rounded" [ngClass]="{'DropDownSelected': RecipeForm.controls['itemId'].value === item.productId}" (click)="onItemClicked(item)">
                                                 {{item.productName}}
                                             </li>
@@ -143,14 +150,20 @@
                         </div>
 
                         <div class="row g-3 align-items-start">
-                            <div class="col-lg-8">
+                            <div class="col-lg-6">
                                 <div ngbDropdown class="dropdown-with-search overflow-hidden admin-user-role-dropdown" container="body">
                                     <button class="dropdown-with-search-btn btn border h-58 w-100 d-flex align-items-center justify-content-between selector-padding" [id]="'recipeInventoryItemDropdown_' + i" ngbDropdownToggle>
                                         {{GetInventoryItemName(GetRecipeLineGroup(i).controls['inventoryItemId'].value)}}
                                     </button>
-                                    <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu [attr.aria-labelledby]="'recipeInventoryItemDropdown_' + i">
+                                    <div class="width-505 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu [attr.aria-labelledby]="'recipeInventoryItemDropdown_' + i">
+                                        <div class="filter-search p-2 gray-bgcolor border-bottom">
+                                            <div class="position-relative">
+                                                <input type="text" class="form-control form-control-sm" [(ngModel)]="recipeGroup.searchTextRecipe" placeholder="Search..." [ngModelOptions]="{standalone: true}" />
+                                                <i class="fas fa-search search-icon-input"></i>
+                                            </div>
+                                        </div>
                                         <ul class="dropdown-list-box list-unstyled max-height-220 overflow-auto px-1 py-1 m-0">
-                                            <ng-container *ngFor="let item of InventoryItems">
+                                            <ng-container *ngFor="let item of InventoryItems | searchArry: recipeGroup.searchTextRecipe:['name']">
                                                 <li class="dropdown-item cursor-pointer rounded" [ngClass]="{'DropDownSelected': GetRecipeLineGroup(i).controls['inventoryItemId'].value === item.inventoryItemId}" (click)="onInventoryItemClicked(i, item)">
                                                     {{item.name}}
                                                 </li>
@@ -160,14 +173,20 @@
                                 </div>
                                 <div class="text-danger pt-2" *ngIf="GetRecipeLineGroup(i).controls['inventoryItemId']?.invalid && (GetRecipeLineGroup(i).controls['inventoryItemId']?.dirty || GetRecipeLineGroup(i).controls['inventoryItemId']?.touched)">هذا الحقل مطلوب</div>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-3">
                                 <div class="form-floating">
-                                    <input type="number" class="form-control" formControlName="quantityNeeded" [id]="'recipe_quantity_needed_' + i" placeholder="recipe-quantity-needed" min="0.001" step="0.001" required>
+                                    <input type="text" class="form-control" formControlName="quantityNeeded" [id]="'recipe_quantity_needed_' + i" placeholder="recipe-quantity-needed" min="0.001" step="0.001" (keypress)="NumbersOnly($event.key)" required>
                                     <label [for]="'recipe_quantity_needed_' + i">الكمية المطلوبة</label>
                                     <div *ngIf="GetRecipeLineGroup(i).controls['quantityNeeded']?.invalid && (GetRecipeLineGroup(i).controls['quantityNeeded']?.dirty || GetRecipeLineGroup(i).controls['quantityNeeded']?.touched)" class="text-danger pt-2">
                                         <div *ngIf="GetRecipeLineGroup(i).controls['quantityNeeded'].errors?.['required']">هذا الحقل مطلوب</div>
                                         <div *ngIf="GetRecipeLineGroup(i).controls['quantityNeeded'].errors?.['min']">يجب أن تكون القيمة أكبر من صفر</div>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" formControlName="unitName" placeholder="recipe-quantity-needed">
+                                    <label>الوحدة</label>
                                 </div>
                             </div>
                         </div>

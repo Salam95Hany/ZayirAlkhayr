@@ -99,6 +99,7 @@ namespace ZayirAlkhayr.Entities.Contracts.DTOs.Inventory
         public int PurchaseId { get; set; }
         public int SupplierId { get; set; }
         public string SupplierName { get; set; }
+        public string SupplierPhone { get; set; }
         public double TotalAmount { get; set; }
         public string InsertUser { get; set; }
         public DateTime? InsertDate { get; set; }
@@ -113,6 +114,7 @@ namespace ZayirAlkhayr.Entities.Contracts.DTOs.Inventory
         public int PurchaseId { get; set; }
         public int InventoryItemId { get; set; }
         public string InventoryItemName { get; set; }
+        public string UnitName { get; set; }
         public int Quantity { get; set; }
         public double CostPrice { get; set; }
         public double Total { get; set; }

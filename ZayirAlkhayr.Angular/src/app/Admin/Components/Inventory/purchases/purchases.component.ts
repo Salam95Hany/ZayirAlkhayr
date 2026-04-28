@@ -1,10 +1,12 @@
+import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { FilterModel } from 'src/app/Admin/Models/FilterModel';
 import { PagingFilterModel } from 'src/app/Admin/Models/PagingFilterModel';
-import { AdminService } from 'src/app/Admin/Services/admin.service';
+import { SearchReportModel } from 'src/app/Admin/Models/SearchReportModel';
+import { DownloadFileService } from 'src/app/Admin/Services/download-file.service';
 import { InventoryService } from 'src/app/Admin/Services/inventory.service';
 import { ValidationFormService } from 'src/app/Admin/Services/validation-form.service';
 
@@ -21,6 +23,7 @@ export class PurchasesComponent {
   Total = 0;
   CurrentPageAmount = 0;
   PurchaseId: number | null = null;
+  SearchText = '';
   Results: any[] = [];
   Suppliers: any[] = [];
   InventoryItems: any[] = [];
@@ -52,13 +55,20 @@ export class PurchasesComponent {
     currentpage: 1,
     pagesize: 1000
   };
+  ReportModel: SearchReportModel = {
+    reportType: '',
+    queryString: [],
+    filterList: []
+  };
 
   constructor(
     private modalService: NgbModal,
     private inventoryService: InventoryService,
     private formService: ValidationFormService,
     private fb: FormBuilder,
-    private toaster: ToastrService
+    private toaster: ToastrService,
+    private fileService: DownloadFileService,
+    private datePipe: DatePipe
   ) { }
 
   ngOnInit(): void {
@@ -85,8 +95,9 @@ export class PurchasesComponent {
   CreatePurchaseItemForm(item: any = null): FormGroup {
     return this.fb.group({
       inventoryItemId: [item?.inventoryItemId ?? null, [Validators.required]],
-      quantity: [item?.quantity ?? 1, [Validators.required, Validators.min(1)]],
-      costPrice: [item?.costPrice ?? 0, [Validators.required, Validators.min(0)]]
+      quantity: [item?.quantity ?? null, [Validators.required, Validators.min(1)]],
+      costPrice: [item?.costPrice ?? null, [Validators.required, Validators.min(0)]],
+      unitName: [{ value: item?.unitName ?? null, disabled: true }]
     });
   }
 
@@ -203,7 +214,7 @@ export class PurchasesComponent {
   }
 
   onInventoryItemClicked(index: number, item: any) {
-    this.GetPurchaseItemGroup(index).patchValue({ inventoryItemId: item.inventoryItemId });
+    this.GetPurchaseItemGroup(index).patchValue({ inventoryItemId: item.inventoryItemId, unitName: item.unitName });
     this.GetPurchaseItemGroup(index).get('inventoryItemId')?.markAsTouched();
   }
 
@@ -215,8 +226,9 @@ export class PurchasesComponent {
     if (this.PurchaseItemsFormArray.length === 1) {
       this.PurchaseItemsFormArray.at(0).reset({
         inventoryItemId: null,
-        quantity: 1,
-        costPrice: 0
+        quantity: null,
+        costPrice: null,
+        unitName: null
       });
       return;
     }
@@ -318,5 +330,24 @@ export class PurchasesComponent {
     }
 
     this.showLoader = false;
+  }
+
+  NumbersOnly(key: any) {
+    return this.formService.NumbersOnly(key);
+  }
+
+  DownloadPdfFile(item: any) {
+    if (!item.purchaseId) {
+      this.toaster.warning('لقد حدث خطا');
+      return;
+    }
+    this.ReportModel.queryString = [{ key: 'PurchaseId', value: item.purchaseId }];
+    this.ReportModel.reportType = 'PurchasePDFReport';
+    let today = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    let fileName = 'فاتورة المشتريات' + '_' + today;
+    this.showLoader = true;
+    this.fileService.DownloadFile(this.ReportModel, fileName + '.xlsx').subscribe(data => {
+      this.showLoader = false;
+    });
   }
 }

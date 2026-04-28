@@ -4,7 +4,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { FilterModel } from 'src/app/Admin/Models/FilterModel';
 import { PagingFilterModel } from 'src/app/Admin/Models/PagingFilterModel';
-import { AdminService } from 'src/app/Admin/Services/admin.service';
 import { InventoryService } from 'src/app/Admin/Services/inventory.service';
 import { ValidationFormService } from 'src/app/Admin/Services/validation-form.service';
 
@@ -15,8 +14,9 @@ import { ValidationFormService } from 'src/app/Admin/Services/validation-form.se
 })
 export class InventoryAdjustmentsComponent {
   UserModel: any;
-  isFilter = false;
+  isFilter = true;
   showLoader = false;
+  SearchText = '';
   ItemForm: FormGroup;
   Total = 0;
   NetQuantityChange = 0;
