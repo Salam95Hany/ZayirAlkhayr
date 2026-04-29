@@ -396,11 +396,11 @@ namespace ZayirAlkhayr.Service.POS
             if (inventoryItems.Count != inventoryDelta.Count)
                 return GenericErrors.NotFound;
 
-            foreach (var change in inventoryDelta)
-            {
-                if (inventoryItems[change.Key].CurrentQuantity + change.Value < 0)
-                    return InsufficientInventoryForOrder;
-            }
+            //foreach (var change in inventoryDelta)
+            //{
+            //    if (inventoryItems[change.Key].CurrentQuantity + change.Value < 0)
+            //        return InsufficientInventoryForOrder;
+            //}
 
             foreach (var change in inventoryDelta)
             {

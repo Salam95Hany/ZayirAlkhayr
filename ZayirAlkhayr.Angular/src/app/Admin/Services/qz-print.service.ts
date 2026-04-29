@@ -21,8 +21,7 @@ type RgbColor = {
   providedIn: 'root'
 })
 export class QzPrintService {
-  private readonly paperWidthMm = 80;
-  private readonly printableWidthMm = 76;
+  private readonly printableWidthMm = 72;
   private readonly printerDensityDpmm = 8;
   private readonly receiptWidth = this.printableWidthMm * this.printerDensityDpmm;
   private readonly logoPath = 'assets/Logo22.png';
@@ -33,7 +32,7 @@ export class QzPrintService {
   private readonly baseFontSizePx = 26;
   private readonly logoDisplayWidthPx = 190;
   private readonly logoOutputPaddingPx = 24;
-  private readonly minRenderScale = 6;
+  private readonly minRenderScale = 4;
   private readonly printBottomPaddingPx = 48;
   private logoBase64 = '';
   private qzSecurityInitialized = false;
@@ -61,7 +60,6 @@ export class QzPrintService {
       const canvas = await this.renderReceipt(container);
       const printCanvas = this.prepareCanvasForPrint(canvas);
       const config = this.createReceiptConfig(printer, this.calculatePaperHeight(printCanvas.height));
-
       await qz.print(config, [this.buildReceiptImage(printCanvas)]);
     } catch (error) {
       const message = this.showPrintError(error);
@@ -133,7 +131,7 @@ export class QzPrintService {
       <div style="width:${this.receiptWidth}px;background:#fff;color:#000;box-sizing:border-box;">
         <div style="
           width:100%;
-          padding:5px 16px;
+          padding:5px 10px;
           box-sizing:border-box;
           font-family:'Tahoma', sans-serif;
           direction:rtl;
@@ -506,8 +504,6 @@ export class QzPrintService {
       scale: this.getRenderScale(),
       useCORS: true,
       backgroundColor: '#ffffff',
-      width: this.receiptWidth,
-      windowWidth: this.receiptWidth,
       height: container.scrollHeight,
       windowHeight: container.scrollHeight,
       imageTimeout: 0,
@@ -549,7 +545,7 @@ export class QzPrintService {
       units: 'mm',
       margins: 0,
       size: {
-        width: this.paperWidthMm,
+        width: this.printableWidthMm,
         height: heightMm,
         custom: true
       },
@@ -690,7 +686,7 @@ export class QzPrintService {
     container.style.position = 'fixed';
     container.style.left = '-9999px';
     container.style.top = '0';
-    container.style.width = `${this.receiptWidth}px`;
+    container.style.maxWidth = '100%';
     container.style.background = '#fff';
     container.style.direction = 'rtl';
     container.style.zIndex = '-1';
