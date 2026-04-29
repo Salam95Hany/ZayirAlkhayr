@@ -24,19 +24,23 @@ namespace ZayirAlkhayr.Reports.Model
         private readonly Random _random = new Random();
         private const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
+        public string FormatNumber(double value)
+        {
+            if (value % 1 == 0)
+                return value.ToString("N0");
+
+            return value.ToString("0.##");
+        }
+
         public void HandleData()
         {
             if (InsertDate.HasValue)
-            {
-                var culture = new CultureInfo("ar-EG");
-
-                InsertDateAr = InsertDate.Value.ToString("yyyy-MM-dd - hh:mm tt", culture);
-            }
+                InsertDateAr = InsertDate.Value.ToString("yyyy-MM-dd - hh:mm tt");
 
             if (TotalAmount > 0)
             {
                 var converter = TafqeetConverterFactory.Create(TafqeetLanguage.Arabic);
-                TotalAmountAr = converter.Convert((decimal)TotalAmount).Replace("ريال","ليرة");
+                TotalAmountAr = converter.Convert((decimal)TotalAmount).Replace("ريال", "ليرة");
             }
 
             var sb = new StringBuilder();

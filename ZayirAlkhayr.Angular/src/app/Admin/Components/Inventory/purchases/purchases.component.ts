@@ -346,7 +346,7 @@ export class PurchasesComponent {
     let today = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
     let fileName = 'فاتورة المشتريات' + '_' + today;
     this.showLoader = true;
-    this.fileService.DownloadFile(this.ReportModel, fileName + '.xlsx').subscribe(data => {
+    this.fileService.DownloadFile(this.ReportModel, fileName + '.pdf').subscribe(data => {
       this.showLoader = false;
     });
   }

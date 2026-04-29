@@ -150,7 +150,7 @@ namespace ZayirAlkhayr
             services.AddScoped<IReportGeneratorFactory, ReportGeneratorFactory>();
             services.AddScoped<IExportManagerService, ExportManagerService>();
             services.AddSingleton<IPDFHelper, PDFHelper>();
-
+            services.AddSingleton<IPDFQuestHelper, PDFQuestHelper>();
 
             #endregion
 

@@ -17,7 +17,7 @@ namespace ZayirAlkhayr.Reports.PdfTemplate
         private readonly IPurchaseService _purchaseService;
         public override ReportType ReportType => ReportType.PurchasePDFReport;
 
-        public DailySalesPdfReportGenerator(IWebHostEnvironment environment, IRazorLightEngine razorEngine, IPDFHelper pDFHelper, IPurchaseService purchaseService) : base(razorEngine, pDFHelper)
+        public DailySalesPdfReportGenerator(IWebHostEnvironment environment, IPDFQuestHelper QuestHelper, IPurchaseService purchaseService) : base(QuestHelper)
         {
             _environment = environment;
             _purchaseService = purchaseService;
