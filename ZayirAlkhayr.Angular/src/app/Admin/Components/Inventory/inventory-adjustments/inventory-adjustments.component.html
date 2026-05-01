@@ -45,9 +45,10 @@
             <table class="admin-crud-table">
                 <thead>
                     <tr>
-                        <th>عنصر المخزون</th>
-                        <th>التغيير</th>
+                        <th>الرقم المرجعي</th>
+                        <th>نوع الحركة</th>
                         <th>السبب</th>
+                        <th>عدد العناصر</th>
                         <th>التاريخ</th>
                         <th class="text-center">الإجراءات</th>
                     </tr>
@@ -57,20 +58,18 @@
                         <td>
                             <div class="admin-crud-entity-cell">
                                 <span class="admin-crud-entity-avatar"><i class="uil uil-box"></i></span>
-                                <strong>{{item.inventoryItemName}}</strong>
+                                <strong>{{item.actionId}}#</strong>
                             </div>
                         </td>
-                        <td>
-                            <span class="status-chip" [ngClass]="item.quantityChange > 0 ? 'status-chip--active' : 'status-chip--inactive'">
-                                {{item.quantityChange > 0 ? '+' : ''}}{{item.quantityChange}}
-                            </span>
-                        </td>
+                        <td>{{item.adjustmentTypeName}}</td>
                         <td>{{item.reason}}</td>
+                        <td>{{item.totalAffectedItems}}</td>
                         <td>{{item.insertDate | arabicDateWithTime}}</td>
                         <td>
                             <div class="table-actions d-flex align-items-center justify-content-center gap-2">
-                                <button type="button" class="table-action table-action--edit" (click)="openAddItemModal(OpenItemModal,item)"><i class="uil uil-edit"></i></button>
-                                <button type="button" class="table-action table-action--delete" (click)="openDeleteItemModal(deleteItemModal,item)"><i class="uil uil-times-circle"></i></button>
+                                <button type="button" class="table-action table-action--edit" (click)="openAddItemModal(OpenItemModal,item)" *ngIf="item.adjustmentType == 1"><i class="uil uil-edit"></i></button>
+                                <button type="button" class="table-action table-action--delete" (click)="openDeleteItemModal(deleteItemModal,item)" *ngIf="item.adjustmentType == 1"><i class="uil uil-times-circle"></i></button>
+                                <button type="button" class="table-action table-action--success" (click)="openSidePanel(SidePanel,item)"><i class="uil uil-document-info"></i></button>
                             </div>
                         </td>
                     </tr>
@@ -170,6 +169,53 @@
     <div class="modal-footer admin-modal-footer justify-content-start gap-2">
         <button type="button" class="btn btn-success rounded-25 d-flex align-items-center gap-2" (click)="DeleteItem()"><i class="fas fa-check"></i><span>نعم</span></button>
         <button type="button" class="btn btn-danger rounded-25 d-flex align-items-center gap-2" (click)="modal.close('cancel')"><i class="fas fa-times"></i><span>لا</span></button>
+    </div>
+</ng-template>
+
+<ng-template #SidePanel let-offcanvas>
+    <div class="offcanvas-header pb-0 d-flex align-items-center justify-content-between admin-order-panel-header">
+        <div>
+            <h4 class="offcanvas-title m-0 d-flex align-items-center w-100"><i class="uil uil-document-info text-success"></i> <span *ngIf="ActionId && ActionId !== '-'">{{ActionId}} - </span> {{CreatedDate| arabicDateWithTime}}</h4>
+        </div>
+        <button type="button" class="btn bg-danger text-white rounded" aria-label="Close" (click)="offcanvas.dismiss()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <div class="offcanvas-body pt-0 admin-order-panel-body">
+        <div class="container pt-3">
+            <div class="admin-crud-panel admin-order-panel-card mb-3">
+                <div class="admin-crud-table-wrap table-responsive">
+                    <table class="admin-crud-table">
+                        <thead>
+                            <tr>
+                                <th>اسم العنصر</th>
+                                <th>مقدار التغيير</th>
+                                <th>الكمية قبل</th>
+                                <th>الكمية بعد</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of AdjDetails;let i = index">
+                                <td>{{item.itemName}}</td>
+                                <td>
+                                    <span class="status-chip" [ngClass]="item.quantityChange > 0 ? 'status-chip--active' : 'status-chip--inactive'">
+                                        {{item.quantityChange > 0 ? '+' : ''}}{{item.quantityChange}}
+                                    </span>
+                                </td>
+                                <td>{{item.quantityBefore}}</td>
+                                <td>{{item.quantityAfter}}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot *ngIf="AdjDetails.length > 0">
+                            <tr>
+                                <td class="fw-bold">إجمالي التغييرات:</td>
+                                <td colspan="3" class="fw-bold">{{AdjDetails[0].totalQuantityChange}}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </ng-template>
 

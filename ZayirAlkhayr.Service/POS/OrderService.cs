@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -136,6 +137,7 @@ namespace ZayirAlkhayr.Service.POS
 
                 await _unitOfWork.Repository<Order>().AddAsync(order);
                 await _unitOfWork.CompleteAsync();
+                await AddInventoryAdjustment(ToInventoryDelta(recipeConsumption, -1), Model.UserId, order.OrderNumber.ToString(), "خصم مخزون بسبب إنشاء طلب");
 
                 foreach (var detail in Model.Details)
                 {
@@ -208,6 +210,7 @@ namespace ZayirAlkhayr.Service.POS
                 entity.UpdateUser = order.UserId;
                 entity.UpdateDate = DateTime.Now;
 
+                await AddInventoryAdjustment(BuildInventoryDelta(existingConsumption, requestedConsumption), order.UserId, entity.OrderNumber.ToString(), "خصم مخزون بسبب تعديل طلب");
                 await _unitOfWork.CompleteAsync();
                 await transaction.CommitAsync();
                 return ApiResponseModel<string>.Success(GenericErrors.UpdateSuccess, entity.OrderNumber.ToString());
@@ -238,12 +241,15 @@ namespace ZayirAlkhayr.Service.POS
                 if (inventoryUpdateError != null)
                     return ApiResponseModel<string>.Failure(inventoryUpdateError);
 
+                var inventoryDelta = ToInventoryDelta(recipeConsumption, 1);
+
                 Order.VoidReason = VoidReason;
                 Order.VoidNotes = VoidNotes;
                 Order.OrderStatus = OrderStatus.Cancelled;
                 Order.UpdateUser = Order.UpdateUser ?? Order.InsertUser;
                 Order.UpdateDate = DateTime.Now;
 
+                await AddInventoryAdjustment(inventoryDelta, Order.UpdateUser ?? Order.InsertUser, Order.OrderNumber.ToString(), "إلغاء طلب - إعادة المخزون");
                 await _unitOfWork.CompleteAsync();
                 await transaction.CommitAsync();
                 return ApiResponseModel<string>.Success(GenericErrors.DeleteSuccess);
@@ -396,12 +402,6 @@ namespace ZayirAlkhayr.Service.POS
             if (inventoryItems.Count != inventoryDelta.Count)
                 return GenericErrors.NotFound;
 
-            //foreach (var change in inventoryDelta)
-            //{
-            //    if (inventoryItems[change.Key].CurrentQuantity + change.Value < 0)
-            //        return InsufficientInventoryForOrder;
-            //}
-
             foreach (var change in inventoryDelta)
             {
                 inventoryItems[change.Key].CurrentQuantity += change.Value;
@@ -410,6 +410,46 @@ namespace ZayirAlkhayr.Service.POS
             }
 
             return null;
+        }
+
+
+        private async Task AddInventoryAdjustment(Dictionary<int, double> inventoryDelta, string userId, string orderNumber, string Reason)
+        {
+            if (inventoryDelta == null || !inventoryDelta.Any())
+                return;
+
+            var adjustment = new InventoryAdjustment
+            {
+                ActionId = orderNumber,
+                AdjustmentType = AdjustmentTypes.Order,
+                Reason = Reason,
+                TotalAffectedItems = inventoryDelta.Count,
+                InsertUser = userId,
+                InsertDate = DateTime.Now,
+                Details = new List<InventoryAdjustmentDetail>()
+            };
+
+            var inventoryIds = inventoryDelta.Keys.ToList();
+            var inventoryItems = await _unitOfWork.Repository<InventoryItem>().GetAllAsQueryable().Where(i => inventoryIds.Contains(i.InventoryItemId)).ToDictionaryAsync(i => i.InventoryItemId);
+
+            foreach (var item in inventoryDelta)
+            {
+                var inventoryItem = inventoryItems[item.Key];
+                var quantityChange = item.Value;
+                var quantityAfter = inventoryItem.CurrentQuantity;
+                var quantityBefore = quantityAfter - quantityChange;
+
+
+                adjustment.Details.Add(new InventoryAdjustmentDetail
+                {
+                    InventoryItemId = inventoryItem.InventoryItemId,
+                    QuantityBefore = quantityBefore,
+                    QuantityAfter = quantityAfter,
+                    QuantityChange = quantityChange
+                });
+
+                await _unitOfWork.Repository<InventoryAdjustment>().AddAsync(adjustment);
+            }
         }
     }
 }

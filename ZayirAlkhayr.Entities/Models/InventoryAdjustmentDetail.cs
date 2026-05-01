@@ -15,7 +15,8 @@ namespace ZayirAlkhayr.Entities.Models
         public InventoryAdjustment InventoryAdjustment { get; set; }
         public int InventoryItemId { get; set; }
         public InventoryItem InventoryItem { get; set; }
-        public decimal QuantityBefore { get; set; }
-        public decimal QuantityChange { get; set; }
+        public double QuantityBefore { get; set; }
+        public double QuantityAfter { get; set; }
+        public double QuantityChange { get; set; }
     }
 }

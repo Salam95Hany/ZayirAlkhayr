@@ -45,6 +45,7 @@ namespace ZayirAlkhayr.Service.Inventory
                             PurchaseId = purchase.PurchaseId,
                             SupplierId = purchase.SupplierId,
                             SupplierName = supplier != null ? supplier.Name : string.Empty,
+                            PurchaseNumber = purchase.PurchaseNumber,
                             TotalAmount = purchase.TotalAmount,
                             ItemsCount = purchaseItems.Count(i => i.PurchaseId == purchase.PurchaseId),
                             InsertUser = purchase.InsertUser,
@@ -141,6 +142,8 @@ namespace ZayirAlkhayr.Service.Inventory
                 await _unitOfWork.CompleteAsync();
 
                 purchase.PurchaseNumber = $"PI-{purchase.PurchaseId:D6}";
+                var purchaseDelta = model.Items.GroupBy(i => i.InventoryItemId).ToDictionary(g => g.Key, g => g.Sum(x => (double)x.Quantity));
+                await AddInventoryAdjustment(purchaseDelta, model.UserId, purchase.PurchaseNumber, "إضافة مخزون بسبب فاتورة شراء");
 
                 foreach (var item in model.Items)
                 {
@@ -214,6 +217,8 @@ namespace ZayirAlkhayr.Service.Inventory
                         return ApiResponseModel<string>.Failure(InvalidInventoryQuantity);
                 }
 
+                var inventoryDelta = new Dictionary<int, double>();
+
                 foreach (var inventoryItemId in inventoryItemIds)
                 {
                     var oldQuantity = existingQuantityMap.ContainsKey(inventoryItemId) ? existingQuantityMap[inventoryItemId] : 0;
@@ -223,6 +228,8 @@ namespace ZayirAlkhayr.Service.Inventory
                     inventoryItems[inventoryItemId].CurrentQuantity += delta;
                     inventoryItems[inventoryItemId].UpdateUser = model.UserId;
                     inventoryItems[inventoryItemId].UpdateDate = DateTime.Now;
+                    if (Math.Abs(delta) > 0.0001)
+                        inventoryDelta[inventoryItemId] = delta;
                 }
 
                 foreach (var purchaseItem in existingPurchaseItems)
@@ -247,6 +254,7 @@ namespace ZayirAlkhayr.Service.Inventory
                 purchase.UpdateUser = model.UserId;
                 purchase.UpdateDate = DateTime.Now;
 
+                await AddInventoryAdjustment(inventoryDelta, model.UserId, purchase.PurchaseNumber, "تعديل فاتورة شراء");
                 await _unitOfWork.CompleteAsync();
                 await transaction.CommitAsync();
                 return ApiResponseModel<string>.Success(GenericErrors.UpdateSuccess, purchase.PurchaseId.ToString());
@@ -293,10 +301,14 @@ namespace ZayirAlkhayr.Service.Inventory
                     inventoryItems[item.Key].UpdateDate = DateTime.Now;
                 }
 
+                var inventoryDelta = quantityMap.ToDictionary(x => x.Key,x => (double)-x.Value);
+
                 if (purchaseItems.Count > 0)
                     _unitOfWork.Repository<PurchaseItem>().DeleteRange(purchaseItems);
 
                 _unitOfWork.Repository<Purchase>().Delete(purchase);
+
+                await AddInventoryAdjustment(inventoryDelta, purchase.UpdateUser ?? purchase.InsertUser, purchase.PurchaseNumber, "حذف فاتورة شراء");
                 await _unitOfWork.CompleteAsync();
                 await transaction.CommitAsync();
                 return ApiResponseModel<string>.Success(GenericErrors.DeleteSuccess);
@@ -386,6 +398,44 @@ namespace ZayirAlkhayr.Service.Inventory
                               UpdateUser = purchaseItem.UpdateUser,
                               UpdateDate = purchaseItem.UpdateDate
                           }).ToListAsync();
+        }
+
+        private async Task AddInventoryAdjustment(Dictionary<int, double> inventoryDelta, string userId, string PurchaseNumber, string Reason)
+        {
+            if (inventoryDelta == null || !inventoryDelta.Any())
+                return;
+
+            var adjustment = new InventoryAdjustment
+            {
+                ActionId = PurchaseNumber,
+                AdjustmentType = AdjustmentTypes.Purchase,
+                Reason = Reason,
+                TotalAffectedItems = inventoryDelta.Count,
+                InsertUser = userId,
+                InsertDate = DateTime.Now,
+                Details = new List<InventoryAdjustmentDetail>()
+            };
+
+            var inventoryIds = inventoryDelta.Keys.ToList();
+            var inventoryItems = await _unitOfWork.Repository<InventoryItem>().GetAllAsQueryable().Where(i => inventoryIds.Contains(i.InventoryItemId)).ToDictionaryAsync(i => i.InventoryItemId);
+
+            foreach (var item in inventoryDelta)
+            {
+                var inventoryItem = inventoryItems[item.Key];
+                var quantityChange = item.Value;
+                var quantityAfter = inventoryItem.CurrentQuantity;
+                var quantityBefore = quantityAfter - quantityChange;
+
+                adjustment.Details.Add(new InventoryAdjustmentDetail
+                {
+                    InventoryItemId = inventoryItem.InventoryItemId,
+                    QuantityBefore = quantityBefore,
+                    QuantityAfter = quantityAfter,
+                    QuantityChange = quantityChange
+                });
+
+                await _unitOfWork.Repository<InventoryAdjustment>().AddAsync(adjustment);
+            }
         }
     }
 }

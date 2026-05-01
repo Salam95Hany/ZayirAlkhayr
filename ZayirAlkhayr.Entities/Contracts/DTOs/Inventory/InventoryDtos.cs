@@ -31,6 +31,14 @@ namespace ZayirAlkhayr.Entities.Contracts.DTOs.Inventory
         public double QuantityNeeded { get; set; }
     }
 
+    public class InventoryAdjustmentDto
+    {
+        public int InventoryAdjustmentId { get; set; }
+        public int InventoryItemId { get; set; }
+        public string Reason { get; set; }
+        public double QuantityChange { get; set; }
+    }
+
     public class ItemRecipeDetailsDto
     {
         public int ItemId { get; set; }
@@ -56,14 +64,19 @@ namespace ZayirAlkhayr.Entities.Contracts.DTOs.Inventory
     public class InventoryAdjustmentDetailsDto
     {
         public int InventoryAdjustmentId { get; set; }
-        public int InventoryItemId { get; set; }
-        public string InventoryItemName { get; set; }
-        public int QuantityChange { get; set; }
+        public string AdjustmentType { get; set; }
+        public string ActionId { get; set; }
         public string Reason { get; set; }
-        public string InsertUser { get; set; }
-        public DateTime? InsertDate { get; set; }
-        public string UpdateUser { get; set; }
-        public DateTime? UpdateDate { get; set; }
+        public int TotalAffectedItems { get; set; }
+    }
+
+    public class InventoryAdjustmentDetailsModelDto
+    {
+        public string ItemName { get; set; }
+        public double QuantityBefore { get; set; }
+        public double QuantityAfter { get; set; }
+        public double QuantityChange { get; set; }
+        public double TotalQuantityChange { get; set; }
     }
 
     public class PurchaseUpsertDto
@@ -86,6 +99,7 @@ namespace ZayirAlkhayr.Entities.Contracts.DTOs.Inventory
         public int PurchaseId { get; set; }
         public int SupplierId { get; set; }
         public string SupplierName { get; set; }
+        public string PurchaseNumber { get; set; }
         public double TotalAmount { get; set; }
         public int ItemsCount { get; set; }
         public string InsertUser { get; set; }

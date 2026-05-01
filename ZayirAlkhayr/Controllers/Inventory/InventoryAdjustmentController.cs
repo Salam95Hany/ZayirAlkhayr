@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Data;
 using System.Threading.Tasks;
 using ZayirAlkhayr.Entities.Common;
 using ZayirAlkhayr.Entities.Contracts.DTOs.Inventory;
@@ -21,26 +22,38 @@ namespace ZayirAlkhayr.Controllers.Inventory
             _inventoryAdjustmentService = inventoryAdjustmentService;
         }
 
-        [HttpPost("GetAllInventoryAdjustments")]
-        public async Task<ApiResponseModel<List<InventoryAdjustmentDetailsDto>>> GetAllInventoryAdjustments(PagingFilterModel model)
+        [HttpPost("GetAllInventoryAdjustmentData")]
+        public async Task<ApiResponseModel<DataTable>> GetAllInventoryAdjustmentData(PagingFilterModel model)
         {
-            return await _inventoryAdjustmentService.GetAllInventoryAdjustments(model);
+            return await _inventoryAdjustmentService.GetAllInventoryAdjustmentData(model);
+        }
+
+        [HttpPost("GetAllInventoryAdjustmentFilters")]
+        public async Task<ApiResponseModel<List<FilterModel>>> GetAllInventoryAdjustmentFilters(PagingFilterModel model)
+        {
+            return await _inventoryAdjustmentService.GetAllInventoryAdjustmentFilters(model);
         }
 
         [HttpGet("GetInventoryAdjustmentById")]
-        public async Task<ApiResponseModel<InventoryAdjustmentDetailsDto>> GetInventoryAdjustmentById(int inventoryAdjustmentId)
+        public async Task<ApiResponseModel<InventoryAdjustmentDto>> GetInventoryAdjustmentById(int inventoryAdjustmentId)
         {
             return await _inventoryAdjustmentService.GetInventoryAdjustmentById(inventoryAdjustmentId);
         }
 
+        [HttpGet("GetAdjustmentDetailsById")]
+        public async Task<ApiResponseModel<List<InventoryAdjustmentDetailsModelDto>>> GetAdjustmentDetailsById(int inventoryAdjustmentId)
+        {
+            return await _inventoryAdjustmentService.GetAdjustmentDetailsById(inventoryAdjustmentId);
+        }
+
         [HttpPost("AddInventoryAdjustment")]
-        public async Task<ApiResponseModel<string>> AddInventoryAdjustment(InventoryAdjustment model)
+        public async Task<ApiResponseModel<string>> AddInventoryAdjustment(InventoryAdjustmentRequest model)
         {
             return await _inventoryAdjustmentService.AddInventoryAdjustment(model);
         }
 
         [HttpPost("UpdateInventoryAdjustment")]
-        public async Task<ApiResponseModel<string>> UpdateInventoryAdjustment(InventoryAdjustment model)
+        public async Task<ApiResponseModel<string>> UpdateInventoryAdjustment(InventoryAdjustmentRequest model)
         {
             return await _inventoryAdjustmentService.UpdateInventoryAdjustment(model);
         }

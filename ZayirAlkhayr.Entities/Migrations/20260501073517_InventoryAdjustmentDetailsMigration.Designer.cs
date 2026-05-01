@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZayirAlkhayr.Entities.Models;
 
 namespace ZayirAlkhayr.Entities.Migrations
 {
     [DbContext(typeof(POSDbContext))]
-    partial class POSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260501073517_InventoryAdjustmentDetailsMigration")]
+    partial class InventoryAdjustmentDetailsMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -345,14 +347,14 @@ namespace ZayirAlkhayr.Entities.Migrations
                     b.Property<int>("InventoryItemId")
                         .HasColumnType("int");
 
-                    b.Property<double>("QuantityAfter")
-                        .HasColumnType("float");
+                    b.Property<decimal>("QuantityAfter")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<double>("QuantityBefore")
-                        .HasColumnType("float");
+                    b.Property<decimal>("QuantityBefore")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<double>("QuantityChange")
-                        .HasColumnType("float");
+                    b.Property<decimal>("QuantityChange")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("InventoryAdjustmentDetailId");
 

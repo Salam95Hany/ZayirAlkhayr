@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { FilterModel } from 'src/app/Admin/Models/FilterModel';
 import { PagingFilterModel } from 'src/app/Admin/Models/PagingFilterModel';
@@ -18,24 +18,15 @@ export class InventoryAdjustmentsComponent {
   showLoader = false;
   SearchText = '';
   ItemForm: FormGroup;
+  AdjDetails: any[] = [];
+  ActionId = '';
+  CreatedDate: any;
   Total = 0;
   NetQuantityChange = 0;
   InventoryAdjustmentId: number | null = null;
   Results: any[] = [];
   InventoryItems: any[] = [];
-  FilterList: FilterModel[] = [
-    {
-      categoryName: 'SearchText',
-      categoryDisplayName: 'الحركة',
-      filterType: 'SearchText',
-      itemId: ''
-    },
-    {
-      categoryName: 'DateRange',
-      categoryDisplayName: 'الفترة الزمنية',
-      filterType: 'DateRange'
-    }
-  ];
+  FilterList: FilterModel[] = [];
   PagingFilter: PagingFilterModel = {
     filterList: [],
     currentpage: 1,
@@ -52,13 +43,15 @@ export class InventoryAdjustmentsComponent {
     private inventoryService: InventoryService,
     private formService: ValidationFormService,
     private fb: FormBuilder,
-    private toaster: ToastrService
+    private toaster: ToastrService,
+    private offcanvasService: NgbOffcanvas
   ) { }
 
   ngOnInit(): void {
     this.UserModel = JSON.parse(localStorage.getItem('UserModel') || 'null');
     this.FormInit();
-    this.GetAllInventoryAdjustments();
+    this.GetAllInventoryAdjustmentData();
+    this.GetAllInventoryAdjustmentFilters();
     this.GetInventoryItems();
   }
 
@@ -96,13 +89,41 @@ export class InventoryAdjustmentsComponent {
   openAddItemModal(content: any, item: any) {
     this.ResetForm();
     if (item) {
-      this.FillEditForm(item);
+      this.GetInventoryAdjustmentById(item.inventoryAdjustmentId);
     }
 
     this.modalService.open(content, {
       size: 'lg',
       scrollable: true,
       centered: true
+    });
+  }
+
+  openSidePanel(content: any, item: any) {
+    this.ActionId = item.actionId;
+    this.CreatedDate = item.insertDate;
+    this.GetAdjustmentDetailsById(item.inventoryAdjustmentId);
+    this.offcanvasService.open(content, { position: 'end' });
+  }
+
+  GetAdjustmentDetailsById(inventoryAdjustmentId: number) {
+    this.showLoader = true;
+    this.inventoryService.GetAdjustmentDetailsById(inventoryAdjustmentId).subscribe({
+      next: (data) => {
+        this.AdjDetails = data.results;
+        this.showLoader = false;
+      },
+      error: () => {
+        this.showLoader = false;
+      }
+    });
+  }
+
+  GetInventoryAdjustmentById(inventoryAdjustmentId: number) {
+    this.showLoader = true;
+    this.inventoryService.GetInventoryAdjustmentById(inventoryAdjustmentId).subscribe(data => {
+      this.FillEditForm(data.results);
+      this.showLoader = false;
     });
   }
 
@@ -122,9 +143,9 @@ export class InventoryAdjustmentsComponent {
     });
   }
 
-  GetAllInventoryAdjustments() {
+  GetAllInventoryAdjustmentData() {
     this.showLoader = true;
-    this.inventoryService.GetAllInventoryAdjustments(this.PagingFilter).subscribe({
+    this.inventoryService.GetAllInventoryAdjustmentData(this.PagingFilter).subscribe({
       next: (data) => {
         this.Results = data.results || [];
         this.Total = data.totalCount || 0;
@@ -138,15 +159,26 @@ export class InventoryAdjustmentsComponent {
     });
   }
 
+  GetAllInventoryAdjustmentFilters() {
+    this.inventoryService.GetAllInventoryAdjustmentFilters(this.PagingFilter).subscribe({
+      next: (data) => {
+        this.FilterList = data.results;
+      },
+      error: () => {
+      }
+    });
+  }
+
   PageChange(obj: any) {
     this.PagingFilter.currentpage = obj.page;
-    this.GetAllInventoryAdjustments();
+    this.GetAllInventoryAdjustmentData();
   }
 
   FilterChecked(filterList: FilterModel[]) {
     this.PagingFilter.currentpage = 1;
     this.PagingFilter.filterList = filterList;
-    this.GetAllInventoryAdjustments();
+    this.GetAllInventoryAdjustmentData();
+    this.GetAllInventoryAdjustmentFilters();
   }
 
   onInventoryItemClicked(item: any) {
@@ -196,8 +228,9 @@ export class InventoryAdjustmentsComponent {
     this.inventoryService.DeleteInventoryAdjustment(this.InventoryAdjustmentId).subscribe(data => {
       if (data.isSuccess) {
         this.toaster.success(data.message || '');
-        this.GetAllInventoryAdjustments();
+        this.GetAllInventoryAdjustmentData();
         this.GetInventoryItems();
+        this.GetAllInventoryAdjustmentFilters();
         this.modalService.dismissAll();
       } else {
         this.toaster.error(data.message || '');
@@ -213,7 +246,8 @@ export class InventoryAdjustmentsComponent {
   private HandleSaveResponse(data: any) {
     if (data.isSuccess) {
       this.toaster.success(data.message || '');
-      this.GetAllInventoryAdjustments();
+      this.GetAllInventoryAdjustmentData();
+      this.GetAllInventoryAdjustmentFilters();
       this.GetInventoryItems();
       this.modalService.dismissAll();
     } else {

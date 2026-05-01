@@ -46,6 +46,7 @@
                 <thead>
                     <tr>
                         <th>المورد</th>
+                        <th>رقم الفاتورة</th>
                         <th>عدد الأصناف</th>
                         <th>الإجمالي</th>
                         <th>التاريخ</th>
@@ -60,6 +61,7 @@
                                 <strong>{{item.supplierName}}</strong>
                             </div>
                         </td>
+                        <td>{{item.purchaseNumber}}#</td>
                         <td>{{item.itemsCount}}</td>
                         <td>{{item.totalAmount | number:'1.0-2'}}</td>
                         <td>{{item.insertDate | arabicDateWithTime}}</td>

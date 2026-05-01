@@ -36,12 +36,20 @@ export class InventoryService {
 
   // ============================= InventoryAdjustment ==============================
 
-  GetAllInventoryAdjustments(Model: PagingFilterModel) {
-    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'InventoryAdjustment/GetAllInventoryAdjustments', Model);
+  GetAllInventoryAdjustmentData(Model: PagingFilterModel) {
+    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'InventoryAdjustment/GetAllInventoryAdjustmentData', Model);
+  }
+
+  GetAllInventoryAdjustmentFilters(Model: PagingFilterModel) {
+    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'InventoryAdjustment/GetAllInventoryAdjustmentFilters', Model);
   }
 
   GetInventoryAdjustmentById(inventoryAdjustmentId: number) {
     return this.http.get<ApiResponseModel<any>>(this.apiURL + 'InventoryAdjustment/GetInventoryAdjustmentById?inventoryAdjustmentId=' + inventoryAdjustmentId);
+  }
+
+  GetAdjustmentDetailsById(inventoryAdjustmentId: number){
+    return this.http.get<ApiResponseModel<any[]>>(this.apiURL + 'InventoryAdjustment/GetAdjustmentDetailsById?inventoryAdjustmentId=' + inventoryAdjustmentId);
   }
 
   AddInventoryAdjustment(Model: any) {
