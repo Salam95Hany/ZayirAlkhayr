@@ -137,7 +137,9 @@ namespace ZayirAlkhayr.Service.POS
 
                 await _unitOfWork.Repository<Order>().AddAsync(order);
                 await _unitOfWork.CompleteAsync();
-                await AddInventoryAdjustment(ToInventoryDelta(recipeConsumption, -1), Model.UserId, order.OrderNumber.ToString(), "خصم مخزون بسبب إنشاء طلب");
+                var InventoryDelta = ToInventoryDelta(recipeConsumption, -1);
+                if (InventoryDelta != null && InventoryDelta.Count > 0)
+                    await AddInventoryAdjustment(InventoryDelta, Model.UserId, order.OrderNumber.ToString(), "خصم مخزون بسبب إنشاء طلب");
 
                 foreach (var detail in Model.Details)
                 {
@@ -209,8 +211,9 @@ namespace ZayirAlkhayr.Service.POS
                 entity.IsUpdated = true;
                 entity.UpdateUser = order.UserId;
                 entity.UpdateDate = DateTime.Now;
-
-                await AddInventoryAdjustment(BuildInventoryDelta(existingConsumption, requestedConsumption), order.UserId, entity.OrderNumber.ToString(), "خصم مخزون بسبب تعديل طلب");
+                var InventoryDelta = BuildInventoryDelta(existingConsumption, requestedConsumption);
+                if (InventoryDelta != null && InventoryDelta.Count > 0)
+                    await AddInventoryAdjustment(InventoryDelta, order.UserId, entity.OrderNumber.ToString(), "خصم مخزون بسبب تعديل طلب");
                 await _unitOfWork.CompleteAsync();
                 await transaction.CommitAsync();
                 return ApiResponseModel<string>.Success(GenericErrors.UpdateSuccess, entity.OrderNumber.ToString());
@@ -249,7 +252,8 @@ namespace ZayirAlkhayr.Service.POS
                 Order.UpdateUser = Order.UpdateUser ?? Order.InsertUser;
                 Order.UpdateDate = DateTime.Now;
 
-                await AddInventoryAdjustment(inventoryDelta, Order.UpdateUser ?? Order.InsertUser, Order.OrderNumber.ToString(), "إلغاء طلب - إعادة المخزون");
+                if (inventoryDelta != null && inventoryDelta.Count > 0)
+                    await AddInventoryAdjustment(inventoryDelta, Order.UpdateUser ?? Order.InsertUser, Order.OrderNumber.ToString(), "إلغاء طلب - إعادة المخزون");
                 await _unitOfWork.CompleteAsync();
                 await transaction.CommitAsync();
                 return ApiResponseModel<string>.Success(GenericErrors.DeleteSuccess);

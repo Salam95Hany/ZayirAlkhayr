@@ -143,7 +143,8 @@ namespace ZayirAlkhayr.Service.Inventory
 
                 purchase.PurchaseNumber = $"PI-{purchase.PurchaseId:D6}";
                 var purchaseDelta = model.Items.GroupBy(i => i.InventoryItemId).ToDictionary(g => g.Key, g => g.Sum(x => (double)x.Quantity));
-                await AddInventoryAdjustment(purchaseDelta, model.UserId, purchase.PurchaseNumber, "إضافة مخزون بسبب فاتورة شراء");
+                if (purchaseDelta != null && purchaseDelta.Count > 0)
+                    await AddInventoryAdjustment(purchaseDelta, model.UserId, purchase.PurchaseNumber, "إضافة مخزون بسبب فاتورة شراء");
 
                 foreach (var item in model.Items)
                 {
@@ -253,8 +254,8 @@ namespace ZayirAlkhayr.Service.Inventory
                 purchase.TotalAmount = model.Items.Sum(i => i.Quantity * i.CostPrice);
                 purchase.UpdateUser = model.UserId;
                 purchase.UpdateDate = DateTime.Now;
-
-                await AddInventoryAdjustment(inventoryDelta, model.UserId, purchase.PurchaseNumber, "تعديل فاتورة شراء");
+                if (inventoryDelta != null && inventoryDelta.Count > 0)
+                    await AddInventoryAdjustment(inventoryDelta, model.UserId, purchase.PurchaseNumber, "تعديل فاتورة شراء");
                 await _unitOfWork.CompleteAsync();
                 await transaction.CommitAsync();
                 return ApiResponseModel<string>.Success(GenericErrors.UpdateSuccess, purchase.PurchaseId.ToString());
@@ -301,7 +302,7 @@ namespace ZayirAlkhayr.Service.Inventory
                     inventoryItems[item.Key].UpdateDate = DateTime.Now;
                 }
 
-                var inventoryDelta = quantityMap.ToDictionary(x => x.Key,x => (double)-x.Value);
+                var inventoryDelta = quantityMap.ToDictionary(x => x.Key, x => (double)-x.Value);
 
                 if (purchaseItems.Count > 0)
                     _unitOfWork.Repository<PurchaseItem>().DeleteRange(purchaseItems);
