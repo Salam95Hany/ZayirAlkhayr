@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: 'https://pos-restaurant-api.runasp.net/api/',
+    apiUrl: 'https://sobhwmsa-api.runasp.net/api/',
 };
