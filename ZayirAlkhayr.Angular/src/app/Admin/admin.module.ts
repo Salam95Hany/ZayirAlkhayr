@@ -39,6 +39,7 @@ import { NeverSoldItemReportComponent } from './Components/Reports/items/never-s
 import { TopSellingItemReportComponent } from './Components/Reports/items/top-selling-item-report/top-selling-item-report.component';
 import { LowestSellingItemReportComponent } from './Components/Reports/items/lowest-selling-item-report/lowest-selling-item-report.component';
 import { BreadCrumbComponent } from './Shared/bread-crumb/bread-crumb.component';
+import { FinalProfitsComponent } from './Components/Reports/final-profits/final-profits.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { BreadCrumbComponent } from './Shared/bread-crumb/bread-crumb.component'
     AllItemReportComponent,
     NeverSoldItemReportComponent,
     TopSellingItemReportComponent,
-    LowestSellingItemReportComponent
+    LowestSellingItemReportComponent,
+    FinalProfitsComponent
   ],
   imports: [
     CommonModule,

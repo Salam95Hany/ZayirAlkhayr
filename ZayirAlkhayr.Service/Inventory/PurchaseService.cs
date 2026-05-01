@@ -91,6 +91,7 @@ namespace ZayirAlkhayr.Service.Inventory
             {
                 PurchaseId = purchase.PurchaseId,
                 SupplierId = purchase.SupplierId,
+                PurchaseNumber = purchase.PurchaseNumber,
                 SupplierName = supplier?.Name ?? string.Empty,
                 SupplierPhone = supplier?.Phone ?? string.Empty,
                 TotalAmount = purchase.TotalAmount,
@@ -138,6 +139,8 @@ namespace ZayirAlkhayr.Service.Inventory
 
                 await _unitOfWork.Repository<Purchase>().AddAsync(purchase);
                 await _unitOfWork.CompleteAsync();
+
+                purchase.PurchaseNumber = $"PI-{purchase.PurchaseId:D6}";
 
                 foreach (var item in model.Items)
                 {

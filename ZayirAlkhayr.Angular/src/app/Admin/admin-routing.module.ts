@@ -23,6 +23,7 @@ import { AllItemReportComponent } from './Components/Reports/items/all-item-repo
 import { NeverSoldItemReportComponent } from './Components/Reports/items/never-sold-item-report/never-sold-item-report.component';
 import { TopSellingItemReportComponent } from './Components/Reports/items/top-selling-item-report/top-selling-item-report.component';
 import { LowestSellingItemReportComponent } from './Components/Reports/items/lowest-selling-item-report/lowest-selling-item-report.component';
+import { FinalProfitsComponent } from './Components/Reports/final-profits/final-profits.component';
 
 const routes: Routes = [
   {
@@ -132,6 +133,12 @@ const routes: Routes = [
         component: LowestSellingItemReportComponent,
         canActivate: [AuthGuard],
         data: { roles: ['Admin'], breadcrumb: ['التقارير', 'تقارير العناصر', 'الأقل مبيعًا'] },
+      },
+      {
+        path: 'final-profits',
+        component: FinalProfitsComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['Admin'], breadcrumb: ['التقارير', 'تقارير الأرباح', 'الأرباح النهائية'] },
       },
       {
         path: 'users',

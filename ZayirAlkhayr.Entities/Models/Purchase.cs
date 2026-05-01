@@ -12,6 +12,7 @@ namespace ZayirAlkhayr.Entities.Models
     {
         public int PurchaseId { get; set; }
         public int SupplierId { get; set; }
+        public string PurchaseNumber { get; set; }
         public double TotalAmount { get; set; }
         public string InsertUser { get; set; }
         public DateTime? InsertDate { get; set; }

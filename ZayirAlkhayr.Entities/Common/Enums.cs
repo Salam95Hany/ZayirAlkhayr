@@ -23,4 +23,11 @@ namespace ZayirAlkhayr.Entities.Common
         Completed = 1,
         Cancelled = 2
     }
+
+    public enum AdjustmentTypes
+    {
+        Manual = 1,
+        Order = 2,
+        Purchase = 3
+    }
 }

@@ -98,6 +98,7 @@ namespace ZayirAlkhayr.Entities.Contracts.DTOs.Inventory
     {
         public int PurchaseId { get; set; }
         public int SupplierId { get; set; }
+        public string PurchaseNumber { get; set; }
         public string SupplierName { get; set; }
         public string SupplierPhone { get; set; }
         public double TotalAmount { get; set; }

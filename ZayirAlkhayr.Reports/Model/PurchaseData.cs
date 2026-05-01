@@ -21,9 +21,6 @@ namespace ZayirAlkhayr.Reports.Model
         public string ImageSrc { get; set; }
         public List<PurchaseItemDetailsDto> Items { get; set; } = new List<PurchaseItemDetailsDto>();
 
-        private readonly Random _random = new Random();
-        private const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
         public string FormatNumber(double value)
         {
             if (value % 1 == 0)
@@ -42,12 +39,6 @@ namespace ZayirAlkhayr.Reports.Model
                 var converter = TafqeetConverterFactory.Create(TafqeetLanguage.Arabic);
                 TotalAmountAr = converter.Convert((decimal)TotalAmount).Replace("ريال", "ليرة");
             }
-
-            var sb = new StringBuilder();
-            for (int i = 0; i < 6; i++)
-                sb.Append(chars[_random.Next(chars.Length)]);
-
-            PurchaseNumber = $"PS-{sb}";
         }
     }
 }

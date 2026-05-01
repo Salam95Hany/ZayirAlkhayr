@@ -30,7 +30,6 @@ namespace ZayirAlkhayr.Service.Inventory
             var toDate = GetToDate(model);
 
             var adjustments = _unitOfWork.Repository<InventoryAdjustment>().GetAllAsQueryable().AsNoTracking();
-            var inventoryItems = _unitOfWork.Repository<InventoryItem>().GetAllAsQueryable().AsNoTracking();
 
             var query = from adjustment in adjustments
                         join inventoryItem in inventoryItems
@@ -115,6 +114,7 @@ namespace ZayirAlkhayr.Service.Inventory
                 inventoryItem.UpdateDate = DateTime.Now;
 
                 model.InsertDate = DateTime.Now;
+                model.AdjustmentType = AdjustmentTypes.Manual;
                 await _unitOfWork.Repository<InventoryAdjustment>().AddAsync(model);
                 await _unitOfWork.CompleteAsync();
                 await transaction.CommitAsync();

@@ -2,11 +2,6 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ZayirAlkhayr.Entities.Auth;
 
 namespace ZayirAlkhayr.Entities.Models
@@ -38,6 +33,8 @@ namespace ZayirAlkhayr.Entities.Models
         public DbSet<Purchase> Purchases { get; set; }
         public DbSet<PurchaseItem> PurchaseItems { get; set; }
         public DbSet<InventoryAdjustment> InventoryAdjustments { get; set; }
+        public DbSet<InventoryAdjustmentDetail> InventoryAdjustmentDetails { get; set; }
+        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -1,0 +1,308 @@
+<div class="main">
+    <!-- Main -->
+    <div class="main-wrapper">
+
+        <!-- Topbar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <h1><i class="bi bi-graph-up me-2 text-primary" style="font-size:1.1rem"></i>Profit Dashboard</h1>
+                <p>Monitor your business profit performance in real-time</p>
+            </div>
+            <div class="topbar-controls d-flex align-items-center gap-3">
+                <div class="d-flex align-items-center gap-2">
+                    <div class="date-input-wrapper">
+                        <i class="bi bi-calendar3"></i>
+                        <span>01/05/2025</span>
+                    </div>
+                    <span class="date-separator">→</span>
+                    <div class="date-input-wrapper">
+                        <i class="bi bi-calendar3"></i>
+                        <span>31/05/2025</span>
+                    </div>
+                </div>
+                <div class="filter-btns">
+                    <button class="filter-btn">Today</button>
+                    <button class="filter-btn">This Week</button>
+                    <button class="filter-btn active">This Month</button>
+                    <button class="filter-btn">This Year</button>
+                </div>
+                <button class="refresh-btn"><i class="bi bi-arrow-clockwise"></i></button>
+            </div>
+            <div class="topbar-right">
+                <div class="icon-btn"><i class="bi bi-moon"></i></div>
+                <div class="icon-btn position-relative">
+                    <i class="bi bi-bell"></i>
+                    <span class="position-absolute top-0 end-0 translate-middle badge rounded-pill bg-danger" style="font-size:.5rem;padding:3px 5px;">3</span>
+                </div>
+                <div class="user-chip">
+                    <div class="user-avatar">A</div>
+                    <div>
+                        <div class="user-name">Admin</div>
+                        <div class="user-role">Owner</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <div class="content">
+
+            <!-- KPI Row -->
+            <div class="row g-3 mb-4">
+                <!-- Total Revenue -->
+                <div class="col-xl col-md-6">
+                    <div class="kpi-card">
+                        <div class="d-flex align-items-center gap-3 mb-1">
+                            <div class="kpi-icon" style="background:#ecfdf5;color:#10b981"><i class="bi bi-currency-dollar"></i></div>
+                            <span class="kpi-label">Total Revenue</span>
+                        </div>
+                        <div class="kpi-value">$45,231.50</div>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="kpi-badge up"><i class="bi bi-arrow-up-short"></i>18.6%</span>
+                            <span class="kpi-sub">vs previous period</span>
+                        </div>
+                        <div class="sparkline-wrapper"><canvas id="spark1"></canvas></div>
+                    </div>
+                </div>
+                <!-- Total Cost -->
+                <div class="col-xl col-md-6">
+                    <div class="kpi-card">
+                        <div class="d-flex align-items-center gap-3 mb-1">
+                            <div class="kpi-icon" style="background:#fffbeb;color:#f59e0b"><i class="bi bi-box-seam-fill"></i></div>
+                            <span class="kpi-label">Total Cost (COGS)</span>
+                        </div>
+                        <div class="kpi-value">$27,430.20</div>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="kpi-badge up"><i class="bi bi-arrow-up-short"></i>12.4%</span>
+                            <span class="kpi-sub">vs previous period</span>
+                        </div>
+                        <div class="sparkline-wrapper"><canvas id="spark2"></canvas></div>
+                    </div>
+                </div>
+                <!-- Net Profit -->
+                <div class="col-xl col-md-6">
+                    <div class="kpi-card">
+                        <div class="d-flex align-items-center gap-3 mb-1">
+                            <div class="kpi-icon" style="background:#eef2ff;color:#6366f1"><i class="bi bi-graph-up-arrow"></i></div>
+                            <span class="kpi-label">Net Profit</span>
+                        </div>
+                        <div class="kpi-value">$17,801.30</div>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="kpi-badge up"><i class="bi bi-arrow-up-short"></i>24.7%</span>
+                            <span class="kpi-sub">vs previous period</span>
+                        </div>
+                        <div class="sparkline-wrapper"><canvas id="spark3"></canvas></div>
+                    </div>
+                </div>
+                <!-- Profit Margin -->
+                <div class="col-xl col-md-6">
+                    <div class="kpi-card">
+                        <div class="d-flex align-items-center gap-3 mb-1">
+                            <div class="kpi-icon" style="background:#f5f3ff;color:#8b5cf6"><i class="bi bi-percent"></i></div>
+                            <span class="kpi-label">Profit Margin</span>
+                        </div>
+                        <div class="kpi-value">39.38%</div>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="kpi-badge up"><i class="bi bi-arrow-up-short"></i>4.3%</span>
+                            <span class="kpi-sub">vs previous period</span>
+                        </div>
+                        <div class="sparkline-wrapper"><canvas id="spark4"></canvas></div>
+                    </div>
+                </div>
+                <!-- Total Orders -->
+                <div class="col-xl col-md-6">
+                    <div class="kpi-card">
+                        <div class="d-flex align-items-center gap-3 mb-1">
+                            <div class="kpi-icon" style="background:#f0fdfa;color:#14b8a6"><i class="bi bi-cart3"></i></div>
+                            <span class="kpi-label">Total Orders</span>
+                        </div>
+                        <div class="kpi-value">1,248</div>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="kpi-badge up"><i class="bi bi-arrow-up-short"></i>15.2%</span>
+                            <span class="kpi-sub">vs previous period</span>
+                        </div>
+                        <div class="sparkline-wrapper"><canvas id="spark5"></canvas></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profit Trend -->
+            <div class="section-card mb-4">
+                <div class="section-header mb-0 pb-3" style="border-bottom:1px solid #f3f4f6;">
+                    <div>
+                        <div class="section-title">Profit Trend</div>
+                        <div class="section-sub">Daily profit for selected period</div>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <select class="select-sm">
+            <option>Daily</option>
+            <option>Weekly</option>
+            <option>Monthly</option>
+          </select>
+                        <div class="icon-btn"><i class="bi bi-bar-chart-line"></i></div>
+                    </div>
+                </div>
+                <div style="padding:20px;height:260px;">
+                    <canvas id="trendChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Bottom Row -->
+            <div class="row g-3">
+                <!-- Top Products -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="section-card h-100">
+                        <div class="section-header">
+                            <div class="section-title">Top Profitable Products</div>
+                            <a href="#" class="view-all-btn">View All</a>
+                        </div>
+                        <div style="padding:4px 20px 16px;">
+                            <div class="product-item">
+                                <div class="product-rank rank-1">1</div>
+                                <div class="product-emoji">☕</div>
+                                <div class="flex-1">
+                                    <div class="product-name">Cappuccino</div>
+                                    <div class="product-label">Profit</div>
+                                </div>
+                                <div class="product-profit profit-pos">$5,642.30</div>
+                            </div>
+                            <div class="product-item">
+                                <div class="product-rank rank-2">2</div>
+                                <div class="product-emoji">🧋</div>
+                                <div class="flex-1">
+                                    <div class="product-name">Caramel Macchiato</div>
+                                    <div class="product-label">Profit</div>
+                                </div>
+                                <div class="product-profit profit-pos">$4,231.20</div>
+                            </div>
+                            <div class="product-item">
+                                <div class="product-rank rank-3">3</div>
+                                <div class="product-emoji">🥛</div>
+                                <div class="flex-1">
+                                    <div class="product-name">Latte</div>
+                                    <div class="product-label">Profit</div>
+                                </div>
+                                <div class="product-profit profit-pos">$3,142.10</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lowest Products -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="section-card h-100">
+                        <div class="section-header">
+                            <div class="section-title">Lowest Profitable Products</div>
+                            <a href="#" class="view-all-btn">View All</a>
+                        </div>
+                        <div style="padding:4px 20px 16px;">
+                            <div class="product-item">
+                                <div class="product-rank rank-1">1</div>
+                                <div class="product-emoji">🧊</div>
+                                <div class="flex-1">
+                                    <div class="product-name">Iced Mocha</div>
+                                    <div class="product-label">Profit</div>
+                                </div>
+                                <div class="product-profit profit-neg">-$231.50</div>
+                            </div>
+                            <div class="product-item">
+                                <div class="product-rank rank-2">2</div>
+                                <div class="product-emoji">✨</div>
+                                <div class="flex-1">
+                                    <div class="product-name">Extra Shot</div>
+                                    <div class="product-label">Profit</div>
+                                </div>
+                                <div class="product-profit profit-neg">-$120.00</div>
+                            </div>
+                            <div class="product-item">
+                                <div class="product-rank rank-3">3</div>
+                                <div class="product-emoji">🍦</div>
+                                <div class="flex-1">
+                                    <div class="product-name">Whipped Cream</div>
+                                    <div class="product-label">Profit</div>
+                                </div>
+                                <div class="product-profit profit-neg">-$45.20</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gauge -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="section-card h-100 d-flex flex-column">
+                        <div class="section-header">
+                            <div class="section-title">Profit Margin</div>
+                        </div>
+                        <div class="d-flex flex-column align-items-center justify-content-center flex-1 px-3 pb-3 pt-2">
+                            <div class="gauge-wrapper mb-2">
+                                <canvas id="gaugeChart" width="180" height="110"></canvas>
+                                <div class="gauge-value">
+                                    <div class="gauge-pct">39.38%</div>
+                                    <div class="gauge-label">Good</div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between w-100 px-2 mb-3" style="font-size:.7rem;color:var(--text-muted);">
+                                <span>0%</span><span>100%</span>
+                            </div>
+                            <p class="text-center" style="font-size:.78rem;color:#374151;">
+                                Your profit margin is <strong style="color:var(--success)">4.3% higher</strong> than the previous period
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Insights -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="section-card h-100 d-flex flex-column">
+                        <div class="section-header mb-2">
+                            <div class="section-title d-flex align-items-center gap-2">
+                                <span style="font-size:1rem">💡</span> Performance Insights
+                            </div>
+                        </div>
+                        <div style="padding:0 20px;flex:1;">
+                            <div class="insight-item">
+                                <div class="insight-icon" style="background:var(--success-light);color:var(--success)"><i class="bi bi-graph-up"></i></div>
+                                <div class="flex-1">
+                                    <div class="insight-title">Best Day</div>
+                                    <div class="insight-sub">May 22, 2025</div>
+                                </div>
+                                <div class="text-end">
+                                    <div class="insight-val">$2,890.50</div>
+                                    <div class="insight-period">Profit</div>
+                                </div>
+                            </div>
+                            <div class="insight-item">
+                                <div class="insight-icon" style="background:var(--primary-light);color:var(--primary)"><i class="bi bi-calendar-check"></i></div>
+                                <div class="flex-1">
+                                    <div class="insight-title">Most Profitable Day</div>
+                                    <div class="insight-sub">Thursday</div>
+                                </div>
+                                <div class="text-end">
+                                    <div class="insight-val">$6,231.40</div>
+                                    <div class="insight-period">Total Profit</div>
+                                </div>
+                            </div>
+                            <div class="insight-item">
+                                <div class="insight-icon" style="background:var(--purple-light);color:var(--purple)"><i class="bi bi-rocket-takeoff"></i></div>
+                                <div class="flex-1">
+                                    <div class="insight-title">Profit Growth</div>
+                                    <div class="insight-sub">vs previous period</div>
+                                </div>
+                                <div class="text-end">
+                                    <div class="insight-val">18.6%</div>
+                                    <div class="insight-period">Increase</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#" class="view-analytics-btn">
+            View Full Analytics <i class="bi bi-arrow-right"></i>
+          </a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Bottom Row -->
+
+        </div>
+        <!-- /content -->
+    </div>
+</div>

@@ -32,6 +32,7 @@ namespace ZayirAlkhayr.Reports.PdfTemplate
                 var Results = await _purchaseService.GetPurchaseById(int.Parse(PurchaseId));
                 var Data = new PurchaseData();
 
+                Data.PurchaseNumber = Results.Results.PurchaseNumber;
                 Data.SupplierName = Results.Results.SupplierName;
                 Data.SupplierPhone = Results.Results.SupplierPhone;
                 Data.TotalAmount = Results.Results.TotalAmount;
