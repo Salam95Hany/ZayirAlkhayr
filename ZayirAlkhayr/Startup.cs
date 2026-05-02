@@ -131,7 +131,8 @@ namespace ZayirAlkhayr
             services.AddScoped<IItemRecipeService, ItemRecipeService>();
             services.AddScoped<IBackupService, BackupService>();
             services.AddScoped<IFactoryResetService, FactoryResetService>();
-
+            services.AddScoped<ISupplierPaymentService, SupplierPaymentService>();
+            
             #region ReportsDI
 
             services.AddSingleton<IRazorLightEngine>(serviceProvider =>

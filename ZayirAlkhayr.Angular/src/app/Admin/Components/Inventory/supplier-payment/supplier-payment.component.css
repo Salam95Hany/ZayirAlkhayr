@@ -1,0 +1,53 @@
+.tabs-wrapper {
+    direction: rtl;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+ul.custom-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    list-style: none;
+    background: #fff8f5;
+    border-bottom: 1px solid #f0d5c8;
+    margin: 0;
+    padding: 0;
+    border: none;
+    li {
+        a.nav-link {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 14px 20px;
+            font-size: 16px;
+            font-weight: 400;
+            color: #6b7280;
+            border: none !important;
+            border-bottom: 3px solid transparent !important;
+            background: transparent !important;
+            border-radius: 0 !important;
+            white-space: nowrap;
+            transition: all 0.15s ease;
+            text-decoration: none;
+            cursor: pointer;
+            svg {
+                stroke: currentColor;
+                flex-shrink: 0;
+            }
+            &:hover {
+                color: #E85D2B;
+                background: transparent !important;
+            }
+            &.active {
+                color: #E85D2B !important;
+                font-weight: 500 !important;
+                border-bottom: 3px solid #E85D2B !important;
+                background: transparent !important;
+            }
+        }
+    }
+}
+
+.tab-content-area {
+    padding: 20px 0;
+}

@@ -24,6 +24,7 @@ import { NeverSoldItemReportComponent } from './Components/Reports/items/never-s
 import { TopSellingItemReportComponent } from './Components/Reports/items/top-selling-item-report/top-selling-item-report.component';
 import { LowestSellingItemReportComponent } from './Components/Reports/items/lowest-selling-item-report/lowest-selling-item-report.component';
 import { FinalProfitsComponent } from './Components/Reports/final-profits/final-profits.component';
+import { SupplierPaymentComponent } from './Components/Inventory/supplier-payment/supplier-payment.component';
 
 const routes: Routes = [
   {
@@ -85,6 +86,12 @@ const routes: Routes = [
         component: SuppliersComponent,
         canActivate: [AuthGuard],
         data: { roles: ['Admin'], breadcrumb: ['المخزون', 'إدارة المخزون', 'الموردون'] },
+      },
+      {
+        path: 'inventory-supplier-payments',
+        component: SupplierPaymentComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['Admin'], breadcrumb: ['المخزون', 'إدارة المخزون', 'دفعات الموردون'] },
       },
       {
         path: 'inventory-adjustments',

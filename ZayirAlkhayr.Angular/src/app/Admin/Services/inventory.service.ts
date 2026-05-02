@@ -48,7 +48,7 @@ export class InventoryService {
     return this.http.get<ApiResponseModel<any>>(this.apiURL + 'InventoryAdjustment/GetInventoryAdjustmentById?inventoryAdjustmentId=' + inventoryAdjustmentId);
   }
 
-  GetAdjustmentDetailsById(inventoryAdjustmentId: number){
+  GetAdjustmentDetailsById(inventoryAdjustmentId: number) {
     return this.http.get<ApiResponseModel<any[]>>(this.apiURL + 'InventoryAdjustment/GetAdjustmentDetailsById?inventoryAdjustmentId=' + inventoryAdjustmentId);
   }
 
@@ -154,5 +154,39 @@ export class InventoryService {
 
   DeleteSupplier(supplierId: number) {
     return this.http.get<ApiResponseModel<any>>(this.apiURL + 'Supplier/DeleteSupplier?supplierId=' + supplierId);
+  }
+
+  // ============================= SupplierPayment ==============================
+
+  GetAllSupplierInvicesData(Model: PagingFilterModel) {
+    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'SupplierPayment/GetAllSupplierInvicesData', Model);
+  }
+
+  GetAllSupplierInvicesFilters(Model: PagingFilterModel) {
+    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'SupplierPayment/GetAllSupplierInvicesFilters', Model);
+  }
+
+  GetSupplierPaymentLogData(Model: PagingFilterModel) {
+    return this.http.post<ApiResponseModel<any>>(this.apiURL + 'SupplierPayment/GetSupplierPaymentLogData', Model);
+  }
+
+  GetSupplierNameById(SupplierId: number) {
+    return this.http.get<ApiResponseModel<any>>(this.apiURL + 'SupplierPayment/GetSupplierNameById?SupplierId=' + SupplierId);
+  }
+
+  GetPurchaseNumberBySupplierId(SupplierId: number) {
+    return this.http.get<ApiResponseModel<any>>(this.apiURL + 'SupplierPayment/GetPurchaseNumberBySupplierId?SupplierId=' + SupplierId);
+  }
+
+  AddNewSupplierPayment(Model: any) {
+    return this.http.post<ApiResponseModel<any>>(this.apiURL + 'SupplierPayment/AddNewSupplierPayment', Model);
+  }
+
+  UpdateSupplierPayment(Model: any) {
+    return this.http.post<ApiResponseModel<any>>(this.apiURL + 'SupplierPayment/UpdateSupplierPayment', Model);
+  }
+
+  DeleteSupplierPayment(SupplierPaymentId: number) {
+    return this.http.get<ApiResponseModel<any>>(this.apiURL + 'SupplierPayment/DeleteSupplierPayment?SupplierPaymentId=' + SupplierPaymentId);
   }
 }

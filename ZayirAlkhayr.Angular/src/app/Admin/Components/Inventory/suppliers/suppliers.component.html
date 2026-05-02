@@ -48,6 +48,10 @@
                         <th>المورد</th>
                         <th>رقم الهاتف</th>
                         <th>العنوان</th>
+                        <th>عدد الفواتير</th>
+                        <th>إجمالي المشتريات</th>
+                        <th>المدفوع</th>
+                        <th>المتبقي</th>
                         <th>آخر تحديث</th>
                         <th class="text-center">الإجراءات</th>
                     </tr>
@@ -57,11 +61,15 @@
                         <td>
                             <div class="admin-crud-entity-cell">
                                 <span class="admin-crud-entity-avatar"><i class="uil uil-truck"></i></span>
-                                <strong>{{item.name}}</strong>
+                                <strong><a routerLink="/admin/inventory-supplier-payments" [queryParams]="{ supplierId: item.supplierId }">{{item.name}}</a></strong>
                             </div>
                         </td>
                         <td>{{item.phone}}</td>
                         <td>{{item.address}}</td>
+                        <td>{{item.invoiceCount}}</td>
+                        <td>{{item.totalPurchases | number:'1.0-0'}} ل.س</td>
+                        <td>{{item.totalPaid | number:'1.0-0'}} ل.س</td>
+                        <td>{{item.remainingAmount | number:'1.0-1'}} ل.س</td>
                         <td>{{(item.updateDate || item.insertDate) | arabicDateWithTime}}</td>
                         <td>
                             <div class="table-actions d-flex align-items-center justify-content-center gap-2">

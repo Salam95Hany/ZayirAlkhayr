@@ -16,6 +16,7 @@ namespace ZayirAlkhayr.Entities.Common
         public int Pagesize { get; set; }
         public int Currentpage { get; set; }
         public List<FilterModel> FilterList { get; set; }
+        public int SupplierId { get; set; }
         public string UserId { get; set; }
     }
 }

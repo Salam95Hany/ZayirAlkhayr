@@ -58,7 +58,7 @@
                         <td>
                             <div class="admin-crud-entity-cell">
                                 <span class="admin-crud-entity-avatar"><i class="uil uil-receipt"></i></span>
-                                <strong>{{item.supplierName}}</strong>
+                                <strong><a routerLink="/admin/inventory-supplier-payments" [queryParams]="{ supplierId: item.supplierId }">{{item.supplierName}}</a></strong>
                             </div>
                         </td>
                         <td>{{item.purchaseNumber}}#</td>

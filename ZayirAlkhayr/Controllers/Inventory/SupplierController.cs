@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ZayirAlkhayr.Entities.Common;
+using ZayirAlkhayr.Entities.Contracts.DTOs.Inventory;
 using ZayirAlkhayr.Entities.Models;
 using ZayirAlkhayr.Interface.Inventory;
 
@@ -21,7 +22,7 @@ namespace ZayirAlkhayr.Controllers.Inventory
         }
 
         [HttpPost("GetAllSuppliers")]
-        public async Task<ApiResponseModel<List<Supplier>>> GetAllSuppliers(PagingFilterModel model)
+        public async Task<ApiResponseModel<List<SupplierSummaryDto>>> GetAllSuppliers(PagingFilterModel model)
         {
             return await _supplierService.GetAllSuppliers(model);
         }

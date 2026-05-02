@@ -3,7 +3,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { AdminUserComponent } from './Components/Setting/admin-user/admin-user.component';
 import { BackupComponent } from './Components/Setting/backup/backup.component';
@@ -39,6 +39,9 @@ import { TopSellingItemReportComponent } from './Components/Reports/items/top-se
 import { LowestSellingItemReportComponent } from './Components/Reports/items/lowest-selling-item-report/lowest-selling-item-report.component';
 import { BreadCrumbComponent } from './Shared/bread-crumb/bread-crumb.component';
 import { FinalProfitsComponent } from './Components/Reports/final-profits/final-profits.component';
+import { SupplierPaymentComponent } from './Components/Inventory/supplier-payment/supplier-payment.component';
+import { SupplierInvoicesComponent } from './Components/Inventory/supplier-invoices/supplier-invoices.component';
+import { SupplierPaymentLogComponent } from './Components/Inventory/supplier-payment-log/supplier-payment-log.component';
 
 @NgModule({
   declarations: [
@@ -72,12 +75,16 @@ import { FinalProfitsComponent } from './Components/Reports/final-profits/final-
     NeverSoldItemReportComponent,
     TopSellingItemReportComponent,
     LowestSellingItemReportComponent,
-    FinalProfitsComponent
+    FinalProfitsComponent,
+    SupplierPaymentComponent,
+    SupplierInvoicesComponent,
+    SupplierPaymentLogComponent
   ],
   imports: [
     CommonModule,
     NgbModule,
     ReactiveFormsModule,
+    NgbNavModule,
     FormsModule,
     SharedModule,
     PaginationModule.forRoot(),

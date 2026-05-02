@@ -1,0 +1,79 @@
+<div class="admin-crud-page">
+    <section class="admin-crud-hero">
+        <div class="admin-crud-hero__content">
+            <div class="admin-crud-hero__eyebrow">إدارة الفواتير</div>
+            <h1 class="admin-crud-hero__title">بيانات فواتير مورد</h1>
+            <p class="admin-crud-hero__text">تنظيم قاعدة الموردين وتحديث بيانات الفواتير بشكل واضح ومتوافق مع نمط لوحة الإدارة.</p>
+        </div>
+        <div class="admin-crud-hero__actions">
+            <div class="admin-crud-summary-card d-flex align-items-center justify-content-between">
+                <span class="admin-crud-summary-card__label">إجمالي الفواتير</span>
+                <strong class="admin-crud-summary-card__value">{{Total}}</strong>
+            </div>
+            <div class="admin-crud-summary-card d-flex align-items-center justify-content-between" *ngIf="SupplierName">
+                <strong class="admin-crud-summary-card__value" style="font-size: 1.3rem !important;">{{SupplierName}}</strong>
+            </div>
+            <button class="btn main-button admin-crud-action-btn admin-crud-action-btn--soft d-flex align-items-center gap-2" (click)="isFilter = !isFilter" [attr.aria-expanded]="!isFilter">
+                <i class="uil uil-filter"></i>
+                <span>{{ isFilter ? 'عرض الفلاتر' : 'إخفاء الفلاتر' }}</span>
+            </button>
+        </div>
+    </section>
+
+    <section class="admin-crud-panel">
+        <div class="admin-crud-head">
+            <div>
+                <div class="admin-crud-head__kicker">قائمة فواتير مورد</div>
+                <h2 class="admin-crud-head__title">الفواتير المسجلة في النظام</h2>
+            </div>
+            <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="0" [totalCount]="Total" (pageChanged)="PageChange($event)"></app-admin-pagination>
+        </div>
+
+        <div class="admin-crud-filters" #collapse="ngbCollapse" [(ngbCollapse)]="isFilter">
+            <app-admin-filters [FilterList]="FilterList" [AppliedFilters]="PagingFilter.filterList" (FilterChecked)="FilterChecked($event)"></app-admin-filters>
+        </div>
+
+        <div class="admin-crud-table-wrap table-responsive mb-2">
+            <table class="admin-crud-table">
+                <thead>
+                    <tr>
+                        <th>رقم الفاتورة</th>
+                        <th>الإجمالي</th>
+                        <th>المدفوع</th>
+                        <th>المتبقي</th>
+                        <th>الحالة</th>
+                        <th>التاريخ</th>
+                        <th class="text-center">الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of Results">
+                        <td>
+                            <div class="admin-crud-entity-cell">
+                                <span class="admin-crud-entity-avatar"><i class="uil uil-truck"></i></span>
+                                <strong>{{item.purchaseNumber}}</strong>
+                            </div>
+                        </td>
+                        <td>{{item.totalAmount | number:'1.0-0'}} ل.س</td>
+                        <td>{{item.paidAmount | number:'1.0-0'}} ل.س</td>
+                        <td>{{item.remainingAmount | number:'1.0-0'}} ل.س</td>
+                        <td>{{item.paymentStatus}}</td>
+                        <td>{{(item.purchaseDate) | arabicDateWithTime}}</td>
+                        <td>
+                            <div class="table-actions d-flex align-items-center justify-content-center gap-2">
+                                <button type="button" class="table-action table-action--success" (click)="DownloadPdfFile(item)"><i class="uil uil-download-alt"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr *ngIf="Results.length === 0">
+                        <td colspan="7" class="text-center text-muted">لا توجد بيانات لعرضها حالياً.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="0" [totalCount]="Total" (pageChanged)="PageChange($event)"></app-admin-pagination>
+    </section>
+</div>
+
+<ngx-loading [show]="showLoader"></ngx-loading>

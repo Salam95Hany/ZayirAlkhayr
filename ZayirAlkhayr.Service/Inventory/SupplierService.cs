@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ZayirAlkhayr.Entities.Common;
+using ZayirAlkhayr.Entities.Contracts.DTOs.Inventory;
 using ZayirAlkhayr.Entities.Models;
 using ZayirAlkhayr.Interface.Inventory;
 using ZayirAlkhayr.Interface.Repositories;
@@ -21,24 +22,37 @@ namespace ZayirAlkhayr.Service.Inventory
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ApiResponseModel<List<Supplier>>> GetAllSuppliers(PagingFilterModel model)
+        public async Task<ApiResponseModel<List<SupplierSummaryDto>>> GetAllSuppliers(PagingFilterModel model)
         {
             var searchText = GetFilterValue(model, "SearchText");
 
-            var query = _unitOfWork.Repository<Supplier>()
-                                   .GetAllAsQueryable()
-                                   .AsNoTracking();
+            var suppliersQuery = _unitOfWork.Repository<Supplier>().GetAllAsQueryable().AsNoTracking();
 
             if (!string.IsNullOrWhiteSpace(searchText))
-                query = query.Where(i => i.Name.Contains(searchText)
-                                      || i.Phone.Contains(searchText)
-                                      || i.Address.Contains(searchText));
+                suppliersQuery = suppliersQuery.Where(i => i.Name.Contains(searchText) || i.Phone.Contains(searchText) || i.Address.Contains(searchText));
 
-            query = query.OrderByDescending(i => i.SupplierId);
+            var purchases = _unitOfWork.Repository<Purchase>().GetAllAsQueryable().AsNoTracking();
+            var payments = _unitOfWork.Repository<SupplierPayment>().GetAllAsQueryable().AsNoTracking();
+
+            var query = suppliersQuery.Select(s => new SupplierSummaryDto
+            {
+                SupplierId = s.SupplierId,
+                Name = s.Name,
+                Phone = s.Phone,
+                Address = s.Address,
+                InsertDate = s.InsertDate.Value,
+                InvoiceCount = purchases.Where(p => p.SupplierId == s.SupplierId).Count(),
+                TotalPurchases = purchases.Where(p => p.SupplierId == s.SupplierId).Select(p => (double?)p.TotalAmount).Sum() ?? 0,
+                TotalPaid = payments.Where(p => p.SupplierId == s.SupplierId).Select(p => (double?)p.AmountPaid).Sum() ?? 0,
+                RemainingAmount = (purchases.Where(p => p.SupplierId == s.SupplierId).Select(p => (double?)p.TotalAmount).Sum() ?? 0)
+                    - (payments.Where(p => p.SupplierId == s.SupplierId).Select(p => (double?)p.AmountPaid).Sum() ?? 0)
+            });
+
+            query = query.OrderByDescending(x => x.SupplierId);
             var totalCount = await query.CountAsync();
             var results = await ApplyPaging(query, model).ToListAsync();
 
-            return ApiResponseModel<List<Supplier>>.Success(GenericErrors.GetSuccess, results, totalCount);
+            return ApiResponseModel<List<SupplierSummaryDto>>.Success(GenericErrors.GetSuccess, results, totalCount);
         }
 
         public async Task<ApiResponseModel<Supplier>> GetSupplierById(int supplierId)
