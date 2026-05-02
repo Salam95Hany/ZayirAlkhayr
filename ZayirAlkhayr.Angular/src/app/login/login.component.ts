@@ -33,7 +33,12 @@ export class LoginComponent implements OnInit {
       this.ButtonDisabled = false;
       if (data.isSuccess) {
         localStorage.setItem('UserModel', JSON.stringify(data.results));
-        this.router.navigateByUrl(this.returnUrl);
+        const userRole = data.results?.role || data.results?.roles?.[0];
+        if (userRole?.toLowerCase() === 'cashier') {
+          this.router.navigateByUrl('/create-order');
+        } else {
+          this.router.navigateByUrl(this.returnUrl);
+        }
       } else
         this.ErrorMessage = data.message;
     });

@@ -8,7 +8,6 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { AdminUserComponent } from './Components/Setting/admin-user/admin-user.component';
 import { BackupComponent } from './Components/Setting/backup/backup.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RoleCheckerDirective } from './Directives/role-checker.directive';
 import { SearchArryPipe } from './Pipes/search-arry.pipe';
 import { ngxLoadingAnimationTypes, NgxLoadingModule } from "ngx-loading";
 import { AdminHeaderComponent } from './Shared/admin-header/admin-header.component';
@@ -51,7 +50,6 @@ import { FinalProfitsComponent } from './Components/Reports/final-profits/final-
     AdminPaginationComponent,
     AdminUserComponent,
     BackupComponent,
-    RoleCheckerDirective,
     SearchArryPipe,
     CustomersComponent,
     ItemsComponent,

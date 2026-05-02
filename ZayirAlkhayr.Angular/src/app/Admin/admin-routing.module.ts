@@ -30,37 +30,37 @@ const routes: Routes = [
     path: '',
     component: AdminComponent,
     canActivate: [AuthGuard],
-    data: { roles: ['Admin', 'Cashier'] },
+    data: { roles: ['Admin'] },
     children: [
       {
         path: 'dashboard',
         component: DashboardComponent,
         canActivate: [AuthGuard],
-        data: { roles: ['Admin', 'Cashier'], breadcrumb: ['لوحة التحكم'] },
+        data: { roles: ['Admin'], breadcrumb: ['لوحة التحكم'] },
       },
       {
         path: 'items',
         component: ItemsComponent,
         canActivate: [AuthGuard],
-        data: { roles: ['Admin', 'Cashier'], breadcrumb: ['النظام', 'إدارة المطعم', 'العناصر'] },
+        data: { roles: ['Admin'], breadcrumb: ['النظام', 'إدارة المطعم', 'العناصر'] },
       },
       {
         path: 'categories',
         component: CategoriesComponent,
         canActivate: [AuthGuard],
-        data: { roles: ['Admin', 'Cashier'], breadcrumb: ['النظام', 'إدارة المطعم', 'الفئات'] },
+        data: { roles: ['Admin'], breadcrumb: ['النظام', 'إدارة المطعم', 'الفئات'] },
       },
       {
         path: 'order-list',
         component: OrderListComponent,
         canActivate: [AuthGuard],
-        data: { roles: ['Admin', 'Cashier'], breadcrumb: ['النظام', 'إدارة المطعم', 'قائمة الطلبات'] },
+        data: { roles: ['Admin'], breadcrumb: ['النظام', 'إدارة المطعم', 'قائمة الطلبات'] },
       },
       {
         path: 'customers',
         component: CustomersComponent,
         canActivate: [AuthGuard],
-        data: { roles: ['Admin', 'Cashier'], breadcrumb: ['النظام', 'إدارة المطعم', 'العملاء'] },
+        data: { roles: ['Admin'], breadcrumb: ['النظام', 'إدارة المطعم', 'العملاء'] },
       },
       {
         path: 'inventory-units',
