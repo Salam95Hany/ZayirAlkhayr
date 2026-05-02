@@ -9,5 +9,6 @@ namespace ZayirAlkhayr.Reports.Model
         LowestSellingItemsReport,
         NeverSoldItemsReport,
         PurchasePDFReport,
+        SupplierPaymentReceiptPDFReport,
     }
 }

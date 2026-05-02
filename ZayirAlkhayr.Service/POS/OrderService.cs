@@ -94,8 +94,9 @@ namespace ZayirAlkhayr.Service.POS
                     CategoryName = i.Item.Category.Name,
                     Image = Path.Combine(ApiLocalUrl, "Images", ImageFiles.Items.ToString(), i.Item.Image ?? string.Empty),
                     Price = i.Item.Price,
+                    UpdatedPrice = i.Price,
                     Quantity = i.Quantity,
-                    TotalValue = i.Item.Price * i.Quantity,
+                    TotalValue = i.Price * i.Quantity,
                 }).ToList()
             };
 

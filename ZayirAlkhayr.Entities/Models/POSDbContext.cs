@@ -30,6 +30,7 @@ namespace ZayirAlkhayr.Entities.Models
         public DbSet<InventoryItem> InventoryItems { get; set; }
         public DbSet<ItemRecipe> ItemRecipes { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<SupplierPayment> SupplierPayments { get; set; }
         public DbSet<Purchase> Purchases { get; set; }
         public DbSet<PurchaseItem> PurchaseItems { get; set; }
         public DbSet<InventoryAdjustment> InventoryAdjustments { get; set; }

@@ -225,7 +225,7 @@
                 <div class="order-list-box small-scroll">
                     <ng-container *ngIf="selectedFoodItems?.length; else emptyOrderState">
                         <div *ngFor="let item of selectedFoodItems; let i = index" class="order-list-item">
-                            <div class="order-list-item__media">
+                            <div class="order-list-item__media" (click)="OpenEditItemPriceModal(EditItemPriceModal,item)">
                                 <div class="order-list-img">
                                     <img [src]="item.image" (error)="$event.target.src = defaultImage" loading="lazy" alt="item-image" />
                                 </div>
@@ -518,6 +518,33 @@
                     </div>
                     <div>
                         <button class="btn btn-success" (click)="OnCustomerSearch(AddNewCustomerModal)">بحث</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button class="btn btn-danger" (click)="modal.dismiss()">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">إغلاق</span>
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #EditItemPriceModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">تغيير سعر الصنف</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-lg-12 mb-3">
+                <div class="d-flex align-items-center">
+                    <div class="form-floating w-100 me-2">
+                        <input type="text" class="form-control" id="floatingInput_1" placeholder="new-user" (keypress)="NumbersOnly($event.key)" autocomplete="off" [(ngModel)]="EditItemPrice" (keydown.enter)="OnEditItemPrice()">
+                        <label for="floatingInput_1">الصنف</label>
+                    </div>
+                    <div>
+                        <button class="btn btn-success" (click)="OnEditItemPrice()">حفظ</button>
                     </div>
                 </div>
             </div>

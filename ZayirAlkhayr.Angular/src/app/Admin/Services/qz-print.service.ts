@@ -54,9 +54,7 @@ export class QzPrintService {
       const printer = await this.resolvePrinterName();
       container = this.createPrintContainer(result);
       document.body.appendChild(container);
-
       await this.waitForContainerReady(container);
-
       const canvas = await this.renderReceipt(container);
       const printCanvas = this.prepareCanvasForPrint(canvas);
       const config = this.createReceiptConfig(printer, this.calculatePaperHeight(printCanvas.height));
@@ -122,7 +120,7 @@ export class QzPrintService {
     const deliveryFee = Number(order.deliveryFee ?? 0);
     const grandTotal = Number(order.grandTotal ?? itemsTotal + deliveryFee);
     const itemsCount = items.reduce((sum, item) => sum + Number(item.qty ?? 0), 0);
-    const customerHtml = order.agent ? this.buildInfoRow('العميل', order.agent) : '';
+    const customerHtml = order.orderType == 'توصيل' ? this.buildInfoRow('العميل', order.agent) : '';
     const deliveryFeeHtml = deliveryFee > 0
       ? this.buildSummaryRow('رسوم التوصيل', `${this.formatAmount(deliveryFee)} ل.س`)
       : '';

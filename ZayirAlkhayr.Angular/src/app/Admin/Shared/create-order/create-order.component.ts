@@ -125,6 +125,26 @@ export class CreateOrderComponent {
     this.modalService.open(content, { size: 'md', centered: true, scrollable: true });
   }
 
+  EditItemPrice = '';
+  EditItemPriceId = '';
+  OpenEditItemPriceModal(content: any, item: any) {
+    this.EditItemPriceId = item.productId;
+    this.EditItemPrice = item.price;
+    this.modalService.open(content, { size: 'md', centered: true, scrollable: true });
+  }
+
+  OnEditItemPrice() {
+    debugger;
+    let obj = this.selectedFoodItems.find(i => i.productId == this.EditItemPriceId);
+    if (obj) {
+      obj.price = this.EditItemPrice;
+      obj.totalValue = obj.price * obj.quantity;
+      this.calculateOrderSummary();
+      this.modalService.dismissAll();
+    }
+
+  }
+
   OpenAddNewCustomerModal(content: any) {
     this.CustomerSearch = '';
     this.modalService.open(content, { size: 'lg', centered: true, scrollable: true });
@@ -315,10 +335,10 @@ export class CreateOrderComponent {
       return;
     }
 
-    if (this.OrderTypeId == 2 && !this.CustomerSearchData?.customerId) {
-      this.toaster.warning('برجاء اختيار عميل');
-      return;
-    }
+    // if (this.OrderTypeId == 2 && !this.CustomerSearchData?.customerId) {
+    //   this.toaster.warning('برجاء اختيار عميل');
+    //   return;
+    // }
 
     this.showLoader = true;
     this.orderModel.customerId = this.CustomerSearchData?.customerId ?? null;
@@ -363,7 +383,7 @@ export class CreateOrderComponent {
 
         time = time.replace('AM', 'ص').replace('am', 'ص').replace('PM', 'م').replace('pm', 'م');
         const formatted = `${date}  ${time}`;
-        
+
         let OrderPrinterObj: ReceiptModel = {
           orderNo: data.results,
           orderType: this.OrderTypeId == 1 ? 'خارجي' : 'توصيل',

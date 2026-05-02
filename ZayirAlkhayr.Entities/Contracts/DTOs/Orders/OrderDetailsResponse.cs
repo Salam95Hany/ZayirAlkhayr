@@ -22,6 +22,7 @@ namespace ZayirAlkhayr.Entities.Contracts.DTOs.Orders
         public string CategoryName { get; set; }
         public int Quantity { get; set; }
         public double Price { get; set; }
+        public double UpdatedPrice { get; set; }
         public string Image { get; set; }
         public double TotalValue { get; set; }
 
