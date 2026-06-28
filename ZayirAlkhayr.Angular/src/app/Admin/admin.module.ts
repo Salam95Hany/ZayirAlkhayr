@@ -8,7 +8,6 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { AdminUserComponent } from './Components/Setting/admin-user/admin-user.component';
 import { BackupComponent } from './Components/Setting/backup/backup.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SearchArryPipe } from './Pipes/search-arry.pipe';
 import { ngxLoadingAnimationTypes, NgxLoadingModule } from "ngx-loading";
 import { AdminHeaderComponent } from './Shared/admin-header/admin-header.component';
 import { AdminSideMenuComponent } from './Shared/admin-side-menu/admin-side-menu.component';
@@ -53,7 +52,6 @@ import { SupplierPaymentLogComponent } from './Components/Inventory/supplier-pay
     AdminPaginationComponent,
     AdminUserComponent,
     BackupComponent,
-    SearchArryPipe,
     CustomersComponent,
     ItemsComponent,
     CategoriesComponent,
