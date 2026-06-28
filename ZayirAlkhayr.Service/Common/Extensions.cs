@@ -12,7 +12,8 @@ namespace ZayirAlkhayr.Service.Common
 {
     public static class Extensions
     {
-        public static List<DataTable> ToDataTableBatches(this DataTable dt,int BatchNumber)
+        private static readonly TimeZoneInfo QatarTimeZone = TimeZoneInfo.FindSystemTimeZoneById(OperatingSystem.IsWindows() ? "Arabian Standard Time" : "Asia/Qatar");
+        public static List<DataTable> ToDataTableBatches(this DataTable dt, int BatchNumber)
         {
             var batches = dt.AsEnumerable().Select((x, i) => new { Index = i, Value = x })
                  .GroupBy(x => x.Index / BatchNumber)
@@ -83,6 +84,16 @@ namespace ZayirAlkhayr.Service.Common
             }).ToList();
 
             return simpleList.ToDataTable();
+        }
+
+
+
+        public static DateTime ToQatarTime(this DateTime dateTime)
+        {
+            if (dateTime.Kind == DateTimeKind.Unspecified)
+                dateTime = DateTime.SpecifyKind(dateTime, DateTimeKind.Utc);
+
+            return TimeZoneInfo.ConvertTimeFromUtc(dateTime.ToUniversalTime(), QatarTimeZone);
         }
     }
 }

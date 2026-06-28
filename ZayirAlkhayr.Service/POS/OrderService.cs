@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -125,6 +124,7 @@ namespace ZayirAlkhayr.Service.POS
                 var order = new Order
                 {
                     CustomerId = Model.CustomerId,
+                    TableId = Model.TableId,
                     OrderNumber = OrderNumber + 1,
                     OrderType = Model.OrderType,
                     OrderStatus = OrderStatus.Completed,
@@ -206,6 +206,7 @@ namespace ZayirAlkhayr.Service.POS
 
                 entity.TotalAmount = order.TotalAmount;
                 entity.Note = order.Note;
+                entity.TableId = order.TableId;
                 entity.OrderType = order.OrderType;
                 entity.CostDelivery = order.CostDelivery;
                 entity.CustomerId = order.CustomerId;

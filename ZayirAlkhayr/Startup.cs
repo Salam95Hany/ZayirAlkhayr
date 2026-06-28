@@ -19,6 +19,7 @@ using ZayirAlkhayr.Entities.Models;
 using ZayirAlkhayr.Interface.Auth;
 using ZayirAlkhayr.Interface.Common;
 using ZayirAlkhayr.Interface.Customer;
+using ZayirAlkhayr.Interface.Employee;
 using ZayirAlkhayr.Interface.Inventory;
 using ZayirAlkhayr.Interface.POS;
 using ZayirAlkhayr.Interface.Report;
@@ -29,6 +30,7 @@ using ZayirAlkhayr.Reports.Service;
 using ZayirAlkhayr.Service.Auth;
 using ZayirAlkhayr.Service.Common;
 using ZayirAlkhayr.Service.Customer;
+using ZayirAlkhayr.Service.Employee;
 using ZayirAlkhayr.Service.Inventory;
 using ZayirAlkhayr.Service.POS;
 using ZayirAlkhayr.Service.Report;
@@ -132,7 +134,12 @@ namespace ZayirAlkhayr
             services.AddScoped<IBackupService, BackupService>();
             services.AddScoped<IFactoryResetService, FactoryResetService>();
             services.AddScoped<ISupplierPaymentService, SupplierPaymentService>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<IExpensesService, ExpensesService>();
+            services.AddScoped<IEmployeeSalaryService, EmployeeSalaryService>();
+            services.AddScoped<ITableService, TableService>();
             
+
             #region ReportsDI
 
             services.AddSingleton<IRazorLightEngine>(serviceProvider =>

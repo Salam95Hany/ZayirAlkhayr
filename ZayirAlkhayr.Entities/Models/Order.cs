@@ -24,6 +24,7 @@ namespace ZayirAlkhayr.Entities.Models
         public string Note { get; set; }
         public string VoidReason { get; set; }
         public string VoidNotes { get; set; }
+        public int? TableId { get; set; }
         public string InsertUser { get; set; }
         public DateTime? InsertDate { get; set; }
         public string UpdateUser { get; set; }

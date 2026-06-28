@@ -74,5 +74,7 @@ namespace ZayirAlkhayr.Service.Common
         public static Error TableIsBusy = new("هذه الطاولة مشغولة برجاء اختيار طاولة متاحة");
 
         public static Error DeleteRelationRow = new("لا يمكن حذف هذا السجل لأنه مرتبط ببيانات أخرى.");
+
+        public static Error EmployeeNotExist = new("برجاء اضافة موظفين.");
     }
 }

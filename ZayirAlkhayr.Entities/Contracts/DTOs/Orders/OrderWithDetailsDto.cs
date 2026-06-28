@@ -11,6 +11,7 @@ namespace ZayirAlkhayr.Entities.Contracts.DTOs.Orders
     {
         public int? OrderId { get; set; }
         public int? CustomerId { get; set; }
+        public int? TableId { get; set; }
         public OrderTypes OrderType { get; set; }
         public double TotalAmount { get; set; }
         public int CostDelivery { get; set; }

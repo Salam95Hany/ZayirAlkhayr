@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using ZayirAlkhayr.Entities.Auth;
+using ZayirAlkhayr.Entities.Models.EmployeeModel;
 
 namespace ZayirAlkhayr.Entities.Models
 {
@@ -35,7 +35,14 @@ namespace ZayirAlkhayr.Entities.Models
         public DbSet<PurchaseItem> PurchaseItems { get; set; }
         public DbSet<InventoryAdjustment> InventoryAdjustments { get; set; }
         public DbSet<InventoryAdjustmentDetail> InventoryAdjustmentDetails { get; set; }
+        public DbSet<JobTitle> JobTitles { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Salary> Salaries { get; set; }
+        public DbSet<ExpenseCategory> ExpenseCategories { get; set; }
+        public DbSet<Expenses> Expenses { get; set; }
+        public DbSet<Table> Tables { get; set; }
         
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

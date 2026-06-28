@@ -15,13 +15,15 @@ namespace ZayirAlkhayr.Entities.Common
     public enum OrderTypes
     {
         TakeAway = 1,
-        Delivery =2
+        Delivery =2,
+        DineIn = 3
     }
 
     public enum OrderStatus
     {
         Completed = 1,
-        Cancelled = 2
+        Cancelled = 2,
+        Open = 3
     }
 
     public enum AdjustmentTypes
@@ -29,5 +31,11 @@ namespace ZayirAlkhayr.Entities.Common
         Manual = 1,
         Order = 2,
         Purchase = 3
+    }
+
+    public enum SalaryStatus
+    {
+        Pending = 1,
+        Paid = 2
     }
 }
