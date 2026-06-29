@@ -15,7 +15,6 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class AdminGeneralInputComponent {
   @Input() type: 'text' | 'number' | 'date' | 'month' | 'textarea' = 'text';
-  @Input() colWidth = 'col-lg-6';
   @Input() placeholder: string = '';
   @Input() label: string = '';
   @Input() error: string | null = null;

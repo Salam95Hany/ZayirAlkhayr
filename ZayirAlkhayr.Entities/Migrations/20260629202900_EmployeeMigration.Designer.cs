@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZayirAlkhayr.Entities.Models;
 
 namespace ZayirAlkhayr.Entities.Migrations
 {
     [DbContext(typeof(POSDbContext))]
-    partial class POSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260629202900_EmployeeMigration")]
+    partial class EmployeeMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -954,8 +956,8 @@ namespace ZayirAlkhayr.Entities.Migrations
                     b.Property<string>("InsertUser")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TableName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("TableName")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2");

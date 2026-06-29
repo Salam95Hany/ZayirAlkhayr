@@ -107,7 +107,7 @@ export class ValidationFormService {
       if (typeof value === 'number') {
         value = value.toString();
       }
-  
+
       if (value.trim().length === 0) {
         return { noSpace: true };
       }
@@ -119,5 +119,90 @@ export class ValidationFormService {
 
 
     return null;
+  }
+
+  public markFormGroupTouched(formGroup: FormGroup) {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+    });
+  }
+
+  public validationMessages() {
+    const messages = {
+      required: 'هذا الحقل مطلوب',
+      noSpace: 'لا يمكن أن يحتوي الحقل على مسافات فقط',
+      email: 'Invalid email address',
+      pattern: 'Invalid input pattern',
+      min: 'The entered value is less than the minimum allowed',
+      max: 'The entered value is greater than the maximum allowed',
+      invalid_URL: 'Invalid URL',
+      endDateLessThanStartDate: (error: string) => error || 'The end date must be greater than the start date',
+      dateLessThan: (error: string) => error || 'The end date must be greater than the start date',
+      dateGreaterThanToday: (error: string) => error || 'The end date must be greater than the start date',
+      regexPattern: (error: string) => error || 'Invalid input pattern',
+      arrayLength: (error: string) => error || 'Invalid number of items',
+      invalidExtension: (matches: any[]) => {
+        let matchedCharacters = matches;
+        matchedCharacters = matchedCharacters.reduce((characterString, character, index) => {
+          let string = characterString;
+          string += character;
+
+          if (matchedCharacters.length !== index + 1) {
+            string += ', ';
+          }
+
+          return string;
+        }, '');
+
+        return `File extension not allowed. Allowed extensions are: ${matchedCharacters}`;
+      },
+      invalid_characters: (matches: any[]) => {
+
+        let matchedCharacters = matches;
+
+        matchedCharacters = matchedCharacters.reduce((characterString, character, index) => {
+          let string = characterString;
+          string += character;
+
+          if (matchedCharacters.length !== index + 1) {
+            string += ', ';
+          }
+
+          return string;
+        }, '');
+
+        return `Invalid characters: ${matchedCharacters}`;
+      },
+    };
+
+    return messages;
+  }
+
+  public validateForm(formToValidate: FormGroup, formErrors: any, checkDirty?: boolean) {
+    const form = formToValidate;
+
+    for (const field in formErrors) {
+      if (field) {
+        formErrors[field] = '';
+        const control = form.get(field);
+
+        const messages = this.validationMessages();
+        if (control && !control.valid) {
+          if (!checkDirty || (control.dirty || control.touched)) {
+            for (const key in control.errors) {
+
+              if (key && !['invalid_characters', 'invalidExtension', 'endDateLessThanStartDate', 'regexPattern', 'dateGreaterThanToday', 'dateLessThan', 'arrayLength'].includes(key)) {
+                formErrors[field] = formErrors[field] || messages[key];
+              }
+              else {
+                formErrors[field] = formErrors[field] || messages[key](control.errors[key]);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return formErrors;
   }
 }

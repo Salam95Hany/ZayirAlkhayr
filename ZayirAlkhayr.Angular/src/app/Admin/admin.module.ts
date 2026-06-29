@@ -41,6 +41,10 @@ import { FinalProfitsComponent } from './Components/Reports/final-profits/final-
 import { SupplierPaymentComponent } from './Components/Inventory/supplier-payment/supplier-payment.component';
 import { SupplierInvoicesComponent } from './Components/Inventory/supplier-invoices/supplier-invoices.component';
 import { SupplierPaymentLogComponent } from './Components/Inventory/supplier-payment-log/supplier-payment-log.component';
+import { TableComponent } from './Components/POS/table/table.component';
+import { EmployeeComponent } from './Components/Employee/employee/employee.component';
+import { JopTitleComponent } from './Components/Employee/jop-title/jop-title.component';
+import { EmployeeSalaryComponent } from './Components/Employee/employee-salary/employee-salary.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +80,11 @@ import { SupplierPaymentLogComponent } from './Components/Inventory/supplier-pay
     FinalProfitsComponent,
     SupplierPaymentComponent,
     SupplierInvoicesComponent,
-    SupplierPaymentLogComponent
+    SupplierPaymentLogComponent,
+    TableComponent,
+    EmployeeComponent,
+    JopTitleComponent,
+    EmployeeSalaryComponent
   ],
   imports: [
     CommonModule,

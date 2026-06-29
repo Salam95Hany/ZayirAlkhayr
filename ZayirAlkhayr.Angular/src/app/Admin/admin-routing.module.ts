@@ -25,6 +25,10 @@ import { TopSellingItemReportComponent } from './Components/Reports/items/top-se
 import { LowestSellingItemReportComponent } from './Components/Reports/items/lowest-selling-item-report/lowest-selling-item-report.component';
 import { FinalProfitsComponent } from './Components/Reports/final-profits/final-profits.component';
 import { SupplierPaymentComponent } from './Components/Inventory/supplier-payment/supplier-payment.component';
+import { TableComponent } from './Components/POS/table/table.component';
+import { JopTitleComponent } from './Components/Employee/jop-title/jop-title.component';
+import { EmployeeComponent } from './Components/Employee/employee/employee.component';
+import { EmployeeSalaryComponent } from './Components/Employee/employee-salary/employee-salary.component';
 
 const routes: Routes = [
   {
@@ -50,6 +54,30 @@ const routes: Routes = [
         component: CategoriesComponent,
         canActivate: [AuthGuard],
         data: { roles: ['Admin'], breadcrumb: ['النظام', 'إدارة المطعم', 'الفئات'] },
+      },
+      {
+        path: 'tables',
+        component: TableComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['Admin'], breadcrumb: ['النظام', 'إدارة المطعم', 'الطاولات'] },
+      },
+      {
+        path: 'jop-title',
+        component: JopTitleComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['Admin'], breadcrumb: ['النظام', 'إدارة الموظفين', 'الوظائف'] },
+      },
+      {
+        path: 'employees',
+        component: EmployeeComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['Admin'], breadcrumb: ['النظام', 'إدارة الموظفين', 'الموظفين'] },
+      },
+      {
+        path: 'employee-salary',
+        component: EmployeeSalaryComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['Admin'], breadcrumb: ['النظام', 'إدارة الموظفين', 'رواتب الموظفين'] },
       },
       {
         path: 'order-list',

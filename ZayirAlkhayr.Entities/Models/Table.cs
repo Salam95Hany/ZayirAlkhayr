@@ -11,7 +11,7 @@ namespace ZayirAlkhayr.Entities.Models
     public class Table
     {
         public int TableId { get; set; }
-        public int TableName { get; set; }
+        public string TableName { get; set; }
         public string InsertUser { get; set; }
         public DateTime? InsertDate { get; set; }
         public string UpdateUser { get; set; }

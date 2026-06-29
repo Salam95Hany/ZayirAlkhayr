@@ -178,4 +178,22 @@ export class AdminService {
     return this.http.post<ApiResponseModel<any>>(this.apiURL + 'FactoryReset/DeleteTargetData', { targetKey });
   }
 
+  // ============================= Table ==============================
+
+  GetAllTable() {
+    return this.http.get<ApiResponseModel<any[]>>(this.apiURL + 'Table/GetAllTable');
+  }
+
+  AddNewTable(Model: any) {
+    return this.http.post<ApiResponseModel<any>>(this.apiURL + 'Table/AddNewTable', Model);
+  }
+
+  UpdateTable(Model: any) {
+    return this.http.post<ApiResponseModel<any>>(this.apiURL + 'Table/UpdateTable', Model);
+  }
+
+  DeleteTable(TableId: number) {
+    return this.http.get<ApiResponseModel<any>>(this.apiURL + 'Table/DeleteTable?TableId=' + TableId);
+  }
+
 }

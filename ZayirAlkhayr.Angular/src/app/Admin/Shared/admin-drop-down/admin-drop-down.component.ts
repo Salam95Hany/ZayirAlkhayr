@@ -17,7 +17,6 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 export class AdminDropDownComponent {
   @Input() data: any[] = [];
   @Input() placeholder: string = '';
-  @Input() colSize: string = 'col-lg-6';
   @Input() disabled: boolean = false;
   @Input() error: any;
   @Output() valueChanged = new EventEmitter<any | any[]>();

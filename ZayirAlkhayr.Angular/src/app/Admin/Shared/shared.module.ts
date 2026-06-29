@@ -21,6 +21,6 @@ import { SearchArryPipe } from '../Pipes/search-arry.pipe';
   imports: [
     CommonModule
   ],
-  exports: [ArabicDateWithTimePipe, ArabicDatePipe, RoleCheckerDirective, SearchArryPipe]
+  exports: [ArabicDateWithTimePipe, ArabicDatePipe, RoleCheckerDirective, SearchArryPipe,AdminGeneralInputComponent,AdminDropDownComponent]
 })
 export class SharedModule { }

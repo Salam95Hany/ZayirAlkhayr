@@ -1,5 +1,5 @@
 export const environment = {
     production: false,
     apiUrl: 'http://localhost:52792/api/',
-    //apiUrl: 'https://sobhwmsa-api.runasp.net/api/',
+    //apiUrl: 'https://pos-restaurant-api.runasp.net/api/',
 };
