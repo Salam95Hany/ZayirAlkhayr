@@ -62,14 +62,14 @@ export class EmployeeService {
   }
 
   CreateMonthEmployeeSalary(SalaryDate: any, InsertUser: any) {
-    return this.http.get<ApiResponseModel<any>>(this.apiURL + 'Employee/CreateMonthEmployeeSalary?SalaryDate=' + SalaryDate + '&InsertUser=' + InsertUser);
+    return this.http.get<ApiResponseModel<any[]>>(this.apiURL + 'Employee/CreateMonthEmployeeSalary?SalaryDate=' + SalaryDate + '&InsertUser=' + InsertUser);
   }
 
   PaidEmployeeSalary(Model: any, SalaryDate: any, UpdateUser: any) {
     return this.http.post<ApiResponseModel<any>>(this.apiURL + 'Employee/PaidEmployeeSalary?SalaryDate=' + SalaryDate + '&UpdateUser=' + UpdateUser, Model);
   }
 
-  PayrollTransferToExpenses(TotalAmount: any, SalaryDate: any, Reason: any, InsertUser: any) {
-    return this.http.get<ApiResponseModel<any>>(this.apiURL + 'Employee/PayrollTransferToExpenses?TotalAmount=' + TotalAmount + '&SalaryDate=' + SalaryDate + '&Reason=' + Reason + '&InsertUser=' + InsertUser);
+  PayrollTransferToExpenses(TotalAmount: any, SalaryDate: any, InsertUser: any) {
+    return this.http.get<ApiResponseModel<any>>(this.apiURL + 'Employee/PayrollTransferToExpenses?TotalAmount=' + TotalAmount + '&SalaryDate=' + SalaryDate + '&InsertUser=' + InsertUser);
   }
 }

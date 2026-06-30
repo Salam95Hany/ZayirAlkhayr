@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,7 +21,28 @@ namespace ZayirAlkhayr.Service.Employee
 
         public async Task<ApiResponseModel<List<Salary>>> GetEmployeeSalary(DateTime SalaryDate)
         {
-            var Salaries = await _unitOfWork.Repository<Salary>().GetAllAsync(i => i.SalaryYear == SalaryDate.Year && i.SalaryMonth == SalaryDate.Month);
+            var Salaries = await (
+                from s in _unitOfWork.Repository<Salary>().GetAllAsQueryable()
+                join e in _unitOfWork.Repository<ZayirAlkhayr.Entities.Models.EmployeeModel.Employee>().GetAllAsQueryable()
+                on s.EmployeeId equals e.EmployeeId
+                where s.SalaryYear == SalaryDate.Year && s.SalaryMonth == SalaryDate.Month
+                select new Salary
+                {
+                    SalaryId = s.SalaryId,
+                    EmployeeId = s.EmployeeId,
+                    SalaryMonth = s.SalaryMonth,
+                    SalaryYear = s.SalaryYear,
+                    BasicSalary = s.BasicSalary,
+                    Bonus = s.Bonus,
+                    Deduction = s.Deduction,
+                    Advance = s.Advance,
+                    NetSalary = s.NetSalary,
+                    Status = s.Status,
+                    PaidDate = s.PaidDate,
+                    Notes = s.Notes,
+                    EmployeeName = e.FullName
+                }).ToListAsync();
+
             return ApiResponseModel<List<Salary>>.Success(GenericErrors.GetSuccess, Salaries);
         }
 
@@ -35,31 +57,41 @@ namespace ZayirAlkhayr.Service.Employee
             try
             {
                 var Employees = await _unitOfWork.Repository<ZayirAlkhayr.Entities.Models.EmployeeModel.Employee>().GetAllAsync(i => i.IsActive);
-                if (Employees.Count > 0)
+
+                if (!Employees.Any())
+                    return ApiResponseModel<string>.Failure(GenericErrors.EmployeeNotExist);
+
+                int daysInMonth = DateTime.DaysInMonth(SalaryDate.Year, SalaryDate.Month);
+
+                var data = Employees.Select(employee =>
                 {
-                    var Data = Employees.Select(i => new Salary
+                    double basicSalary = employee.BasicSalary;
+                    if (employee.HireDate.Year == SalaryDate.Year && employee.HireDate.Month == SalaryDate.Month)
                     {
-                        EmployeeId = i.EmployeeId,
-                        EmployeeName = i.FullName,
+                        int workedDays = daysInMonth - employee.HireDate.Day + 1;
+                        basicSalary = Math.Round((employee.BasicSalary / daysInMonth) * workedDays, 2, MidpointRounding.AwayFromZero);
+                    }
+
+                    return new Salary
+                    {
+                        EmployeeId = employee.EmployeeId,
                         SalaryYear = SalaryDate.Year,
                         SalaryMonth = SalaryDate.Month,
-                        BasicSalary = i.BasicSalary,
+                        BasicSalary = basicSalary,
                         Bonus = 0,
                         Deduction = 0,
                         Advance = 0,
-                        NetSalary = i.BasicSalary,
+                        NetSalary = basicSalary,
                         Status = SalaryStatus.Pending,
                         InsertUser = InsertUser,
                         InsertDate = DateTime.UtcNow.ToQatarTime()
-                    }).ToList();
+                    };
+                }).ToList();
 
-                    await _unitOfWork.Repository<Salary>().AddRangeAsync(Data);
-                    await _unitOfWork.CompleteAsync();
+                await _unitOfWork.Repository<Salary>().AddRangeAsync(data);
+                await _unitOfWork.CompleteAsync();
 
-                    return ApiResponseModel<string>.Success(GenericErrors.GetSuccess);
-                }
-                else
-                    return ApiResponseModel<string>.Failure(GenericErrors.EmployeeNotExist);
+                return ApiResponseModel<string>.Success(GenericErrors.GetSuccess);
             }
             catch
             {
@@ -104,7 +136,7 @@ namespace ZayirAlkhayr.Service.Employee
             }
         }
 
-        public async Task<ApiResponseModel<string>> PayrollTransferToExpenses(double TotalAmount, DateTime SalaryDate,string Reason, string InsertUser)
+        public async Task<ApiResponseModel<string>> PayrollTransferToExpenses(double TotalAmount, DateTime SalaryDate, string InsertUser)
         {
             try
             {
@@ -115,7 +147,7 @@ namespace ZayirAlkhayr.Service.Employee
                     Amount = TotalAmount,
                     SalaryMonth = SalaryDate.Month,
                     SalaryYear = SalaryDate.Year,
-                    Reason = Reason,
+                    Reason = $"دفع مرتبات شهر {SalaryDate.Year} / {SalaryDate.Month}",
                     ExpenseDate = Now,
                     InsertUser = InsertUser,
                     InsertDate = Now

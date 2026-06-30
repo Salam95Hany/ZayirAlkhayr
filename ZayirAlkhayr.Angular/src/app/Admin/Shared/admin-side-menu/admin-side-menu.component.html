@@ -38,7 +38,7 @@
                     </li>
                 </ul>
 
-                <section class="menu-section">
+                <section class="menu-section" appRole [roles]="['Admin']">
                     <div class="section-divider"></div>
                     <div class="side-menu-list-title side-menu-text">النظام</div>
 
@@ -51,19 +51,19 @@
                         </li>
                     </ul>
                     <ul class="list-unstyled m-0 menu-list-collapsed" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed_1">
-                        <li appRole [roles]="['Admin']">
+                        <li>
                             <a class="side-menu-list-link sub-link" routerLink="./categories" routerLinkActive="active">
                                 <span class="menu-bullet"></span>
                                 <span class="side-menu-text">الفئات</span>
                             </a>
                         </li>
-                        <li appRole [roles]="['Admin']">
+                        <li>
                             <a class="side-menu-list-link sub-link" routerLink="./items" routerLinkActive="active">
                                 <span class="menu-bullet"></span>
                                 <span class="side-menu-text">العناصر</span>
                             </a>
                         </li>
-                        <li appRole [roles]="['Admin']">
+                        <li>
                             <a class="side-menu-list-link sub-link" routerLink="./tables" routerLinkActive="active">
                                 <span class="menu-bullet"></span>
                                 <span class="side-menu-text">الطاولات</span>
@@ -98,19 +98,19 @@
                         </li>
                     </ul>
                     <ul class="list-unstyled m-0 menu-list-collapsed" #collapse7="ngbCollapse" [(ngbCollapse)]="isCollapsed_7">
-                        <li appRole [roles]="['Admin']">
+                        <li>
                             <a class="side-menu-list-link sub-link" routerLink="./jop-title" routerLinkActive="active">
                                 <span class="menu-bullet"></span>
                                 <span class="side-menu-text">الوظائف</span>
                             </a>
                         </li>
-                        <li appRole [roles]="['Admin']">
+                        <li>
                             <a class="side-menu-list-link sub-link" routerLink="./employees" routerLinkActive="active">
                                 <span class="menu-bullet"></span>
                                 <span class="side-menu-text">الموظفين</span>
                             </a>
                         </li>
-                        <li appRole [roles]="['Admin']">
+                        <li>
                             <a class="side-menu-list-link sub-link" routerLink="./employee-salary" routerLinkActive="active">
                                 <span class="menu-bullet"></span>
                                 <span class="side-menu-text">رواتب الموظفين</span>

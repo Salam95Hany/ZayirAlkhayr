@@ -1,14 +1,20 @@
 <div ngbDropdown class="dropdown-with-search overflow-hidden admin-user-role-dropdown" container="body">
-    <button class="dropdown-with-search-btn btn border h-58 w-100 d-flex align-items-center justify-content-between selector-padding input-box" [disabled]="disabled" [class.error]="error" id="dropdownBasic1" ngbDropdownToggle>
-                {{selectedName ? selectedName : placeholder}}
-        </button>
-    <div class="width-530 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu aria-labelledby="dropdownBasic1">
-        <div class="p-2 bg-light border-bottom">
-            <input type="text" class="form-control form-control" (input)="onInputChange($event)" placeholder="بحث..." />
+    <button class="dropdown-with-search-btn btn border h-58 w-100 d-flex align-items-center justify-content-between selector-padding" [disabled]="disabled" [class.error]="error" id="purchaseSupplierDropdown" ngbDropdownToggle>
+            {{selectedName ? selectedName : placeholder}}
+    </button>
+    <div class="width-355 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu aria-labelledby="purchaseSupplierDropdown">
+        <!-- Search inside checkbox list -->
+        <div class="filter-search p-2 gray-bgcolor border-bottom">
+            <div class="position-relative">
+                <input type="text" class="form-control form-control-sm" (input)="onInputChange($event)" placeholder="بحث..." />
+                <i class="fas fa-search search-icon-input"></i>
+            </div>
         </div>
         <ul class="dropdown-list-box list-unstyled max-height-220 overflow-auto px-1 py-1 m-0">
             <ng-container *ngFor="let item of data | searchArry: searchText: searchFields">
-                <li class="dropdown-item cursor-pointer rounded" [class]="item.id==selectedValue?'DropDownSelected':''" (click)="selectOption(item)">{{item.name}}</li>
+                <li class="dropdown-item cursor-pointer rounded" [class]="item.id==selectedValue?'DropDownSelected':''" (click)="selectOption(item)">
+                    {{item.name}}
+                </li>
             </ng-container>
         </ul>
     </div>

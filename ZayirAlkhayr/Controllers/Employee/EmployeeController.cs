@@ -114,9 +114,9 @@ namespace ZayirAlkhayr.Controllers.Employee
         }
 
         [HttpGet("PayrollTransferToExpenses")]
-        public async Task<ApiResponseModel<string>> PayrollTransferToExpenses(double TotalAmount, DateTime SalaryDate, string Reason, string InsertUser)
+        public async Task<ApiResponseModel<string>> PayrollTransferToExpenses(double TotalAmount, DateTime SalaryDate, string InsertUser)
         {
-            var results = await _employeeSalaryService.PayrollTransferToExpenses(TotalAmount, SalaryDate, Reason, InsertUser);
+            var results = await _employeeSalaryService.PayrollTransferToExpenses(TotalAmount, SalaryDate, InsertUser);
             return results;
         }
     }

@@ -14,6 +14,6 @@ namespace ZayirAlkhayr.Interface.Employee
         Task<ApiResponseModel<bool>> CheckMonthEmployeePaid(DateTime SalaryDate);
         Task<ApiResponseModel<string>> CreateMonthEmployeeSalary(DateTime SalaryDate, string InsertUser);
         Task<ApiResponseModel<string>> PaidEmployeeSalary(List<Salary> Model, DateTime SalaryDate, string UpdateUser);
-        Task<ApiResponseModel<string>> PayrollTransferToExpenses(double TotalAmount, DateTime SalaryDate, string Reason, string InsertUser);
+        Task<ApiResponseModel<string>> PayrollTransferToExpenses(double TotalAmount, DateTime SalaryDate, string InsertUser);
     }
 }
