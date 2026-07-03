@@ -16,6 +16,7 @@ export class AdminSideMenuComponent implements OnInit {
   isCollapsed_5 = true;
   isCollapsed_6 = true;
   isCollapsed_7 = true;
+  isCollapsed_8 = true;
   RoleName = '';
   UserModel: any;
   Roles = [
@@ -29,6 +30,7 @@ export class AdminSideMenuComponent implements OnInit {
   ItemsReports = ['all-item-reports', 'top-sellingitem-reports', 'lowest-sellingitem-reports', 'never-solditem-reports'];
   Purchase = ['inventory-suppliers', 'inventory-purchases'];
   Emplyees = ['jop-title', 'employees','employee-salary'];
+  Expenses = ['expense-types', 'expenses'];
   constructor(private router: Router) { }
 
   ngOnInit(): void {
@@ -49,6 +51,8 @@ export class AdminSideMenuComponent implements OnInit {
       this.isCollapsed_6 = false;
     else if (this.Emplyees.includes(url))
       this.isCollapsed_7 = false;
+    else if (this.Expenses.includes(url))
+      this.isCollapsed_8 = false;
   }
 
   onCloseSidemenuFromOverlay() {

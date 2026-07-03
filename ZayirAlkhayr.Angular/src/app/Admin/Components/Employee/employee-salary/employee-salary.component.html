@@ -56,30 +56,33 @@
                     <tr *ngFor="let item of Results">
                         <td><strong>{{item.employeeName}}</strong></td>
                         <td>{{item.salaryYear}}</td>
-                        <td>{{item.salaryMonth | number:'1.0-0'}} ل.س</td>
+                        <td>{{item.salaryMonth | number:'1.0-0'}}</td>
                         <td>{{item.basicSalary}}</td>
                         <td>
-                            <span *ngIf="item.status == 1"><input type="number" class="form-control" min="0" (keydown)="preventNegative($event)"
+                            <span *ngIf="item.status == 1"><input type="number" class="form-control text-center" min="0" (keydown)="preventNegative($event)"
                                 [(ngModel)]="item.bonus" (ngModelChange)="calculateNetSalary(item)"></span>
                             <span *ngIf="item.status == 2">{{item.bonus | number:'1.0-0'}}</span>
                         </td>
                         <td>
-                            <span *ngIf="item.status == 1"><input type="number" class="form-control" min="0" (keydown)="preventNegative($event)"
+                            <span *ngIf="item.status == 1"><input type="number" class="form-control text-center" min="0" (keydown)="preventNegative($event)"
                                  [(ngModel)]="item.deduction" (ngModelChange)="calculateNetSalary(item)"></span>
                             <span *ngIf="item.status == 2">{{item.deduction | number:'1.0-0'}}</span>
                         </td>
                         <td>
-                            <span *ngIf="item.status == 1"><input type="number" class="form-control" min="0" (keydown)="preventNegative($event)"
+                            <span *ngIf="item.status == 1"><input type="number" class="form-control text-center" min="0" (keydown)="preventNegative($event)"
                                 [(ngModel)]="item.advance" (ngModelChange)="calculateNetSalary(item)"></span>
                             <span *ngIf="item.status == 2">{{item.advance | number:'1.0-0'}}</span>
                         </td>
                         <td>{{item.netSalary | number:'1.0-0'}}</td>
                         <td>{{item.statusName}}</td>
                         <td>{{item.paidDate | arabicDateWithTime}}</td>
-                        <td>{{item.notes}}</td>
+                        <td>
+                            <span *ngIf="item.status == 1"><input type="text" class="form-control" [(ngModel)]="item.notes"></span>
+                            <span *ngIf="item.status == 2">{{item.notes}}</span>
+                        </td>
                         <td>
                             <div class="table-actions d-flex align-items-center justify-content-center gap-2">
-                                <button type="button" class="table-action table-action--edit" (click)="PaidEmployeeSalary()" [disabled]="item.status == 2"><i class="uil uil-money-withdraw"></i></button>
+                                <button type="button" class="table-action table-action--edit" (click)="PaidEmployeeSalary(item)" [disabled]="item.status == 2"><i class="uil uil-money-withdraw"></i></button>
                             </div>
                         </td>
                     </tr>

@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -17,6 +18,7 @@ export class EmployeeComponent implements OnInit {
   JoipTitle: any[] = [];
   UserModel: any;
   showLoader = false;
+  isFilter = true;
   ItemForm: FormGroup;
   Total = 0;
   EmployeeId: any;
@@ -36,7 +38,7 @@ export class EmployeeComponent implements OnInit {
   };
 
   constructor(private modalService: NgbModal, private employeeService: EmployeeService,
-    private formService: ValidationFormService,
+    private formService: ValidationFormService,private datePipe: DatePipe,
     private fb: FormBuilder, private toaster: ToastrService) {
 
   }
@@ -73,7 +75,7 @@ export class EmployeeComponent implements OnInit {
       fullName: item.fullName,
       phoneNumber: item.phoneNumber,
       basicSalary: item.basicSalary,
-      hireDate: item.hireDate,
+      hireDate: this.datePipe.transform(item.hireDate, 'yyyy-MM-dd'),
       notes: item.notes,
       insertUser: this.UserModel?.userId,
     });
@@ -127,6 +129,17 @@ export class EmployeeComponent implements OnInit {
     });
   }
 
+  PageChange(obj: any) {
+    this.PagingFilter.currentpage = obj.page;
+    this.GetAllEmployees();
+  }
+
+  FilterChecked(filterList: FilterModel[]) {
+    this.PagingFilter.currentpage = 1;
+    this.PagingFilter.filterList = filterList;
+    this.GetAllEmployees();
+  }
+
   validateForm(): boolean {
     this.formService.markFormGroupTouched(this.ItemForm);
     if (this.ItemForm.valid) {
@@ -150,6 +163,7 @@ export class EmployeeComponent implements OnInit {
         if (data.isSuccess) {
           this.toaster.success(data.message);
           this.GetAllEmployees();
+          this.GetAllEmployeeFilters();
           this.modalService.dismissAll();
         }
         else
@@ -161,6 +175,7 @@ export class EmployeeComponent implements OnInit {
         if (data.isSuccess) {
           this.toaster.success(data.message);
           this.GetAllEmployees();
+          this.GetAllEmployeeFilters();
           this.modalService.dismissAll();
         }
         else
@@ -176,6 +191,7 @@ export class EmployeeComponent implements OnInit {
       if (data.isSuccess) {
         this.toaster.success(data.message);
         this.GetAllEmployees();
+        this.GetAllEmployeeFilters();
         this.modalService.dismissAll();
       }
       else

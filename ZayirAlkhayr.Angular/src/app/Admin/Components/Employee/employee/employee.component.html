@@ -16,6 +16,10 @@
                 <i class="uil uil-plus-circle"></i>
                 <span>إضافة عنصر</span>
             </button>
+            <button class="btn main-button admin-crud-action-btn admin-crud-action-btn--soft d-flex align-items-center gap-2" (click)="isFilter = !isFilter" [attr.aria-expanded]="!isFilter">
+                <i class="uil uil-filter"></i>
+                <span>{{ isFilter ? 'عرض الفلاتر' : 'إخفاء الفلاتر' }}</span>
+            </button>
         </div>
     </section>
 
@@ -25,6 +29,11 @@
                 <div class="admin-crud-head__kicker">قائمة الموظفيين</div>
                 <h2 class="admin-crud-head__title">الموظفيين المتاحين في النظام</h2>
             </div>
+            <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="0" [totalCount]="Total" (pageChanged)="PageChange($event)"></app-admin-pagination>
+        </div>
+
+        <div class="admin-crud-filters" #collapse="ngbCollapse" [(ngbCollapse)]="isFilter">
+            <app-admin-filters [FilterList]="FilterList" [AppliedFilters]="PagingFilter.filterList" (FilterChecked)="FilterChecked($event)"></app-admin-filters>
         </div>
         <div class="admin-crud-table-wrap table-responsive mb-2">
             <table class="admin-crud-table">
@@ -41,9 +50,12 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of Results">
-                        <td>
-                            <div class="admin-crud-entity-cell"><strong>{{item.tableName}}</strong></div>
-                        </td>
+                        <td>{{item.fullName}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.phoneNumber}}</td>
+                        <td>{{item.basicSalary | number:'1.0-0'}}</td>
+                        <td>{{item.hireDate | arabicDateWithTime}}</td>
+                        <td>{{item.notes}}</td>
                         <td>
                             <div class="table-actions d-flex align-items-center justify-content-center gap-2">
                                 <button type="button" class="table-action table-action--edit" (click)="openAddItemModal(OpenItemModal,item)"><i class="uil uil-edit"></i></button>

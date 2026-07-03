@@ -6,6 +6,7 @@ import { RoleCheckerDirective } from '../Directives/role-checker.directive';
 import { AdminGeneralInputComponent } from './admin-general-input/admin-general-input.component';
 import { AdminDropDownComponent } from './admin-drop-down/admin-drop-down.component';
 import { SearchArryPipe } from '../Pipes/search-arry.pipe';
+import { NgbModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -19,7 +20,9 @@ import { SearchArryPipe } from '../Pipes/search-arry.pipe';
     SearchArryPipe
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    NgbNavModule,
+    NgbModule,
   ],
   exports: [ArabicDateWithTimePipe, ArabicDatePipe, RoleCheckerDirective, SearchArryPipe,AdminGeneralInputComponent,AdminDropDownComponent]
 })

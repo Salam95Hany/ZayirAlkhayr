@@ -1,8 +1,8 @@
 <div ngbDropdown class="dropdown-with-search overflow-hidden admin-user-role-dropdown" container="body">
-    <button class="dropdown-with-search-btn btn border h-58 w-100 d-flex align-items-center justify-content-between selector-padding" [disabled]="disabled" [class.error]="error" id="purchaseSupplierDropdown" ngbDropdownToggle>
+    <button #dropdownButton class="dropdown-with-search-btn btn border h-58 w-100 d-flex align-items-center justify-content-between selector-padding input-box" [disabled]="disabled" [class.error]="error" id="purchaseSupplierDropdown" ngbDropdownToggle>
             {{selectedName ? selectedName : placeholder}}
     </button>
-    <div class="width-355 py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu aria-labelledby="purchaseSupplierDropdown">
+    <div class="py-0 overflow-hidden dropdown-fitting" ngbDropdownMenu aria-labelledby="purchaseSupplierDropdown" [style.width.px]="dropdownWidth">
         <!-- Search inside checkbox list -->
         <div class="filter-search p-2 gray-bgcolor border-bottom">
             <div class="position-relative">

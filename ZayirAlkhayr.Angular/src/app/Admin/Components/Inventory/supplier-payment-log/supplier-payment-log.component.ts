@@ -193,7 +193,7 @@ export class SupplierPaymentLogComponent implements OnInit {
       insertUser: this.UserModel?.userId,
       updateUser: this.UserModel?.userId
     };
-    debugger
+    
     if (+payload.amountPaid > +this.ItemForm.controls["remainingAmount"].value) {
       this.toaster.warning('لا يمكن اضافة مبلغ أكبر من الباقي');
       return;

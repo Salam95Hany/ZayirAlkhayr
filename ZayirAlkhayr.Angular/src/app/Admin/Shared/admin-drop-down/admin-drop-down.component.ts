@@ -1,4 +1,4 @@
-import { Component, EventEmitter, forwardRef, Input, Output, Renderer2 } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, forwardRef, Input, OnChanges, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
 import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -14,7 +14,8 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
     },
   ],
 })
-export class AdminDropDownComponent {
+export class AdminDropDownComponent implements OnInit, OnChanges, AfterViewInit {
+  @ViewChild('dropdownButton') dropdownButton!: ElementRef<HTMLButtonElement>;
   @Input() data: any[] = [];
   @Input() placeholder: string = '';
   @Input() disabled: boolean = false;
@@ -23,14 +24,20 @@ export class AdminDropDownComponent {
   searchText: string = '';
   selectedValue: any = '';
   selectedName: string = '';
+  dropdownWidth = 0;
   searchFields: string[] = ['name'];
 
   private onChange: any = () => { };
   private onTouched: any = () => { };
-  constructor(private dropdownConfig: NgbDropdownConfig, private renderer: Renderer2) { }
+  constructor(private dropdownConfig: NgbDropdownConfig, private renderer: Renderer2,private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.dropdownConfig.container = null;
+  }
+
+  ngAfterViewInit() {
+    this.dropdownWidth = this.dropdownButton.nativeElement.offsetWidth;
+    this.cdr.detectChanges();
   }
 
   ngOnChanges(changes: any): void {

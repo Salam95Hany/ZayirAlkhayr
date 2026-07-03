@@ -38,7 +38,10 @@
                 <tbody>
                     <tr *ngFor="let item of Results">
                         <td>
-                            <div class="admin-crud-entity-cell"><strong>{{item.tableName}}</strong></div>
+                            <div>{{item.name}}</div>
+                        </td>
+                        <td>
+                            <div>{{item.description}}</div>
                         </td>
                         <td>
                             <div class="table-actions d-flex align-items-center justify-content-center gap-2">

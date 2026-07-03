@@ -134,7 +134,6 @@ export class CreateOrderComponent {
   }
 
   OnEditItemPrice() {
-    debugger;
     let obj = this.selectedFoodItems.find(i => i.productId == this.EditItemPriceId);
     if (obj) {
       obj.price = this.EditItemPrice;

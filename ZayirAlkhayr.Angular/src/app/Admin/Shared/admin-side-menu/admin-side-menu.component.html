@@ -117,6 +117,29 @@
                             </a>
                         </li>
                     </ul>
+
+                    <ul class="side-menu-list list-unstyled p-0 m-0">
+                        <li class="side-menu-list-item">
+                            <a class="side-menu-list-link with-sub-menu" [class.expanded]="!isCollapsed_8" (click)="collapse8.toggle()" [attr.aria-expanded]="!isCollapsed_8">
+                                <span class="menu-icon"><i class="uil uil-store"></i></span>
+                                <span class="side-menu-text">إدارة المصاريف</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="list-unstyled m-0 menu-list-collapsed" #collapse8="ngbCollapse" [(ngbCollapse)]="isCollapsed_8">
+                        <li>
+                            <a class="side-menu-list-link sub-link" routerLink="./jop-title" routerLinkActive="active">
+                                <span class="menu-bullet"></span>
+                                <span class="side-menu-text">أنواع المصاريف</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="side-menu-list-link sub-link" routerLink="./employees" routerLinkActive="active">
+                                <span class="menu-bullet"></span>
+                                <span class="side-menu-text">المصاريف</span>
+                            </a>
+                        </li>
+                    </ul>
                 </section>
                 <section class="menu-section" appRole [roles]="['Admin']">
                     <div class="section-divider"></div>

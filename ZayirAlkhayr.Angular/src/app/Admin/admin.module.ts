@@ -3,7 +3,6 @@ import { CommonModule, DatePipe } from '@angular/common';
 
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
-import { NgbModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { AdminUserComponent } from './Components/Setting/admin-user/admin-user.component';
 import { BackupComponent } from './Components/Setting/backup/backup.component';
@@ -45,6 +44,7 @@ import { TableComponent } from './Components/POS/table/table.component';
 import { EmployeeComponent } from './Components/Employee/employee/employee.component';
 import { JopTitleComponent } from './Components/Employee/jop-title/jop-title.component';
 import { EmployeeSalaryComponent } from './Components/Employee/employee-salary/employee-salary.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -88,10 +88,9 @@ import { EmployeeSalaryComponent } from './Components/Employee/employee-salary/e
   ],
   imports: [
     CommonModule,
-    NgbModule,
     ReactiveFormsModule,
-    NgbNavModule,
     FormsModule,
+    NgbModule,
     SharedModule,
     PaginationModule.forRoot(),
     NgxDaterangepickerMd.forRoot(),

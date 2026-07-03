@@ -77,7 +77,7 @@ namespace ZayirAlkhayr.Service.Employee
                         EmployeeId = employee.EmployeeId,
                         SalaryYear = SalaryDate.Year,
                         SalaryMonth = SalaryDate.Month,
-                        BasicSalary = basicSalary,
+                        BasicSalary = employee.BasicSalary,
                         Bonus = 0,
                         Deduction = 0,
                         Advance = 0,
@@ -104,7 +104,7 @@ namespace ZayirAlkhayr.Service.Employee
             try
             {
                 var SalaryIds = Model.Select(x => x.SalaryId).Distinct().ToList();
-                var EmployeeSalaries = await _unitOfWork.Repository<Salary>().GetAllAsync(x => SalaryIds.Contains(x.SalaryId) && x.SalaryYear == SalaryDate.Year && x.SalaryMonth == SalaryDate.Month);
+                var EmployeeSalaries = await _unitOfWork.Repository<Salary>().GetAllTrackedAsync(x => SalaryIds.Contains(x.SalaryId) && x.SalaryYear == SalaryDate.Year && x.SalaryMonth == SalaryDate.Month);
                 if (!EmployeeSalaries.Any())
                     return ApiResponseModel<string>.Failure(GenericErrors.EmployeeNotExist);
 
@@ -122,6 +122,7 @@ namespace ZayirAlkhayr.Service.Employee
                     employeeSalary.NetSalary = salary.NetSalary;
                     employeeSalary.Status = SalaryStatus.Paid;
                     employeeSalary.PaidDate = Now;
+                    employeeSalary.Notes = salary.Notes;
                     employeeSalary.UpdateUser = UpdateUser;
                     employeeSalary.UpdateDate = Now;
                 }
@@ -140,6 +141,10 @@ namespace ZayirAlkhayr.Service.Employee
         {
             try
             {
+                var EmployeeSalaries = await _unitOfWork.Repository<Expenses>().GetAllAsync(x => x.SalaryYear == SalaryDate.Year && x.SalaryMonth == SalaryDate.Month);
+                if(EmployeeSalaries.Count > 0)
+                    return ApiResponseModel<string>.Failure(GenericErrors.TransferToExpensesExist);
+
                 var Now = DateTime.UtcNow.ToQatarTime();
                 var Entity = new Expenses
                 {
@@ -147,7 +152,7 @@ namespace ZayirAlkhayr.Service.Employee
                     Amount = TotalAmount,
                     SalaryMonth = SalaryDate.Month,
                     SalaryYear = SalaryDate.Year,
-                    Reason = $"دفع مرتبات شهر {SalaryDate.Year} / {SalaryDate.Month}",
+                    Reason = $"دفع مرتبات شهر {SalaryDate.Month} / {SalaryDate.Year}",
                     ExpenseDate = Now,
                     InsertUser = InsertUser,
                     InsertDate = Now
@@ -156,7 +161,7 @@ namespace ZayirAlkhayr.Service.Employee
                 await _unitOfWork.Repository<Expenses>().AddAsync(Entity);
                 await _unitOfWork.CompleteAsync();
 
-                return ApiResponseModel<string>.Success(GenericErrors.AddSuccess);
+                return ApiResponseModel<string>.Success(GenericErrors.TransferToExpenses);
             }
             catch
             {

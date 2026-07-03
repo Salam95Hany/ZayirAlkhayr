@@ -76,5 +76,9 @@ namespace ZayirAlkhayr.Service.Common
         public static Error DeleteRelationRow = new("لا يمكن حذف هذا السجل لأنه مرتبط ببيانات أخرى.");
 
         public static Error EmployeeNotExist = new("برجاء اضافة موظفين.");
+
+        public static Error TransferToExpensesExist = new("تم ترحيل الرواتب لهذا الشهر.");
+
+        public static Error TransferToExpenses = new("تم ترحيل الرواتب بنجاح.");
     }
 }

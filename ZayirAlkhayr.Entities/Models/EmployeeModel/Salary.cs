@@ -21,7 +21,7 @@ namespace ZayirAlkhayr.Entities.Models.EmployeeModel
         public double Advance { get; set; } // السلف
         public double NetSalary { get; set; } // صافي الراتب
         public SalaryStatus Status { get; set; } // 0 = غير مدفوع, 1 = مدفوع
-        public DateTime PaidDate { get; set; }
+        public DateTime? PaidDate { get; set; }
         public string PaidBy { get; set; }
         public string Notes { get; set; }
         public string InsertUser { get; set; }

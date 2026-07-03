@@ -52,9 +52,9 @@ export class EmployeeSalaryComponent implements OnInit {
       this.IsAllPaid = this.Results.every(i => i.status == 2);
       this.Results.forEach(item => {
         if (item.status == 1)
-          item.statusName = 'مدفوع';
-        else
           item.statusName = 'غير مدفوع';
+        else
+          item.statusName = 'مدفوع';
       });
     });
   }
@@ -68,6 +68,7 @@ export class EmployeeSalaryComponent implements OnInit {
     this.showLoader = true;
     this.employeeService.CreateMonthEmployeeSalary(this.SelectedFilter.itemId, this.UserModel?.userId).subscribe(data => {
       if (data.isSuccess) {
+        this.IsCheckedMonthBefore = true;
         this.GetEmployeeSalary();
       } else {
         this.showLoader = false;
@@ -77,8 +78,9 @@ export class EmployeeSalaryComponent implements OnInit {
   }
 
   PaidEmployeeSalary(item: any = null) {
+    debugger;
     if (item) {
-      this.PaidSalaryList = [...item];
+      this.PaidSalaryList = [item];
     } else
       this.PaidSalaryList = [...this.Results.filter(i => i.status == 1)];
     this.showLoader = true;
@@ -110,6 +112,8 @@ export class EmployeeSalaryComponent implements OnInit {
       if (!this.validateSalaryMonth()) {
         return;
       }
+      this.Results = [];
+      this.IsAllPaid = false;
       this.CheckMonthEmployeePaid();
     } else {
       this.SelectedFilter = {} as FilterModel;

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Threading.Tasks;
 using ZayirAlkhayr.Entities.Common;
 using ZayirAlkhayr.Entities.Models.EmployeeModel;
@@ -24,25 +25,33 @@ namespace ZayirAlkhayr.Service.Employee
 
         public async Task<ApiResponseModel<DataTable>> GetAllEmployees(PagingFilterModel PagingFilter)
         {
+            var FromDate = PagingFilter.FilterList.FirstOrDefault(i => i.CategoryName == "DateRange")?.From;
+            var ToDate = PagingFilter.FilterList.FirstOrDefault(i => i.CategoryName == "DateRange")?.To;
             var FilterDt = PagingFilter.FilterList.ToDataTableFromFilterModel();
-            var Params = new SqlParameter[4];
+            var Params = new SqlParameter[6];
             Params[0] = new SqlParameter("@CurrentPage", PagingFilter.Currentpage);
             Params[1] = new SqlParameter("@PageSize", PagingFilter.Pagesize);
             Params[2] = new SqlParameter("@IsFilter", false);
             Params[3] = new SqlParameter("@FilterList", FilterDt);
-            var dt = await _sQLHelper.ExecuteDataTableAsync("[POS].[SP_GetAllEmployees]", Params);
+            Params[4] = new SqlParameter("@FromDate", FromDate);
+            Params[5] = new SqlParameter("@ToDate", ToDate);
+            var dt = await _sQLHelper.ExecuteDataTableAsync("[Emp].[SP_GetAllEmployees]", Params);
             return ApiResponseModel<DataTable>.Success(GenericErrors.GetSuccess, dt);
         }
 
         public async Task<ApiResponseModel<List<FilterModel>>> GetAllEmployeeFilters(PagingFilterModel PagingFilter)
         {
+            var FromDate = PagingFilter.FilterList.FirstOrDefault(i => i.CategoryName == "DateRange")?.From;
+            var ToDate = PagingFilter.FilterList.FirstOrDefault(i => i.CategoryName == "DateRange")?.To;
             var FilterDt = PagingFilter.FilterList.ToDataTableFromFilterModel();
-            var Params = new SqlParameter[4];
+            var Params = new SqlParameter[6];
             Params[0] = new SqlParameter("@CurrentPage", PagingFilter.Currentpage);
             Params[1] = new SqlParameter("@PageSize", PagingFilter.Pagesize);
             Params[2] = new SqlParameter("@IsFilter", true);
             Params[3] = new SqlParameter("@FilterList", FilterDt);
-            var dt = await _sQLHelper.ExecuteDataTableAsync("[POS].[SP_GetAllEmployees]", Params);
+            Params[4] = new SqlParameter("@FromDate", FromDate);
+            Params[5] = new SqlParameter("@ToDate", ToDate);
+            var dt = await _sQLHelper.ExecuteDataTableAsync("[Emp].[SP_GetAllEmployees]", Params);
             var Filters = dt.ToGroupedFilters();
             return ApiResponseModel<List<FilterModel>>.Success(GenericErrors.GetSuccess, Filters);
         }
