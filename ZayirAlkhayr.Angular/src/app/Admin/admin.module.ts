@@ -45,6 +45,10 @@ import { EmployeeComponent } from './Components/Employee/employee/employee.compo
 import { JopTitleComponent } from './Components/Employee/jop-title/jop-title.component';
 import { EmployeeSalaryComponent } from './Components/Employee/employee-salary/employee-salary.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ExpensesComponent } from './Components/Expenses/expenses/expenses.component';
+import { ExpensesTypeComponent } from './Components/Expenses/expenses-type/expenses-type.component';
+import { EmployeeSalaryReportComponent } from './Components/Reports/finance/employee-salary-report/employee-salary-report.component';
+import { ExpensesMonthlyReportComponent } from './Components/Reports/finance/expenses-monthly-report/expenses-monthly-report.component';
 
 @NgModule({
   declarations: [
@@ -84,7 +88,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     TableComponent,
     EmployeeComponent,
     JopTitleComponent,
-    EmployeeSalaryComponent
+    EmployeeSalaryComponent,
+    ExpensesComponent,
+    ExpensesTypeComponent,
+    EmployeeSalaryReportComponent,
+    ExpensesMonthlyReportComponent
   ],
   imports: [
     CommonModule,

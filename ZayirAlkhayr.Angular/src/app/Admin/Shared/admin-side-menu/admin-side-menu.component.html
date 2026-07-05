@@ -1,311 +1,88 @@
 <aside id="admin-side-menu" [class.collapse-side-menu]="isCollapsing">
     <div class="admin-side-menu-content h-100">
         <div class="side-menu-top">
+            <!-- ===================== User ===================== -->
             <div class="admin-side-menu-user">
                 <div class="user-avatar-wrap">
                     <div class="user-avatar">
                         <i class="uil uil-user"></i>
                     </div>
                     <div class="user-head side-menu-text">
-                        <strong>{{UserModel?.userNameAr}}</strong>
-                        <span>{{RoleName}}</span>
+                        <strong>{{ UserModel?.userNameAr }}</strong>
+                        <span>{{ RoleName }}</span>
                     </div>
                 </div>
-
                 <div class="side-menu-user-info">
                     <div class="user-info-row">
-                        <span class="user-info-icon"><i class="uil uil-calendar-alt"></i></span>
-                        <div class="side-menu-text">{{UserModel?.loginDateAr}}</div>
+                        <span class="user-info-icon">
+                            <i class="uil uil-calendar-alt"></i>
+                        </span>
+                        <div class="side-menu-text">
+                            {{ UserModel?.loginDateAr }}
+                        </div>
                     </div>
                     <div class="user-info-row">
-                        <span class="user-info-icon"><i class="uil uil-clock-two"></i></span>
-                        <div class="side-menu-text">{{UserModel?.loginTimeAr}}</div>
+                        <span class="user-info-icon">
+                            <i class="uil uil-clock-two"></i>
+                        </span>
+                        <div class="side-menu-text">
+                            {{ UserModel?.loginTimeAr }}
+                        </div>
                     </div>
                     <div class="user-info-row">
-                        <span class="user-info-icon"><i class="uil uil-envelope"></i></span>
-                        <div class="side-menu-text">{{RoleName}}</div>
+                        <span class="user-info-icon">
+                            <i class="uil uil-envelope"></i>
+                        </span>
+                        <div class="side-menu-text">
+                            {{ RoleName }}
+                        </div>
                     </div>
                 </div>
             </div>
-
+            <!-- ===================== Menu ===================== -->
             <nav class="admin-side-menu-list">
                 <ul class="side-menu-list list-unstyled p-0 m-0">
                     <li class="side-menu-list-item">
                         <a class="side-menu-list-link" routerLink="./dashboard" routerLinkActive="active">
-                            <span class="menu-icon"><i class="uil uil-apps"></i></span>
-                            <span class="side-menu-text">الصفحة الرئيسية</span>
+                            <span class="menu-icon">
+                                <i class="uil uil-apps"></i>
+                            </span>
+                            <span class="side-menu-text"> الصفحة الرئيسية</span>
                         </a>
                     </li>
                 </ul>
-
-                <section class="menu-section" appRole [roles]="['Admin']">
-                    <div class="section-divider"></div>
-                    <div class="side-menu-list-title side-menu-text">النظام</div>
-
-                    <ul class="side-menu-list list-unstyled p-0 m-0">
-                        <li class="side-menu-list-item">
-                            <a class="side-menu-list-link with-sub-menu" [class.expanded]="!isCollapsed_1" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed_1">
-                                <span class="menu-icon"><i class="uil uil-store"></i></span>
-                                <span class="side-menu-text">إدارة المطعم</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="list-unstyled m-0 menu-list-collapsed" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed_1">
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./categories" routerLinkActive="active">
-                                <span class="menu-bullet"></span>
-                                <span class="side-menu-text">الفئات</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./items" routerLinkActive="active">
-                                <span class="menu-bullet"></span>
-                                <span class="side-menu-text">العناصر</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./tables" routerLinkActive="active">
-                                <span class="menu-bullet"></span>
-                                <span class="side-menu-text">الطاولات</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./order-list" routerLinkActive="active">
-                                <span class="menu-bullet"></span>
-                                <span class="side-menu-text">قائمة الطلبات</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./customers" routerLinkActive="active">
-                                <span class="menu-bullet"></span>
-                                <span class="side-menu-text">العملاء</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="/create-order" routerLinkActive="active">
-                                <span class="menu-bullet"></span>
-                                <span class="side-menu-text">إنشاء طلب</span>
-                            </a>
-                        </li>
-                    </ul>
-
-                    <ul class="side-menu-list list-unstyled p-0 m-0">
-                        <li class="side-menu-list-item">
-                            <a class="side-menu-list-link with-sub-menu" [class.expanded]="!isCollapsed_7" (click)="collapse7.toggle()" [attr.aria-expanded]="!isCollapsed_7">
-                                <span class="menu-icon"><i class="uil uil-store"></i></span>
-                                <span class="side-menu-text">إدارة الموظفين</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="list-unstyled m-0 menu-list-collapsed" #collapse7="ngbCollapse" [(ngbCollapse)]="isCollapsed_7">
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./jop-title" routerLinkActive="active">
-                                <span class="menu-bullet"></span>
-                                <span class="side-menu-text">الوظائف</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./employees" routerLinkActive="active">
-                                <span class="menu-bullet"></span>
-                                <span class="side-menu-text">الموظفين</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./employee-salary" routerLinkActive="active">
-                                <span class="menu-bullet"></span>
-                                <span class="side-menu-text">رواتب الموظفين</span>
-                            </a>
-                        </li>
-                    </ul>
-
-                    <ul class="side-menu-list list-unstyled p-0 m-0">
-                        <li class="side-menu-list-item">
-                            <a class="side-menu-list-link with-sub-menu" [class.expanded]="!isCollapsed_8" (click)="collapse8.toggle()" [attr.aria-expanded]="!isCollapsed_8">
-                                <span class="menu-icon"><i class="uil uil-store"></i></span>
-                                <span class="side-menu-text">إدارة المصاريف</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="list-unstyled m-0 menu-list-collapsed" #collapse8="ngbCollapse" [(ngbCollapse)]="isCollapsed_8">
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./jop-title" routerLinkActive="active">
-                                <span class="menu-bullet"></span>
-                                <span class="side-menu-text">أنواع المصاريف</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./employees" routerLinkActive="active">
-                                <span class="menu-bullet"></span>
-                                <span class="side-menu-text">المصاريف</span>
-                            </a>
-                        </li>
-                    </ul>
-                </section>
-                <section class="menu-section" appRole [roles]="['Admin']">
-                    <div class="section-divider"></div>
-                    <div class="side-menu-list-title side-menu-text">المخزون</div>
-
-                    <ul class="side-menu-list list-unstyled p-0 m-0">
-                        <li class="side-menu-list-item">
-                            <a class="side-menu-list-link with-sub-menu" [class.expanded]="!isCollapsed_4" (click)="collapse4.toggle()" [attr.aria-expanded]="!isCollapsed_4">
-                                <span class="menu-icon"><i class="uil uil-box"></i></span>
-                                <span class="side-menu-text">إدارة المخزون</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="list-unstyled m-0 menu-list-collapsed" #collapse4="ngbCollapse" [(ngbCollapse)]="isCollapsed_4">
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./inventory-units" routerLinkActive="active">
-                                <span class="menu-bullet"></span>
-                                <span class="side-menu-text">الوحدات</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./inventory-items" routerLinkActive="active">
-                                <span class="menu-bullet"></span>
-                                <span class="side-menu-text">عناصر المخزون</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./inventory-item-recipes" routerLinkActive="active">
-                                <span class="menu-bullet"></span>
-                                <span class="side-menu-text">وصفات الأصناف</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./inventory-adjustments" routerLinkActive="active">
-                                <span class="menu-bullet"></span>
-                                <span class="side-menu-text">حركة المخزون</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="side-menu-list list-unstyled p-0 m-0">
-                        <li class="side-menu-list-item">
-                            <a class="side-menu-list-link with-sub-menu" [class.expanded]="!isCollapsed_6" (click)="collapse6.toggle()" [attr.aria-expanded]="!isCollapsed_6">
-                                <span class="menu-icon"><i class="uil uil-box"></i></span>
-                                <span class="side-menu-text">إدارة المشتريات</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="list-unstyled m-0 menu-list-collapsed" #collapse6="ngbCollapse" [(ngbCollapse)]="isCollapsed_6">
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./inventory-purchases" routerLinkActive="active">
-                                <span class="menu-bullet"></span>
-                                <span class="side-menu-text">المشتريات</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./inventory-suppliers" routerLinkActive="active">
-                                <span class="menu-bullet"></span>
-                                <span class="side-menu-text">الموردون</span>
-                            </a>
-                        </li>
-                    </ul>
-                </section>
-                <section class="menu-section" appRole [roles]="['Admin']">
-                    <div class="section-divider"></div>
-                    <div class="side-menu-list-title side-menu-text">التقارير</div>
-                    <ul class="side-menu-list list-unstyled p-0 m-0">
-                        <li class="side-menu-list-item">
-                            <a class="side-menu-list-link with-sub-menu" [class.expanded]="!isCollapsed_3" (click)="collapse3.toggle()" [attr.aria-expanded]="!isCollapsed_3">
-                                <span class="menu-icon"><i class="uil uil-chart-line"></i></span>
-                                <span class="side-menu-text">تقارير المبيعات</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="list-unstyled m-0 menu-list-collapsed" #collapse3="ngbCollapse" [(ngbCollapse)]="isCollapsed_3">
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./daily-sales-reports" routerLinkActive="active">
-                                <span class="menu-bullet"></span>
-                                <span class="side-menu-text">المبيعات اليومية</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./monthly-sales-reports" routerLinkActive="active">
-                                <span class="menu-bullet"></span>
-                                <span class="side-menu-text">المبيعات الشهرية</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="side-menu-list list-unstyled p-0 m-0">
-                        <li class="side-menu-list-item">
-                            <a class="side-menu-list-link with-sub-menu" [class.expanded]="!isCollapsed_5" (click)="collapse5.toggle()" [attr.aria-expanded]="!isCollapsed_5">
-                                <span class="menu-icon"><i class="uil uil-chart-line"></i></span>
-                                <span class="side-menu-text">تقارير العناصر</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="list-unstyled m-0 menu-list-collapsed" #collapse5="ngbCollapse" [(ngbCollapse)]="isCollapsed_5">
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./all-item-reports" routerLinkActive="active">
-                                <span class="menu-bullet"></span>
-                                <span class="side-menu-text">كل العناصر</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./top-sellingitem-reports" routerLinkActive="active">
-                                <span class="menu-bullet"></span>
-                                <span class="side-menu-text">الأكثر مبيعًا</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./lowest-sellingitem-reports" routerLinkActive="active">
-                                <span class="menu-bullet"></span>
-                                <span class="side-menu-text">الأقل مبيعًا</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./never-solditem-reports" routerLinkActive="active">
-                                <span class="menu-bullet"></span>
-                                <span class="side-menu-text">الغير مباعة</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="side-menu-list list-unstyled p-0 m-0">
-                        <li class="side-menu-list-item">
-                            <a class="side-menu-list-link" routerLink="./final-profits" routerLinkActive="active">
-                                <span class="menu-icon"><i class="uil uil-apps"></i></span>
-                                <span class="side-menu-text">الأرباح النهائية</span>
-                            </a>
-                        </li>
-                    </ul>
-                </section>
-                <section class="menu-section" appRole [roles]="['Admin']">
-                    <div class="section-divider"></div>
-                    <div class="side-menu-list-title side-menu-text">إعدادات النظام</div>
-
-                    <ul class="side-menu-list list-unstyled p-0 m-0">
-                        <li class="side-menu-list-item">
-                            <a class="side-menu-list-link with-sub-menu" [class.expanded]="!isCollapsed_2" (click)="collapse2.toggle()" [attr.aria-expanded]="!isCollapsed_2">
-                                <span class="menu-icon"><i class="uil uil-cog"></i></span>
-                                <span class="side-menu-text">الإعدادات</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="list-unstyled m-0 menu-list-collapsed" #collapse2="ngbCollapse" [(ngbCollapse)]="isCollapsed_2">
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./users" routerLinkActive="active">
-                                <span class="menu-bullet"></span>
-                                <span class="side-menu-text">المستخدمون</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./backup" routerLinkActive="active">
-                                <span class="menu-bullet"></span>
-                                <span class="side-menu-text">النسخ الاحتياطية</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="side-menu-list-link sub-link" routerLink="./factory-reset" routerLinkActive="active">
-                                <span class="menu-bullet"></span>
-                                <span class="side-menu-text">إعادة ضبط المصنع</span>
-                            </a>
-                        </li>
-                    </ul>
-                </section>
+                <ng-container *ngFor="let section of menuSections">
+                    <section class="menu-section" appRole [roles]="section.roles">
+                        <div class="section-divider"></div>
+                        <div class="side-menu-list-title side-menu-text">
+                            {{ section.title }}
+                        </div>
+                        <ng-container *ngFor="let group of section.groups">
+                            <ul class="side-menu-list list-unstyled p-0 m-0">
+                                <li class="side-menu-list-item">
+                                    <a class="side-menu-list-link with-sub-menu" [class.expanded]="!group.collapsed" (click)="toggle(group)" [attr.aria-expanded]="!group.collapsed">
+                                        <span class="menu-icon">
+                                            <i class="uil"
+                                               [ngClass]="group.icon">
+                                            </i>
+                                        </span>
+                                        <span class="side-menu-text">{{ group.title }}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="list-unstyled m-0 menu-list-collapsed" [ngbCollapse]="group.collapsed">
+                                <li *ngFor="let item of group.items">
+                                    <a class="side-menu-list-link sub-link" [routerLink]="item.route.startsWith('/') ? item.route : './' + item.route" routerLinkActive="active">
+                                        <span class="menu-bullet"></span>
+                                        <span class="side-menu-text">{{ item.title }}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </ng-container>
+                    </section>
+                </ng-container>
             </nav>
         </div>
     </div>
 </aside>
-
 <div class="admin-side-menu-overlay" [class.show]="isCollapsing" (click)="onCloseSidemenuFromOverlay()"></div>

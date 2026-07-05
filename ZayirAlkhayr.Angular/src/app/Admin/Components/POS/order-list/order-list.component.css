@@ -1,1 +1,19 @@
 /* shared styles moved to src/styles.css */
+
+.table-action--close {
+    color: #7c3aed;
+    background: rgba(124, 58, 237, 0.12);
+}
+
+.table-action--close:hover {
+    background: rgba(124, 58, 237, 0.2);
+}
+
+.table-action--print {
+    color: #475569;
+    background: rgba(71, 85, 105, 0.12);
+}
+
+.table-action--print:hover {
+    background: rgba(71, 85, 105, 0.2);
+}

@@ -43,6 +43,7 @@ namespace ZayirAlkhayr.Service.POS
                 ProductId = i.ItemId,
                 CategoryId = i.CategoryId,
                 ProductName = i.Name,
+                ProductNameEn = i.NameEn,
                 CategoryName = i.Category.Name,
                 Image = Path.Combine(ApiLocalUrl, "Images", ImageFiles.Items.ToString(), i.Image ?? string.Empty),
                 Price = i.Price,
@@ -82,6 +83,7 @@ namespace ZayirAlkhayr.Service.POS
                 if (Entity != null)
                 {
                     Entity.Name = Model.Name;
+                    Entity.NameEn = Model.NameEn;
                     Entity.Price = Model.Price;
                     Entity.CategoryId = Model.CategoryId;
                     Entity.CostPrice = Model.CostPrice;
@@ -146,6 +148,7 @@ namespace ZayirAlkhayr.Service.POS
                 ItemId = i.ItemId,
                 CategoryId = i.CategoryId,
                 Name = i.Name,
+                NameEn = i.NameEn,
                 Price = i.Price,
                 Image = Path.Combine(ApiLocalUrl, "Images", ImageFiles.Items.ToString(), i.Image ?? string.Empty)
             }).ToList();

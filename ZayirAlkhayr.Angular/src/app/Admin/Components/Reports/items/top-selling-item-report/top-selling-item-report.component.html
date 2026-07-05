@@ -36,7 +36,7 @@
             </div>
             <div class="overview-card__content">
                 <div class="overview-card__label">إجمالي المبيعات</div>
-                <div class="overview-card__value">{{StatisticData?.totalSales ?? 0 | number : '1.0-0'}} ل.س</div>
+                <div class="overview-card__value">{{StatisticData?.totalSales ?? 0 | number : '1.0-0'}} ر.ق</div>
             </div>
         </article>
     </section>
@@ -130,8 +130,8 @@
                             <td data-label="إجمالي الطلبات">{{item.orderCount}}</td>
                             <td data-label="الكمية المباعة">{{item.totalQty}}</td>
                             <td data-label="إجمالي المبيعات">{{item.totalSales | number: '1.0-0' ?? '-'}}</td>
-                            <td class="table-total" data-label="صافي التكلفة">{{item.estimatedCost | number : '1.0-0'}} ل.س</td>
-                            <td data-label="صافي الربح">{{item.estimatedProfit | number : '1.0-0'}} ل.س</td>
+                            <td class="table-total" data-label="صافي التكلفة">{{item.estimatedCost | number : '1.0-0'}} ر.ق</td>
+                            <td data-label="صافي الربح">{{item.estimatedProfit | number : '1.0-0'}} ر.ق</td>
                         </tr>
                     </tbody>
                 </table>

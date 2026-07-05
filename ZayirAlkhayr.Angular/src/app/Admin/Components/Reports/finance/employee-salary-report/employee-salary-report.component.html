@@ -5,8 +5,8 @@
                 <i class="uil uil-money-withdraw"></i>
             </div>
             <div class="overview-card__content">
-                <div class="overview-card__label">إجمالي المبيعات</div>
-                <div class="overview-card__value">{{StatisticData?.totalSales ?? 0 | number : '1.0-0'}} ر.ق</div>
+                <div class="overview-card__label">عدد الموظفين</div>
+                <div class="overview-card__value">{{StatisticData?.netSales ?? 0 | number : '1.0-0'}} ر.ق</div>
             </div>
         </article>
 
@@ -15,8 +15,8 @@
                 <i class="uil uil-receipt"></i>
             </div>
             <div class="overview-card__content">
-                <div class="overview-card__label">إجمالي العناصر</div>
-                <div class="overview-card__value">{{StatisticData?.totalItems ?? 0}}</div>
+                <div class="overview-card__label">إجمالي الرواتب</div>
+                <div class="overview-card__value">{{StatisticData?.totalOrders ?? 0}}</div>
             </div>
         </article>
 
@@ -25,8 +25,8 @@
                 <i class="uil uil-truck"></i>
             </div>
             <div class="overview-card__content">
-                <div class="overview-card__label">إجمالي الكمية المباعة</div>
-                <div class="overview-card__value">{{StatisticData?.totalSoldQty ?? 0 | number : '1.0-0'}}</div>
+                <div class="overview-card__label">إجمالي المدفوع</div>
+                <div class="overview-card__value">{{StatisticData?.deliveryNetSales ?? 0 | number : '1.0-0'}} ر.ق</div>
             </div>
         </article>
 
@@ -35,8 +35,8 @@
                 <i class="uil uil-chart-growth"></i>
             </div>
             <div class="overview-card__content">
-                <div class="overview-card__label">العناصر المباعة</div>
-                <div class="overview-card__value">{{StatisticData?.soldItems ?? 0 | number : '1.0-0'}}</div>
+                <div class="overview-card__label">إجمالي المتبقي</div>
+                <div class="overview-card__value">{{StatisticData?.avgOrderValue ?? 0 | number : '1.0-0'}} ر.ق</div>
             </div>
         </article>
     </section>
@@ -100,38 +100,45 @@
                 <table class="report-table">
                     <thead>
                         <tr>
-                            <th>الاسم</th>
-                            <th>الفئة</th>
-                            <th>السعر</th>
-                            <th>التكلفة</th>
-                            <th>إجمالي الطلبات</th>
+                            <th>رقم الطلب</th>
+                            <th>التاريخ</th>
+                            <th>العميل</th>
+                            <th>نوع الطلب</th>
                             <th>الحالة</th>
-                            <th>الكمية المباعة</th>
-                            <th>إجمالي المبيعات</th>
-                            <th>صافي الربح</th>
-                            <th>تاريخ آخر عملية بيع</th>
+                            <th>الكاشير</th>
+                            <th>الأصناف</th>
+                            <th>رسوم التوصيل</th>
+                            <th>الإجمالي</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of SalesData">
-                            <td data-label="الاسم">
+                            <td data-label="رقم الطلب">
                                 <div class="table-identity">
-                                    <strong>{{item.itemName}}</strong>
+                                    <strong>#{{item.orderNumber}}</strong>
                                 </div>
                             </td>
-                            <td class="table-date" data-label="الفئة">{{item.categoryName}}</td>
-                            <td data-label="السعر">{{item.price}}</td>
-                            <td data-label="التكلفة">{{item.costPrice}}</td>
-                            <td data-label="إجمالي الطلبات">{{item.orderCount}}</td>
-                            <td data-label="الحالة">
-                                <span class="table-pill table-pill--status" [ngClass]="'table-pill--' + (item.statusName == 'نشط' ? '1':'2')">
-                                    {{item.statusName}}
+                            <td class="table-date" data-label="التاريخ">{{item.orderDate | arabicDateWithTime}}</td>
+                            <td data-label="العميل">
+                                <div class="table-identity">
+                                    <strong>{{item.customerName}}</strong>
+                                    <span>{{item.totalQty}} صنف</span>
+                                </div>
+                            </td>
+                            <td data-label="نوع الطلب">
+                                <span class="table-pill table-pill--type" [ngClass]="'table-pill--' + item.orderType">
+                                    {{item.orderTypeAr}}
                                 </span>
                             </td>
-                            <td data-label="الكمية المباعة">{{item.totalQty}}</td>
-                            <td data-label="إجمالي المبيعات">{{item.totalSales | number: '1.0-0' ?? '-'}}</td>
-                            <td class="table-total" data-label="صافي الربح">{{item.estimatedProfit | number : '1.0-0'}} ر.ق</td>
-                            <td data-label="تاريخ آخر عملية بيع">{{item.lastSoldDate | arabicDateWithTime}}</td>
+                            <td data-label="الحالة">
+                                <span class="table-pill table-pill--status" [ngClass]="'table-pill--' + item.orderStatus">
+                                    {{item.orderStatusAr}}
+                                </span>
+                            </td>
+                            <td data-label="الكاشير">{{item.cashierName}}</td>
+                            <td data-label="الأصناف">{{item.itemLines}}</td>
+                            <td data-label="الرسوم">{{item.costDelivery | number: '1.0-0' ?? '-'}}</td>
+                            <td class="table-total" data-label="الإجمالي">{{item.totalAmount | number : '1.0-0'}} ر.ق</td>
                         </tr>
                     </tbody>
                 </table>

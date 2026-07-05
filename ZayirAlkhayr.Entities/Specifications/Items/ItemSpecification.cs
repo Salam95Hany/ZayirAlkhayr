@@ -15,7 +15,7 @@ namespace ZayirAlkhayr.Entities.Specifications.Items
             var searchText = filterModel.FilterList.FirstOrDefault(f => f.CategoryName == "SearchText")?.ItemId;
 
             if (!string.IsNullOrEmpty(searchText))
-                AddCriteria(fc => fc.Name.Contains(searchText));
+                AddCriteria(fc => fc.Name.Contains(searchText) || fc.NameEn.Contains(searchText));
 
             AddInclude(i => i.Category);
 

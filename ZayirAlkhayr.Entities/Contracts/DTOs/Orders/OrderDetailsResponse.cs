@@ -19,6 +19,7 @@ namespace ZayirAlkhayr.Entities.Contracts.DTOs.Orders
     {
         public int ProductId { get; set; }
         public string ProductName { get; set; }
+        public string ProductNameEn { get; set; }
         public string CategoryName { get; set; }
         public int Quantity { get; set; }
         public double Price { get; set; }
@@ -31,6 +32,8 @@ namespace ZayirAlkhayr.Entities.Contracts.DTOs.Orders
     public class OrderWithDetailsResponse
     {
         public int OrderNumber { get; set; }
+        public int? TableId { get; set; }
+        public string TableName { get; set; }
         public string Notes { get; set; }
         public string CashierName { get; set; }
         public double? TotalValue { get; set; }

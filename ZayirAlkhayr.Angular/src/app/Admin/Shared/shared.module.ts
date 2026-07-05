@@ -22,7 +22,7 @@ import { NgbModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
   imports: [
     CommonModule,
     NgbNavModule,
-    NgbModule,
+    NgbModule
   ],
   exports: [ArabicDateWithTimePipe, ArabicDatePipe, RoleCheckerDirective, SearchArryPipe,AdminGeneralInputComponent,AdminDropDownComponent]
 })

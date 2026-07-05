@@ -21,6 +21,9 @@ export class CreateOrderComponent {
   selectedFoodItems: any[] = [];
   addSelectedFoodItem: any;
   categoriesList: any[] = [];
+  TableList: any[] = [];
+  TableId: any;
+  TableName: string;
   showLoader: boolean = false;
   isOrderCatOpen = false;
   fullscreenMode = false;
@@ -69,6 +72,7 @@ export class CreateOrderComponent {
     this.orderModel.totalValue = 0;
     this.GetCurrentTime();
     this.GetAllCategories();
+    this.GetAllTable();
     this.CustomerFormInit();
     if (this.OrderId)
       this.GetOrderWithDetailsByOrderId();
@@ -84,6 +88,12 @@ export class CreateOrderComponent {
     });
   }
 
+  GetAllTable() {
+    this.adminService.GetAllTable().subscribe(data => {
+      this.TableList = data.results.map(i => { return { id: i.tableId, name: i.tableName } });
+    });
+  }
+
   GetOrderWithDetailsByOrderId() {
     this.showLoader = true;
     this.adminService.GetOrderWithDetailsByOrderId(this.OrderId).subscribe(data => {
@@ -94,11 +104,23 @@ export class CreateOrderComponent {
         this.orderModel.totalValue = data?.results?.totalValue;
         this.CustomerSearchData = data?.results?.customer;
         this.OrderTypeId = data?.results?.orderType;
+        this.TableId = data?.results?.tableId;
+        this.TableName = data?.results?.tableName;
         this.selectedFoodItems = data.results.orderDetails;
       } else {
         this.toaster.error(data.message);
       }
     });
+  }
+
+  OpenTableSelectorModal(content: any) {
+    this.modalService.open(content, { size: 'md', centered: true, scrollable: true });
+  }
+
+  OnTableChanged(item: any) {
+    this.TableId = item;
+    this.TableName = this.TableList.find(i => i.id == item)?.name ?? '';
+    this.modalService.dismissAll();
   }
 
   openExpandModal(content: any) {
@@ -136,6 +158,10 @@ export class CreateOrderComponent {
   OnEditItemPrice() {
     let obj = this.selectedFoodItems.find(i => i.productId == this.EditItemPriceId);
     if (obj) {
+      if (obj.price > this.EditItemPrice) {
+        this.toaster.warning('لا يمكن تعديل السعر ليكون أقل من السعر الأصلي');
+        return;
+      }
       obj.price = this.EditItemPrice;
       obj.totalValue = obj.price * obj.quantity;
       this.calculateOrderSummary();
@@ -326,6 +352,8 @@ export class CreateOrderComponent {
     this.remaining = 0;
     this.ResetCustomer();
     this.OrderTypeId = 1;
+    this.TableId = null;
+    this.TableName = null;
   }
 
   createOrder() {
@@ -334,13 +362,19 @@ export class CreateOrderComponent {
       return;
     }
 
-    // if (this.OrderTypeId == 2 && !this.CustomerSearchData?.customerId) {
-    //   this.toaster.warning('برجاء اختيار عميل');
-    //   return;
-    // }
+    if (this.OrderTypeId == 2 && !this.CustomerSearchData?.customerId) {
+      this.toaster.warning('برجاء اختيار عميل');
+      return;
+    }
+
+    if (this.OrderTypeId == 3 && !this.TableId) {
+      this.toaster.warning('برجاء اختيار طاولة');
+      return;
+    }
 
     this.showLoader = true;
     this.orderModel.customerId = this.CustomerSearchData?.customerId ?? null;
+    this.orderModel.tableId = this.TableId ?? null;
     this.orderModel.totalAmount = this.orderModel.totalValue;
     this.orderModel.orderType = this.OrderTypeId;
     this.orderModel.costDelivery = this.deliveryFee;
@@ -360,6 +394,7 @@ export class CreateOrderComponent {
 
     request$.subscribe({
       next: (data) => {
+        debugger;
         if (!data.isSuccess) {
           this.showLoader = false;
           this.toaster.error(data.message);
@@ -367,51 +402,56 @@ export class CreateOrderComponent {
         }
 
         this.toaster.success(data.message);
-        const d = new Date();
-        let time = d.toLocaleTimeString('en-GB', {
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hour12: true
-        });
-        const date = d.toLocaleDateString('en-GB', {
-          month: 'numeric',
-          day: 'numeric',
-          year: 'numeric'
-        });
+        if (this.OrderTypeId != 3) {
+          const d = new Date();
+          let time = d.toLocaleTimeString('en-GB', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true
+          });
+          const date = d.toLocaleDateString('en-GB', {
+            month: 'numeric',
+            day: 'numeric',
+            year: 'numeric'
+          });
 
-        time = time.replace('AM', 'ص').replace('am', 'ص').replace('PM', 'م').replace('pm', 'م');
-        const formatted = `${date}  ${time}`;
+          time = time.replace('AM', 'ص').replace('am', 'ص').replace('PM', 'م').replace('pm', 'م');
+          const formatted = `${date}  ${time}`;
 
-        let OrderPrinterObj: ReceiptModel = {
-          orderNo: data.results,
-          orderType: this.OrderTypeId == 1 ? 'خارجي' : 'توصيل',
-          date: formatted,
-          cashier: this.UserModel?.userNameAr,
-          agent: this.CustomerSearchData?.fullName,
-          items: this.selectedFoodItems.map(i => {
-            return {
-              name: i.productName,
-              qty: i.quantity,
-              price: i.price,
-              total: i.totalValue,
-              categoryId: i.categoryId
-            }
-          }),
-          deliveryFee: this.deliveryFee,
-          grandTotal: this.payableTotal
-        };
+          let OrderPrinterObj: ReceiptModel = {
+            orderNo: data.results,
+            orderType: this.OrderTypeId == 1 ? 'خارجي' : 'توصيل',
+            date: formatted,
+            cashier: this.UserModel?.userNameAr,
+            agent: this.CustomerSearchData?.fullName,
+            items: this.selectedFoodItems.map(i => {
+              return {
+                nameAr: i.productName,
+                nameEn: i.productNameEn,
+                qty: i.quantity,
+                price: i.price,
+                total: i.totalValue,
+                categoryId: i.categoryId
+              }
+            }),
+            deliveryFee: this.deliveryFee,
+            grandTotal: this.payableTotal
+          };
 
-        this.qzPrintService.Print(OrderPrinterObj).then(() => {
+          this.qzPrintService.Print(OrderPrinterObj).then(() => {
+            this.resetOrderModel();
+            this.modalService.dismissAll();
+          }).catch(err => {
+            console.error('Print failed', err);
+            this.resetOrderModel();
+            this.modalService.dismissAll();
+          }).finally(() => {
+            this.showLoader = false;
+          });
+        } else
           this.resetOrderModel();
-          this.modalService.dismissAll();
-        }).catch(err => {
-          console.error('Print failed', err);
-          this.resetOrderModel();
-          this.modalService.dismissAll();
-        }).finally(() => {
-          this.showLoader = false;
-        });
+
       },
       error: () => {
         this.showLoader = false;

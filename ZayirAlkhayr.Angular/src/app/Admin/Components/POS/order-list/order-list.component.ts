@@ -4,7 +4,9 @@ import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { FilterModel } from 'src/app/Admin/Models/FilterModel';
 import { PagingFilterModel } from 'src/app/Admin/Models/PagingFilterModel';
+import { ReceiptModel } from 'src/app/Admin/Models/ReceiptModel';
 import { AdminService } from 'src/app/Admin/Services/admin.service';
+import { QzPrintService } from 'src/app/Admin/Services/qz-print.service';
 import { ValidationFormService } from 'src/app/Admin/Services/validation-form.service';
 
 @Component({
@@ -50,7 +52,7 @@ export class OrderListComponent {
   }
 
 
-  constructor(private modalService: NgbModal, private adminService: AdminService,
+  constructor(private modalService: NgbModal, private adminService: AdminService, private qzPrintService: QzPrintService,
     private formService: ValidationFormService, private offcanvasService: NgbOffcanvas,
     private fb: FormBuilder, private toaster: ToastrService) {
 
@@ -136,14 +138,16 @@ export class OrderListComponent {
   getStatusColor(statusId: number) {
     return {
       'finished': statusId == 1,
-      'deleted': statusId == 2
+      'deleted': statusId == 2,
+      'inprogress': statusId == 3
     }
   }
 
   getOrderTypeColor(typeId: number) {
     return {
       'takeaway': typeId == 1,
-      'delivery': typeId == 2
+      'delivery': typeId == 2,
+      'dinein': typeId == 3
     }
   }
 
@@ -169,6 +173,87 @@ export class OrderListComponent {
       else
         this.toaster.error(data.message);
       this.showLoader = false;
+    });
+  }
+
+  OpenCloseDineInOrder(content: any, item: any) {
+    this.OrderId = item.orderId;
+    this.modalService.open(content, {
+      size: 'md',
+      scrollable: true,
+      centered: true
+    });
+  }
+
+  GetOrderWithDetailsByOrderId(orderId: number) {
+    this.showLoader = true;
+    this.adminService.GetOrderWithDetailsByOrderId(orderId).subscribe(data => {
+      let orderTypeName = '';
+      let orderType = data.results.orderType;
+      if (orderType == 1)
+        orderTypeName = 'خارجي';
+      else if (orderType == 2)
+        orderTypeName = 'توصيل';
+      else if (orderType == 3)
+        orderTypeName = 'طاولة';
+
+      const d = new Date();
+      let time = d.toLocaleTimeString('en-GB', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true
+      });
+      const date = d.toLocaleDateString('en-GB', {
+        month: 'numeric',
+        day: 'numeric',
+        year: 'numeric'
+      });
+
+      time = time.replace('AM', 'ص').replace('am', 'ص').replace('PM', 'م').replace('pm', 'م');
+      const formatted = `${date}  ${time}`;
+
+      let OrderPrinterObj: ReceiptModel = {
+        orderNo: data.results?.orderNumber,
+        orderType: orderTypeName,
+        date: formatted,
+        cashier: this.UserModel?.userNameAr,
+        agent: data.results?.customer?.fullName,
+        items: data.results?.orderDetails?.map(i => {
+          return {
+            nameAr: i.productName,
+            nameEn: i.productNameEn,
+            qty: i.quantity,
+            price: i.price,
+            total: i.totalValue,
+            categoryId: i.categoryId
+          }
+        }),
+        deliveryFee: orderType == 2 ? 10 : null,
+        grandTotal: data.results?.totalValue + (orderType == 2 ? 10 : 0)
+      };
+
+      this.qzPrintService.Print(OrderPrinterObj).then(() => {
+      }).catch(err => {
+        console.error('Print failed', err);
+      }).finally(() => {
+        this.showLoader = false;
+      });
+    });
+  }
+
+  CloseDineInOrder() {
+    this.showLoader = true;
+    this.adminService.CloseDineInOrder(this.OrderId).subscribe(data => {
+      if (data.isSuccess) {
+        this.toaster.success(data.message);
+        this.GetOrderWithDetailsByOrderId(this.OrderId);
+        this.GetAllOrders();
+        this.GetAllOrderFilters();
+        this.modalService.dismissAll();
+      }
+      else
+        this.toaster.error(data.message);
     });
   }
 }

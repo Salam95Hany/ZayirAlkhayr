@@ -35,7 +35,7 @@ namespace ZayirAlkhayr.Service.Employee
             Params[3] = new SqlParameter("@FilterList", FilterDt);
             Params[4] = new SqlParameter("@FromDate", FromDate);
             Params[5] = new SqlParameter("@ToDate", ToDate);
-            var dt = await _sQLHelper.ExecuteDataTableAsync("[POS].[SP_GetAllExpenses]", Params);
+            var dt = await _sQLHelper.ExecuteDataTableAsync("[Emp].[SP_GetAllExpenses]", Params);
             return ApiResponseModel<DataTable>.Success(GenericErrors.GetSuccess, dt);
         }
 
@@ -51,7 +51,7 @@ namespace ZayirAlkhayr.Service.Employee
             Params[3] = new SqlParameter("@FilterList", FilterDt);
             Params[4] = new SqlParameter("@FromDate", FromDate);
             Params[5] = new SqlParameter("@ToDate", ToDate);
-            var dt = await _sQLHelper.ExecuteDataTableAsync("[POS].[SP_GetAllExpenses]", Params);
+            var dt = await _sQLHelper.ExecuteDataTableAsync("[Emp].[SP_GetAllExpenses]", Params);
             var Filters = dt.ToGroupedFilters();
             return ApiResponseModel<List<FilterModel>>.Success(GenericErrors.GetSuccess, Filters);
         }

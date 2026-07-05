@@ -1,44 +1,28 @@
-import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { FilterModel } from 'src/app/Admin/Models/FilterModel';
-import { PagingFilterModel } from 'src/app/Admin/Models/PagingFilterModel';
 import { EmployeeService } from 'src/app/Admin/Services/employee.service';
 import { ValidationFormService } from 'src/app/Admin/Services/validation-form.service';
 
 @Component({
-  selector: 'app-employee',
-  templateUrl: './employee.component.html',
-  styleUrls: ['./employee.component.css']
+  selector: 'app-expenses-type',
+  templateUrl: './expenses-type.component.html',
+  styleUrls: ['./expenses-type.component.css']
 })
-export class EmployeeComponent implements OnInit {
+export class ExpensesTypeComponent implements OnInit {
   Results: any[] = [];
-  JoipTitle: any[] = [];
   UserModel: any;
   showLoader = false;
-  isFilter = true;
   ItemForm: FormGroup;
   Total = 0;
-  EmployeeId: any;
-  FilterList: FilterModel[] = [];
-  PagingFilter: PagingFilterModel = {
-    filterList: [],
-    currentpage: 1,
-    pagesize: 20
-  }
+  ExpenseCategoryId: any;
   formErrors = {
-    jobTitleId: '',
-    fullName: '',
-    phoneNumber: '',
-    basicSalary: '',
-    hireDate: '',
-    notes: ''
+    name: ''
   };
 
   constructor(private modalService: NgbModal, private employeeService: EmployeeService,
-    private formService: ValidationFormService,private datePipe: DatePipe,
+    private formService: ValidationFormService,
     private fb: FormBuilder, private toaster: ToastrService) {
 
   }
@@ -46,20 +30,14 @@ export class EmployeeComponent implements OnInit {
   ngOnInit(): void {
     this.UserModel = JSON.parse(localStorage.getItem('UserModel'));
     this.FormInit();
-    this.GetAllJobTitle();
-    this.GetAllEmployees();
-    this.GetAllEmployeeFilters();
+    this.GetAllExpenseCategory();
   }
 
   FormInit() {
     this.ItemForm = this.fb.group({
-      employeeId: 0,
-      jobTitleId: ['', [Validators.required, this.formService.noSpaceValidator]],
-      fullName: ['', [Validators.required, this.formService.noSpaceValidator]],
-      phoneNumber: ['', [Validators.required, this.formService.noSpaceValidator]],
-      basicSalary: ['', [Validators.required]],
-      hireDate: ['', [Validators.required]],
-      notes: ['', [this.formService.noSpaceValidator]],
+      expenseCategoryId: 0,
+      name: ['', [Validators.required, this.formService.noSpaceValidator]],
+      description: [''],
       insertUser: null,
     });
 
@@ -70,20 +48,16 @@ export class EmployeeComponent implements OnInit {
 
   FillEditForm(item: any) {
     this.ItemForm.setValue({
-      employeeId: item.employeeId,
-      jobTitleId: item.jobTitleId,
-      fullName: item.fullName,
-      phoneNumber: item.phoneNumber,
-      basicSalary: item.basicSalary,
-      hireDate: this.datePipe.transform(item.hireDate, 'yyyy-MM-dd'),
-      notes: item.notes,
+      expenseCategoryId: item.expenseCategoryId,
+      name: item.name,
+      description: item.description,
       insertUser: this.UserModel?.userId,
     });
   }
 
   ResetForm() {
     this.ItemForm.reset();
-    this.ItemForm.get('employeeId').setValue(0);
+    this.ItemForm.get('expenseCategoryId').setValue(0);
     this.ItemForm.get('insertUser').setValue(this.UserModel?.userId);
   }
 
@@ -93,14 +67,14 @@ export class EmployeeComponent implements OnInit {
       this.FillEditForm(item);
 
     this.modalService.open(content, {
-      size: 'xl',
+      size: 'lg',
       scrollable: true,
       centered: true
     });
   }
 
   openDeleteItemModal(content: any, item: any) {
-    this.EmployeeId = item.employeeId
+    this.ExpenseCategoryId = item.expenseCategoryId
     this.modalService.open(content, {
       size: 'md',
       scrollable: true,
@@ -108,37 +82,13 @@ export class EmployeeComponent implements OnInit {
     });
   }
 
-  GetAllJobTitle() {
-    this.employeeService.GetAllJobTitle().subscribe(data => {
-      this.JoipTitle = data.results.map(i => { return { id: i.jobTitleId, name: i.name } });
-    });
-  }
-
-  GetAllEmployees() {
+  GetAllExpenseCategory() {
     this.showLoader = true;
-    this.employeeService.GetAllEmployees(this.PagingFilter).subscribe(data => {
+    this.employeeService.GetAllExpenseCategory().subscribe(data => {
       this.showLoader = false;
       this.Results = data.results;
       this.Total = data.totalCount;
     });
-  }
-
-  GetAllEmployeeFilters() {
-    this.employeeService.GetAllEmployeeFilters(this.PagingFilter).subscribe(data => {
-      this.FilterList = data.results;
-    });
-  }
-
-  PageChange(obj: any) {
-    this.PagingFilter.currentpage = obj.page;
-    this.GetAllEmployees();
-  }
-
-  FilterChecked(filterList: FilterModel[]) {
-    this.PagingFilter.currentpage = 1;
-    this.PagingFilter.filterList = filterList;
-    this.GetAllEmployees();
-    this.GetAllEmployeeFilters();
   }
 
   validateForm(): boolean {
@@ -158,13 +108,12 @@ export class EmployeeComponent implements OnInit {
       return;
 
     this.showLoader = true;
-    if (this.ItemForm.controls['employeeId'].value == 0) {
-      this.employeeService.AddNewEmployee(this.ItemForm.value).subscribe(data => {
+    if (this.ItemForm.controls['expenseCategoryId'].value == 0) {
+      this.employeeService.AddNewExpenseCategory(this.ItemForm.value).subscribe(data => {
         this.showLoader = false;
         if (data.isSuccess) {
           this.toaster.success(data.message);
-          this.GetAllEmployees();
-          this.GetAllEmployeeFilters();
+          this.GetAllExpenseCategory();
           this.modalService.dismissAll();
         }
         else
@@ -172,11 +121,10 @@ export class EmployeeComponent implements OnInit {
         this.showLoader = false;
       });
     } else {
-      this.employeeService.UpdateEmployee(this.ItemForm.value).subscribe(data => {
+      this.employeeService.UpdateExpenseCategory(this.ItemForm.value).subscribe(data => {
         if (data.isSuccess) {
           this.toaster.success(data.message);
-          this.GetAllEmployees();
-          this.GetAllEmployeeFilters();
+          this.GetAllExpenseCategory();
           this.modalService.dismissAll();
         }
         else
@@ -188,11 +136,10 @@ export class EmployeeComponent implements OnInit {
 
   DeleteItem() {
     this.showLoader = true;
-    this.employeeService.DeleteEmployee(this.EmployeeId).subscribe(data => {
+    this.employeeService.DeleteExpenseCategory(this.ExpenseCategoryId).subscribe(data => {
       if (data.isSuccess) {
         this.toaster.success(data.message);
-        this.GetAllEmployees();
-        this.GetAllEmployeeFilters();
+        this.GetAllExpenseCategory();
         this.modalService.dismissAll();
       }
       else

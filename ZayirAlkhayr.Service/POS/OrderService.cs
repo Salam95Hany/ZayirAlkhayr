@@ -90,6 +90,7 @@ namespace ZayirAlkhayr.Service.POS
                 {
                     ProductId = i.Item.ItemId,
                     ProductName = i.Item.Name,
+                    ProductNameEn = i.Item.NameEn,
                     CategoryName = i.Item.Category.Name,
                     Image = Path.Combine(ApiLocalUrl, "Images", ImageFiles.Items.ToString(), i.Item.Image ?? string.Empty),
                     Price = i.Item.Price,
@@ -127,7 +128,7 @@ namespace ZayirAlkhayr.Service.POS
                     TableId = Model.TableId,
                     OrderNumber = OrderNumber + 1,
                     OrderType = Model.OrderType,
-                    OrderStatus = OrderStatus.Completed,
+                    OrderStatus = Model.OrderType == OrderTypes.DineIn ? OrderStatus.Open : OrderStatus.Completed,
                     TotalAmount = Model.TotalAmount,
                     CostDelivery = Model.CostDelivery,
                     IsUpdated = false,
@@ -269,8 +270,11 @@ namespace ZayirAlkhayr.Service.POS
 
         public async Task<ApiResponseModel<OrderWithDetailsResponse>> GetOrderWithDetailsByOrderId(int OrderId)
         {
+            var table = new Table();
             var Spec = new OrderDetailsSpecification(OrderId);
             var results = await _unitOfWork.Repository<Order>().GetByIdWithSpecAsync(Spec);
+            if (results.TableId.HasValue)
+                table = await _unitOfWork.Repository<Table>().GetByIdAsync(results.TableId.Value);
             if (results == null)
                 return ApiResponseModel<OrderWithDetailsResponse>.Failure(GenericErrors.NotFound);
 
@@ -279,6 +283,9 @@ namespace ZayirAlkhayr.Service.POS
                 Notes = results.Note,
                 TotalValue = results.TotalAmount,
                 OrderType = results.OrderType,
+                TableId = table.TableId,
+                TableName = table.TableName,
+                OrderNumber = results.OrderNumber,
                 Customer = results.Customers == null ? null : new CustomerOrderResponse
                 {
                     CustomerId = results.Customers.CustomerId,
@@ -290,6 +297,7 @@ namespace ZayirAlkhayr.Service.POS
                 {
                     ProductId = i.Item.ItemId,
                     ProductName = i.Item.Name,
+                    ProductNameEn = i.Item.NameEn,
                     Image = Path.Combine(ApiLocalUrl, "Images", ImageFiles.Items.ToString(), i.Item.Image ?? string.Empty),
                     Price = i.Item.Price,
                     Quantity = i.Quantity,
@@ -320,6 +328,7 @@ namespace ZayirAlkhayr.Service.POS
                     Obj.OrderDetails = item.OrderDetails.Select(i => new OrderDetailsResponse
                     {
                         ProductName = i.Item.Name,
+                        ProductNameEn = i.Item.NameEn,
                         CategoryName = i.Item.Category.Name,
                         Image = Path.Combine(ApiLocalUrl, "Images", ImageFiles.Items.ToString(), i.Item.Image ?? string.Empty),
                         Price = i.Item.Price,
@@ -455,6 +464,25 @@ namespace ZayirAlkhayr.Service.POS
                 });
 
                 await _unitOfWork.Repository<InventoryAdjustment>().AddAsync(adjustment);
+            }
+        }
+
+        public async Task<ApiResponseModel<string>> CloseDineInOrder(int OrderId)
+        {
+            try
+            {
+                var Entity = await _unitOfWork.Repository<Order>().GetByIdAsync(OrderId);
+                if (Entity == null)
+                    return ApiResponseModel<string>.Failure(GenericErrors.NotFound);
+
+                Entity.OrderStatus = OrderStatus.Completed;
+                await _unitOfWork.CompleteAsync();
+
+                return ApiResponseModel<string>.Success(GenericErrors.CloseDineIn);
+            }
+            catch
+            {
+                return ApiResponseModel<string>.Failure(GenericErrors.TransFailed);
             }
         }
     }

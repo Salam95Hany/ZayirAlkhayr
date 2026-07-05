@@ -29,6 +29,10 @@ import { TableComponent } from './Components/POS/table/table.component';
 import { JopTitleComponent } from './Components/Employee/jop-title/jop-title.component';
 import { EmployeeComponent } from './Components/Employee/employee/employee.component';
 import { EmployeeSalaryComponent } from './Components/Employee/employee-salary/employee-salary.component';
+import { ExpensesComponent } from './Components/Expenses/expenses/expenses.component';
+import { ExpensesTypeComponent } from './Components/Expenses/expenses-type/expenses-type.component';
+import { EmployeeSalaryReportComponent } from './Components/Reports/finance/employee-salary-report/employee-salary-report.component';
+import { ExpensesMonthlyReportComponent } from './Components/Reports/finance/expenses-monthly-report/expenses-monthly-report.component';
 
 const routes: Routes = [
   {
@@ -78,6 +82,18 @@ const routes: Routes = [
         component: EmployeeSalaryComponent,
         canActivate: [AuthGuard],
         data: { roles: ['Admin'], breadcrumb: ['النظام', 'إدارة الموظفين', 'رواتب الموظفين'] },
+      },
+      {
+        path: 'expenses',
+        component: ExpensesComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['Admin'], breadcrumb: ['النظام', 'إدارة المصاريف', 'المصاريف'] },
+      },
+      {
+        path: 'expenses-types',
+        component: ExpensesTypeComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['Admin'], breadcrumb: ['النظام', 'إدارة المصاريف', 'أنواع المصاريف'] },
       },
       {
         path: 'order-list',
@@ -174,6 +190,18 @@ const routes: Routes = [
         component: FinalProfitsComponent,
         canActivate: [AuthGuard],
         data: { roles: ['Admin'], breadcrumb: ['التقارير', 'تقارير الأرباح', 'الأرباح النهائية'] },
+      },
+      {
+        path: 'employee-salary-reports',
+        component: EmployeeSalaryReportComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['Admin'], breadcrumb: ['التقارير', 'تقارير المالية', 'رواتب الموظفين'] },
+      },
+      {
+        path: 'expenses-monthly-reports',
+        component: ExpensesMonthlyReportComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['Admin'], breadcrumb: ['التقارير', 'تقارير المالية', 'المصاريف الشهرية'] },
       },
       {
         path: 'users',

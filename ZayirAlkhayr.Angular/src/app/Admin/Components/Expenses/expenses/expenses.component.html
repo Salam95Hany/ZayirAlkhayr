@@ -1,0 +1,121 @@
+<div class="admin-crud-page">
+    <section class="admin-crud-hero">
+        <div class="admin-crud-hero__content">
+            <div class="admin-crud-hero__eyebrow">إدارة المصاريف</div>
+            <h1 class="admin-crud-hero__title">المصاريف</h1>
+            <p class="admin-crud-hero__text">واجهة موحدة لإدارة المصاريف.</p>
+        </div>
+
+        <div class="admin-crud-hero__actions">
+            <div class="admin-crud-summary-card d-flex align-items-center justify-content-between">
+                <span class="admin-crud-summary-card__label">إجمالي العناصر</span>
+                <strong class="admin-crud-summary-card__value">{{Total}}</strong>
+            </div>
+
+            <button class="btn main-button admin-crud-action-btn d-flex align-items-center gap-2" (click)="openAddItemModal(OpenItemModal,null)">
+                <i class="uil uil-plus-circle"></i>
+                <span>إضافة عنصر</span>
+            </button>
+            <button class="btn main-button admin-crud-action-btn admin-crud-action-btn--soft d-flex align-items-center gap-2" (click)="isFilter = !isFilter" [attr.aria-expanded]="!isFilter">
+                <i class="uil uil-filter"></i>
+                <span>{{ isFilter ? 'عرض الفلاتر' : 'إخفاء الفلاتر' }}</span>
+            </button>
+        </div>
+    </section>
+
+    <section class="admin-crud-panel">
+        <div class="admin-crud-head">
+            <div>
+                <div class="admin-crud-head__kicker">قائمة المصاريف</div>
+                <h2 class="admin-crud-head__title">المصاريف المتاحة في النظام</h2>
+            </div>
+            <app-admin-pagination [currentPage]="PagingFilter.currentpage" [pageSize]="PagingFilter.pagesize" [totalPages]="0" [totalCount]="Total" (pageChanged)="PageChange($event)"></app-admin-pagination>
+        </div>
+
+        <div class="admin-crud-filters" #collapse="ngbCollapse" [(ngbCollapse)]="isFilter">
+            <app-admin-filters [FilterList]="FilterList" [AppliedFilters]="PagingFilter.filterList" (FilterChecked)="FilterChecked($event)"></app-admin-filters>
+        </div>
+        <div class="admin-crud-table-wrap table-responsive mb-2">
+            <table class="admin-crud-table">
+                <thead>
+                    <tr>
+                        <th>نوع المصروف</th>
+                        <th>المبلغ</th>
+                        <th>تاريخ الدفع</th>
+                        <th>ملاحظات</th>
+                        <th class="text-center">الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of Results">
+                        <td>{{item.name}}</td>
+                        <td>{{item.amount | number:'1.0-0'}}</td>
+                        <td>{{item.expenseDate | arabicDateWithTime}}</td>
+                        <td>{{item.reason}}</td>
+                        <td>
+                            <div class="table-actions d-flex align-items-center justify-content-center gap-2">
+                                <button type="button" class="table-action table-action--edit" (click)="openAddItemModal(OpenItemModal,item)"><i class="uil uil-edit"></i></button>
+                                <button type="button" class="table-action table-action--delete" (click)="openDeleteItemModal(deleteItemModal,item)"><i class="uil uil-times-circle"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+
+<ng-template #OpenItemModal let-modal>
+    <div class="modal-header admin-modal-header d-flex align-items-center justify-content-between text-white">
+        <div class="modal-title-wrap d-flex align-items-center gap-3">
+            <span class="modal-title-icon"><i class="uil uil-focus-add"></i></span>
+            <div>
+                <div class="modal-kicker">إدارة العنصر</div>
+                <div class="modal-title-text">إضافة أو تعديل عنصر</div>
+            </div>
+        </div>
+        <i class="fas fa-times cursor-pointer fa-2x modal-close-btn" (click)="modal.dismiss()"></i>
+    </div>
+    <div class="modal-body admin-modal-body">
+        <div class="admin-modal-card">
+            <form [formGroup]="ItemForm" autocomplete="off">
+                <div class="row g-3">
+
+                    <app-admin-drop-down [data]="ExpensesCategory" [placeholder]="'نوع المصروف'" class="col-md-6" formControlName="expenseCategoryId" [error]="formErrors.expenseCategoryId"></app-admin-drop-down>
+
+                    <app-admin-general-input [type]="'text'" [placeholder]="'المبلغ'" [label]="'المبلغ'" [allowNumbersOnly]="true" class="col-md-6" formControlName="amount" [error]="formErrors.amount"></app-admin-general-input>
+
+                    <app-admin-general-input [type]="'date'" [placeholder]="'تاريخ الدفع'" [label]="'تاريخ الدفع'" class="col-md-6" formControlName="expenseDate" [error]="formErrors.expenseDate"></app-admin-general-input>
+
+                    <app-admin-general-input [type]="'text'" [placeholder]="'ملاحظات'" [label]="'ملاحظات'" class="col-md-6" formControlName="reason" [error]="formErrors.reason"></app-admin-general-input>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer admin-modal-footer justify-content-start gap-2">
+        <button type="submit" class="btn main-button d-flex align-items-center gap-2" (click)="AddNewItem()"><i class="uil uil-plus-circle"></i><span>حفظ العنصر</span></button>
+        <button class="btn btn-outline-secondary rounded-25 d-flex align-items-center gap-2" (click)="modal.close()"><i class="uil uil-times-circle"></i><span>إلغاء</span></button>
+    </div>
+</ng-template>
+
+
+<ng-template #deleteItemModal let-modal>
+    <div class="modal-header admin-modal-header admin-modal-header--danger text-white">
+        <div class="modal-title-wrap d-flex align-items-center gap-3">
+            <span class="modal-title-icon modal-title-icon--danger"><i class="uil uil-trash-alt"></i></span>
+            <div>
+                <div class="modal-kicker">حذف العنصر</div>
+                <div class="modal-title-text">تأكيد عملية الحذف</div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body admin-modal-body">
+        <p class="fs-5 m-0">هل أنت متأكد أنك تريد حذف هذا العنصر؟</p>
+    </div>
+    <div class="modal-footer admin-modal-footer justify-content-start gap-2">
+        <button type="button" class="btn btn-success rounded-25 d-flex align-items-center gap-2" (click)="DeleteItem()"><i class="fas fa-check"></i><span>نعم</span></button>
+        <button type="button" class="btn btn-danger rounded-25 d-flex align-items-center gap-2" (click)="modal.close('Save click')"><i class="fas fa-times"></i><span>لا</span></button>
+    </div>
+</ng-template>
+
+<ngx-loading [show]="showLoader"></ngx-loading>

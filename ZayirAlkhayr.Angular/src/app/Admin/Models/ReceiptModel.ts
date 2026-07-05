@@ -10,7 +10,8 @@ export interface ReceiptModel {
 }
 
 export interface ReceiptItemsModel {
-    name: string;
+    nameAr: string;
+    nameEn: string;
     qty: number;
     price?: number;
     total?: number;

@@ -72,4 +72,44 @@ export class EmployeeService {
   PayrollTransferToExpenses(TotalAmount: any, SalaryDate: any, InsertUser: any) {
     return this.http.get<ApiResponseModel<any>>(this.apiURL + 'Employee/PayrollTransferToExpenses?TotalAmount=' + TotalAmount + '&SalaryDate=' + SalaryDate + '&InsertUser=' + InsertUser);
   }
+
+  // ============================= Expenses ==============================
+
+  GetAllExpenses(Model: PagingFilterModel) {
+    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'Expenses/GetAllExpenses', Model);
+  }
+
+  GetAllExpensesFilters(Model: PagingFilterModel) {
+    return this.http.post<ApiResponseModel<any[]>>(this.apiURL + 'Expenses/GetAllExpensesFilters', Model);
+  }
+
+  AddNewExpenses(Model: any) {
+    return this.http.post<ApiResponseModel<any>>(this.apiURL + 'Expenses/AddNewExpenses', Model);
+  }
+
+  UpdateExpenses(Model: any) {
+    return this.http.post<ApiResponseModel<any>>(this.apiURL + 'Expenses/UpdateExpenses', Model);
+  }
+
+  DeleteExpenses(ExpensesId: number) {
+    return this.http.get<ApiResponseModel<any>>(this.apiURL + 'Expenses/DeleteExpenses?ExpensesId=' + ExpensesId);
+  }
+
+  // ============================= Employee ==============================
+
+  GetAllExpenseCategory() {
+    return this.http.get<ApiResponseModel<any[]>>(this.apiURL + 'Expenses/GetAllExpenseCategory');
+  }
+
+  AddNewExpenseCategory(Model: any) {
+    return this.http.post<ApiResponseModel<any>>(this.apiURL + 'Expenses/AddNewExpenseCategory', Model);
+  }
+
+  UpdateExpenseCategory(Model: any) {
+    return this.http.post<ApiResponseModel<any>>(this.apiURL + 'Expenses/UpdateExpenseCategory', Model);
+  }
+
+  DeleteExpenseCategory(ExpenseCategoryId: number) {
+    return this.http.get<ApiResponseModel<any>>(this.apiURL + 'Expenses/DeleteExpenseCategory?ExpenseCategoryId=' + ExpenseCategoryId);
+  }
 }

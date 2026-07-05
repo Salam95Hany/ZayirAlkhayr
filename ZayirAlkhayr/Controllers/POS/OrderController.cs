@@ -79,5 +79,12 @@ namespace ZayirAlkhayr.Controllers.POS
             var results = await _orderService.GetCustomerOrdersHistory(CustomerId);
             return results;
         }
+
+        [HttpGet("CloseDineInOrder")]
+        public async Task<ApiResponseModel<string>> CloseDineInOrder(int OrderId)
+        {
+            var results = await _orderService.CloseDineInOrder(OrderId);
+            return results;
+        }
     }
 }

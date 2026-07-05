@@ -13,7 +13,7 @@ import { ValidationFormService } from 'src/app/Admin/Services/validation-form.se
   styleUrls: ['./items.component.css']
 })
 export class ItemsComponent {
-@ViewChild('InputFile') InputFile: ElementRef;
+  @ViewChild('InputFile') InputFile: ElementRef;
   UserModel: any;
   isFilter = true;
   showLoader = false;
@@ -67,7 +67,22 @@ export class ItemsComponent {
   FormInit() {
     this.ItemForm = this.fb.group({
       itemId: 0,
-      name: ['', [Validators.required, this.formService.noSpaceValidator]],
+      name: [
+        '',
+        [
+          Validators.required,
+          this.formService.noSpaceValidator,
+          Validators.pattern(/^[\u0600-\u06FF0-9\s]+$/)
+        ]
+      ],
+      nameEn: [
+        '',
+        [
+          Validators.required,
+          this.formService.noSpaceValidator,
+          Validators.pattern(/^[A-Za-z0-9\s]+$/)
+        ]
+      ],
       categoryId: null,
       price: ['', [Validators.required, this.formService.noSpaceValidator]],
       costPrice: ['', [Validators.required, this.formService.noSpaceValidator]],
@@ -86,6 +101,7 @@ export class ItemsComponent {
     this.ItemForm.setValue({
       itemId: item.productId,
       name: item.productName,
+      nameEn: item.productNameEn,
       categoryId: item.categoryId,
       price: item.price,
       costPrice: item?.costPrice ? item?.costPrice : null,
@@ -186,7 +202,7 @@ export class ItemsComponent {
       this.formService.validateAllFormFields(this.ItemForm);
       return;
     }
-this.showLoader = true;
+    this.showLoader = true;
     this.ItemForm.patchValue({ file: this.ImageFile });
     this.ItemForm.patchValue({ categoryId: this.CategoryId });
     const formData = new FormData();
@@ -194,7 +210,7 @@ this.showLoader = true;
     this.showLoader = true;
     if (this.ItemForm.controls['itemId'].value == 0) {
       this.adminService.AddNewProduct(formData).subscribe(data => {
-        this.showLoader = false   ;
+        this.showLoader = false;
         if (data.isSuccess) {
           this.toaster.success(data.message);
           this.GetAllProducts();

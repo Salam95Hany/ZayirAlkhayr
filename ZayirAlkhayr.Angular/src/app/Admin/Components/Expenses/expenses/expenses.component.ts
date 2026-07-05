@@ -9,19 +9,19 @@ import { EmployeeService } from 'src/app/Admin/Services/employee.service';
 import { ValidationFormService } from 'src/app/Admin/Services/validation-form.service';
 
 @Component({
-  selector: 'app-employee',
-  templateUrl: './employee.component.html',
-  styleUrls: ['./employee.component.css']
+  selector: 'app-expenses',
+  templateUrl: './expenses.component.html',
+  styleUrls: ['./expenses.component.css']
 })
-export class EmployeeComponent implements OnInit {
+export class ExpensesComponent implements OnInit {
   Results: any[] = [];
-  JoipTitle: any[] = [];
+  ExpensesCategory: any[] = [];
   UserModel: any;
   showLoader = false;
   isFilter = true;
   ItemForm: FormGroup;
   Total = 0;
-  EmployeeId: any;
+  ExpensesId: any;
   FilterList: FilterModel[] = [];
   PagingFilter: PagingFilterModel = {
     filterList: [],
@@ -29,16 +29,14 @@ export class EmployeeComponent implements OnInit {
     pagesize: 20
   }
   formErrors = {
-    jobTitleId: '',
-    fullName: '',
-    phoneNumber: '',
-    basicSalary: '',
-    hireDate: '',
-    notes: ''
+    expenseCategoryId: '',
+    amount: '',
+    expenseDate: '',
+    reason: ''
   };
 
   constructor(private modalService: NgbModal, private employeeService: EmployeeService,
-    private formService: ValidationFormService,private datePipe: DatePipe,
+    private formService: ValidationFormService, private datePipe: DatePipe,
     private fb: FormBuilder, private toaster: ToastrService) {
 
   }
@@ -46,20 +44,18 @@ export class EmployeeComponent implements OnInit {
   ngOnInit(): void {
     this.UserModel = JSON.parse(localStorage.getItem('UserModel'));
     this.FormInit();
-    this.GetAllJobTitle();
-    this.GetAllEmployees();
-    this.GetAllEmployeeFilters();
+    this.GetAllExpenseCategory();
+    this.GetAllExpenses();
+    this.GetAllExpensesFilters();
   }
 
   FormInit() {
     this.ItemForm = this.fb.group({
-      employeeId: 0,
-      jobTitleId: ['', [Validators.required, this.formService.noSpaceValidator]],
-      fullName: ['', [Validators.required, this.formService.noSpaceValidator]],
-      phoneNumber: ['', [Validators.required, this.formService.noSpaceValidator]],
-      basicSalary: ['', [Validators.required]],
-      hireDate: ['', [Validators.required]],
-      notes: ['', [this.formService.noSpaceValidator]],
+      expensesId: 0,
+      expenseCategoryId: ['', [Validators.required, this.formService.noSpaceValidator]],
+      amount: ['', [Validators.required]],
+      expenseDate: ['', [Validators.required, this.formService.noSpaceValidator]],
+      reason: ['', [this.formService.noSpaceValidator]],
       insertUser: null,
     });
 
@@ -70,20 +66,18 @@ export class EmployeeComponent implements OnInit {
 
   FillEditForm(item: any) {
     this.ItemForm.setValue({
-      employeeId: item.employeeId,
-      jobTitleId: item.jobTitleId,
-      fullName: item.fullName,
-      phoneNumber: item.phoneNumber,
-      basicSalary: item.basicSalary,
-      hireDate: this.datePipe.transform(item.hireDate, 'yyyy-MM-dd'),
-      notes: item.notes,
+      expensesId: item.expensesId,
+      expenseCategoryId: item.expenseCategoryId,
+      amount: item.amount,
+      expenseDate: this.datePipe.transform(item.expenseDate, 'yyyy-MM-dd'),
+      reason: item.reason,
       insertUser: this.UserModel?.userId,
     });
   }
 
   ResetForm() {
     this.ItemForm.reset();
-    this.ItemForm.get('employeeId').setValue(0);
+    this.ItemForm.get('expensesId').setValue(0);
     this.ItemForm.get('insertUser').setValue(this.UserModel?.userId);
   }
 
@@ -100,7 +94,7 @@ export class EmployeeComponent implements OnInit {
   }
 
   openDeleteItemModal(content: any, item: any) {
-    this.EmployeeId = item.employeeId
+    this.ExpensesId = item.expensesId
     this.modalService.open(content, {
       size: 'md',
       scrollable: true,
@@ -108,37 +102,37 @@ export class EmployeeComponent implements OnInit {
     });
   }
 
-  GetAllJobTitle() {
-    this.employeeService.GetAllJobTitle().subscribe(data => {
-      this.JoipTitle = data.results.map(i => { return { id: i.jobTitleId, name: i.name } });
+  GetAllExpenseCategory() {
+    this.employeeService.GetAllExpenseCategory().subscribe(data => {
+      this.ExpensesCategory = data.results.map(i => { return { id: i.expenseCategoryId, name: i.name } });
     });
   }
 
-  GetAllEmployees() {
+  GetAllExpenses() {
     this.showLoader = true;
-    this.employeeService.GetAllEmployees(this.PagingFilter).subscribe(data => {
+    this.employeeService.GetAllExpenses(this.PagingFilter).subscribe(data => {
       this.showLoader = false;
       this.Results = data.results;
       this.Total = data.totalCount;
     });
   }
 
-  GetAllEmployeeFilters() {
-    this.employeeService.GetAllEmployeeFilters(this.PagingFilter).subscribe(data => {
+  GetAllExpensesFilters() {
+    this.employeeService.GetAllExpensesFilters(this.PagingFilter).subscribe(data => {
       this.FilterList = data.results;
     });
   }
 
   PageChange(obj: any) {
     this.PagingFilter.currentpage = obj.page;
-    this.GetAllEmployees();
+    this.GetAllExpenses();
   }
 
   FilterChecked(filterList: FilterModel[]) {
     this.PagingFilter.currentpage = 1;
     this.PagingFilter.filterList = filterList;
-    this.GetAllEmployees();
-    this.GetAllEmployeeFilters();
+    this.GetAllExpenses();
+    this.GetAllExpensesFilters();
   }
 
   validateForm(): boolean {
@@ -158,13 +152,13 @@ export class EmployeeComponent implements OnInit {
       return;
 
     this.showLoader = true;
-    if (this.ItemForm.controls['employeeId'].value == 0) {
-      this.employeeService.AddNewEmployee(this.ItemForm.value).subscribe(data => {
+    if (this.ItemForm.controls['expensesId'].value == 0) {
+      this.employeeService.AddNewExpenses(this.ItemForm.value).subscribe(data => {
         this.showLoader = false;
         if (data.isSuccess) {
           this.toaster.success(data.message);
-          this.GetAllEmployees();
-          this.GetAllEmployeeFilters();
+          this.GetAllExpenses();
+          this.GetAllExpensesFilters();
           this.modalService.dismissAll();
         }
         else
@@ -172,11 +166,11 @@ export class EmployeeComponent implements OnInit {
         this.showLoader = false;
       });
     } else {
-      this.employeeService.UpdateEmployee(this.ItemForm.value).subscribe(data => {
+      this.employeeService.UpdateExpenses(this.ItemForm.value).subscribe(data => {
         if (data.isSuccess) {
           this.toaster.success(data.message);
-          this.GetAllEmployees();
-          this.GetAllEmployeeFilters();
+          this.GetAllExpenses();
+          this.GetAllExpensesFilters();
           this.modalService.dismissAll();
         }
         else
@@ -188,11 +182,11 @@ export class EmployeeComponent implements OnInit {
 
   DeleteItem() {
     this.showLoader = true;
-    this.employeeService.DeleteEmployee(this.EmployeeId).subscribe(data => {
+    this.employeeService.DeleteExpenses(this.ExpensesId).subscribe(data => {
       if (data.isSuccess) {
         this.toaster.success(data.message);
-        this.GetAllEmployees();
-        this.GetAllEmployeeFilters();
+        this.GetAllExpenses();
+        this.GetAllExpensesFilters();
         this.modalService.dismissAll();
       }
       else

@@ -24,11 +24,11 @@ export class QzPrintService {
   private readonly printableWidthMm = 72;
   private readonly printerDensityDpmm = 8;
   private readonly receiptWidth = this.printableWidthMm * this.printerDensityDpmm;
-  private readonly logoPath = 'assets/Logo22.png';
+  private readonly logoPath = 'assets/Dams_Star.png';
   private readonly preferredPrinterKeywords = ['xp-q810k', 'xprinter'];
-  private readonly storeName = 'صبح و مسا';
-  private readonly storePhones = '0998222283 - 0998222286';
-  private readonly storeAddress = 'درعا جاسم شرق المركز الثقافي 200 م';
+  private readonly storeName = '';
+  private readonly storePhones = '44355226 - 44355227';
+  private readonly storeAddress = 'الدوحه.المنتزه.شارع حطين';
   private readonly baseFontSizePx = 26;
   private readonly logoDisplayWidthPx = 190;
   private readonly logoOutputPaddingPx = 24;
@@ -48,7 +48,7 @@ export class QzPrintService {
 
     try {
       await this.logoLoadPromise;
-      this.setupQzSecurity();
+      //this.setupQzSecurity();
       await this.InitQZ();
 
       const printer = await this.resolvePrinterName();
@@ -122,7 +122,7 @@ export class QzPrintService {
     const itemsCount = items.reduce((sum, item) => sum + Number(item.qty ?? 0), 0);
     const customerHtml = order.orderType == 'توصيل' ? this.buildInfoRow('العميل', order.agent) : '';
     const deliveryFeeHtml = deliveryFee > 0
-      ? this.buildSummaryRow('رسوم التوصيل', `${this.formatAmount(deliveryFee)} ل.س`)
+      ? this.buildSummaryRow('رسوم التوصيل', `${this.formatAmount(deliveryFee)}  QR`)
       : '';
 
     return `
@@ -190,15 +190,15 @@ export class QzPrintService {
             <div style="font-size:15px;font-weight:800;text-align:center;background:#f3f3f3;border:2px solid #000;border-radius:9px;padding:4px 8px;margin-bottom:6px;">
               ملخص الحساب
             </div>
-            ${this.buildSummaryRow('إجمالي الأصناف', `${this.formatAmount(itemsTotal)} ل.س`)}
+            ${this.buildSummaryRow('إجمالي الأصناف', `${this.formatAmount(itemsTotal)}  QR`)}
             ${deliveryFeeHtml}
             <div style="border-top:2px dashed #000;margin:10px 0 8px;"></div>
-            ${this.buildSummaryRow('الإجمالي النهائي', `${this.formatAmount(grandTotal)} ل.س`, true)}
+            ${this.buildSummaryRow('الإجمالي النهائي', `${this.formatAmount(grandTotal)}  QR`, true)}
           </div>
 
           <div style="margin-top:6px;border-top:2px dashed #000;padding-top:6px;text-align:center;">
             <div style="font-size:20px;font-weight:700;">شكراً لزيارتكم</div>
-            <div style="font-size:18px;">نتشرف بخدمتكم دائماً</div>
+            <!-- <div style="font-size:18px;">نتشرف بخدمتكم دائماً</div> -->
           </div>
         </div>
       </div>
@@ -594,7 +594,10 @@ export class QzPrintService {
       return `
         <tr style="background:${rowBackground};">
           <td style="border:2px solid #000;padding:5px 4px;font-size:20px;font-weight:700;vertical-align:top;word-break:break-word;">
-            ${this.escapeHtml(item.name)}
+            ${this.escapeHtml(item.nameAr)}
+          </td>
+          <td style="border:2px solid #000;padding:5px 4px;font-size:20px;font-weight:700;vertical-align:top;word-break:break-word;">
+            ${this.escapeHtml(item.nameEn)}
           </td>
           <td style="border:2px solid #000;padding:8px 5px;font-size:18px;text-align:center;vertical-align:middle;">
             ${this.escapeHtml(item.qty)}
@@ -603,7 +606,7 @@ export class QzPrintService {
             ${this.escapeHtml(priceText)}
           </td>
           <td style="border:2px solid #000;padding:8px 5px;font-size:18px;font-weight:800;text-align:center;vertical-align:middle;">
-            ${this.escapeHtml(this.formatAmount(itemTotal))}
+            ${this.escapeHtml(this.formatAmount(itemTotal))}  QR
           </td>
         </tr>
       `;
@@ -615,6 +618,7 @@ export class QzPrintService {
           <thead>
             <tr>
               <th style="${headerCellStyle}width:44%;">الصنف</th>
+              <th style="${headerCellStyle}width:44%;">Item</th>
               <th style="${headerCellStyle}width:14%;">الكمية</th>
               <th style="${headerCellStyle}width:21%;">السعر</th>
               <th style="${headerCellStyle}width:21%;">الإجمالي</th>

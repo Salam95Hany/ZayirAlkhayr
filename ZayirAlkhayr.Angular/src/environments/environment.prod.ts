@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: 'https://sobhwmsa-api.runasp.net/api/',
+    apiUrl: 'https://damascus-star-api.runasp.net/api/',
 };

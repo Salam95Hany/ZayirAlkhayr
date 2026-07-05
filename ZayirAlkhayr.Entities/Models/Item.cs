@@ -14,6 +14,7 @@ namespace ZayirAlkhayr.Entities.Models
         public int ItemId { get; set; }
         public int CategoryId { get; set; }
         public string Name { get; set; }
+        public string NameEn { get; set; }
         public string Image { get; set; }
         public double Price { get; set; }
         public double CostPrice { get; set; }

@@ -1264,8 +1264,8 @@ select {
     padding: 1rem;
 }
 
-.admin-user-page > section + section,
-.admin-crud-page:not(.profile-page) > section + section {
+.admin-user-page>section+section,
+.admin-crud-page:not(.profile-page)>section+section {
     margin-top: 1.5rem;
 }
 
@@ -1517,9 +1517,19 @@ select {
     background: rgba(37, 99, 235, 0.12);
 }
 
+.inprogress {
+    color: #d97706;
+    background: rgba(245, 158, 11, 0.12);
+}
+
 .takeaway {
     color: var(--main-color);
     background: rgba(230, 81, 0, 0.12);
+}
+
+.dinein {
+    color: #16a34a;
+    background: rgba(22, 163, 74, 0.12);
 }
 
 .table-actions {

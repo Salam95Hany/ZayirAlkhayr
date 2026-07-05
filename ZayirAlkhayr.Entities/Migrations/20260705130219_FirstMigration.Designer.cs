@@ -10,8 +10,8 @@ using ZayirAlkhayr.Entities.Models;
 namespace ZayirAlkhayr.Entities.Migrations
 {
     [DbContext(typeof(POSDbContext))]
-    [Migration("20260629204014_TableMigration")]
-    partial class TableMigration
+    [Migration("20260705130219_FirstMigration")]
+    partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -491,7 +491,7 @@ namespace ZayirAlkhayr.Entities.Migrations
                     b.Property<string>("PaidBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("PaidDate")
+                    b.Property<DateTime?>("PaidDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("SalaryMonth")
@@ -645,6 +645,9 @@ namespace ZayirAlkhayr.Entities.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameEn")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Price")

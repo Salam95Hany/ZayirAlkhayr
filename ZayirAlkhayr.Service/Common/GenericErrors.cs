@@ -80,5 +80,7 @@ namespace ZayirAlkhayr.Service.Common
         public static Error TransferToExpensesExist = new("تم ترحيل الرواتب لهذا الشهر.");
 
         public static Error TransferToExpenses = new("تم ترحيل الرواتب بنجاح.");
+
+        public static Error CloseDineIn = new("تم الإغلاق بنجاح.");
     }
 }

@@ -1,0 +1,13 @@
+:host {
+    display: block;
+    --report-ink: #1f2937;
+    --report-muted: #6b7280;
+    --report-line: rgba(148, 163, 184, 0.16);
+    --report-line-strong: rgba(230, 81, 0, 0.16);
+    --report-surface: rgba(255, 255, 255, 0.96);
+    --report-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+    --report-shadow-soft: 0 12px 24px rgba(15, 23, 42, 0.06);
+}
+
+
+/* shared report styles moved to src/styles.css */

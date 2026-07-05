@@ -107,9 +107,13 @@ export class EmployeeSalaryComponent implements OnInit {
 
 
   FilterChecked(filterList: FilterModel[]) {
+    debugger;
     if (filterList.length > 0) {
       this.SelectedFilter = filterList[0];
       if (!this.validateSalaryMonth()) {
+        this.IsCheckedMonthBefore = true;
+        this.Results = [];
+      this.IsAllPaid = false;
         return;
       }
       this.Results = [];

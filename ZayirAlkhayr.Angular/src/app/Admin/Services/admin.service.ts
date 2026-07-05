@@ -82,6 +82,10 @@ export class AdminService {
     return this.http.get<ApiResponseModel<any>>(this.apiURL + 'Order/CancelOrder?VoidReason=' + VoidReason + '&Action=' + Action + '&VoidNotes=' + VoidNotes + '&OrderId=' + OrderId);
   }
 
+  CloseDineInOrder(OrderId: string) {
+    return this.http.get<ApiResponseModel<any[]>>(this.apiURL + 'Order/CloseDineInOrder?OrderId=' + OrderId);
+  }
+
   GetCustomerOrdersHistory(CustomerId: string) {
     return this.http.get<ApiResponseModel<any[]>>(this.apiURL + 'Order/GetCustomerOrdersHistory?CustomerId=' + CustomerId);
   }

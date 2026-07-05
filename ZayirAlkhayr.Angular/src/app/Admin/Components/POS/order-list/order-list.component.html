@@ -60,14 +60,16 @@
                             <span class="status-chip" [ngClass]="getStatusColor(item.orderStatus)">{{item.orderStatus | enumText:'orderStatus'}}</span>
                         </td>
                         <td>{{item.createdDate | arabicDateWithTime}}</td>
-                        <td>{{item.totalAmount}} ل.س</td>
+                        <td>{{item.totalAmount}} ر.ق</td>
                         <td>{{item.fullName ?? '-'}}</td>
                         <td>{{item.cashierName ?? '-'}}</td>
                         <td>
                             <div class="table-actions d-flex align-items-center justify-content-center gap-2">
-                                <button type="button" class="table-action table-action--edit" [routerLink]="['/create-order']" [queryParams]="{ orderId: item.orderId }" appRole [roles]="['Admin']"><i class="uil uil-edit"></i></button>
-                                <button type="button" class="table-action table-action--delete" appRoleChecker [roles]="['SupperAdmin']" (click)="openDeleteItemModal(deleteItemModal,item)" appRole [roles]="['Admin']"><i class="uil uil-times-circle"></i></button>
-                                <button type="button" class="table-action table-action--success" (click)="openSidePanel(SidePanel,item)"><i class="uil uil-document-info"></i></button>
+                                <button type="button" class="table-action table-action--edit" ngbTooltip="تعديل الطلب" *ngIf="item.orderStatus != 2" [routerLink]="['/create-order']" [queryParams]="{ orderId: item.orderId }" appRole [roles]="['Admin']"><i class="uil uil-edit"></i></button>
+                                <button type="button" class="table-action table-action--delete" ngbTooltip="إلغاء الطلب" *ngIf="item.orderStatus != 2" appRoleChecker [roles]="['SupperAdmin']" (click)="openDeleteItemModal(deleteItemModal,item)" appRole [roles]="['Admin']"><i class="uil uil-times-circle"></i></button>
+                                <button type="button" class="table-action table-action--success" ngbTooltip="عرض تفاصيل الطلب" (click)="openSidePanel(SidePanel,item)"><i class="uil uil-document-info"></i></button>
+                                <button type="button" class="table-action table-action--close" ngbTooltip="إغلاق الطلب" (click)="OpenCloseDineInOrder(closeDineInOrder,item)" *ngIf="item.orderType == 3" [disabled]="item.orderStatus == 1 || item.orderStatus == 2"><i class="uil uil-bill"></i></button>
+                                <button type="button" class="table-action table-action--print" ngbTooltip="طباعة الطلب" (click)="GetOrderWithDetailsByOrderId(item.orderId)" *ngIf="item.orderStatus != 2"><i class="uil uil-print"></i></button>
                             </div>
                         </td>
                     </tr>
@@ -157,13 +159,13 @@
                                 <td>{{item.quantity}}</td>
                                 <td>{{item.price}}</td>
                                 <td>{{item.updatedPrice}}</td>
-                                <td>{{item.totalValue}} ل.س</td>
+                                <td>{{item.totalValue}} ر.ق</td>
                             </tr>
                         </tbody>
                         <tfoot *ngIf="SelectedProducts.length > 0">
                             <tr>
                                 <td class="text-end fw-bold">الإجمالي:</td>
-                                <td colspan="5" class="fw-bold">{{TotalValue}} ل.س</td>
+                                <td colspan="5" class="fw-bold">{{TotalValue}} ر.ق</td>
                             </tr>
                         </tfoot>
                     </table>
@@ -186,5 +188,24 @@
                 <input type="text" value='{{VoidReason}}' class="form-control me-2 min-height-70" disabled>
             </div>
         </div>
+    </div>
+</ng-template>
+
+<ng-template #closeDineInOrder let-modal>
+    <div class="modal-header admin-modal-header admin-modal-header--danger text-white">
+        <div class="modal-title-wrap d-flex align-items-center gap-3">
+            <span class="modal-title-icon modal-title-icon--danger"><i class="uil uil-bill"></i></span>
+            <div>
+                <div class="modal-kicker">إغلاق الطلب</div>
+                <div class="modal-title-text">تأكيد عملية الإغلاق</div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body admin-modal-body">
+        <p class="fs-5 m-0">هل أنت متأكد أنك تريد إغلاق هذا الطلب؟</p>
+    </div>
+    <div class="modal-footer admin-modal-footer justify-content-start gap-2">
+        <button type="button" class="btn btn-success rounded-25 d-flex align-items-center gap-2" (click)="CloseDineInOrder()"><i class="fas fa-check"></i><span>نعم</span></button>
+        <button type="button" class="btn btn-danger rounded-25 d-flex align-items-center gap-2" (click)="modal.close('Save click')"><i class="fas fa-times"></i><span>لا</span></button>
     </div>
 </ng-template>

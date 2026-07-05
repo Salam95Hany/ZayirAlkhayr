@@ -20,5 +20,6 @@ namespace ZayirAlkhayr.Interface.POS
         Task<ApiResponseModel<string>> UpdateOrder(OrderWithDetailsDto order);
         Task<ApiResponseModel<string>> CancelOrder(string VoidReason, string Action, string? VoidNotes, int OrderId);
         Task<ApiResponseModel<List<OrderWithDetailsResponse>>> GetCustomerOrdersHistory(int CustomerId);
+        Task<ApiResponseModel<string>> CloseDineInOrder(int OrderId);
     }
 }
