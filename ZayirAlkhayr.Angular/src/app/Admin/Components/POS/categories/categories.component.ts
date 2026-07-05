@@ -20,7 +20,7 @@ export class CategoriesComponent {
   ItemForm: FormGroup;
   Total = 0;
   CategoryId: any;
-  defaultImage = '../../../../assets/PosLogo.jpeg';
+  defaultImage = '../../../../assets/Dams_Star.png';
   ImageFile: any;
   Results: any[] = [];
   fileURL: any[] = [];

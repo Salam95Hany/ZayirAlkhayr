@@ -30,7 +30,7 @@ export class CreateOrderComponent {
   activeCat = null;
   OrderId: any;
   NoteTxt = '';
-  defaultImage = '../../../../assets/PosLogo.jpeg';
+  defaultImage = '../../../../assets/Dams_Star.png';
   keys: any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
   UserModel: any;
   cashAmount = '';

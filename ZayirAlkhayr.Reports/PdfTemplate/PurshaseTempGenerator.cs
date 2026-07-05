@@ -38,7 +38,7 @@ namespace ZayirAlkhayr.Reports.PdfTemplate
                 Data.TotalAmount = Results.Results.TotalAmount;
                 Data.InsertDate = Results.Results.InsertDate;
                 Data.Items = Results.Results.Items;
-                Data.ImageSrc = Path.Combine(_environment.WebRootPath, "Template", "POS_Logo3.png");
+                Data.ImageSrc = Path.Combine(_environment.WebRootPath, "Template", "Dams_Star.png");
                 Data.HandleData();
                 var FullPath = await this.Build(Data);
                 return FullPath;

@@ -20,7 +20,7 @@ export class OrderListComponent {
   isFilter = true;
   showLoader = false;
   ItemForm: FormGroup;
-  defaultImage = '../../../../assets/PosLogo.jpeg';
+  defaultImage = '../../../../assets/Dams_Star.png';
   Total = 0;
   CategoryId: any;
   ProductId: any;
